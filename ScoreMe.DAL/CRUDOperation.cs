@@ -9,6 +9,10 @@ namespace ScoreMe.DAL
 {
     public class CRUDOperation
     {
+        public void testdata()
+        {
+            string a = "";
+        }
         #region tbl_Provider
         public tbl_Provider AddProvider(tbl_Provider item)
         {
