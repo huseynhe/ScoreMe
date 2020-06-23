@@ -6,18 +6,27 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ae819088314d4565b36399d81eecdd4b" Name="Diagram1">
         <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Customer" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Permission" Width="1.5" PointX="2.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Proposal" Width="1.5" PointX="4.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Provider" Width="1.5" PointX="0.75" PointY="4.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_ProviderService" Width="1.5" PointX="2.75" PointY="4.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_ProviderUserProposal" Width="1.5" PointX="4.75" PointY="4.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_ProviderUserRating" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_RatingType" Width="1.5" PointX="6.75" PointY="4.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_RatingValue" Width="1.5" PointX="8.75" PointY="0.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Role" Width="1.5" PointX="2.75" PointY="8.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_User" Width="1.5" PointX="8.75" PointY="4.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_UserService" Width="1.5" PointX="4.75" PointY="8.75" />
-        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" Width="1.5" PointX="6.75" PointY="8.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_EnumValue" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_NetConsume" Width="1.5" PointX="2.75" PointY="4.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Package" Width="1.5" PointX="4.75" PointY="4.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_PackagePrice" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Permission" Width="1.5" PointX="6.75" PointY="5.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Proposal" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Provider" Width="1.5" PointX="8.75" PointY="4.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_ProviderRole" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_ProviderService" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_ProviderUserProposal" Width="1.5" PointX="4.75" PointY="9.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_ProviderUserRating" Width="1.5" PointX="6.75" PointY="9.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_RatingType" Width="1.5" PointX="8.75" PointY="9.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_RatingValue" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Region" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Role" Width="1.5" PointX="10.75" PointY="8.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_Score_x" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_User" Width="1.5" PointX="12.75" PointY="4.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_UserRole" Width="1.5" PointX="12.75" PointY="8.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_UserService" Width="1.5" PointX="10.75" PointY="12.75" />
+        <EntityTypeShape EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" Width="1.5" PointX="12.75" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

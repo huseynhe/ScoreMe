@@ -20,15 +20,15 @@ namespace ScoreMe.DAL.DBModel
         public Nullable<long> Type { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }
-        public Nullable<System.DateTime> InsertDate { get; set; }
-        public Nullable<long> InsertUser { get; set; }
-        public Nullable<System.DateTime> UpdateDate { get; set; }
-        public Nullable<long> UpdateUser { get; set; }
         public string RelatedPersonName { get; set; }
         public string RelatedPersonProfession { get; set; }
         public string RelatedPersonPhone { get; set; }
         public string RP_HomePhone { get; set; }
-        public byte[] Logo { get; set; }
         public string VOEN { get; set; }
+        public byte[] Logo { get; set; }
+        public Nullable<System.DateTime> InsertDate { get; set; }
+        public Nullable<long> InsertUser { get; set; }
+        public Nullable<System.DateTime> UpdateDate { get; set; }
+        public Nullable<long> UpdateUser { get; set; }
     }
 }

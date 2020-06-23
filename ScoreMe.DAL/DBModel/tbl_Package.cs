@@ -12,13 +12,15 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_Role
+    public partial class tbl_Package
     {
         public long ID { get; set; }
-        public Nullable<int> Status { get; set; }
-        public string RoleName { get; set; }
-        public string RoleDescription { get; set; }
-        public Nullable<int> RoleType { get; set; }
+        public int Status { get; set; }
+        public long Mobile_EVID { get; set; }
+        public string PackageName { get; set; }
+        public decimal PackageSize { get; set; }
+        public int Validity { get; set; }
+        public string ValidityDesc { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

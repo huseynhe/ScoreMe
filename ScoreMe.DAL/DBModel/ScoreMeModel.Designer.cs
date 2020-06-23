@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\i.hasanli\Desktop\Main\Work_station\ScoreMeProject\ScoreMe\ScoreMe.DAL\DBModel\ScoreMeModel.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\GitProject\ScoreMe\ScoreMe.DAL\DBModel\ScoreMeModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

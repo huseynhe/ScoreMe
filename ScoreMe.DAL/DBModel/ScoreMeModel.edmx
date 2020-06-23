@@ -16,6 +16,87 @@
           <Property Name="Surname" Type="nvarchar" MaxLength="100" />
           <Property Name="FatherName" Type="nvarchar" MaxLength="100" />
           <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="RegionId" Type="bigint" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_EnumCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_EnumValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="EnumCategoryID" Type="bigint" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_NetConsume">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="Source_EVID" Type="bigint" Nullable="false" />
+          <Property Name="Year" Type="int" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Consumed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Speed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_Package">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Mobile_EVID" Type="bigint" Nullable="false" />
+          <Property Name="PackageName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PackageSize" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Validity" Type="int" Nullable="false" />
+          <Property Name="ValidityDesc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_PackagePrice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Source_EVID" Type="bigint" />
+          <Property Name="PackageID" Type="bigint" Nullable="false" />
+          <Property Name="BeginDate" Type="datetime2" Precision="7" />
+          <Property Name="EndDate" Type="datetime2" Precision="7" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Point" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -60,16 +141,29 @@
           <Property Name="Type" Type="bigint" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
-          <Property Name="InsertDate" Type="datetime2" Precision="7" />
-          <Property Name="InsertUser" Type="bigint" />
-          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
-          <Property Name="UpdateUser" Type="bigint" />
           <Property Name="RelatedPersonName" Type="nvarchar(max)" />
           <Property Name="RelatedPersonProfession" Type="nvarchar(max)" />
           <Property Name="RelatedPersonPhone" Type="nvarchar(max)" />
           <Property Name="RP_HomePhone" Type="nvarchar(max)" />
+          <Property Name="VOEN" Type="nvarchar" MaxLength="50" />
           <Property Name="Logo" Type="image" />
-          <Property Name="VOEN" Type="nvarchar(max)" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_ProviderRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ProviderId" Type="bigint" Nullable="false" />
+          <Property Name="RoleId" Type="bigint" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
         <EntityType Name="tbl_ProviderService">
           <Key>
@@ -140,6 +234,20 @@
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
+        <EntityType Name="tbl_Region">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Type" Type="int" />
+          <Property Name="ParentId" Type="bigint" />
+          <Property Name="Status" Type="int" />
+          <Property Name="InsertDate" Type="smalldatetime" />
+          <Property Name="InsertUser" Type="int" />
+          <Property Name="UpdateDate" Type="smalldatetime" />
+          <Property Name="UpdateUser" Type="int" />
+        </EntityType>
         <EntityType Name="tbl_Role">
           <Key>
             <PropertyRef Name="ID" />
@@ -148,6 +256,23 @@
           <Property Name="Status" Type="int" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="RoleDescription" Type="nvarchar(max)" />
+          <Property Name="RoleType" Type="int" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_Score_x">
+          <Key>
+            <PropertyRef Name="İD" />
+          </Key>
+          <Property Name="İD" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ServiceId" Type="bigint" />
+          <Property Name="ScoreName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ScoreDescription" Type="nvarchar(max)" />
+          <Property Name="ScoreType" Type="int" />
+          <Property Name="ScoreNumber" Type="bigint" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -161,6 +286,19 @@
           <Property Name="Status" Type="int" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_UserRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="RoleId" Type="bigint" Nullable="false" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -196,16 +334,25 @@
         </EntityType>
         <EntityContainer Name="DB_A62358_ScoreMeModelStoreContainer">
           <EntitySet Name="tbl_Customer" EntityType="Self.tbl_Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_EnumCategory" EntityType="Self.tbl_EnumCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_EnumValue" EntityType="Self.tbl_EnumValue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_NetConsume" EntityType="Self.tbl_NetConsume" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Package" EntityType="Self.tbl_Package" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_PackagePrice" EntityType="Self.tbl_PackagePrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Permission" EntityType="Self.tbl_Permission" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Proposal" EntityType="Self.tbl_Proposal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Provider" EntityType="Self.tbl_Provider" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ProviderRole" EntityType="Self.tbl_ProviderRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ProviderService" EntityType="Self.tbl_ProviderService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ProviderUserProposal" EntityType="Self.tbl_ProviderUserProposal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ProviderUserRating" EntityType="Self.tbl_ProviderUserRating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_RatingType" EntityType="Self.tbl_RatingType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_RatingValue" EntityType="Self.tbl_RatingValue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Region" EntityType="Self.tbl_Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Role" EntityType="Self.tbl_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Score_x" EntityType="Self.tbl_Score_x" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UserRole" EntityType="Self.tbl_UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserService" EntityType="Self.tbl_UserService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserServiceRating" EntityType="Self.tbl_UserServiceRating" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
@@ -215,16 +362,25 @@
       <Schema Namespace="DB_A62358_ScoreMeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DB_A62358_ScoreMeEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tbl_Customer" EntityType="DB_A62358_ScoreMeModel.tbl_Customer" />
+          <EntitySet Name="tbl_EnumCategory" EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" />
+          <EntitySet Name="tbl_EnumValue" EntityType="DB_A62358_ScoreMeModel.tbl_EnumValue" />
+          <EntitySet Name="tbl_NetConsume" EntityType="DB_A62358_ScoreMeModel.tbl_NetConsume" />
+          <EntitySet Name="tbl_Package" EntityType="DB_A62358_ScoreMeModel.tbl_Package" />
+          <EntitySet Name="tbl_PackagePrice" EntityType="DB_A62358_ScoreMeModel.tbl_PackagePrice" />
           <EntitySet Name="tbl_Permission" EntityType="DB_A62358_ScoreMeModel.tbl_Permission" />
           <EntitySet Name="tbl_Proposal" EntityType="DB_A62358_ScoreMeModel.tbl_Proposal" />
           <EntitySet Name="tbl_Provider" EntityType="DB_A62358_ScoreMeModel.tbl_Provider" />
+          <EntitySet Name="tbl_ProviderRole" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderRole" />
           <EntitySet Name="tbl_ProviderService" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderService" />
           <EntitySet Name="tbl_ProviderUserProposal" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderUserProposal" />
           <EntitySet Name="tbl_ProviderUserRating" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderUserRating" />
           <EntitySet Name="tbl_RatingType" EntityType="DB_A62358_ScoreMeModel.tbl_RatingType" />
           <EntitySet Name="tbl_RatingValue" EntityType="DB_A62358_ScoreMeModel.tbl_RatingValue" />
+          <EntitySet Name="tbl_Region" EntityType="DB_A62358_ScoreMeModel.tbl_Region" />
           <EntitySet Name="tbl_Role" EntityType="DB_A62358_ScoreMeModel.tbl_Role" />
+          <EntitySet Name="tbl_Score_x" EntityType="DB_A62358_ScoreMeModel.tbl_Score_x" />
           <EntitySet Name="tbl_User" EntityType="DB_A62358_ScoreMeModel.tbl_User" />
+          <EntitySet Name="tbl_UserRole" EntityType="DB_A62358_ScoreMeModel.tbl_UserRole" />
           <EntitySet Name="tbl_UserService" EntityType="DB_A62358_ScoreMeModel.tbl_UserService" />
           <EntitySet Name="tbl_UserServiceRating" EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" />
         </EntityContainer>
@@ -239,6 +395,87 @@
           <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="FatherName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegionId" Type="Int64" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_EnumCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_EnumValue">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="EnumCategoryID" Type="Int64" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_NetConsume">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="Source_EVID" Type="Int64" Nullable="false" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Consumed" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Speed" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_Package">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Mobile_EVID" Type="Int64" Nullable="false" />
+          <Property Name="PackageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PackageSize" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Validity" Type="Int32" Nullable="false" />
+          <Property Name="ValidityDesc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_PackagePrice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Source_EVID" Type="Int64" />
+          <Property Name="PackageID" Type="Int64" Nullable="false" />
+          <Property Name="BeginDate" Type="DateTime" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Precision="7" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Point" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -283,16 +520,29 @@
           <Property Name="Type" Type="Int64" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InsertDate" Type="DateTime" Precision="7" />
-          <Property Name="InsertUser" Type="Int64" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
-          <Property Name="UpdateUser" Type="Int64" />
           <Property Name="RelatedPersonName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RelatedPersonProfession" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RelatedPersonPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RP_HomePhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VOEN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Logo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="VOEN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_ProviderRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ProviderId" Type="Int64" Nullable="false" />
+          <Property Name="RoleId" Type="Int64" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
         <EntityType Name="tbl_ProviderService">
           <Key>
@@ -363,6 +613,20 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
+        <EntityType Name="tbl_Region">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="ParentId" Type="Int64" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="InsertDate" Type="DateTime" Precision="0" />
+          <Property Name="InsertUser" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="0" />
+          <Property Name="UpdateUser" Type="Int32" />
+        </EntityType>
         <EntityType Name="tbl_Role">
           <Key>
             <PropertyRef Name="ID" />
@@ -371,6 +635,23 @@
           <Property Name="Status" Type="Int32" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="RoleDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RoleType" Type="Int32" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_Score_x">
+          <Key>
+            <PropertyRef Name="İD" />
+          </Key>
+          <Property Name="İD" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ServiceId" Type="Int64" />
+          <Property Name="ScoreName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ScoreDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ScoreType" Type="Int32" />
+          <Property Name="ScoreNumber" Type="Int64" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -384,6 +665,19 @@
           <Property Name="Status" Type="Int32" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_UserRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="RoleId" Type="Int64" Nullable="false" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -417,7 +711,7 @@
           <Property Name="UpdateUser" Type="Int64" />
           <Property Name="RatingTimestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -430,11 +724,97 @@
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="FatherName" ColumnName="FatherName" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_EnumCategory">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_EnumCategory">
+              <MappingFragment StoreEntitySet="tbl_EnumCategory">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_EnumValue">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_EnumValue">
+              <MappingFragment StoreEntitySet="tbl_EnumValue">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="EnumCategoryID" ColumnName="EnumCategoryID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_NetConsume">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_NetConsume">
+              <MappingFragment StoreEntitySet="tbl_NetConsume">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="Consumed" ColumnName="Consumed" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Package">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Package">
+              <MappingFragment StoreEntitySet="tbl_Package">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="ValidityDesc" ColumnName="ValidityDesc" />
+                <ScalarProperty Name="Validity" ColumnName="Validity" />
+                <ScalarProperty Name="PackageSize" ColumnName="PackageSize" />
+                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+                <ScalarProperty Name="Mobile_EVID" ColumnName="Mobile_EVID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_PackagePrice">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_PackagePrice">
+              <MappingFragment StoreEntitySet="tbl_PackagePrice">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="PackageID" ColumnName="PackageID" />
+                <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -474,20 +854,34 @@
           <EntitySetMapping Name="tbl_Provider">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Provider">
               <MappingFragment StoreEntitySet="tbl_Provider">
-                <ScalarProperty Name="VOEN" ColumnName="VOEN" />
-                <ScalarProperty Name="Logo" ColumnName="Logo" />
-                <ScalarProperty Name="RP_HomePhone" ColumnName="RP_HomePhone" />
-                <ScalarProperty Name="RelatedPersonPhone" ColumnName="RelatedPersonPhone" />
-                <ScalarProperty Name="RelatedPersonProfession" ColumnName="RelatedPersonProfession" />
-                <ScalarProperty Name="RelatedPersonName" ColumnName="RelatedPersonName" />
                 <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="VOEN" ColumnName="VOEN" />
+                <ScalarProperty Name="RP_HomePhone" ColumnName="RP_HomePhone" />
+                <ScalarProperty Name="RelatedPersonPhone" ColumnName="RelatedPersonPhone" />
+                <ScalarProperty Name="RelatedPersonProfession" ColumnName="RelatedPersonProfession" />
+                <ScalarProperty Name="RelatedPersonName" ColumnName="RelatedPersonName" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ProviderRole">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProviderRole">
+              <MappingFragment StoreEntitySet="tbl_ProviderRole">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -567,6 +961,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Region">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Region">
+              <MappingFragment StoreEntitySet="tbl_Region">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Role">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Role">
               <MappingFragment StoreEntitySet="tbl_Role">
@@ -574,10 +983,28 @@
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
                 <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Score_x">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Score_x">
+              <MappingFragment StoreEntitySet="tbl_Score_x">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="ScoreNumber" ColumnName="ScoreNumber" />
+                <ScalarProperty Name="ScoreType" ColumnName="ScoreType" />
+                <ScalarProperty Name="ScoreDescription" ColumnName="ScoreDescription" />
+                <ScalarProperty Name="ScoreName" ColumnName="ScoreName" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="İD" ColumnName="İD" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -590,6 +1017,20 @@
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserRole">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserRole">
+              <MappingFragment StoreEntitySet="tbl_UserRole">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
