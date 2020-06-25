@@ -2390,6 +2390,27 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_EnumValue> GetEnumValuesByEnumCategoryID(Int64 enumCategoryID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_EnumValue
+                                 where p.Status == 1 && p.EnumCategoryID== enumCategoryID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public tbl_EnumValue GetEnumValueById(Int64 Id)
         {
 
@@ -2621,5 +2642,554 @@ namespace ScoreMe.DAL
 
         }
         #endregion
+
+        #region tbl_Package
+        public tbl_Package AddPackage(tbl_Package item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_Package.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_Package DeletePackage(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_Package oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_Package
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_Package.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_Package> GetPackages()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_Package
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_Package> GetPackagesByMobileEVID(Int64 mobileEVID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_Package
+                                 where p.Status == 1 && p.Mobile_EVID == mobileEVID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_Package GetPackageByID(Int64 id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_Package
+                                where p.ID == id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_Package UpdatePackage(tbl_Package item)
+        {
+            try
+            {
+                tbl_Package oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_Package
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.Mobile_EVID = item.Mobile_EVID;
+                        oldItem.PackageName = item.PackageName;
+                        oldItem.PackageSize = item.PackageSize;
+                        oldItem.Validity = item.Validity;
+                        oldItem.ValidityDesc = item.ValidityDesc;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+
+                        context.tbl_Package.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_PackagePrice
+        public tbl_PackagePrice AddPackagePrice(tbl_PackagePrice item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_PackagePrice.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_PackagePrice DeletePackagePrice(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_PackagePrice oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_PackagePrice
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_PackagePrice.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_PackagePrice> GetPackagePrices()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_PackagePrice
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_PackagePrice> GetPackagePricesByPackageID(Int64 packageID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_PackagePrice
+                                 where p.Status == 1 && p.PackageID == packageID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_PackagePrice GetPackagePriceByID(Int64 id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_PackagePrice
+                                where p.ID == id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_PackagePrice UpdatePackagePrice(tbl_PackagePrice item)
+        {
+            try
+            {
+                tbl_PackagePrice oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_PackagePrice
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.Source_EVID = item.Source_EVID;
+                        oldItem.PackageID = item.PackageID;
+                        oldItem.BeginDate = item.BeginDate;
+                        oldItem.EndDate = item.EndDate;
+                        oldItem.Price = item.Price;
+                        oldItem.Point = item.Point;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+
+                        context.tbl_PackagePrice.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_NetConsume
+        public tbl_NetConsume AddNetConsume(tbl_NetConsume item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_NetConsume.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_NetConsume DeleteNetConsume(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_NetConsume oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_NetConsume
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_NetConsume.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_NetConsume> GetNetConsumes()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_NetConsume
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_NetConsume> GetNetConsumesByUserID(Int64 userID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_NetConsume
+                                 where p.Status == 1 && p.UserId == userID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_NetConsume GetNetConsumeByID(Int64 id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_NetConsume
+                                where p.ID == id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_NetConsume UpdateNetConsume(tbl_NetConsume item)
+        {
+            try
+            {
+                tbl_NetConsume oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_NetConsume
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.UserId = item.UserId;
+                        oldItem.Source_EVID = item.Source_EVID;
+                        oldItem.Year = item.Year;
+                        oldItem.Month = item.Month;
+                        oldItem.Consumed = item.Consumed;
+                        oldItem.Speed = item.Speed;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+
+                        context.tbl_NetConsume.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
     }
 }
