@@ -598,6 +598,50 @@ namespace ScoreMe.DAL
             }
 
         }
+
+        public tbl_User ChangePasswordByName(string  name, Int64 userId, string newpassword)
+        {
+            try
+            {
+                tbl_User oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_User
+                               where p.UserName == name && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.Password = newpassword;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+
+                        context.tbl_User.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         #endregion
 
         #region tbl_Permission
