@@ -139,6 +139,7 @@ namespace ScoreMe.DAL
 
                         oldItem.Name = item.Name;
                         oldItem.Type = item.Type;
+                        oldItem.UserId = item.UserId;
                         oldItem.Description = item.Description;
                         oldItem.Address = item.Address;
                         oldItem.UpdateDate = DateTime.Now;
@@ -532,6 +533,7 @@ namespace ScoreMe.DAL
                         oldItem.Password = item.Password;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
+                        oldItem.UserType_EVID = item.UserType_EVID;
 
                         context.tbl_User.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
@@ -597,6 +599,27 @@ namespace ScoreMe.DAL
                 throw ex;
             }
 
+        }
+        public tbl_User ValidLogin(string username,string password) {
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_User
+                                where p.UserName == username && p.Password==password && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
         #endregion
 
