@@ -77,5 +77,14 @@ namespace ScoreMe.API.Controllers
             return Ok(dbitem);
 
         }
+
+        [HttpGet]
+        [Route("GetProviderByUserName/{username}")]
+        public tbl_Provider GetProviderByUserName(string username)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var provider = operation.GetProviderByUserName(username);
+            return provider;
+        }
     }
 }

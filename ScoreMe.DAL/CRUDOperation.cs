@@ -9,7 +9,7 @@ namespace ScoreMe.DAL
 {
     public class CRUDOperation
     {
-     
+
         #region tbl_Provider
         public tbl_Provider AddProvider(tbl_Provider item)
         {
@@ -120,8 +120,6 @@ namespace ScoreMe.DAL
             }
 
         }
-
-
         public tbl_Provider UpdateProvider(tbl_Provider item)
         {
             try
@@ -144,6 +142,11 @@ namespace ScoreMe.DAL
                         oldItem.UserId = item.UserId;
                         oldItem.Description = item.Description;
                         oldItem.Address = item.Address;
+                        oldItem.RelatedPersonName = item.RelatedPersonName;
+                        oldItem.RelatedPersonPhone = item.RelatedPersonPhone;
+                        oldItem.RelatedPersonProfession = item.RelatedPersonProfession;
+                        oldItem.RP_HomePhone= item.RP_HomePhone;
+                        oldItem.VOEN = item.VOEN;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -162,6 +165,33 @@ namespace ScoreMe.DAL
 
             }
 
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_Provider GetProviderByUserName(string username)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var itemDb = (from u in context.tbl_User
+                                  join p in context.tbl_Provider on u.ID equals p.UserId
+                                  where u.UserName == username && u.Status == 1 && p.Status == 1 && u.UserType_EVID == 9
+                                  select p).FirstOrDefault();
+
+
+
+                    return itemDb;
+
+                }
+            }
             catch (Exception ex)
             {
 
@@ -316,7 +346,7 @@ namespace ScoreMe.DAL
 
                     var itemUser = (from u in context.tbl_User
                                     join c in context.tbl_Customer on u.ID equals c.UserId
-                                    where u.UserName == username && u.Status == 1 && c.Status == 1
+                                    where u.UserName == username && u.Status == 1 && c.Status == 1 && u.UserType_EVID == 8
                                     select c).FirstOrDefault();
 
 
@@ -356,8 +386,8 @@ namespace ScoreMe.DAL
                         oldItem.IdentityCode = item.IdentityCode;
                         oldItem.Email = item.Email;
                         oldItem.RegionId = item.RegionId;
-                        oldItem.Address = item.Address;   
-                        
+                        oldItem.Address = item.Address;
+
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -564,7 +594,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_User ChangePassword(Int64 id, Int64 userId,string newpassword)
+        public tbl_User ChangePassword(Int64 id, Int64 userId, string newpassword)
         {
             try
             {
@@ -651,7 +681,8 @@ namespace ScoreMe.DAL
 
         }
 
-        public tbl_User ValidLogin(string username,string password) {
+        public tbl_User ValidLogin(string username, string password)
+        {
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
@@ -659,7 +690,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_User
-                                where p.UserName == username && p.Password==password && p.Status == 1
+                                where p.UserName == username && p.Password == password && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -2515,7 +2546,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_EnumValue
-                                 where p.Status == 1 && p.EnumCategoryID== enumCategoryID
+                                 where p.Status == 1 && p.EnumCategoryID == enumCategoryID
                                  select p);
 
                     return items.ToList();
