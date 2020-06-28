@@ -353,6 +353,11 @@ namespace ScoreMe.DAL
                         oldItem.Surname = item.Surname;
                         oldItem.FatherName = item.FatherName;
                         oldItem.PhoneNumber = item.PhoneNumber;
+                        oldItem.IdentityCode = item.IdentityCode;
+                        oldItem.Email = item.Email;
+                        oldItem.RegionId = item.RegionId;
+                        oldItem.Address = item.Address;   
+                        
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 

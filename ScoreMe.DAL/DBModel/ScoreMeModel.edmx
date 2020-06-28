@@ -15,7 +15,9 @@
           <Property Name="Name" Type="nvarchar" MaxLength="100" />
           <Property Name="Surname" Type="nvarchar" MaxLength="100" />
           <Property Name="FatherName" Type="nvarchar" MaxLength="100" />
-          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="IdentityCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
           <Property Name="RegionId" Type="bigint" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
@@ -396,7 +398,9 @@
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="FatherName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdentityCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RegionId" Type="Int64" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
@@ -730,7 +734,9 @@
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="IdentityCode" ColumnName="IdentityCode" />
                 <ScalarProperty Name="FatherName" ColumnName="FatherName" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
