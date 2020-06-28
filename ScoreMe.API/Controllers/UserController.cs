@@ -98,12 +98,12 @@ namespace ScoreMe.API.Controllers
         }
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
-        [Route("ChangePasswordByName/{id}/{newpassword}")]
-        public async Task<IHttpActionResult> ChangePasswordByName(string name, string newpassword)
+        [Route("ChangePasswordByUserName/{username}/{newpassword}")]
+        public async Task<IHttpActionResult> ChangePasswordByUserName(string username, string newpassword)
         {
             CRUDOperation operation = new CRUDOperation();
 
-            var dbitem = operation.ChangePasswordByName(name, 0, newpassword);
+            var dbitem = operation.ChangePasswordByUserName(username, 0, newpassword);
             return Ok(dbitem);
 
         }
