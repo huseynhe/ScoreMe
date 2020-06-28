@@ -15,8 +15,9 @@ namespace ScoreMe.DAL.DBModel
     public partial class tbl_Provider
     {
         public long ID { get; set; }
-        public Nullable<int> Status { get; set; }
+        public int Status { get; set; }
         public string Name { get; set; }
+        public long UserId { get; set; }
         public Nullable<long> Type { get; set; }
         public string Description { get; set; }
         public string Address { get; set; }

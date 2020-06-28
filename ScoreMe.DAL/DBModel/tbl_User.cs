@@ -15,9 +15,10 @@ namespace ScoreMe.DAL.DBModel
     public partial class tbl_User
     {
         public long ID { get; set; }
-        public Nullable<int> Status { get; set; }
+        public int Status { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public long UserType_EVID { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

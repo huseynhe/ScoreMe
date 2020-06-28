@@ -139,6 +139,7 @@ namespace ScoreMe.DAL
 
                         oldItem.Name = item.Name;
                         oldItem.Type = item.Type;
+                        oldItem.UserId = item.UserId;
                         oldItem.Description = item.Description;
                         oldItem.Address = item.Address;
                         oldItem.UpdateDate = DateTime.Now;
@@ -532,6 +533,7 @@ namespace ScoreMe.DAL
                         oldItem.Password = item.Password;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
+                        oldItem.UserType_EVID = item.UserType_EVID;
 
                         context.tbl_User.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
@@ -598,49 +600,26 @@ namespace ScoreMe.DAL
             }
 
         }
-
-        public tbl_User ChangePasswordByName(string  name, Int64 userId, string newpassword)
-        {
+        public tbl_User ValidLogin(string username,string password) {
             try
             {
-                tbl_User oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    oldItem = (from p in context.tbl_User
-                               where p.UserName == name && p.Status == 1
-                               select p).FirstOrDefault();
+
+
+                    var item = (from p in context.tbl_User
+                                where p.UserName == username && p.Password==password && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
 
                 }
-                if (oldItem != null)
-                {
-                    using (var context = new DB_A62358_ScoreMeEntities())
-                    {
-
-                        oldItem.Password = newpassword;
-                        oldItem.UpdateDate = DateTime.Now;
-                        oldItem.UpdateUser = userId;
-
-                        context.tbl_User.Attach(oldItem);
-                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
-                        context.SaveChanges();
-                        return oldItem;
-                    }
-                }
-                else
-                {
-                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
-                    throw ex;
-                }
-
-
             }
-
             catch (Exception ex)
             {
 
                 throw ex;
             }
-
         }
         #endregion
 
