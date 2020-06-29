@@ -25,6 +25,7 @@ namespace ScoreMe.DAL.DBModel
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ProviderType> ProviderTypes { get; set; }
         public virtual DbSet<tbl_Customer> tbl_Customer { get; set; }
         public virtual DbSet<tbl_EnumCategory> tbl_EnumCategory { get; set; }
         public virtual DbSet<tbl_EnumValue> tbl_EnumValue { get; set; }

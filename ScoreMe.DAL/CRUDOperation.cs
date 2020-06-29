@@ -147,6 +147,7 @@ namespace ScoreMe.DAL
                         oldItem.RelatedPersonProfession = item.RelatedPersonProfession;
                         oldItem.RP_HomePhone= item.RP_HomePhone;
                         oldItem.VOEN = item.VOEN;
+                        oldItem.ParentID = item.ParentID;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -3251,6 +3252,28 @@ namespace ScoreMe.DAL
                 {
                     var items = (from p in context.tbl_NetConsume
                                  where p.Status == 1 && p.UserId == userID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public List<tbl_NetConsume> GetNetConsumesByUserIDAndYear(Int64 userID,int year)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_NetConsume
+                                 where p.Status == 1 && p.UserId == userID && p.Year==year
                                  select p);
 
                     return items.ToList();
