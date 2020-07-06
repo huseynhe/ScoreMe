@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScoreMe.Business.Model
+namespace ScoreMe.DAL.Model
 {
     public class Provider
     {
         public Int64 UserID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
+        public Int64 UserType_EVID { get; set; }
         public long ProviderID { get; set; }
         public string Name { get; set; }
         public long ParentID { get; set; }

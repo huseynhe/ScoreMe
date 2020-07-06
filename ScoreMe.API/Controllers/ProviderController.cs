@@ -1,7 +1,7 @@
 ﻿using ScoreMe.API.Attribute;
 using ScoreMe.API.ResponseMessage;
 using ScoreMe.Business;
-using ScoreMe.Business.Model;
+using ScoreMe.DAL.Model;
 using ScoreMe.DAL;
 using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
@@ -72,6 +72,26 @@ namespace ScoreMe.API.Controllers
             BusinessOperation businessOperation = new BusinessOperation();
             Provider itemOut = null;
             BaseOutput dbitem = businessOperation.AddProviderWithUser(item, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
+        }
+        [HttpPost]
+        [ResponseType(typeof(Provider))]
+        [Route("GetProviderWithUser/{providerID}")]
+        public async Task<IHttpActionResult> GetProviderWithUser(Int64 providerID)
+        {
+            
+            BusinessOperation businessOperation = new BusinessOperation();
+            Provider itemOut = null;
+            BaseOutput dbitem = businessOperation.GetProviderByID(providerID, out itemOut);
             if (dbitem.ResultCode == 1)
             {
                 return Ok(itemOut);

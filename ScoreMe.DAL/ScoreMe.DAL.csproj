@@ -141,7 +141,11 @@
     </Compile>
     <Compile Include="Enum\BOResultTypes.cs" />
     <Compile Include="ErrorManagment\CustomError.cs" />
+    <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Provider.cs" />
+    <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ProviderRepository.cs" />
     <Compile Include="Repositories\RegionRepository.cs" />
   </ItemGroup>
   <ItemGroup>

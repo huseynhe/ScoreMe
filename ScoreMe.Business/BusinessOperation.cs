@@ -1,4 +1,4 @@
-﻿using ScoreMe.Business.Model;
+﻿using ScoreMe.DAL.Model;
 using ScoreMe.Business.Util;
 using ScoreMe.DAL;
 using ScoreMe.DAL.CodeObjects;
@@ -11,13 +11,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ScoreMe.DAL.Repositories;
 
 namespace ScoreMe.Business
 {
     public class BusinessOperation
     {
         #region User
-        public BaseOutput ChangePasswordByUserName(UserInfo item,Int64 LoginUserID, out tbl_User itemOut)
+        public BaseOutput ChangePasswordByUserName(UserInfo item, Int64 LoginUserID, out tbl_User itemOut)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
@@ -200,6 +201,38 @@ namespace ScoreMe.Business
                 {
                     itemOut = null;
                     return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                itemOut = null;
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+
+        public BaseOutput GetProviderByID(Int64 id, out Provider itemOut)
+        {
+            ProviderRepository providerRepository = new ProviderRepository();
+            BaseOutput baseOutput;
+            try
+            {
+                Provider provider = providerRepository.GetProviderByID(id);
+
+                if (provider != null)
+                {
+                    itemOut = provider;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 

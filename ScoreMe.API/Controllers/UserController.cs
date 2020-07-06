@@ -1,5 +1,5 @@
 ﻿using ScoreMe.Business;
-using ScoreMe.Business.Model;
+using ScoreMe.DAL.Model;
 using ScoreMe.DAL;
 using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;

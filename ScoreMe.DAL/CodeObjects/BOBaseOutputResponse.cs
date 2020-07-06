@@ -10,5 +10,6 @@ namespace ScoreMe.DAL.CodeObjects
     {
         public static string SuccessResponse = "Əməliyat uğurlu şəkildə həyatə keçirildi";
         public static string DangerResponse = "Əməliyat həyatə  keçirildiyi zaman xəta baş verdi !";
+        public static string NotFoundResponse = "No record found";
     }
 }

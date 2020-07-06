@@ -43,9 +43,6 @@
   <ItemGroup>
     <Compile Include="BusinessOperation.cs" />
     <Compile Include="InternetConsume\NetConsume.cs" />
-    <Compile Include="Model\Customer.cs" />
-    <Compile Include="Model\Provider.cs" />
-    <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\UserUtil.cs" />
   </ItemGroup>

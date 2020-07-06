@@ -8,6 +8,6 @@ namespace ScoreMe.DAL.Enum
 {
     public enum BOResultTypes
     {
-        None, Success, Info, Warning, Danger
+        None, Success, Info, Warning, Danger,NotFound
     }
 }
