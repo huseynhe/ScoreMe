@@ -140,6 +140,8 @@
     </Compile>
     <Compile Include="Models\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResponseMessage\Error.cs" />
+    <Compile Include="ResponseMessage\ErrorResult.cs" />
     <Compile Include="Utility\TokenManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +158,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ScoreMe.Business\ScoreMe.Business.csproj">
+      <Project>{211D34C3-6D0F-4954-8B58-9DAFA145D373}</Project>
+      <Name>ScoreMe.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ScoreMe.DAL\ScoreMe.DAL.csproj">
       <Project>{527227a9-2ece-4f66-86f8-7b3691096c50}</Project>
       <Name>ScoreMe.DAL</Name>

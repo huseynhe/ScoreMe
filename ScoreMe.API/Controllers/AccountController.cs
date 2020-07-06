@@ -1,7 +1,9 @@
 ﻿using ScoreMe.API.Attribute;
 using ScoreMe.API.Models;
 using ScoreMe.API.Utility;
+using ScoreMe.Business;
 using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -22,23 +24,29 @@ namespace ScoreMe.API.Controllers
         {
             try
             {
-                CRUDOperation cRUDOperation = new CRUDOperation();
-                tbl_User validUser = cRUDOperation.ValidLogin(userName, userPassword);
-
-                if (validUser != null)
+                if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(userPassword))
                 {
 
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+                BusinessOperation businessOperation = new BusinessOperation();
+                tbl_User itemOut = null;
+                BaseOutput dbitem = businessOperation.ValidLogin(userName, userPassword, out itemOut);
+                if (dbitem.ResultCode == 1)
+                {
                     return Request.CreateResponse(HttpStatusCode.OK, value: TokenManager.GenerateToken(userName));
+
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message: "Username and password is invalid");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, value: dbitem.ResultCode + " : " + dbitem.ResultMessage);
                 }
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, message: "Username and password is invalid");
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
         }

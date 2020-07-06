@@ -158,6 +158,7 @@
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="Type" Type="bigint" />
           <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="RegionId" Type="bigint" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="RelatedPersonName" Type="nvarchar(max)" />
           <Property Name="RelatedPersonProfession" Type="nvarchar(max)" />
@@ -558,6 +559,7 @@
           <Property Name="UserId" Type="Int64" Nullable="false" />
           <Property Name="Type" Type="Int64" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RegionId" Type="Int64" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RelatedPersonName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RelatedPersonProfession" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -922,6 +924,7 @@
                 <ScalarProperty Name="RelatedPersonProfession" ColumnName="RelatedPersonProfession" />
                 <ScalarProperty Name="RelatedPersonName" ColumnName="RelatedPersonName" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />

@@ -1,5 +1,9 @@
 ﻿using ScoreMe.API.Attribute;
+using ScoreMe.API.ResponseMessage;
+using ScoreMe.Business;
+using ScoreMe.Business.Model;
 using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -43,10 +47,41 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_Provider dbitem = operation.AddProvider(item);
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            tbl_Provider provider = cRUDOperation.AddProvider(item);
+            if (provider!= null)
+            {
+                return Ok(provider);
+            }
+            else
+            {
+              
+                return BadRequest();
+            }
+   
+        }
+        [HttpPost]
+        [ResponseType(typeof(Provider))]
+        [Route("AddProviderWithUser")]
+        public async Task<IHttpActionResult> AddProviderWithUser(Provider item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+            Provider itemOut = null;
+            BaseOutput dbitem = businessOperation.AddProviderWithUser(item, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
 
-            return Ok(dbitem);
+
         }
 
         [HttpPost]

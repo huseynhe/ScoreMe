@@ -50,6 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeObjects\Audit.cs" />
+    <Compile Include="CodeObjects\BaseInput.cs" />
+    <Compile Include="CodeObjects\BaseOutput.cs" />
+    <Compile Include="CodeObjects\BOBaseOutputResponse.cs" />
     <Compile Include="CRUDOperation.cs" />
     <Compile Include="DBModel\ProviderType.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
@@ -135,6 +139,8 @@
     <Compile Include="DBModel\tbl_UserServiceRating.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Enum\BOResultTypes.cs" />
+    <Compile Include="ErrorManagment\CustomError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\RegionRepository.cs" />
   </ItemGroup>

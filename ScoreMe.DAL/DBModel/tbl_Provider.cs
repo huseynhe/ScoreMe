@@ -21,6 +21,7 @@ namespace ScoreMe.DAL.DBModel
         public long UserId { get; set; }
         public Nullable<long> Type { get; set; }
         public string Description { get; set; }
+        public Nullable<long> RegionId { get; set; }
         public string Address { get; set; }
         public string RelatedPersonName { get; set; }
         public string RelatedPersonProfession { get; set; }

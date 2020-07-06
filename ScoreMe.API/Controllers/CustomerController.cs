@@ -1,4 +1,8 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.API.Models;
+using ScoreMe.Business;
+using ScoreMe.Business.Model;
+using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -61,6 +65,30 @@ namespace ScoreMe.API.Controllers
             tbl_Customer dbitem = operation.AddCustomer(item);
 
             return Ok(dbitem);
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(Customer))]
+        [Route("AddCustomerWithUser")]
+        public async Task<IHttpActionResult> AddCustomerWithUser(Customer item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+            Customer itemOut = null;
+            BaseOutput dbitem = businessOperation.AddCustomerWithUser(item, out itemOut);
+            if (dbitem.ResultCode==1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+      
         }
 
         [HttpPost]

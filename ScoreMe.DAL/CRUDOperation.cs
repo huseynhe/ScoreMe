@@ -120,6 +120,30 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_Provider GetProviderByVOEN(string voen)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_Provider
+                                where p.VOEN == voen && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_Provider UpdateProvider(tbl_Provider item)
         {
             try
@@ -1182,7 +1206,6 @@ namespace ScoreMe.DAL
         #endregion
 
         #region tbl_ProviderUserProposal
-
         public tbl_ProviderUserProposal AddProviderUserProposal(tbl_ProviderUserProposal item)
         {
 
@@ -1340,7 +1363,6 @@ namespace ScoreMe.DAL
         #endregion
 
         #region tbl_ProviderUserRating
-
         public tbl_ProviderUserRating AddProviderUserRating(tbl_ProviderUserRating item)
         {
 
@@ -1500,7 +1522,6 @@ namespace ScoreMe.DAL
         #endregion
 
         #region tbl_RatingType
-
         public tbl_RatingType AddRatingType(tbl_RatingType item)
         {
 
@@ -2404,6 +2425,30 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_EnumCategory GetEnumCategoryByName(string name)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_EnumCategory
+                                where p.Name == name && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_EnumCategory UpdateEnumCategory(tbl_EnumCategory item)
         {
             try
@@ -2571,6 +2616,30 @@ namespace ScoreMe.DAL
 
                     var item = (from p in context.tbl_EnumValue
                                 where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_EnumValue GetEnumValueByName(string name)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_EnumValue
+                                where p.Name == name && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -3264,7 +3333,6 @@ namespace ScoreMe.DAL
             }
 
         }
-
         public List<tbl_NetConsume> GetNetConsumesByUserIDAndYear(Int64 userID,int year)
         {
 

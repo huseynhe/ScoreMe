@@ -1,4 +1,7 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.Business;
+using ScoreMe.Business.Model;
+using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -98,13 +101,24 @@ namespace ScoreMe.API.Controllers
         }
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
-        [Route("ChangePasswordByUserName/{username}/{newpassword}")]
-        public async Task<IHttpActionResult> ChangePasswordByUserName(string username, string newpassword)
+        [Route("ChangePasswordByUserName")]
+        public async Task<IHttpActionResult> ChangePasswordByUserName(UserInfo item)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.ChangePasswordByUserName(username, 0, newpassword);
-            return Ok(dbitem);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+            tbl_User itemOut = null;
+            BaseOutput dbitem = businessOperation.ChangePasswordByUserName(item, 0, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
 
         }
     }
