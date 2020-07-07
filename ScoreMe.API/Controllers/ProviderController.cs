@@ -83,7 +83,7 @@ namespace ScoreMe.API.Controllers
 
 
         }
-        [HttpPost]
+        [HttpGet]
         [ResponseType(typeof(Provider))]
         [Route("GetProviderWithUser/{providerID}")]
         public async Task<IHttpActionResult> GetProviderWithUser(Int64 providerID)

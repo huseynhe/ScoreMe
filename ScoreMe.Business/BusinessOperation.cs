@@ -39,11 +39,11 @@ namespace ScoreMe.Business
                     return baseOutput = new BaseOutput(true, CustomError.UserNameNotFoundCode, CustomError.UserNameNotFoundDesc, "");
 
                 }
-                string encryptedPassword = UserUtil.HashedPassword(item.Password);
+                string encryptedPassword = UserUtil.MD5HashedPassword(item.Password);
                 tbl_User validUser = cRUDOperation.ValidLogin(item.UserName, encryptedPassword);
                 if (validUser != null)
                 {
-                    string encryptedNewPassword = UserUtil.HashedPassword(item.Newpassword);
+                    string encryptedNewPassword = UserUtil.MD5HashedPassword(item.Newpassword);
                     tbl_User _User = cRUDOperation.ChangePassword(validUser.ID, LoginUserID, encryptedNewPassword);
                     if (_User != null)
                     {
@@ -89,7 +89,7 @@ namespace ScoreMe.Business
                     return baseOutput = new BaseOutput(true, CustomError.UserNameNotFoundCode, CustomError.UserNameNotFoundDesc, "");
 
                 }
-                string encryptedPassword = UserUtil.HashedPassword(userPassword);
+                string encryptedPassword = UserUtil.MD5HashedPassword(userPassword);
                 tbl_User validUser = cRUDOperation.ValidLogin(userName, encryptedPassword);
                 if (validUser != null)
                 {
@@ -124,7 +124,7 @@ namespace ScoreMe.Business
                 tbl_User user = new tbl_User()
                 {
                     UserName = item.UserName,
-                    Password = UserUtil.HashedPassword(item.Password),
+                    Password = UserUtil.MD5HashedPassword(item.Password),
                     UserType_EVID = enumValue.ID,
 
 
@@ -145,7 +145,7 @@ namespace ScoreMe.Business
                         tbl_Provider provider = new tbl_Provider()
                         {
 
-                            UserId = item.UserID,
+                            UserId = userDB.ID,
                             Name = item.Name,
                             Type = item.Type,
                             Description = item.Description,
@@ -165,7 +165,7 @@ namespace ScoreMe.Business
                         {
                             itemOut = new Provider()
                             {
-                                UserID = userDB.ID,
+                                UserID = providerDB.UserId,
                                 UserName = userDB.UserName,
                                 ProviderID = providerDB.ID,
                                 ParentID = providerDB.ParentID,
@@ -259,7 +259,7 @@ namespace ScoreMe.Business
                 tbl_User user = new tbl_User()
                 {
                     UserName = item.UserName,
-                    Password = UserUtil.HashedPassword(item.Password),
+                    Password = UserUtil.MD5HashedPassword(item.Password),
                     UserType_EVID = enumValue.ID,
 
 
@@ -289,7 +289,7 @@ namespace ScoreMe.Business
                         {
                             itemOut = new Customer()
                             {
-                                UserID = userDB.ID,
+                                UserID = customerDB.UserId,
                                 UserName = userDB.UserName,
                                 CustomerID = customerDB.ID,
                                 Name = customerDB.Name,
