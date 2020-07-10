@@ -28,7 +28,8 @@ namespace ScoreMe.DAL.DBModel
         public string RelatedPersonPhone { get; set; }
         public string RP_HomePhone { get; set; }
         public string VOEN { get; set; }
-        public byte[] Logo { get; set; }
+        public string LogoLinkPath { get; set; }
+        public string LogoLinkName { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

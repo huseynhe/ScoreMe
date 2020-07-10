@@ -224,6 +224,51 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_Provider UpdateLogoPic(tbl_Provider provider)
+        {
+            try
+            {
+                tbl_Provider oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_Provider
+                               where p.ID == provider.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.LogoLinkPath = provider.LogoLinkPath;
+                        oldItem.LogoLinkName = provider.LogoLinkName;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = provider.UpdateUser;
+
+                        context.tbl_Provider.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
         #endregion
 
         #region tbl_Customer

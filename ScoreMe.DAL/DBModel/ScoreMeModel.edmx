@@ -165,7 +165,8 @@
           <Property Name="RelatedPersonPhone" Type="nvarchar(max)" />
           <Property Name="RP_HomePhone" Type="nvarchar(max)" />
           <Property Name="VOEN" Type="nvarchar" MaxLength="50" />
-          <Property Name="Logo" Type="image" />
+          <Property Name="LogoLinkPath" Type="nvarchar" MaxLength="500" />
+          <Property Name="LogoLinkName" Type="nvarchar" MaxLength="500" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -566,7 +567,8 @@
           <Property Name="RelatedPersonPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RP_HomePhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="VOEN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Logo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="LogoLinkPath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LogoLinkName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -917,7 +919,8 @@
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Logo" ColumnName="Logo" />
+                <ScalarProperty Name="LogoLinkName" ColumnName="LogoLinkName" />
+                <ScalarProperty Name="LogoLinkPath" ColumnName="LogoLinkPath" />
                 <ScalarProperty Name="VOEN" ColumnName="VOEN" />
                 <ScalarProperty Name="RP_HomePhone" ColumnName="RP_HomePhone" />
                 <ScalarProperty Name="RelatedPersonPhone" ColumnName="RelatedPersonPhone" />
