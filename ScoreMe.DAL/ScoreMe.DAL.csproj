@@ -97,6 +97,9 @@
     <Compile Include="DBModel\tbl_Proposal.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_ProposalDetail.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_Provider.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>

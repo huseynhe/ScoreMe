@@ -34,6 +34,7 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_PackagePrice> tbl_PackagePrice { get; set; }
         public virtual DbSet<tbl_Permission> tbl_Permission { get; set; }
         public virtual DbSet<tbl_Proposal> tbl_Proposal { get; set; }
+        public virtual DbSet<tbl_ProposalDetail> tbl_ProposalDetail { get; set; }
         public virtual DbSet<tbl_Provider> tbl_Provider { get; set; }
         public virtual DbSet<tbl_ProviderRole> tbl_ProviderRole { get; set; }
         public virtual DbSet<tbl_ProviderService> tbl_ProviderService { get; set; }

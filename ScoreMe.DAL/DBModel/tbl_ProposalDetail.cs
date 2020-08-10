@@ -12,16 +12,13 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_Proposal
+    public partial class tbl_ProposalDetail
     {
         public long ID { get; set; }
         public int Status { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Note { get; set; }
-        public Nullable<long> ServiceId { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
+        public long ProposalID { get; set; }
+        public string ProposolKey { get; set; }
+        public string ProposolValue { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
