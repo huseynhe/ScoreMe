@@ -18,6 +18,7 @@ namespace ScoreMe.DAL.DBModel
         public int Status { get; set; }
         public long UserId { get; set; }
         public long Source_EVID { get; set; }
+        public long Mobile_EVID { get; set; }
         public Nullable<int> Year { get; set; }
         public Nullable<int> Month { get; set; }
         public Nullable<decimal> Consumed { get; set; }

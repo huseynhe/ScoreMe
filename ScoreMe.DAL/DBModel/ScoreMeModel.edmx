@@ -76,6 +76,7 @@
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="UserId" Type="bigint" Nullable="false" />
           <Property Name="Source_EVID" Type="bigint" Nullable="false" />
+          <Property Name="Mobile_EVID" Type="bigint" Nullable="false" />
           <Property Name="Year" Type="int" />
           <Property Name="Month" Type="int" />
           <Property Name="Consumed" Type="decimal" Precision="18" Scale="2" />
@@ -496,6 +497,7 @@
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int64" Nullable="false" />
           <Property Name="Source_EVID" Type="Int64" Nullable="false" />
+          <Property Name="Mobile_EVID" Type="Int64" Nullable="false" />
           <Property Name="Year" Type="Int32" />
           <Property Name="Month" Type="Int32" />
           <Property Name="Consumed" Type="Decimal" Precision="18" Scale="2" />
@@ -873,6 +875,7 @@
                 <ScalarProperty Name="Consumed" ColumnName="Consumed" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Mobile_EVID" ColumnName="Mobile_EVID" />
                 <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />

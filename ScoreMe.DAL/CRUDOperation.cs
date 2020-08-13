@@ -3001,7 +3001,7 @@ namespace ScoreMe.DAL
                 {
                     var items = (from p in context.tbl_Package
                                  where p.Status == 1 && p.Mobile_EVID == mobileEVID
-                                 select p);
+                                 select p).OrderBy(x=>x.PackageSize);
 
                     return items.ToList();
 
@@ -3336,7 +3336,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_NetConsume> GetNetConsumes()
+        public List<tbl_NetConsume> GetNetConsumes(Int64 userId, Int64 sourceEV, Int64 mobileEV)
         {
 
             try
@@ -3344,10 +3344,33 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_NetConsume
-                                 where p.Status == 1
+                                 where p.Status == 1 && p.UserId==userId && p.Source_EVID==sourceEV &&p.Mobile_EVID==mobileEV
                                  select p);
 
-                    return items.ToList();
+                    return items.OrderByDescending(x=>x.Year).OrderByDescending(y=>y.Month).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public List<tbl_NetConsume> GetNetConsumesByYear(Int64 userId, Int64 sourceEV, Int64 mobileEV,int year)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_NetConsume
+                                 where p.Status == 1 && p.UserId == userId && p.Source_EVID == sourceEV
+                                 && p.Mobile_EVID == mobileEV && p.Year == year
+                                 select p) ;
+
+                    return items.OrderBy(y => y.Month).ToList();
 
                 }
             }
@@ -3389,7 +3412,7 @@ namespace ScoreMe.DAL
                                  where p.Status == 1 && p.UserId == userID && p.Year==year
                                  select p);
 
-                    return items.ToList();
+                    return items.OrderByDescending(x=>x.Month).ToList();
 
                 }
             }

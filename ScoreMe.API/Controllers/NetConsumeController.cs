@@ -1,4 +1,6 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.Business;
+using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -14,14 +16,6 @@ namespace ScoreMe.API.Controllers
     [RoutePrefix("api/netConsume")]
     public class NetConsumeController : ApiController
     {
-        [HttpGet]
-        [Route("GetNetConsumes")]
-        public List<tbl_NetConsume> GetNetConsumes()
-        {
-            CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetNetConsumes(); ;
-            return items;
-        }
 
         [HttpGet]
         [Route("GetNetConsumeByID/{id}")]
@@ -83,6 +77,24 @@ namespace ScoreMe.API.Controllers
 
             var dbitem = operation.DeleteNetConsume(id, 0);
             return Ok(dbitem);
+
+        }
+
+        [HttpGet]
+        [Route("GetMontlyAverage")]
+        public decimal GetMontlyAverage(Int64 userId, Int64 sourceEV, Int64 mobileEV, int year, int lastMontCount, int firstMountCount, int startMont, int endMonth)
+        {
+            decimal _monthlyAverage = 0;
+            if (userId == 0 || sourceEV == 0 || mobileEV == 0)
+            {
+                return _monthlyAverage;
+            }
+
+            NetConsumeBOperation businessOperation = new NetConsumeBOperation();
+
+            BaseOutput dbitem = businessOperation.GetMontlyAverage(userId, sourceEV, mobileEV, year, lastMontCount, firstMountCount, startMont, endMonth, out _monthlyAverage);
+
+            return _monthlyAverage;
 
         }
     }
