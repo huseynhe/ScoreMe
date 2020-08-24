@@ -137,5 +137,68 @@ namespace ScoreMe.API.Controllers
             return Ok(dbitem);
 
         }
+
+        #region ProposalGroup
+
+        [HttpGet]
+        [Route("GetProposalsByGroupID/{groupid}")]
+        public List<tbl_Proposal> GetProposalsByGroupID(Int64 groupid)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var proposals = operation.GetProposalsByGroupID(groupid); ;
+            return proposals;
+        }
+        [HttpGet]
+        [Route("GetGroupsByPropsalID/{propsalid}")]
+        public List<tbl_Group> GetGroupsByPropsalID(Int64 propsalid)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var groups = operation.GetGroupsByPropsalID(propsalid); ;
+            return groups;
+        }
+        [HttpPost]
+        [ResponseType(typeof(tbl_ProposalUserGroup))]
+        [Route("AddProposalUserGroup")]
+        public IHttpActionResult AddProposalUserGroup(tbl_ProposalUserGroup item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            CRUDOperation operation = new CRUDOperation();
+            tbl_ProposalUserGroup dbitem = operation.AddProposalUserGroup(item);
+
+            return Ok(dbitem);
+        }
+        [HttpPost]
+        [ResponseType(typeof(tbl_ProposalUserGroup))]
+        [Route("UpdateProposalUserGroup")]
+        public IHttpActionResult UpdateUserGroup(tbl_ProposalUserGroup item)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var dbitem = operation.UpdateProposalUserGroup(item);
+                return Ok(dbitem);
+            }
+        }
+       
+        [HttpPost]
+        [ResponseType(typeof(tbl_ProposalUserGroup))]
+        [Route("DeleteProposalUserGroup/{id}")]
+        public IHttpActionResult DeleteUserGroup(Int64 id)
+        {
+            CRUDOperation operation = new CRUDOperation();
+
+            var dbitem = operation.DeleteProposalUserGroup(id, 0);
+            return Ok(dbitem);
+
+        }
+        #endregion
+
     }
 }

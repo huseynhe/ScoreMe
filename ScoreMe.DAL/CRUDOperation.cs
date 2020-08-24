@@ -3654,5 +3654,594 @@ namespace ScoreMe.DAL
 
         }
         #endregion
+
+        #region tbl_Group
+        public tbl_Group AddGroup(tbl_Group item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_Group.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_Group DeleteGroup(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_Group oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_Group
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_Group.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_Group> GetGroups()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_Group
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_Group GetGroupByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_Group
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_Group GetGroupByName(string name)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_Group
+                                where p.Name == name && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_Group UpdateGroup(tbl_Group item)
+        {
+            try
+            {
+                tbl_Group oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_Group
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.Name = item.Name;
+                        oldItem.Description = item.Description;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_Group.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_User> GetUsersByGroupID(Int64 groupid)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from g in context.tbl_Group
+                                 join ug in context.tbl_UserGroup on g.ID equals ug.GroupID 
+                                 join user in context.tbl_User on ug.UserID equals user.ID 
+                                 where g.Status == 1 && ug.Status == 1 && user.Status == 1
+                                 && g.ID==groupid
+                                 select user).ToList();
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_Group> GetGroupsByUserID(Int64 userid)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from usr in context.tbl_User
+                                 join ug in context.tbl_UserGroup on usr.ID equals ug.UserID
+                                 join g in context.tbl_Group on ug.GroupID equals g.ID
+                                 where g.Status == 1 && ug.Status == 1 && usr.Status == 1
+                                 && g.ID == userid
+                                 select g).ToList();
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        #endregion
+
+
+        #region tbl_UserGroup
+        public tbl_UserGroup AddUserGroup(tbl_UserGroup item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_UserGroup.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_UserGroup DeleteUserGroup(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_UserGroup oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_UserGroup
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_UserGroup.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_UserGroup> GetUserGroups()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_UserGroup
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_UserGroup GetUserGroupByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_UserGroup
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_UserGroup UpdateUserGroup(tbl_UserGroup item)
+        {
+            try
+            {
+                tbl_UserGroup oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_UserGroup
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.GroupID = item.GroupID;
+                        oldItem.UserID = item.UserID;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_UserGroup.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_ProposalUserGroup
+        public tbl_ProposalUserGroup AddProposalUserGroup(tbl_ProposalUserGroup item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_ProposalUserGroup.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_ProposalUserGroup DeleteProposalUserGroup(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_ProposalUserGroup oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_ProposalUserGroup
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_ProposalUserGroup.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_ProposalUserGroup> GetProposalUserGroups()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalUserGroup
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalUserGroup GetProposalUserGroupByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalUserGroup
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalUserGroup UpdateProposalUserGroup(tbl_ProposalUserGroup item)
+        {
+            try
+            {
+                tbl_ProposalUserGroup oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_ProposalUserGroup
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.ProposalID = item.ProposalID;
+                        oldItem.GroupID = item.GroupID;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_ProposalUserGroup.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_Proposal> GetProposalsByGroupID(Int64 groupid)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from g in context.tbl_Group
+                                 join pug in context.tbl_ProposalUserGroup on g.ID equals pug.GroupID
+                                 join pr in context.tbl_Proposal on pug.ProposalID equals pr.ID
+                                 where g.Status == 1 && pug.Status == 1 && pr.Status == 1
+                                 && g.ID == groupid
+                                 select pr).ToList();
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_Group> GetGroupsByPropsalID(Int64 propsalid)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from pr in context.tbl_Proposal
+                                 join pug in context.tbl_ProposalUserGroup on pr.ID equals pug.ProposalID
+                                 join g in context.tbl_Group on pug.GroupID equals g.ID
+                                 where g.Status == 1 && pug.Status == 1 && pr.Status == 1
+                                 && g.ID == propsalid
+                                 select g).ToList();
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        #endregion
     }
 }

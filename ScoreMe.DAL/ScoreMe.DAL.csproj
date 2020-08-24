@@ -82,6 +82,9 @@
     <Compile Include="DBModel\tbl_EnumValue.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_Group.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_NetConsume.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -98,6 +101,9 @@
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_ProposalDetail.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\tbl_ProposalUserGroup.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_Provider.cs">
@@ -131,6 +137,9 @@
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_User.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\tbl_UserGroup.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_UserRole.cs">

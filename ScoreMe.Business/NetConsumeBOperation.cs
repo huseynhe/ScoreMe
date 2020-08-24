@@ -28,7 +28,7 @@ namespace ScoreMe.Business
                     {
                         decimal totalConsumed = 0;
                         decimal avreageConsumed = 0;
-                        var lists = operation.GetNetConsumes(userId, sourceEV,mobileEV).Take(lastMontCount);
+                        List<tbl_NetConsume> lists = operation.GetNetConsumes(userId, sourceEV,mobileEV).Take(lastMontCount).ToList<tbl_NetConsume>(); ;
                         foreach (tbl_NetConsume item in lists)
                         {
                             totalConsumed = totalConsumed + (item.Consumed==null?0:(decimal)+item.Consumed);
@@ -48,7 +48,7 @@ namespace ScoreMe.Business
                     {
                         decimal totalConsumed = 0;
                         decimal avreageConsumed = 0;
-                        var lists = operation.GetNetConsumesByYear(userId, sourceEV, mobileEV,year).Take(firstMountCount);
+                        List<tbl_NetConsume> lists  = operation.GetNetConsumesByYear(userId, sourceEV, mobileEV,year).Take(firstMountCount).ToList<tbl_NetConsume>(); ;
                         foreach (tbl_NetConsume item in lists)
                         {
                             totalConsumed = totalConsumed + (item.Consumed == null ? 0 : (decimal)+item.Consumed);
@@ -61,7 +61,7 @@ namespace ScoreMe.Business
                     {
                         decimal totalConsumed = 0;
                         decimal avreageConsumed = 0;
-                        var lists = operation.GetNetConsumesByYear(userId, sourceEV, mobileEV, year).Where(x => x.Month >= startMont && x.Month <= endMonth);
+                        List<tbl_NetConsume> lists = operation.GetNetConsumesByYear(userId, sourceEV, mobileEV, year).Where(x => x.Month >= startMont && x.Month <= endMonth).ToList<tbl_NetConsume>();
                         foreach (tbl_NetConsume item in lists)
                         {
                             totalConsumed = totalConsumed + (item.Consumed == null ? 0 : (decimal)+item.Consumed);

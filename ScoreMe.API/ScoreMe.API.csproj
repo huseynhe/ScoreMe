@@ -125,6 +125,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EnumCategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\NetConsumeController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\PackagePriceController.cs" />
