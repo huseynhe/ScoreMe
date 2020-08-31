@@ -141,6 +141,14 @@ namespace ScoreMe.API.Controllers
         #region ProposalGroup
 
         [HttpGet]
+        [Route("GetProposalUserGroups")]
+        public List<tbl_ProposalUserGroup> GetProposalUserGroups()
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var proposalusergroups = operation.GetProposalUserGroups(); ;
+            return proposalusergroups;
+        }
+        [HttpGet]
         [Route("GetProposalsByGroupID/{groupid}")]
         public List<tbl_Proposal> GetProposalsByGroupID(Int64 groupid)
         {

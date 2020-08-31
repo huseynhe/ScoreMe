@@ -3868,7 +3868,7 @@ namespace ScoreMe.DAL
                                  join ug in context.tbl_UserGroup on usr.ID equals ug.UserID
                                  join g in context.tbl_Group on ug.GroupID equals g.ID
                                  where g.Status == 1 && ug.Status == 1 && usr.Status == 1
-                                 && g.ID == userid
+                                 && usr.ID == userid
                                  select g).ToList();
 
                     return items.ToList();
@@ -4229,7 +4229,7 @@ namespace ScoreMe.DAL
                                  join pug in context.tbl_ProposalUserGroup on pr.ID equals pug.ProposalID
                                  join g in context.tbl_Group on pug.GroupID equals g.ID
                                  where g.Status == 1 && pug.Status == 1 && pr.Status == 1
-                                 && g.ID == propsalid
+                                 && pr.ID == propsalid
                                  select g).ToList();
 
                     return items.ToList();

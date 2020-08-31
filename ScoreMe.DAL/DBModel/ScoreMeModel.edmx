@@ -72,8 +72,8 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="bigint" Nullable="false" />
-          <Property Name="Status" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
@@ -447,12 +447,14 @@
           <EntitySet Name="tbl_Customer" EntityType="DB_A62358_ScoreMeModel.tbl_Customer" />
           <EntitySet Name="tbl_EnumCategory" EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" />
           <EntitySet Name="tbl_EnumValue" EntityType="DB_A62358_ScoreMeModel.tbl_EnumValue" />
+          <EntitySet Name="tbl_Group" EntityType="DB_A62358_ScoreMeModel.tbl_Group" />
           <EntitySet Name="tbl_NetConsume" EntityType="DB_A62358_ScoreMeModel.tbl_NetConsume" />
           <EntitySet Name="tbl_Package" EntityType="DB_A62358_ScoreMeModel.tbl_Package" />
           <EntitySet Name="tbl_PackagePrice" EntityType="DB_A62358_ScoreMeModel.tbl_PackagePrice" />
           <EntitySet Name="tbl_Permission" EntityType="DB_A62358_ScoreMeModel.tbl_Permission" />
           <EntitySet Name="tbl_Proposal" EntityType="DB_A62358_ScoreMeModel.tbl_Proposal" />
           <EntitySet Name="tbl_ProposalDetail" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalDetail" />
+          <EntitySet Name="tbl_ProposalUserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserGroup" />
           <EntitySet Name="tbl_Provider" EntityType="DB_A62358_ScoreMeModel.tbl_Provider" />
           <EntitySet Name="tbl_ProviderRole" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderRole" />
           <EntitySet Name="tbl_ProviderService" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderService" />
@@ -464,12 +466,10 @@
           <EntitySet Name="tbl_Role" EntityType="DB_A62358_ScoreMeModel.tbl_Role" />
           <EntitySet Name="tbl_Score_x" EntityType="DB_A62358_ScoreMeModel.tbl_Score_x" />
           <EntitySet Name="tbl_User" EntityType="DB_A62358_ScoreMeModel.tbl_User" />
+          <EntitySet Name="tbl_UserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_UserGroup" />
           <EntitySet Name="tbl_UserRole" EntityType="DB_A62358_ScoreMeModel.tbl_UserRole" />
           <EntitySet Name="tbl_UserService" EntityType="DB_A62358_ScoreMeModel.tbl_UserService" />
           <EntitySet Name="tbl_UserServiceRating" EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" />
-          <EntitySet Name="tbl_ProposalUserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserGroup" />
-          <EntitySet Name="tbl_UserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_UserGroup" />
-          <EntitySet Name="tbl_Group" EntityType="DB_A62358_ScoreMeModel.tbl_Group" />
         </EntityContainer>
         <EntityType Name="ProviderType">
           <Key>
@@ -533,6 +533,19 @@
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_Group">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int32" />
         </EntityType>
         <EntityType Name="tbl_NetConsume">
           <Key>
@@ -629,6 +642,19 @@
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_ProposalUserGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ProposalID" Type="Int64" Nullable="false" />
+          <Property Name="GroupID" Type="Int64" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int32" />
         </EntityType>
         <EntityType Name="tbl_Provider">
           <Key>
@@ -795,6 +821,19 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
+        <EntityType Name="tbl_UserGroup">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="GroupID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int32" />
+        </EntityType>
         <EntityType Name="tbl_UserRole">
           <Key>
             <PropertyRef Name="ID" />
@@ -835,45 +874,6 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
           <Property Name="RatingTimestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-        </EntityType>
-        <EntityType Name="tbl_ProposalUserGroup">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="ProposalID" Type="Int64" Nullable="false" />
-          <Property Name="GroupID" Type="Int64" Nullable="false" />
-          <Property Name="InsertDate" Type="DateTime" Precision="7" />
-          <Property Name="InsertUser" Type="Int32" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
-          <Property Name="UpdateUser" Type="Int32" />
-        </EntityType>
-        <EntityType Name="tbl_UserGroup">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="GroupID" Type="Int64" Nullable="false" />
-          <Property Name="UserID" Type="Int64" Nullable="false" />
-          <Property Name="InsertDate" Type="DateTime" Precision="7" />
-          <Property Name="InsertUser" Type="Int32" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
-          <Property Name="UpdateUser" Type="Int32" />
-        </EntityType>
-        <EntityType Name="tbl_Group">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" />
-          <Property Name="Status" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InsertDate" Type="DateTime" Precision="7" />
-          <Property Name="InsertUser" Type="Int32" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
-          <Property Name="UpdateUser" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -943,6 +943,20 @@
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="EnumCategoryID" ColumnName="EnumCategoryID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Group">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Group">
+              <MappingFragment StoreEntitySet="tbl_Group">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -1044,6 +1058,20 @@
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="ProposolValue" ColumnName="ProposolValue" />
                 <ScalarProperty Name="ProposolKey" ColumnName="ProposolKey" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ProposalUserGroup">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalUserGroup">
+              <MappingFragment StoreEntitySet="tbl_ProposalUserGroup">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
                 <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1226,6 +1254,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserGroup">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserGroup">
+              <MappingFragment StoreEntitySet="tbl_UserGroup">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_UserRole">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserRole">
               <MappingFragment StoreEntitySet="tbl_UserRole">
@@ -1265,48 +1307,6 @@
                 <ScalarProperty Name="RatingValueId" ColumnName="RatingValueId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_ProposalUserGroup">
-            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalUserGroup">
-              <MappingFragment StoreEntitySet="tbl_ProposalUserGroup">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_UserGroup">
-            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserGroup">
-              <MappingFragment StoreEntitySet="tbl_UserGroup">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_Group">
-            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Group">
-              <MappingFragment StoreEntitySet="tbl_Group">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

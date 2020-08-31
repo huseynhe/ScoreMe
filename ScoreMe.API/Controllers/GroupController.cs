@@ -97,6 +97,14 @@ namespace ScoreMe.API.Controllers
             var groups = operation.GetGroupsByUserID(userid); ;
             return groups;
         }
+        [HttpGet]
+        [Route("GetUserGroups")]
+        public List<tbl_UserGroup> GetUserGroups()
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var usergroups = operation.GetUserGroups(); ;
+            return usergroups;
+        }
         [HttpPost]
         [ResponseType(typeof(tbl_UserGroup))]
         [Route("AddUserGroup")]
