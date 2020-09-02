@@ -19,7 +19,8 @@ namespace ScoreMe.DAL.DBModel
         public string Name { get; set; }
         public string Description { get; set; }
         public string Note { get; set; }
-        public Nullable<long> ServiceId { get; set; }
+        public long ProviderID { get; set; }
+        public bool IsPublic { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }

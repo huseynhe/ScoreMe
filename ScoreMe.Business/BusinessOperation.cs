@@ -336,6 +336,78 @@ namespace ScoreMe.Business
             }
         }
         #endregion
+        #region Proposal
+        public BaseOutput AddProposalWithDetail(Proposal item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_Proposal proposal = new tbl_Proposal()
+                {
+                    Name = item.Name,
+                    Description = item.Description,
+                    Note = item.Note,
+                    ProviderID = item.ProviderID,
+                    IsPublic = item.IsPublic,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate
+
+                };
+
+                tbl_Proposal _Proposal = cRUDOperation.AddProposal(proposal);
+
+                if (_Proposal != null)
+                {
+                    foreach (var pDetail in item.ProposalDetails)
+                    {
+                        tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
+                        {
+                            ProposalID = _Proposal.ID,
+                            ProposolKey = pDetail.ProposolKey,
+                            ProposolValue = pDetail.ProposolValue,
+                        };
+
+                        tbl_ProposalDetail _ProposalDetail = cRUDOperation.AddProposalDetail(proposalDetail);
+                    
+                    }
+
+                    if (!_Proposal.IsPublic)
+                    {
+                        foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
+                        {
+                            tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
+                            {
+                                ProposalID = _Proposal.ID,
+                                GroupID = userGroup.GroupID,
+
+
+                            };
+
+                            tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroup(proposalUserGroup);
+
+                        }
+                    }
+            
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
     }
 
 }

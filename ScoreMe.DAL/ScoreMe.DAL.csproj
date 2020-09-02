@@ -154,6 +154,9 @@
     <Compile Include="Enum\BOResultTypes.cs" />
     <Compile Include="ErrorManagment\CustomError.cs" />
     <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\Proposal.cs" />
+    <Compile Include="Model\ProposalDetail.cs" />
+    <Compile Include="Model\ProposalUserGroup.cs" />
     <Compile Include="Model\Provider.cs" />
     <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -175,6 +178,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ScoreMe.UTILITY\ScoreMe.UTILITY.csproj">
+      <Project>{5D9E1E57-5403-42F8-8A81-92FF16ECF8B3}</Project>
+      <Name>ScoreMe.UTILITY</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="DBModel\ScoreMeModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ScoreMeModel.edmx</DependentUpon>
@@ -185,12 +194,6 @@
       <DependentUpon>ScoreMeModel.edmx</DependentUpon>
       <LastGenOutput>ScoreMeModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ScoreMe.UTILITY\ScoreMe.UTILITY.csproj">
-      <Project>{5D9E1E57-5403-42F8-8A81-92FF16ECF8B3}</Project>
-      <Name>ScoreMe.UTILITY</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

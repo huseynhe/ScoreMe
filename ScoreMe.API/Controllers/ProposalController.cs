@@ -1,5 +1,8 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.Business;
+using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -207,6 +210,30 @@ namespace ScoreMe.API.Controllers
 
         }
         #endregion
+
+        [HttpPost]
+        [ResponseType(typeof(Proposal))]
+        [Route("AddProposalWithDetail")]
+        public IHttpActionResult AddProposalWithDetail(Proposal item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+       
+            BaseOutput dbitem = businessOperation.AddProposalWithDetail(item);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(dbitem);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
+        }
 
     }
 }

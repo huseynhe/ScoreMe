@@ -1064,7 +1064,8 @@ namespace ScoreMe.DAL
                         oldItem.Name = item.Name;
                         oldItem.Description = item.Description;
                         oldItem.Note = item.Note;
-                        oldItem.ServiceId = item.ServiceId;
+                        oldItem.ProviderID = item.ProviderID;
+                        oldItem.IsPublic = item.IsPublic;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
