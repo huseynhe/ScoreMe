@@ -1,4 +1,5 @@
-﻿using ScoreMe.API.Utility;
+﻿using Microsoft.AspNetCore.Mvc;
+using ScoreMe.API.Utility;
 using ScoreMe.DAL;
 using ScoreMe.DAL.DBModel;
 using System;
@@ -12,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.IO;
 
 namespace ScoreMe.API.Controllers
 {
@@ -29,10 +31,6 @@ namespace ScoreMe.API.Controllers
             CRUDOperation cRUDOperation = new CRUDOperation();
             tbl_Provider provider = cRUDOperation.GetProviderById(providerID);
             // 1) Get file bytes
-            //var fileName = "dogpic.jpg";
-            //var filePath = HttpContext.Current.Server
-            //    .MapPath($"~/App_Data/{fileName}");
-
             var fileBytes = File.ReadAllBytes(provider.LogoLinkPath);
 
             // 2) Add bytes to a memory stream
@@ -50,8 +48,41 @@ namespace ScoreMe.API.Controllers
             headers.ContentDisposition.FileName = provider.LogoLinkName;
 
             headers.ContentType =
-                //new MediaTypeHeaderValue("application/jpg");
-                new MediaTypeHeaderValue("application/octet-stream");
+            //new MediaTypeHeaderValue("application/jpg");
+            new MediaTypeHeaderValue("application/octet-stream");
+
+            headers.ContentLength = fileMemStream.Length;
+
+            return result;
+        }
+        [HttpGet]
+        [Route("GetLogoByID")]
+        public HttpResponseMessage GetLogoByID(Int64 providerID)
+        {
+            var result =
+                new HttpResponseMessage(HttpStatusCode.OK);
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            tbl_Provider provider = cRUDOperation.GetProviderById(providerID);
+            // 1) Get file bytes
+            var fileBytes = File.ReadAllBytes(provider.LogoLinkPath);
+
+            // 2) Add bytes to a memory stream
+            var fileMemStream =
+                new MemoryStream(fileBytes);
+
+            // 3) Add memory stream to response
+            result.Content = new StreamContent(fileMemStream);
+
+            // 4) build response headers
+            var headers = result.Content.Headers;
+
+            headers.ContentDisposition =
+                new ContentDispositionHeaderValue("attachment");
+            headers.ContentDisposition.FileName = provider.LogoLinkName;
+
+            headers.ContentType =
+                new MediaTypeHeaderValue("application/jpg");
+            //new MediaTypeHeaderValue("application/octet-stream");
 
             headers.ContentLength = fileMemStream.Length;
 
@@ -61,9 +92,9 @@ namespace ScoreMe.API.Controllers
         [Route("UploadLogo")]
         public HttpResponseMessage UploadFile()
         {
-            Int64 providerID= HttpContext.Current.Request.Form["providerID"]==null?0:Int64.Parse(HttpContext.Current.Request.Form["providerID"]);
-            
-            
+            Int64 providerID = HttpContext.Current.Request.Form["providerID"] == null ? 0 : Int64.Parse(HttpContext.Current.Request.Form["providerID"]);
+
+
             var file = HttpContext.Current.Request.Files.Count > 0 ?
                 HttpContext.Current.Request.Files[0] : null;
 
@@ -77,7 +108,8 @@ namespace ScoreMe.API.Controllers
                 }
                 string fullPath = Path.Combine(logoPath, fileName);
                 file.SaveAs(fullPath);
-                tbl_Provider provider = new tbl_Provider() {
+                tbl_Provider provider = new tbl_Provider()
+                {
                     LogoLinkName = fileName,
                     LogoLinkPath = fullPath,
                     ID = providerID,
@@ -162,6 +194,6 @@ namespace ScoreMe.API.Controllers
             }
         }
 
-   
+
     }
 }
