@@ -235,7 +235,7 @@ namespace ScoreMe.API.Controllers
 
         }
 
-        [HttpPost]
+        [HttpGet]
         [ResponseType(typeof(Proposal))]
         [Route("GetProposalWithDetailsByID/{id}")]
         public IHttpActionResult GetProposalWithDetailsByID(Int64 id)
@@ -253,7 +253,7 @@ namespace ScoreMe.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("GetProposalWithDetails")]
         public List<Proposal> GetProposalWithDetails()
         {
