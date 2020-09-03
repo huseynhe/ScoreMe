@@ -197,7 +197,7 @@ namespace ScoreMe.API.Controllers
                 return Ok(dbitem);
             }
         }
-       
+
         [HttpPost]
         [ResponseType(typeof(tbl_ProposalUserGroup))]
         [Route("DeleteProposalUserGroup/{id}")]
@@ -221,7 +221,7 @@ namespace ScoreMe.API.Controllers
                 return BadRequest(ModelState);
             }
             BusinessOperation businessOperation = new BusinessOperation();
-       
+
             BaseOutput dbitem = businessOperation.AddProposalWithDetail(item);
             if (dbitem.ResultCode == 1)
             {
@@ -235,5 +235,39 @@ namespace ScoreMe.API.Controllers
 
         }
 
+        [HttpPost]
+        [ResponseType(typeof(Proposal))]
+        [Route("GetProposalWithDetailsByID/{id}")]
+        public IHttpActionResult GetProposalWithDetailsByID(Int64 id)
+        {
+            BusinessOperation businessOperation = new BusinessOperation();
+            Proposal itemOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalByID(id, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+        }
+
+        [HttpPost]
+        [Route("GetProposalWithDetails")]
+        public List<Proposal> GetProposalWithDetails()
+        {
+            BusinessOperation businessOperation = new BusinessOperation();
+            List<Proposal> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposals(out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return itemsOut;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

@@ -3585,6 +3585,27 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_ProposalDetail> GetProposalDetailsByProposalID(Int64 proposalID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalDetail
+                                 where p.Status == 1  && p.ProposalID==proposalID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public tbl_ProposalDetail GetProposalDetailByID(Int64 Id)
         {
 
@@ -4232,6 +4253,27 @@ namespace ScoreMe.DAL
                                  where g.Status == 1 && pug.Status == 1 && pr.Status == 1
                                  && pr.ID == propsalid
                                  select g).ToList();
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_ProposalUserGroup> GetProposalUserGroupsByProposalID(Int64 proposalID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalUserGroup
+                                 where p.Status == 1 && p.ProposalID == proposalID
+                                 select p) ;
 
                     return items.ToList();
 

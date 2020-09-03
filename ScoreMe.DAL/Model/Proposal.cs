@@ -10,6 +10,7 @@ namespace ScoreMe.DAL.Model
     public class Proposal
     {
 
+        public Int64 ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Note { get; set; }
