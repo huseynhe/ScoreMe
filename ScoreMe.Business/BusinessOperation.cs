@@ -416,31 +416,31 @@ namespace ScoreMe.Business
             {
 
                 tbl_Proposal _ProposalObj = cRUDOperation.GetProposalById(id);
-                
+
 
                 if (_ProposalObj != null)
                 {
                     proposal = new Proposal()
                     {
-                        ID= _ProposalObj.ID,
-                        Name=_ProposalObj.Name,
-                        Description=_ProposalObj.Description,
-                        Note=_ProposalObj.Note,
-                        ProviderID=_ProposalObj.ProviderID,
-                        IsPublic=_ProposalObj.IsPublic,
-                        StartDate=_ProposalObj.StartDate,
-                        EndDate=_ProposalObj.EndDate,
+                        ID = _ProposalObj.ID,
+                        Name = _ProposalObj.Name,
+                        Description = _ProposalObj.Description,
+                        Note = _ProposalObj.Note,
+                        ProviderID = _ProposalObj.ProviderID,
+                        IsPublic = _ProposalObj.IsPublic,
+                        StartDate = _ProposalObj.StartDate,
+                        EndDate = _ProposalObj.EndDate,
 
                     };
 
                     List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
                     List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposal.ID);
-              
+
                     foreach (var item in tbl_ProposalDetails)
                     {
                         ProposalDetail proposalDetail = new ProposalDetail()
                         {
-                            ID=item.ID,
+                            ID = item.ID,
                             ProposalID = item.ProposalID,
                             ProposolKey = item.ProposolKey,
                             ProposolValue = item.ProposolValue,
@@ -501,7 +501,7 @@ namespace ScoreMe.Business
                 List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposals();
                 proposals = new List<Proposal>();
 
-                if (tbl_Proposals.Count>0)
+                if (tbl_Proposals.Count > 0)
                 {
                     foreach (var proposalItem in tbl_Proposals)
                     {
@@ -515,7 +515,7 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                        };                     
+                        };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
                         List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ID);
@@ -532,7 +532,7 @@ namespace ScoreMe.Business
                             proposalDetails.Add(proposalDetail);
 
                         }
-                        proposal.ProposalDetails = proposalDetails;               
+                        proposal.ProposalDetails = proposalDetails;
 
                         if (!proposal.IsPublic)
                         {
@@ -557,7 +557,7 @@ namespace ScoreMe.Business
                         }
                         proposals.Add(proposal);
                     }
-                 
+
 
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
@@ -567,6 +567,128 @@ namespace ScoreMe.Business
                     return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
 
                 }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateProposalWithDetail(Proposal item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_Proposal proposal = new tbl_Proposal()
+                {
+                    ID = item.ID,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Note = item.Note,
+                    ProviderID = item.ProviderID,
+                    IsPublic = item.IsPublic,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate
+
+                };
+
+                tbl_Proposal _Proposal = cRUDOperation.UpdateProposal(proposal);
+
+                if (_Proposal != null)
+                {
+                    foreach (var pDetail in item.ProposalDetails)
+                    {
+                        tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
+                        {
+                            ID = pDetail.ID,
+                            ProposalID = _Proposal.ID,
+                            ProposolKey = pDetail.ProposolKey,
+                            ProposolValue = pDetail.ProposolValue,
+                        };
+
+                        tbl_ProposalDetail _ProposalDetail = cRUDOperation.UpdateProposalDetail(proposalDetail);
+
+                    }
+
+                    if (!_Proposal.IsPublic)
+                    {
+                        foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
+                        {
+                            tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
+                            {
+                                ID = userGroup.ID,
+                                ProposalID = _Proposal.ID,
+                                GroupID = userGroup.GroupID,
+
+
+                            };
+
+                            tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.UpdateProposalUserGroup(proposalUserGroup);
+
+                        }
+                    }
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteProposalWithDetail(Int64 id)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+
+                tbl_Proposal _Proposal = cRUDOperation.GetProposalById(id);
+
+                if (_Proposal != null)
+                {
+                    List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(_Proposal.ID);
+
+                    foreach (var item in tbl_ProposalDetails)
+                    {
+
+                        tbl_ProposalDetail tbl_ProposalDetail = cRUDOperation.DeleteProposalDetail(item.ID, 0);
+
+                    }
+
+                    List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(_Proposal.ID);
+
+                    foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                    {
+
+
+                        tbl_ProposalUserGroup tbl_ProposalUserGroup = cRUDOperation.DeleteProposalUserGroup(userGroup.ID, 0);
+
+                    }
+
+                    tbl_Proposal tbl_Proposal = cRUDOperation.DeleteProposal(id, 0);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
 
             }
             catch (Exception ex)

@@ -269,5 +269,54 @@ namespace ScoreMe.API.Controllers
                 return null;
             }
         }
+
+
+        [HttpPost]
+        [ResponseType(typeof(Proposal))]
+        [Route("UpdateProposalWithDetail")]
+        public IHttpActionResult UpdateProposalWithDetail(Proposal item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+
+            BaseOutput dbitem = businessOperation.UpdateProposalWithDetail(item);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(dbitem);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(Proposal))]
+        [Route("DeleteProposalWithDetail")]
+        public IHttpActionResult DeleteProposalWithDetail(Int64 id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+
+            BaseOutput dbitem = businessOperation.DeleteProposalWithDetail(id);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(dbitem);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
+        }
     }
 }
