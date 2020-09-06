@@ -1,4 +1,5 @@
 ﻿using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -169,7 +170,7 @@ namespace ScoreMe.DAL
                         oldItem.RelatedPersonName = item.RelatedPersonName;
                         oldItem.RelatedPersonPhone = item.RelatedPersonPhone;
                         oldItem.RelatedPersonProfession = item.RelatedPersonProfession;
-                        oldItem.RP_HomePhone= item.RP_HomePhone;
+                        oldItem.RP_HomePhone = item.RP_HomePhone;
                         oldItem.VOEN = item.VOEN;
                         oldItem.ParentID = item.ParentID;
                         oldItem.UpdateDate = DateTime.Now;
@@ -955,6 +956,54 @@ namespace ScoreMe.DAL
 
                 throw ex;
             }
+        }
+        public tbl_Proposal AddProposalNew(tbl_Proposal proposalItem, List<tbl_ProposalDetail> proposalDetails,
+            List<tbl_ProposalUserGroup> proposalUserGroups)
+        {
+            tbl_Proposal dbItem = null;
+            using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+            {
+
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        proposalItem.Status = 1;
+                        proposalItem.InsertDate = DateTime.Now;
+                        proposalItem.UpdateDate = DateTime.Now;
+                        dbItem = context.tbl_Proposal.Add(proposalItem);
+                        foreach (var proposalDetail in proposalDetails)
+                        {
+                            proposalDetail.ProposalID = dbItem.ID;
+                            proposalDetail.Status = 1;
+                            proposalDetail.InsertDate = DateTime.Now;
+                            proposalDetail.UpdateDate = DateTime.Now;
+                            context.tbl_ProposalDetail.Add(proposalDetail);
+                        }
+                        foreach (var proposalUserGroup in proposalUserGroups)
+                        {
+                            proposalUserGroup.ProposalID = dbItem.ID;
+                            proposalUserGroup.Status = 1;
+                            proposalUserGroup.InsertDate = DateTime.Now;
+                            proposalUserGroup.UpdateDate = DateTime.Now;
+                            context.tbl_ProposalUserGroup.Add(proposalUserGroup);
+                        }
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+
+                    catch (Exception ex)
+
+                    {
+                        transaction.Rollback();
+                        throw;
+
+                    }
+
+                }
+            }
+            return dbItem;
         }
         public tbl_Proposal DeleteProposal(Int64 id, int userId)
         {
@@ -3002,7 +3051,7 @@ namespace ScoreMe.DAL
                 {
                     var items = (from p in context.tbl_Package
                                  where p.Status == 1 && p.Mobile_EVID == mobileEVID
-                                 select p).OrderBy(x=>x.PackageSize);
+                                 select p).OrderBy(x => x.PackageSize);
 
                     return items.ToList();
 
@@ -3345,10 +3394,10 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_NetConsume
-                                 where p.Status == 1 && p.UserId==userId && p.Source_EVID==sourceEV &&p.Mobile_EVID==mobileEV
+                                 where p.Status == 1 && p.UserId == userId && p.Source_EVID == sourceEV && p.Mobile_EVID == mobileEV
                                  select p);
 
-                    return items.OrderByDescending(x=>x.Year).OrderByDescending(y=>y.Month).ToList();
+                    return items.OrderByDescending(x => x.Year).OrderByDescending(y => y.Month).ToList();
 
                 }
             }
@@ -3359,7 +3408,7 @@ namespace ScoreMe.DAL
 
         }
 
-        public List<tbl_NetConsume> GetNetConsumesByYear(Int64 userId, Int64 sourceEV, Int64 mobileEV,int year)
+        public List<tbl_NetConsume> GetNetConsumesByYear(Int64 userId, Int64 sourceEV, Int64 mobileEV, int year)
         {
 
             try
@@ -3369,7 +3418,7 @@ namespace ScoreMe.DAL
                     var items = (from p in context.tbl_NetConsume
                                  where p.Status == 1 && p.UserId == userId && p.Source_EVID == sourceEV
                                  && p.Mobile_EVID == mobileEV && p.Year == year
-                                 select p) ;
+                                 select p);
 
                     return items.OrderBy(y => y.Month).ToList();
 
@@ -3402,7 +3451,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_NetConsume> GetNetConsumesByUserIDAndYear(Int64 userID,int year)
+        public List<tbl_NetConsume> GetNetConsumesByUserIDAndYear(Int64 userID, int year)
         {
 
             try
@@ -3410,10 +3459,10 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_NetConsume
-                                 where p.Status == 1 && p.UserId == userID && p.Year==year
+                                 where p.Status == 1 && p.UserId == userID && p.Year == year
                                  select p);
 
-                    return items.OrderByDescending(x=>x.Month).ToList();
+                    return items.OrderByDescending(x => x.Month).ToList();
 
                 }
             }
@@ -3593,7 +3642,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_ProposalDetail
-                                 where p.Status == 1  && p.ProposalID==proposalID
+                                 where p.Status == 1 && p.ProposalID == proposalID
                                  select p);
 
                     return items.ToList();
@@ -3863,10 +3912,10 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from g in context.tbl_Group
-                                 join ug in context.tbl_UserGroup on g.ID equals ug.GroupID 
-                                 join user in context.tbl_User on ug.UserID equals user.ID 
+                                 join ug in context.tbl_UserGroup on g.ID equals ug.GroupID
+                                 join user in context.tbl_User on ug.UserID equals user.ID
                                  where g.Status == 1 && ug.Status == 1 && user.Status == 1
-                                 && g.ID==groupid
+                                 && g.ID == groupid
                                  select user).ToList();
 
                     return items.ToList();
@@ -4273,7 +4322,7 @@ namespace ScoreMe.DAL
                 {
                     var items = (from p in context.tbl_ProposalUserGroup
                                  where p.Status == 1 && p.ProposalID == proposalID
-                                 select p) ;
+                                 select p);
 
                     return items.ToList();
 

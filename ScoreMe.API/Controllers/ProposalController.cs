@@ -234,7 +234,29 @@ namespace ScoreMe.API.Controllers
 
 
         }
+        [HttpPost]
+        [ResponseType(typeof(Proposal))]
+        [Route("AddProposalWithDetail")]
+        public IHttpActionResult AddProposalWithDetailNew(Proposal item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
 
+            BaseOutput dbitem = businessOperation.AddProposalWithDetailNew(item);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(dbitem);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
+        }
         [HttpGet]
         [ResponseType(typeof(Proposal))]
         [Route("GetProposalWithDetailsByID/{id}")]

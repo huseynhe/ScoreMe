@@ -407,6 +407,58 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
+        public BaseOutput AddProposalWithDetailNew(Proposal item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_Proposal proposal = new tbl_Proposal()
+                {
+                    Name = item.Name,
+                    Description = item.Description,
+                    Note = item.Note,
+                    ProviderID = item.ProviderID,
+                    IsPublic = item.IsPublic,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate
+
+                };
+
+                List<tbl_ProposalDetail> tbl_ProposalDetails = new List<tbl_ProposalDetail>();
+                List<tbl_ProposalUserGroup> tbl_ProposalUserGroups = new List<tbl_ProposalUserGroup>();
+                foreach (var pDetail in item.ProposalDetails)
+                {
+                    tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
+                    {
+                        ProposolKey = pDetail.ProposolKey,
+                        ProposolValue = pDetail.ProposolValue,
+                    };
+                    tbl_ProposalDetails.Add(proposalDetail);
+                }
+
+                if (!item.IsPublic)
+                {
+                    foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
+                    {
+                        tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
+                        {
+                            GroupID = userGroup.GroupID,
+                        };
+                        tbl_ProposalUserGroups.Add(proposalUserGroup);
+
+                    }
+                }
+                tbl_Proposal _Proposal = cRUDOperation.AddProposalNew(proposal, tbl_ProposalDetails, tbl_ProposalUserGroups);
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
         public BaseOutput GetProposalByID(Int64 id, out Proposal proposal)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
