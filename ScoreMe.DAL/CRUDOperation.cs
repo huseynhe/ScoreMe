@@ -973,6 +973,7 @@ namespace ScoreMe.DAL
                         proposalItem.InsertDate = DateTime.Now;
                         proposalItem.UpdateDate = DateTime.Now;
                         dbItem = context.tbl_Proposal.Add(proposalItem);
+                        context.SaveChanges();
                         foreach (var proposalDetail in proposalDetails)
                         {
                             proposalDetail.ProposalID = dbItem.ID;
@@ -980,6 +981,7 @@ namespace ScoreMe.DAL
                             proposalDetail.InsertDate = DateTime.Now;
                             proposalDetail.UpdateDate = DateTime.Now;
                             context.tbl_ProposalDetail.Add(proposalDetail);
+                            context.SaveChanges();
                         }
                         foreach (var proposalUserGroup in proposalUserGroups)
                         {
@@ -988,8 +990,9 @@ namespace ScoreMe.DAL
                             proposalUserGroup.InsertDate = DateTime.Now;
                             proposalUserGroup.UpdateDate = DateTime.Now;
                             context.tbl_ProposalUserGroup.Add(proposalUserGroup);
+                            context.SaveChanges();
                         }
-                        context.SaveChanges();
+                      
                         transaction.Commit();
                     }
 
@@ -997,7 +1000,7 @@ namespace ScoreMe.DAL
 
                     {
                         transaction.Rollback();
-                        throw;
+                        throw ex;
 
                     }
 

@@ -236,7 +236,7 @@ namespace ScoreMe.API.Controllers
         }
         [HttpPost]
         [ResponseType(typeof(Proposal))]
-        [Route("AddProposalWithDetail")]
+        [Route("AddProposalWithDetailNew")]
         public IHttpActionResult AddProposalWithDetailNew(Proposal item)
         {
             if (!ModelState.IsValid)
