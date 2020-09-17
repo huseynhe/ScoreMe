@@ -41,7 +41,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Provider))]
         [Route("AddProvider")]
-        public async Task<IHttpActionResult> AddProvider(tbl_Provider item)
+        public IHttpActionResult AddProvider(tbl_Provider item)
         {
             if (!ModelState.IsValid)
             {
@@ -49,21 +49,21 @@ namespace ScoreMe.API.Controllers
             }
             CRUDOperation cRUDOperation = new CRUDOperation();
             tbl_Provider provider = cRUDOperation.AddProvider(item);
-            if (provider!= null)
+            if (provider != null)
             {
                 return Ok(provider);
             }
             else
             {
-              
+
                 return BadRequest();
             }
-   
+
         }
         [HttpPost]
         [ResponseType(typeof(Provider))]
         [Route("AddProviderWithUser")]
-        public async Task<IHttpActionResult> AddProviderWithUser(Provider item)
+        public IHttpActionResult AddProviderWithUser(Provider item)
         {
             if (!ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace ScoreMe.API.Controllers
         [HttpGet]
         [ResponseType(typeof(Provider))]
         [Route("GetProviderWithUser/{providerID}")]
-        public async Task<IHttpActionResult> GetProviderWithUser(Int64 providerID)
+        public IHttpActionResult GetProviderWithUser(Int64 providerID)
         {
-            
+
             BusinessOperation businessOperation = new BusinessOperation();
             Provider itemOut = null;
             BaseOutput dbitem = businessOperation.GetProviderByID(providerID, out itemOut);
@@ -107,7 +107,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Provider))]
         [Route("UpdateProvider")]
-        public async Task<IHttpActionResult> UpdateProvider(tbl_Provider item)
+        public IHttpActionResult UpdateProvider(tbl_Provider item)
         {
             CRUDOperation operation = new CRUDOperation();
             if (item == null)
@@ -124,7 +124,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Provider))]
         [Route("DeleteProvider/{id}")]
-        public async Task<IHttpActionResult> DeleteProvider(Int64 id)
+        public IHttpActionResult DeleteProvider(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
 

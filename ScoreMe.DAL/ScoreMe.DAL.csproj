@@ -136,6 +136,9 @@
     <Compile Include="DBModel\tbl_Score_x.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_SMSModel.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_User.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -158,6 +161,7 @@
     <Compile Include="Model\ProposalDetail.cs" />
     <Compile Include="Model\ProposalUserGroup.cs" />
     <Compile Include="Model\Provider.cs" />
+    <Compile Include="Model\SMSModel.cs" />
     <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ProviderRepository.cs" />

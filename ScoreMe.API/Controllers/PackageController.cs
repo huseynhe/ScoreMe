@@ -41,11 +41,11 @@ namespace ScoreMe.API.Controllers
             return items;
         }
 
-      
+
         [HttpPost]
         [ResponseType(typeof(tbl_Package))]
         [Route("AddPackage")]
-        public async Task<IHttpActionResult> AddPackage(tbl_Package item)
+        public IHttpActionResult AddPackage(tbl_Package item)
         {
             if (!ModelState.IsValid)
             {
@@ -60,7 +60,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Package))]
         [Route("UpdatePackage")]
-        public async Task<IHttpActionResult> UpdatePackage(tbl_Package item)
+        public IHttpActionResult UpdatePackage(tbl_Package item)
         {
             CRUDOperation operation = new CRUDOperation();
             if (item == null)
@@ -77,7 +77,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Package))]
         [Route("DeletePackage/{id}")]
-        public async Task<IHttpActionResult> DeletePackage(Int64 id)
+        public IHttpActionResult DeletePackage(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
 

@@ -170,6 +170,7 @@
     <Compile Include="Controllers\RegionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\DocumentOperationController.cs" />
+    <Compile Include="Controllers\SMSController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

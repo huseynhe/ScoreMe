@@ -52,5 +52,6 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_UserRole> tbl_UserRole { get; set; }
         public virtual DbSet<tbl_UserService> tbl_UserService { get; set; }
         public virtual DbSet<tbl_UserServiceRating> tbl_UserServiceRating { get; set; }
+        public virtual DbSet<tbl_SMSModel> tbl_SMSModel { get; set; }
     }
 }
