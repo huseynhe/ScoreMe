@@ -340,5 +340,102 @@ namespace ScoreMe.API.Controllers
 
 
         }
+
+        #region ProposalUserState
+        [HttpGet]
+        [Route("GetProposalUserStates")]
+        public List<tbl_ProposalUserState> GetProposalUserStates()
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var proposaluserstates = operation.GetProposalUserStates(); ;
+            return proposaluserstates;
+        }
+        [HttpGet]
+        [Route("GetProposalUserStateByID/{id}")]
+        public tbl_ProposalUserState GetProposalUserStateByID(Int64 id)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var item = operation.GetProposalUserStateByID(id); ;
+            return item;
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(tbl_ProposalUserState))]
+        [Route("AddProposalUserState")]
+        public IHttpActionResult AddProposalUserState(tbl_ProposalUserState item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            CRUDOperation operation = new CRUDOperation();
+            tbl_ProposalUserState dbitem = operation.AddProposalUserState(item);
+
+            return Ok(dbitem);
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(tbl_ProposalUserState))]
+        [Route("UpdateProposalUserState")]
+        public IHttpActionResult UpdateProposalUserState(tbl_ProposalUserState item)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            if (item == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var dbitem = operation.UpdateProposalUserState(item);
+                return Ok(dbitem);
+            }
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(tbl_ProposalUserState))]
+        [Route("DeleteProposalUserState/{id}")]
+        public IHttpActionResult DeleteProposalUserState(Int64 id)
+        {
+            CRUDOperation operation = new CRUDOperation();
+
+            var dbitem = operation.DeleteProposalUserState(id, 0);
+            return Ok(dbitem);
+
+        }
+
+        [HttpGet]
+        [Route("GetProposalUserStatesByProposalID/{proposalID}")]
+        public List<tbl_ProposalUserState> GetProposalUserStatesByProposalID(Int64 proposalID)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var proposaluserstates = operation.GetProposalUserStatesByProposalID(proposalID); 
+            return proposaluserstates;
+        }
+        [HttpGet]
+        [Route("GetProposalUserStatesByUserID/{userID}")]
+        public List<tbl_ProposalUserState> GetProposalUserStatesByUserID(Int64 userID)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var proposaluserstates = operation.GetProposalUserStatesByUserID(userID);
+            return proposaluserstates;
+        }
+        [HttpGet]
+        [Route("GetProposalUserStatesByProviderStateType/{providerStateType}")]
+        public List<tbl_ProposalUserState> GetProposalUserStatesByProviderStateType(Int64 providerStateType)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var proposaluserstates = operation.GetProposalUserStatesByProviderStateType(providerStateType);
+            return proposaluserstates;
+        }
+        [HttpGet]
+        [Route("GetProposalUserStatesByUserStateType/{userStateType}")]
+        public List<tbl_ProposalUserState> GetProposalUserStatesByUserStateType(Int64 userStateType)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var proposaluserstates = operation.GetProposalUserStatesByUserStateType(userStateType);
+            return proposaluserstates;
+        }
+        
+        #endregion
     }
 }

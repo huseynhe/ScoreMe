@@ -191,6 +191,23 @@
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="int" />
         </EntityType>
+        <EntityType Name="tbl_ProposalUserState">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" />
+          <Property Name="ProposalID" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="ProviderOfferAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UserDemandAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ProviderStateType" Type="bigint" />
+          <Property Name="UserStateType" Type="bigint" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
         <EntityType Name="tbl_Provider">
           <Key>
             <PropertyRef Name="ID" />
@@ -342,17 +359,31 @@
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
+        <EntityType Name="tbl_SMSDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="SMSModelID" Type="bigint" Nullable="false" />
+          <Property Name="SenderName" Type="nvarchar" MaxLength="100" />
+          <Property Name="SenderPhoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="RecievedDate" Type="datetime2" Precision="7" />
+          <Property Name="SendDate" Type="datetime2" Precision="7" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
         <EntityType Name="tbl_SMSModel">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="SenderName" Type="nvarchar" MaxLength="100" />
-          <Property Name="SenderPhoneNumber" Type="nvarchar" MaxLength="100" />
-          <Property Name="RecievedDate" Type="datetime2" Precision="7" />
-          <Property Name="SendDate" Type="datetime2" Precision="7" />
-          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="TotalMessageCount" Type="int" />
+          <Property Name="ShortMessageCount" Type="int" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -439,6 +470,7 @@
           <EntitySet Name="tbl_Proposal" EntityType="Self.tbl_Proposal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ProposalDetail" EntityType="Self.tbl_ProposalDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ProposalUserGroup" EntityType="Self.tbl_ProposalUserGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ProposalUserState" EntityType="Self.tbl_ProposalUserState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Provider" EntityType="Self.tbl_Provider" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ProviderRole" EntityType="Self.tbl_ProviderRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ProviderService" EntityType="Self.tbl_ProviderService" Schema="dbo" store:Type="Tables" />
@@ -449,6 +481,7 @@
           <EntitySet Name="tbl_Region" EntityType="Self.tbl_Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Role" EntityType="Self.tbl_Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Score_x" EntityType="Self.tbl_Score_x" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SMSDetail" EntityType="Self.tbl_SMSDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_SMSModel" EntityType="Self.tbl_SMSModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserGroup" EntityType="Self.tbl_UserGroup" Schema="dbo" store:Type="Tables" />
@@ -460,7 +493,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_A62358_ScoreMeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="DB_A62358_ScoreMeEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DB_A62358_ScoreMeEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="ProviderTypes" EntityType="DB_A62358_ScoreMeModel.ProviderType" />
           <EntitySet Name="tbl_Customer" EntityType="DB_A62358_ScoreMeModel.tbl_Customer" />
           <EntitySet Name="tbl_EnumCategory" EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" />
@@ -473,6 +506,7 @@
           <EntitySet Name="tbl_Proposal" EntityType="DB_A62358_ScoreMeModel.tbl_Proposal" />
           <EntitySet Name="tbl_ProposalDetail" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalDetail" />
           <EntitySet Name="tbl_ProposalUserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserGroup" />
+          <EntitySet Name="tbl_ProposalUserState" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserState" />
           <EntitySet Name="tbl_Provider" EntityType="DB_A62358_ScoreMeModel.tbl_Provider" />
           <EntitySet Name="tbl_ProviderRole" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderRole" />
           <EntitySet Name="tbl_ProviderService" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderService" />
@@ -483,12 +517,13 @@
           <EntitySet Name="tbl_Region" EntityType="DB_A62358_ScoreMeModel.tbl_Region" />
           <EntitySet Name="tbl_Role" EntityType="DB_A62358_ScoreMeModel.tbl_Role" />
           <EntitySet Name="tbl_Score_x" EntityType="DB_A62358_ScoreMeModel.tbl_Score_x" />
+          <EntitySet Name="tbl_SMSDetail" EntityType="DB_A62358_ScoreMeModel.tbl_SMSDetail" />
+          <EntitySet Name="tbl_SMSModel" EntityType="DB_A62358_ScoreMeModel.tbl_SMSModel" />
           <EntitySet Name="tbl_User" EntityType="DB_A62358_ScoreMeModel.tbl_User" />
           <EntitySet Name="tbl_UserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_UserGroup" />
           <EntitySet Name="tbl_UserRole" EntityType="DB_A62358_ScoreMeModel.tbl_UserRole" />
           <EntitySet Name="tbl_UserService" EntityType="DB_A62358_ScoreMeModel.tbl_UserService" />
           <EntitySet Name="tbl_UserServiceRating" EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" />
-          <EntitySet Name="tbl_SMSModel" EntityType="DB_A62358_ScoreMeModel.tbl_SMSModel" />
         </EntityContainer>
         <EntityType Name="ProviderType">
           <Key>
@@ -676,6 +711,23 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int32" />
         </EntityType>
+        <EntityType Name="tbl_ProposalUserState">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="ProposalID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="ProviderOfferAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UserDemandAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ProviderStateType" Type="Int64" />
+          <Property Name="UserStateType" Type="Int64" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
         <EntityType Name="tbl_Provider">
           <Key>
             <PropertyRef Name="ID" />
@@ -827,6 +879,36 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
+        <EntityType Name="tbl_SMSDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="SMSModelID" Type="Int64" Nullable="false" />
+          <Property Name="SenderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SenderPhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RecievedDate" Type="DateTime" Precision="7" />
+          <Property Name="SendDate" Type="DateTime" Precision="7" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_SMSModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="TotalMessageCount" Type="Int32" />
+          <Property Name="ShortMessageCount" Type="Int32" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
         <EntityType Name="tbl_User">
           <Key>
             <PropertyRef Name="ID" />
@@ -895,28 +977,12 @@
           <Property Name="UpdateUser" Type="Int64" />
           <Property Name="RatingTimestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
-        <EntityType Name="tbl_SMSModel">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="SenderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="SenderPhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="RecievedDate" Type="DateTime" Precision="7" />
-          <Property Name="SendDate" Type="DateTime" Precision="7" />
-          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="InsertDate" Type="DateTime" Precision="7" />
-          <Property Name="InsertUser" Type="Int64" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
-          <Property Name="UpdateUser" Type="Int64" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_A62358_ScoreMeModelStoreContainer" CdmEntityContainer="DB_A62358_ScoreMeEntities">
+        <EntityContainerMapping StorageEntityContainer="DB_A62358_ScoreMeModelStoreContainer" CdmEntityContainer="DB_A62358_ScoreMeEntities" >
           <EntitySetMapping Name="ProviderTypes">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.ProviderType">
               <MappingFragment StoreEntitySet="ProviderType">
@@ -1115,6 +1181,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ProposalUserState">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalUserState">
+              <MappingFragment StoreEntitySet="tbl_ProposalUserState">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="UserStateType" ColumnName="UserStateType" />
+                <ScalarProperty Name="ProviderStateType" ColumnName="ProviderStateType" />
+                <ScalarProperty Name="UserDemandAmount" ColumnName="UserDemandAmount" />
+                <ScalarProperty Name="ProviderOfferAmount" ColumnName="ProviderOfferAmount" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Provider">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Provider">
               <MappingFragment StoreEntitySet="tbl_Provider">
@@ -1276,6 +1360,38 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SMSDetail">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSDetail">
+              <MappingFragment StoreEntitySet="tbl_SMSDetail">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+                <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
+                <ScalarProperty Name="SenderPhoneNumber" ColumnName="SenderPhoneNumber" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SMSModel">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSModel">
+              <MappingFragment StoreEntitySet="tbl_SMSModel">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="ShortMessageCount" ColumnName="ShortMessageCount" />
+                <ScalarProperty Name="TotalMessageCount" ColumnName="TotalMessageCount" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_User">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_User">
               <MappingFragment StoreEntitySet="tbl_User">
@@ -1344,23 +1460,6 @@
                 <ScalarProperty Name="RatingValueId" ColumnName="RatingValueId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_SMSModel">
-            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSModel">
-              <MappingFragment StoreEntitySet="tbl_SMSModel">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
-                <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
-                <ScalarProperty Name="SenderPhoneNumber" ColumnName="SenderPhoneNumber" />
-                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

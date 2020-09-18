@@ -4339,8 +4339,8 @@ namespace ScoreMe.DAL
         }
         #endregion
 
-        #region tbl_SMSModel
-        public tbl_SMSModel AddSMSModel(tbl_SMSModel item)
+        #region AddSMSDetail
+        public tbl_SMSDetail AddSMSDetail(tbl_SMSDetail item)
         {
 
             try
@@ -4350,7 +4350,7 @@ namespace ScoreMe.DAL
                     item.Status = 1;
                     item.InsertDate = DateTime.Now;
                     item.UpdateDate = DateTime.Now;
-                    context.tbl_SMSModel.Add(item);
+                    context.tbl_SMSDetail.Add(item);
                     context.SaveChanges();
                     return item;
                 }
@@ -4361,16 +4361,16 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_SMSModel DeleteSMSModel(Int64 id, int userId)
+        public tbl_SMSDetail DeleteSMSDetail(Int64 id, int userId)
         {
 
             try
             {
-                tbl_SMSModel oldItem;
+                tbl_SMSDetail oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
 
-                    oldItem = (from p in context.tbl_SMSModel
+                    oldItem = (from p in context.tbl_SMSDetail
                                where p.ID == id && p.Status == 1
                                select p).FirstOrDefault();
 
@@ -4383,7 +4383,7 @@ namespace ScoreMe.DAL
                         oldItem.Status = 0;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = userId;
-                        context.tbl_SMSModel.Attach(oldItem);
+                        context.tbl_SMSDetail.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
 
@@ -4404,6 +4404,123 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_SMSDetail> GetSMSDetails()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_SMSDetail
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_SMSDetail> GetSMSDetailsByModelID(Int64 modelID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_SMSDetail
+                                 where p.Status == 1 && p.SMSModelID==modelID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_SMSDetail GetSMSDetailByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_SMSDetail
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_SMSDetail UpdateSMSDetail(tbl_SMSDetail item)
+        {
+            try
+            {
+                tbl_SMSDetail oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_SMSDetail
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.SenderName = item.SenderName;
+                        oldItem.SenderPhoneNumber = item.SenderPhoneNumber;
+                        oldItem.RecievedDate = item.RecievedDate;
+                        oldItem.SendDate = item.SendDate;
+                        oldItem.Message = item.Message;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_SMSDetail.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+
+        #endregion
+        #region tbl_SMSModel
         public List<tbl_SMSModel> GetSMSModels()
         {
 
@@ -4449,6 +4566,48 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_SMSModel AddSMSModel(tbl_SMSModel smsModel, List<tbl_SMSDetail> smsDetails)
+        {
+            tbl_SMSModel dbItem = null;
+            using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+            {
+
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        smsModel.Status = 1;
+                        smsModel.InsertDate = DateTime.Now;
+                        smsModel.UpdateDate = DateTime.Now;
+                        dbItem = context.tbl_SMSModel.Add(smsModel);
+                        context.SaveChanges();
+                        foreach (var smsDetail in smsDetails)
+                        {
+                            smsDetail.SMSModelID = dbItem.ID;
+                            smsDetail.Status = 1;
+                            smsDetail.InsertDate = DateTime.Now;
+                            smsDetail.UpdateDate = DateTime.Now;
+                            context.tbl_SMSDetail.Add(smsDetail);
+                            context.SaveChanges();
+                        }
+
+
+                        transaction.Commit();
+                    }
+
+                    catch (Exception ex)
+
+                    {
+                        transaction.Rollback();
+                        throw ex;
+
+                    }
+
+                }
+            }
+            return dbItem;
+        }
         public tbl_SMSModel UpdateSMSModel(tbl_SMSModel item)
         {
             try
@@ -4466,15 +4625,299 @@ namespace ScoreMe.DAL
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
 
-                        oldItem.SenderName = item.SenderName;
-                        oldItem.SenderPhoneNumber = item.SenderPhoneNumber;
-                        oldItem.RecievedDate = item.RecievedDate;
-                        oldItem.SendDate = item.SendDate;
-                        oldItem.Message = item.Message;
+                        oldItem.TotalMessageCount = item.TotalMessageCount;
+                        oldItem.ShortMessageCount = item.ShortMessageCount;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
                         context.tbl_SMSModel.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_SMSModel DeleteSMSModel(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_SMSModel oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_SMSModel
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_SMSModel.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_ProposalUserState
+        public tbl_ProposalUserState AddProposalUserState(tbl_ProposalUserState item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_ProposalUserState.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_ProposalUserState DeleteProposalUserState(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_ProposalUserState oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_ProposalUserState
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_ProposalUserState.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_ProposalUserState> GetProposalUserStates()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalUserState
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_ProposalUserState> GetProposalUserStatesByProposalID(Int64 provosalID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalUserState
+                                 where p.Status == 1 && p.ProposalID == provosalID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_ProposalUserState> GetProposalUserStatesByUserID(Int64 userID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalUserState
+                                 where p.Status == 1 && p.UserID == userID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_ProposalUserState> GetProposalUserStatesByProviderStateType(Int64 providerStateType)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalUserState
+                                 where p.Status == 1 && p.ProviderStateType == providerStateType
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_ProposalUserState> GetProposalUserStatesByUserStateType(Int64 userStateType)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalUserState
+                                 where p.Status == 1 && p.UserStateType == userStateType
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalUserState GetProposalUserStateByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalUserState
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalUserState UpdateProposalUserState(tbl_ProposalUserState item)
+        {
+            try
+            {
+                tbl_ProposalUserState oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_ProposalUserState
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.ProposalID = item.ProposalID;
+                        oldItem.UserID = item.UserID;
+                        oldItem.ProviderOfferAmount = item.ProviderOfferAmount;
+                        oldItem.UserDemandAmount = item.UserDemandAmount;
+                        oldItem.ProviderStateType = item.ProviderStateType;
+                        oldItem.UserStateType = item.UserStateType;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_ProposalUserState.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
                         return oldItem;

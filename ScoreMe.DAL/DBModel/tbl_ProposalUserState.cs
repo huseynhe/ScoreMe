@@ -12,12 +12,16 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_SMSModel
+    public partial class tbl_ProposalUserState
     {
         public long ID { get; set; }
-        public int Status { get; set; }
-        public Nullable<int> TotalMessageCount { get; set; }
-        public Nullable<int> ShortMessageCount { get; set; }
+        public Nullable<int> Status { get; set; }
+        public long ProposalID { get; set; }
+        public long UserID { get; set; }
+        public Nullable<decimal> ProviderOfferAmount { get; set; }
+        public Nullable<decimal> UserDemandAmount { get; set; }
+        public Nullable<long> ProviderStateType { get; set; }
+        public Nullable<long> UserStateType { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

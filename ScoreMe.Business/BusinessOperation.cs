@@ -750,6 +750,200 @@ namespace ScoreMe.Business
             }
         }
         #endregion
+        #region SMSModel
+
+        public BaseOutput GetSMSModels(out List<SMSModel> sMSModels)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            sMSModels = null;
+            try
+            {
+
+                List<tbl_SMSModel> tbl_SMSModels = cRUDOperation.GetSMSModels();
+                sMSModels = new List<SMSModel>();
+
+                if (tbl_SMSModels.Count > 0)
+                {
+                    foreach (var tbl_SMSModel in tbl_SMSModels)
+                    {
+                        SMSModel sMSModel = new SMSModel()
+                        {
+                            ID = tbl_SMSModel.ID,
+                            TotalMessageCount = tbl_SMSModel.TotalMessageCount,
+                            ShortMessageCount = tbl_SMSModel.ShortMessageCount
+                        };
+
+                        List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(sMSModel.ID);
+
+
+                        sMSModel.SMSDetails = tbl_SMSDetails;
+                        sMSModels.Add(sMSModel);
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetSMSModelsByID(Int64 id, out SMSModel sMSModel)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            sMSModel = null;
+            try
+            {
+
+                tbl_SMSModel tbl_SMSModel = cRUDOperation.GetSMSModelByID(id);
+                if (tbl_SMSModel != null)
+                {
+                    sMSModel = new SMSModel()
+                    {
+                        ID = tbl_SMSModel.ID,
+                        TotalMessageCount = tbl_SMSModel.TotalMessageCount,
+                        ShortMessageCount = tbl_SMSModel.ShortMessageCount
+                    };
+
+                    List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(sMSModel.ID);
+                    sMSModel.SMSDetails = tbl_SMSDetails;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddSMSModel(SMSModel item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_SMSModel sMSModel = new tbl_SMSModel()
+                {
+                    TotalMessageCount = item.TotalMessageCount,
+                    ShortMessageCount = item.ShortMessageCount,
+
+                };
+
+                List<tbl_SMSDetail> tbl_SMSDetails = new List<tbl_SMSDetail>();
+
+                tbl_SMSDetails = item.SMSDetails;
+                tbl_SMSModel _SMSModel = cRUDOperation.AddSMSModel(sMSModel, tbl_SMSDetails);
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateSMSModel(SMSModel item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_SMSModel tbl_SMSModel = new tbl_SMSModel()
+                {
+                    ID = item.ID,
+                    TotalMessageCount = item.TotalMessageCount,
+                    ShortMessageCount = item.ShortMessageCount,
+
+                };
+
+                tbl_SMSModel _SMSModel = cRUDOperation.UpdateSMSModel(tbl_SMSModel);
+
+                if (_SMSModel != null)
+                {
+                    foreach (var smsDetail in item.SMSDetails)
+                    {
+                        tbl_SMSDetail tbl_SMSDetail = cRUDOperation.UpdateSMSDetail(smsDetail);
+                    }
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteSMSModel(Int64 id)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+
+                tbl_SMSModel _SMSModel = cRUDOperation.GetSMSModelByID(id);
+
+                if (_SMSModel != null)
+                {
+                    List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(_SMSModel.ID);
+
+                    foreach (var item in tbl_SMSDetails)
+                    {
+
+                        tbl_SMSDetail tbl_SMSDetail = cRUDOperation.DeleteSMSDetail(item.ID, 0);
+
+                    }
+
+                   
+
+                    tbl_SMSModel tbl_SMSModel = cRUDOperation.DeleteSMSModel(id, 0);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
     }
 
 }

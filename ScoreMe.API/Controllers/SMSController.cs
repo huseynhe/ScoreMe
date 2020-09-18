@@ -1,5 +1,8 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.Business;
+using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,68 +18,110 @@ namespace ScoreMe.API.Controllers
     public class SMSController : ApiController
     {
 
+       
         [HttpGet]
-        [Route("GetSMSModels")]
-        public List<tbl_SMSModel> GetSMSModels()
+        [Route("GetSMSModelWithDetails")]
+        public List<SMSModel> GetSMSModelWithDetails()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetSMSModels(); ;
-            return items;
+            BusinessOperation businessOperation = new BusinessOperation();
+            List<SMSModel> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetSMSModels(out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return itemsOut;
+            }
+            else
+            {
+                return null;
+            }
         }
-
         [HttpGet]
-        [Route("GetSMSModelByID/{id}")]
-        public tbl_SMSModel GetSMSModelByID(Int64 id)
+        [ResponseType(typeof(SMSModel))]
+        [Route("GetSMSModelWithDetailByID/{id}")]
+        public IHttpActionResult GetSMSModelWithDetailByID(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var item = operation.GetSMSModelByID(id); ;
-            return item;
+            BusinessOperation businessOperation = new BusinessOperation();
+            SMSModel itemOut = null;
+            BaseOutput dbitem = businessOperation.GetSMSModelsByID(id, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
         }
-
-
-
         [HttpPost]
-        [ResponseType(typeof(tbl_SMSModel))]
-        [Route("AddSMSModel")]
-        public IHttpActionResult AddSMSModel(tbl_SMSModel item)
+        [ResponseType(typeof(SMSModel))]
+        [Route("AddSMSModelWithDetail")]
+        public IHttpActionResult AddSMSModelWithDetail(SMSModel item)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_SMSModel dbitem = operation.AddSMSModel(item);
+            BusinessOperation businessOperation = new BusinessOperation();
 
-            return Ok(dbitem);
-        }
-
-        [HttpPost]
-        [ResponseType(typeof(tbl_SMSModel))]
-        [Route("UpdateSMSModel")]
-        public IHttpActionResult UpdateSMSModel(tbl_SMSModel item)
-        {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            BaseOutput dbitem = businessOperation.AddSMSModel(item);
+            if (dbitem.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(dbitem);
             }
             else
             {
-                var dbitem = operation.UpdateSMSModel(item);
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
+        }
+        [HttpPost]
+        [ResponseType(typeof(SMSModel))]
+        [Route("UpdateSMSModelWithDetail")]
+        public IHttpActionResult UpdateSMSModelWithDetail(SMSModel item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+
+            BaseOutput dbitem = businessOperation.UpdateSMSModel(item);
+            if (dbitem.ResultCode == 1)
+            {
                 return Ok(dbitem);
             }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
         }
 
         [HttpPost]
-        [ResponseType(typeof(tbl_SMSModel))]
-        [Route("DeleteSMSModel/{id}")]
-        public IHttpActionResult DeleteSMSModel(Int64 id)
+        [ResponseType(typeof(Proposal))]
+        [Route("DeleteSMSModelWithDetail")]
+        public IHttpActionResult DeleteSMSModelWithDetail(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
 
-            var dbitem = operation.DeleteSMSModel(id, 0);
-            return Ok(dbitem);
+            BaseOutput dbitem = businessOperation.DeleteSMSModel(id);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(dbitem);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
 
         }
+     
     }
 }

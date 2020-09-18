@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScoreMe.DAL.DBModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,11 @@ namespace ScoreMe.DAL.Model
 {
     public class SMSModel
     {
-        public string SenderName { get; set; }
-        public string SenderPhoneNumber { get; set; }
-        public string RecievedDate { get; set; }
-        public string SendDate { get; set; }
-        public string Message { get; set; }
+        public Int64 ID { get; set; }
+        public int? TotalMessageCount { get; set; }
+        public int? ShortMessageCount { get; set; }
+        public List<tbl_SMSDetail> SMSDetails { get; set; }
+
 
 
     }
