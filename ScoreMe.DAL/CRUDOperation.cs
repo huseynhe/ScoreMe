@@ -1072,6 +1072,52 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_Proposal> GetProposalsByProviderID(Int64 providerid)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_Proposal
+                                 where p.Status == 1 && p.ProviderID== providerid
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_Proposal> GetProposalsByUserName(string username)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from u in context.tbl_User
+                                 join ug in context.tbl_UserGroup on u.ID equals ug.UserID 
+                                 join g in context.tbl_Group on ug.GroupID equals g.ID
+                                 join pug in context.tbl_ProposalUserGroup on g.ID equals pug.GroupID
+                                 join p in context.tbl_Proposal on pug.ProposalID equals p.ID
+                                 where  u.Status==1 && ug.Status==1 && pug.Status==1 && p.Status == 1 && u.UserName == username
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public tbl_Proposal GetProposalById(Int64 Id)
         {
 
@@ -2874,6 +2920,27 @@ namespace ScoreMe.DAL
                 {
                     var items = (from p in context.tbl_Region
                                  where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_Region> GetRegionsByType(int type)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_Region
+                                 where p.Status == 1 &&p.Type==type
                                  select p);
 
                     return items.ToList();
@@ -4783,7 +4850,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_ProposalUserState> GetProposalUserStatesByProposalID(Int64 provosalID)
+        public List<tbl_ProposalUserState> GetProposalUserStatesByProposalID(Int64 proposalID)
         {
 
             try
@@ -4791,7 +4858,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_ProposalUserState
-                                 where p.Status == 1 && p.ProposalID == provosalID
+                                 where p.Status == 1 && p.ProposalID == proposalID
                                  select p);
 
                     return items.ToList();

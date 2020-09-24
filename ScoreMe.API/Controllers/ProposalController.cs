@@ -291,8 +291,38 @@ namespace ScoreMe.API.Controllers
                 return null;
             }
         }
-
-
+        [HttpGet]
+        [Route("GetProposalWithDetailsByProviderID/{providerid}")]
+        public List<Proposal> GetProposalWithDetailsByProviderID(Int64 providerid)
+        {
+            BusinessOperation businessOperation = new BusinessOperation();
+            List<Proposal> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalsByProviderID(providerid,out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return itemsOut;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        [HttpGet]
+        [Route("GetProposalWithDetailsByUserName/{username}")]
+        public List<Proposal> GetProposalWithDetailsByUserName(string username)
+        {
+            BusinessOperation businessOperation = new BusinessOperation();
+            List<Proposal> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalsByUserName(username, out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return itemsOut;
+            }
+            else
+            {
+                return null;
+            }
+        }
         [HttpPost]
         [ResponseType(typeof(Proposal))]
         [Route("UpdateProposalWithDetail")]

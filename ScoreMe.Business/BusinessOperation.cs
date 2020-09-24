@@ -627,6 +627,175 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
+        public BaseOutput GetProposalsByProviderID(Int64 providerid, out List<Proposal> proposals)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+
+                List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposalsByProviderID(providerid);
+                proposals = new List<Proposal>();
+
+                if (tbl_Proposals.Count > 0)
+                {
+                    foreach (var proposalItem in tbl_Proposals)
+                    {
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ID,
+                            Name = proposalItem.Name,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+                        proposals.Add(proposal);
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalsByUserName(string username, out List<Proposal> proposals)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposalsByUserName(username);
+                proposals = new List<Proposal>();
+
+                if (tbl_Proposals.Count > 0)
+                {
+                    foreach (var proposalItem in tbl_Proposals)
+                    {
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ID,
+                            Name = proposalItem.Name,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+                        proposals.Add(proposal);
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
         public BaseOutput UpdateProposalWithDetail(Proposal item)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
@@ -659,8 +828,14 @@ namespace ScoreMe.Business
                             ProposolKey = pDetail.ProposolKey,
                             ProposolValue = pDetail.ProposolValue,
                         };
-
-                        tbl_ProposalDetail _ProposalDetail = cRUDOperation.UpdateProposalDetail(proposalDetail);
+                        if (proposalDetail.ID!=0)
+                        {
+                            tbl_ProposalDetail _ProposalDetail = cRUDOperation.UpdateProposalDetail(proposalDetail);
+                        }
+                        else
+                        {
+                            tbl_ProposalDetail _ProposalDetail = cRUDOperation.AddProposalDetail(proposalDetail);
+                        }
 
                     }
 
@@ -676,8 +851,14 @@ namespace ScoreMe.Business
 
 
                             };
-
-                            tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.UpdateProposalUserGroup(proposalUserGroup);
+                            if (proposalUserGroup.ID != 0) {
+                                tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.UpdateProposalUserGroup(proposalUserGroup);
+                            }
+                            else
+                            {
+                                tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroup(proposalUserGroup);
+                            }
+                               
 
                         }
                     }

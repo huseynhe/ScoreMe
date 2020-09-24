@@ -48,10 +48,18 @@ namespace ScoreMe.API.Controllers
             var regions = regionRepository.SV_GetSQLRegionsByParent(parentId); ;
             return regions;
         }
+        [HttpGet]
+        [Route("GetRegionsByType /{type}")]
+        public List<tbl_Region> GetRegionsByType(int type)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            var regions = cRUDOperation.GetRegionsByType(type); ;
+            return regions;
+        }
         [HttpPost]
         [ResponseType(typeof(tbl_Region))]
         [Route("AddRegion")]
-        public async Task<IHttpActionResult> AddRegion(tbl_Region item)
+        public IHttpActionResult AddRegion(tbl_Region item)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +74,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Region))]
         [Route("UpdateRegion")]
-        public async Task<IHttpActionResult> UpdateRegion(tbl_Region item)
+        public IHttpActionResult UpdateRegion(tbl_Region item)
         {
             CRUDOperation operation = new CRUDOperation();
             if (item == null)
@@ -83,7 +91,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Region))]
         [Route("DeleteRegion/{id}")]
-        public async Task<IHttpActionResult> DeleteRegion(Int64 id)
+        public IHttpActionResult DeleteRegion(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
 
