@@ -337,10 +337,11 @@ namespace ScoreMe.Business
         }
         #endregion
         #region Proposal
-        public BaseOutput AddProposalWithDetail(Proposal item)
+        public BaseOutput AddProposalWithDetail(Proposal item,out Proposal itemOut)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
+            itemOut = null;
             try
             {
                 tbl_Proposal proposal = new tbl_Proposal()
@@ -359,6 +360,17 @@ namespace ScoreMe.Business
 
                 if (_Proposal != null)
                 {
+                    itemOut = new Proposal()
+                    {
+                        ID=_Proposal.ID,
+                        Name = _Proposal.Name,
+                        Description = _Proposal.Description,
+                        Note = _Proposal.Note,
+                        ProviderID = _Proposal.ProviderID,
+                        IsPublic = _Proposal.IsPublic,
+                        StartDate = _Proposal.StartDate,
+                        EndDate = _Proposal.EndDate
+                    };
                     foreach (var pDetail in item.ProposalDetails)
                     {
                         tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
@@ -472,10 +484,13 @@ namespace ScoreMe.Business
 
                 if (_ProposalObj != null)
                 {
+                    tbl_Provider _Provider = cRUDOperation.GetProviderById(_ProposalObj.ProviderID);
+
                     proposal = new Proposal()
                     {
                         ID = _ProposalObj.ID,
                         Name = _ProposalObj.Name,
+                        ProviderName = _Provider == null ? String.Empty : _Provider.Name,
                         Description = _ProposalObj.Description,
                         Note = _ProposalObj.Note,
                         ProviderID = _ProposalObj.ProviderID,
@@ -557,6 +572,7 @@ namespace ScoreMe.Business
                 {
                     foreach (var proposalItem in tbl_Proposals)
                     {
+                        tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
                         Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
@@ -564,6 +580,7 @@ namespace ScoreMe.Business
                             Description = proposalItem.Description,
                             Note = proposalItem.Note,
                             ProviderID = proposalItem.ProviderID,
+                            ProviderName = _Provider == null ? String.Empty : _Provider.Name,
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
@@ -636,6 +653,8 @@ namespace ScoreMe.Business
             {
 
                 List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposalsByProviderID(providerid);
+                tbl_Provider _Provider = cRUDOperation.GetProviderById(providerid);
+            
                 proposals = new List<Proposal>();
 
                 if (tbl_Proposals.Count > 0)
@@ -649,6 +668,7 @@ namespace ScoreMe.Business
                             Description = proposalItem.Description,
                             Note = proposalItem.Note,
                             ProviderID = proposalItem.ProviderID,
+                            ProviderName = _Provider == null ? String.Empty : _Provider.Name,
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
@@ -715,17 +735,20 @@ namespace ScoreMe.Business
         public BaseOutput GetProposalsByUserName(string username, out List<Proposal> proposals)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
+            ProposalRepository repository = new ProposalRepository();
             BaseOutput baseOutput;
             proposals = null;
             try
             {
-                List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposalsByUserName(username);
+                tbl_User userDB = cRUDOperation.GetUserByUserName(username);
+                List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposalsByUserID(userDB.ID);
                 proposals = new List<Proposal>();
 
                 if (tbl_Proposals.Count > 0)
                 {
                     foreach (var proposalItem in tbl_Proposals)
                     {
+                        tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
                         Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
@@ -733,6 +756,7 @@ namespace ScoreMe.Business
                             Description = proposalItem.Description,
                             Note = proposalItem.Note,
                             ProviderID = proposalItem.ProviderID,
+                            ProviderName = _Provider == null ? String.Empty : _Provider.Name,
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
@@ -776,7 +800,85 @@ namespace ScoreMe.Business
                             }
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
+
+                        ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(userDB.ID, proposal.ID);
+                        proposal.ProposalUserState = proposalUserState;
                         proposals.Add(proposal);
+
+                    
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalWithDetailsByIsPublic(string username, out List<Proposal> proposals)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            ProposalRepository repository = new ProposalRepository();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                tbl_User userDB = cRUDOperation.GetUserByUserName(username);
+                List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposalsByIsPublic();
+                proposals = new List<Proposal>();
+
+                if (tbl_Proposals.Count > 0)
+                {
+                    foreach (var proposalItem in tbl_Proposals)
+                    {
+                        tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ID,
+                            Name = proposalItem.Name,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            ProviderName = _Provider == null ? String.Empty : _Provider.Name,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(userDB.ID, proposal.ID);
+                        proposal.ProposalUserState = proposalUserState;
+                        proposals.Add(proposal);
+
+
+
                     }
 
 
@@ -1024,6 +1126,7 @@ namespace ScoreMe.Business
             {
                 tbl_SMSModel sMSModel = new tbl_SMSModel()
                 {
+                    UserID=item.UserID,
                     TotalMessageCount = item.TotalMessageCount,
                     ShortMessageCount = item.ShortMessageCount,
 
@@ -1051,6 +1154,7 @@ namespace ScoreMe.Business
                 tbl_SMSModel tbl_SMSModel = new tbl_SMSModel()
                 {
                     ID = item.ID,
+                    UserID=item.UserID,
                     TotalMessageCount = item.TotalMessageCount,
                     ShortMessageCount = item.ShortMessageCount,
 

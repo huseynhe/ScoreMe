@@ -5,10 +5,13 @@ using ScoreMe.DAL.DBModel;
 using ScoreMe.DAL.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -17,6 +20,8 @@ namespace ScoreMe.API.Controllers
     [RoutePrefix("api/proposal")]
     public class ProposalController : ApiController
     {
+        static string ServerPath = @"h:\root\home\huseyn89-003\www\site1\document";
+        //static string ServerPath = @"D:\GitProject\ScoreMe\images";
         [HttpGet]
         [Route("GetProposals")]
         public List<tbl_Proposal> GetProposals()
@@ -216,16 +221,17 @@ namespace ScoreMe.API.Controllers
         [Route("AddProposalWithDetail")]
         public IHttpActionResult AddProposalWithDetail(Proposal item)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             BusinessOperation businessOperation = new BusinessOperation();
-
-            BaseOutput dbitem = businessOperation.AddProposalWithDetail(item);
+            Proposal itemOut = null;
+            BaseOutput dbitem = businessOperation.AddProposalWithDetail(item,out itemOut);
             if (dbitem.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok(itemOut);
             }
             else
             {
@@ -297,7 +303,7 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             List<Proposal> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetProposalsByProviderID(providerid,out itemsOut);
+            BaseOutput dbitem = businessOperation.GetProposalsByProviderID(providerid, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
                 return itemsOut;
@@ -314,6 +320,22 @@ namespace ScoreMe.API.Controllers
             BusinessOperation businessOperation = new BusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalsByUserName(username, out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return itemsOut;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        [HttpGet]
+        [Route("GetProposalWithDetailsByIsPublic/{username}")]
+        public List<Proposal> GetProposalWithDetailsByIsPublic(string username)
+        {
+            BusinessOperation businessOperation = new BusinessOperation();
+            List<Proposal> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalWithDetailsByIsPublic(username, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
                 return itemsOut;
@@ -438,7 +460,7 @@ namespace ScoreMe.API.Controllers
         public List<tbl_ProposalUserState> GetProposalUserStatesByProposalID(Int64 proposalID)
         {
             CRUDOperation operation = new CRUDOperation();
-            var proposaluserstates = operation.GetProposalUserStatesByProposalID(proposalID); 
+            var proposaluserstates = operation.GetProposalUserStatesByProposalID(proposalID);
             return proposaluserstates;
         }
         [HttpGet]
@@ -465,7 +487,177 @@ namespace ScoreMe.API.Controllers
             var proposaluserstates = operation.GetProposalUserStatesByUserStateType(userStateType);
             return proposaluserstates;
         }
-        
+
+        #endregion
+
+        #region MyRegion
+        [HttpPost]
+        [Route("AddProposalDocument")]
+        public HttpResponseMessage AddProposalDocument()
+        {
+            try
+            {
+                Int64 proposalID = HttpContext.Current.Request.Form["proposalID"] == null ? 0 : Int64.Parse(HttpContext.Current.Request.Form["proposalID"]);
+                var httpRequest = HttpContext.Current.Request;
+                int count = 0;
+                int i = 0;
+                foreach (string fileItem in httpRequest.Files)
+                {
+                    var file = HttpContext.Current.Request.Files.Count > 0 ?
+                  HttpContext.Current.Request.Files[i] : null;
+                    i = i + 1;
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName = Path.GetFileName(file.FileName);
+                        string imagePath = ServerPath + @"\ProposalDocument";
+                        if (!Directory.Exists(imagePath))
+                        {
+                            Directory.CreateDirectory(imagePath);
+                        }
+                        string fullPath = Path.Combine(imagePath, fileName);
+                        file.SaveAs(fullPath);
+                        tbl_ProposalDocument proposalDocument = new tbl_ProposalDocument()
+                        {
+                            ImageLinkName = fileName,
+                            ImageLinkPath = fullPath,
+                            ProposalID = proposalID,
+                        };
+                        CRUDOperation cRUDOperation = new CRUDOperation();
+                        tbl_ProposalDocument proposalDocumentDB = cRUDOperation.AddProposalDocument(proposalDocument);
+                        if (proposalDocumentDB != null)
+                        {
+                            count++;
+                        }
+
+                    }
+
+                }
+                if (count > 0)
+                {
+                    var message1 = string.Format("{0} Image added successfully.", count);
+                    return Request.CreateResponse(HttpStatusCode.Created, message1);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.NoContent);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                var message2 = ex.Message;
+                return Request.CreateResponse(HttpStatusCode.ExpectationFailed, message2);
+            }
+        }
+        [HttpPost]
+        [Route("UpdateProposalDocument")]
+        public HttpResponseMessage UpdateProposalDocument()
+        {
+            Int64 documentID = HttpContext.Current.Request.Form["documentID"] == null ? 0 : Int64.Parse(HttpContext.Current.Request.Form["documentID"]);
+
+
+            var httpRequest = HttpContext.Current.Request;
+
+            foreach (string fileItem in httpRequest.Files)
+            {
+                var file = HttpContext.Current.Request.Files.Count > 0 ?
+              HttpContext.Current.Request.Files[0] : null;
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    string imagePath = ServerPath + @"\ProposalDocument";
+                    if (!Directory.Exists(imagePath))
+                    {
+                        Directory.CreateDirectory(imagePath);
+                    }
+                    string fullPath = Path.Combine(imagePath, fileName);
+                    file.SaveAs(fullPath);
+                    tbl_ProposalDocument proposalDocument = new tbl_ProposalDocument()
+                    {
+                        ImageLinkName = fileName,
+                        ImageLinkPath = fullPath,
+                        ID = documentID,
+                        UpdateUser = 0
+                    };
+                    CRUDOperation cRUDOperation = new CRUDOperation();
+                    tbl_ProposalDocument proposalDocumentDB = cRUDOperation.UpdateProposalDocument(proposalDocument);
+                    if (proposalDocumentDB != null)
+                    {
+                        var message1 = string.Format("Image Updated Successfully.");
+                        return Request.CreateResponse(HttpStatusCode.Created, message1);
+                    }
+
+                }
+
+            }
+
+            return Request.CreateResponse(HttpStatusCode.NoContent);
+        }
+        [HttpPost]
+        [ResponseType(typeof(tbl_ProposalDocument))]
+        [Route("DeleteProposalDocument/{documentID}")]
+        public IHttpActionResult DeleteProposalDocument(Int64 documentID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            tbl_ProposalDocument dbitem = cRUDOperation.DeleteProposalDocument(documentID, 0);
+            if (dbitem != null)
+            {
+                return Ok(dbitem);
+            }
+            else
+            {
+                return BadRequest("404" + " : " + "An error occurred while deleting the record ");
+            }
+
+
+        }
+        [HttpGet]
+        [Route("GetProposalDocumentByID/{documentID}")]
+        public HttpResponseMessage GetProposalDocumentByID(Int64 documentID)
+        {
+            var result =
+                new HttpResponseMessage(HttpStatusCode.OK);
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            tbl_ProposalDocument document = cRUDOperation.GetProposalDocumentByID(documentID);
+            // 1) Get file bytes
+            var fileBytes = File.ReadAllBytes(document.ImageLinkPath);
+
+            // 2) Add bytes to a memory stream
+            var fileMemStream =
+                new MemoryStream(fileBytes);
+
+            // 3) Add memory stream to response
+            result.Content = new StreamContent(fileMemStream);
+
+            // 4) build response headers
+            var headers = result.Content.Headers;
+
+            headers.ContentDisposition =
+                new ContentDispositionHeaderValue("attachment");
+            headers.ContentDisposition.FileName = document.ImageLinkName;
+
+            headers.ContentType =
+                new MediaTypeHeaderValue("application/jpg");
+            //new MediaTypeHeaderValue("application/octet-stream");
+
+            headers.ContentLength = fileMemStream.Length;
+
+            return result;
+        }
+        [Route("GetProposalDocumentsByProposalID/{proposalID}")]
+        public List<tbl_ProposalDocument> GetProposalDocumentsByProposalID(Int64 proposalID)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            List<tbl_ProposalDocument> documents = new List<tbl_ProposalDocument>();
+            documents = cRUDOperation.GetProposalDocumentsByProposalID(proposalID);
+            return documents;
+        }
         #endregion
     }
 }

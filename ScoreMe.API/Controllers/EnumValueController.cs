@@ -41,10 +41,19 @@ namespace ScoreMe.API.Controllers
             return items;
         }
 
+        [HttpGet]
+        [Route("GetEnumValuesByEnumCategoryCode/{enumCategoryCode}")]
+        public List<tbl_EnumValue> GetEnumValuesByEnumCategoryCode(string enumCategoryCode)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            var items = operation.GetEnumValuesByEnumCategoryCode(enumCategoryCode); ;
+            return items;
+        }
+
         [HttpPost]
         [ResponseType(typeof(tbl_EnumValue))]
         [Route("AddEnumValue")]
-        public async Task<IHttpActionResult> AddEnumValue(tbl_EnumValue item)
+        public IHttpActionResult AddEnumValue(tbl_EnumValue item)
         {
             if (!ModelState.IsValid)
             {
@@ -59,7 +68,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_EnumValue))]
         [Route("UpdateEnumValue")]
-        public async Task<IHttpActionResult> UpdateEnumValue(tbl_EnumValue item)
+        public IHttpActionResult UpdateEnumValue(tbl_EnumValue item)
         {
             CRUDOperation operation = new CRUDOperation();
             if (item == null)
@@ -76,11 +85,11 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_EnumValue))]
         [Route("DeleteEnumValue/{id}")]
-        public async Task<IHttpActionResult> DeleteEnumValue(Int64 id)
+        public IHttpActionResult DeleteEnumValue(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
 
-            var dbitem = operation.DeleteEnumValue (id, 0);
+            var dbitem = operation.DeleteEnumValue(id, 0);
             return Ok(dbitem);
 
         }

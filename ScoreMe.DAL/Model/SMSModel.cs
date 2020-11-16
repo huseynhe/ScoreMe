@@ -10,6 +10,7 @@ namespace ScoreMe.DAL.Model
     public class SMSModel
     {
         public Int64 ID { get; set; }
+        public Int64 UserID { get; set; }
         public int? TotalMessageCount { get; set; }
         public int? ShortMessageCount { get; set; }
         public List<tbl_SMSDetail> SMSDetails { get; set; }

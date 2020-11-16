@@ -103,6 +103,9 @@
     <Compile Include="DBModel\tbl_ProposalDetail.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_ProposalDocument.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_ProposalUserGroup.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -145,6 +148,9 @@
     <Compile Include="DBModel\tbl_SMSModel.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_SMSSenderInfo.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_User.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -166,10 +172,12 @@
     <Compile Include="Model\Proposal.cs" />
     <Compile Include="Model\ProposalDetail.cs" />
     <Compile Include="Model\ProposalUserGroup.cs" />
+    <Compile Include="Model\ProposalUserState.cs" />
     <Compile Include="Model\Provider.cs" />
     <Compile Include="Model\SMSModel.cs" />
     <Compile Include="Model\UserInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ProposalRepository.cs" />
     <Compile Include="Repositories\ProviderRepository.cs" />
     <Compile Include="Repositories\RegionRepository.cs" />
   </ItemGroup>

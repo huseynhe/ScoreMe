@@ -15,10 +15,12 @@ namespace ScoreMe.DAL.Model
         public string Description { get; set; }
         public string Note { get; set; }
         public Int64 ProviderID { get; set; }
+        public string ProviderName { get; set; }
         public bool IsPublic { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public List<ProposalDetail> ProposalDetails  { get; set; }
         public List<ProposalUserGroup> ProposalUserGroups { get; set; }
+        public ProposalUserState ProposalUserState { get; set; }
     }
 }

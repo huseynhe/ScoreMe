@@ -13,7 +13,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.IO;
 
 namespace ScoreMe.API.Controllers
 {
@@ -90,7 +89,7 @@ namespace ScoreMe.API.Controllers
         }
         [HttpPost]
         [Route("UploadLogo")]
-        public HttpResponseMessage UploadFile()
+        public HttpResponseMessage UploadLogo()
         {
             Int64 providerID = HttpContext.Current.Request.Form["providerID"] == null ? 0 : Int64.Parse(HttpContext.Current.Request.Form["providerID"]);
 
@@ -130,7 +129,7 @@ namespace ScoreMe.API.Controllers
 
         [Route("addFiles")]
         [AllowAnonymous]
-        public async Task<HttpResponseMessage> PostLogoImage()
+        public HttpResponseMessage PostLogoImage()
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             try

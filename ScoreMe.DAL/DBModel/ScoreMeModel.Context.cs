@@ -36,6 +36,7 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_Permission> tbl_Permission { get; set; }
         public virtual DbSet<tbl_Proposal> tbl_Proposal { get; set; }
         public virtual DbSet<tbl_ProposalDetail> tbl_ProposalDetail { get; set; }
+        public virtual DbSet<tbl_ProposalDocument> tbl_ProposalDocument { get; set; }
         public virtual DbSet<tbl_ProposalUserGroup> tbl_ProposalUserGroup { get; set; }
         public virtual DbSet<tbl_ProposalUserState> tbl_ProposalUserState { get; set; }
         public virtual DbSet<tbl_Provider> tbl_Provider { get; set; }
@@ -50,6 +51,7 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_Score_x> tbl_Score_x { get; set; }
         public virtual DbSet<tbl_SMSDetail> tbl_SMSDetail { get; set; }
         public virtual DbSet<tbl_SMSModel> tbl_SMSModel { get; set; }
+        public virtual DbSet<tbl_SMSSenderInfo> tbl_SMSSenderInfo { get; set; }
         public virtual DbSet<tbl_User> tbl_User { get; set; }
         public virtual DbSet<tbl_UserGroup> tbl_UserGroup { get; set; }
         public virtual DbSet<tbl_UserRole> tbl_UserRole { get; set; }
