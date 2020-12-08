@@ -39,7 +39,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_NetConsume))]
         [Route("AddNetConsume")]
-        public async Task<IHttpActionResult> AddNetConsume(tbl_NetConsume item)
+        public IHttpActionResult AddNetConsume(tbl_NetConsume item)
         {
             if (!ModelState.IsValid)
             {
@@ -54,7 +54,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_NetConsume))]
         [Route("UpdateNetConsume")]
-        public async Task<IHttpActionResult> UpdateNetConsume(tbl_NetConsume item)
+        public IHttpActionResult UpdateNetConsume(tbl_NetConsume item)
         {
             CRUDOperation operation = new CRUDOperation();
             if (item == null)
@@ -71,7 +71,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_NetConsume))]
         [Route("DeleteNetConsume/{id}")]
-        public async Task<IHttpActionResult> DeleteNetConsume(Int64 id)
+        public IHttpActionResult DeleteNetConsume(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
 

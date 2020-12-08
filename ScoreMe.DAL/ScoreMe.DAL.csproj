@@ -73,6 +73,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ScoreMeModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_CALLDetail.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\tbl_CALLModel.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_Customer.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -154,6 +160,9 @@
     <Compile Include="DBModel\tbl_User.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_UserDocument.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_UserGroup.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -168,6 +177,7 @@
     </Compile>
     <Compile Include="Enum\BOResultTypes.cs" />
     <Compile Include="ErrorManagment\CustomError.cs" />
+    <Compile Include="Model\CALLModel.cs" />
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\Proposal.cs" />
     <Compile Include="Model\ProposalDetail.cs" />

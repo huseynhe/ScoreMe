@@ -1101,14 +1101,7 @@ namespace ScoreMe.DAL
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    //var items = (from u in context.tbl_User
-                    //             join ug in context.tbl_UserGroup on u.ID equals ug.UserID 
-                    //             join g in context.tbl_Group on ug.GroupID equals g.ID
-                    //             join pug in context.tbl_ProposalUserGroup on g.ID equals pug.GroupID
-                    //             join p in context.tbl_Proposal on pug.ProposalID equals p.ID
-                    //             where  u.Status==1 && ug.Status==1 && pug.Status==1 && p.Status == 1 && u.UserName == username
-                    //             select p);
-
+                  
                     var items = (from ug in context.tbl_UserGroup
                                  join g in context.tbl_Group on ug.GroupID equals g.ID
                                  join pug in context.tbl_ProposalUserGroup on g.ID equals pug.GroupID
@@ -3651,6 +3644,8 @@ namespace ScoreMe.DAL
                         oldItem.Source_EVID = item.Source_EVID;
                         oldItem.Year = item.Year;
                         oldItem.Month = item.Month;
+                        oldItem.Hour = item.Hour;
+                        oldItem.Minute = item.Minute;
                         oldItem.Consumed = item.Consumed;
                         oldItem.Speed = item.Speed;
                         oldItem.UpdateDate = DateTime.Now;
@@ -5428,5 +5423,559 @@ namespace ScoreMe.DAL
 
         }
         #endregion
+
+        #region tbl_UserDocument
+        public tbl_UserDocument AddUserDocument(tbl_UserDocument item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_UserDocument.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_UserDocument DeleteUserDocument(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_UserDocument oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_UserDocument
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_UserDocument.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_UserDocument> GetUserDocuments()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_UserDocument
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_UserDocument> GetUserDocumentsByUserID(Int64 userID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_UserDocument
+                                 where p.Status == 1 && p.UserID == userID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_UserDocument> GetUserDocumentsByUserIDAndImageTypeEVID(Int64 userID,int imageType_EVID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_UserDocument
+                                 where p.Status == 1 && p.UserID == userID && p.ImageType_EVID==imageType_EVID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_UserDocument GetUserDocumentByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_UserDocument
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_UserDocument UpdateUserDocument(tbl_UserDocument item)
+        {
+            try
+            {
+                tbl_UserDocument oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_UserDocument
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.ImageLinkPath = item.ImageLinkPath;
+                        oldItem.ImageLinkName = item.ImageLinkName;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_UserDocument.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_CALLModel
+        public List<tbl_CALLModel> GetCALLModels()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_CALLModel
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_CALLModel GetCALLModelByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_CALLModel
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_CALLModel AddCALLModel(tbl_CALLModel callModel, List<tbl_CALLDetail> callDetails)
+        {
+            tbl_CALLModel dbItem = null;
+            using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+            {
+
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        callModel.Status = 1;
+                        callModel.InsertDate = DateTime.Now;
+                        callModel.UpdateDate = DateTime.Now;
+                        dbItem = context.tbl_CALLModel.Add(callModel);
+                        context.SaveChanges();
+                        foreach (var callDetail in callDetails)
+                        {
+                            callDetail.CALLModelID = dbItem.ID;
+                            callDetail.Status = 1;
+                            callDetail.InsertDate = DateTime.Now;
+                            callDetail.UpdateDate = DateTime.Now;
+                            context.tbl_CALLDetail.Add(callDetail);
+                            context.SaveChanges();
+                        }
+
+
+                        transaction.Commit();
+                    }
+
+                    catch (Exception ex)
+
+                    {
+                        transaction.Rollback();
+                        throw ex;
+
+                    }
+
+                }
+            }
+            return dbItem;
+        }
+        public tbl_CALLModel UpdateCALLModel(tbl_CALLModel item)
+        {
+            try
+            {
+                tbl_CALLModel oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_CALLModel
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.UserID = item.UserID;
+                        oldItem.TotalCallCount = item.TotalCallCount;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_CALLModel.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_CALLModel DeleteCALLModel(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_CALLModel oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_CALLModel
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_CALLModel.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region CALLDetail
+        public tbl_CALLDetail AddCALLDetail(tbl_CALLDetail item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_CALLDetail.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_CALLDetail DeleteCALLDetail(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_CALLDetail oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_CALLDetail
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_CALLDetail.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_CALLDetail> GetCALLDetails()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_CALLDetail
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_CALLDetail> GetCALLDetailsByModelID(Int64 modelID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_CALLDetail
+                                 where p.Status == 1 && p.CALLModelID == modelID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_CALLDetail GetCALLDetailByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_CALLDetail
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_CALLDetail UpdateCALLDetail(tbl_CALLDetail item)
+        {
+            try
+            {
+                tbl_CALLDetail oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_CALLDetail
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.PhoneNumber = item.PhoneNumber;
+                        oldItem.Duration = item.Duration;
+                        oldItem.RecievedDate = item.RecievedDate;
+                        oldItem.SendDate = item.SendDate;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_CALLDetail.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+     
     }
 }

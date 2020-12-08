@@ -19,6 +19,35 @@
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
+        <EntityType Name="tbl_CALLDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CALLModelID" Type="bigint" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+          <Property Name="Duration" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RecievedDate" Type="datetime2" Precision="7" />
+          <Property Name="SendDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_CALLModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="TotalCallCount" Type="int" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
         <EntityType Name="tbl_Customer">
           <Key>
             <PropertyRef Name="ID" />
@@ -92,6 +121,8 @@
           <Property Name="Mobile_EVID" Type="bigint" Nullable="false" />
           <Property Name="Year" Type="int" />
           <Property Name="Month" Type="int" />
+          <Property Name="Hour" Type="int" />
+          <Property Name="Minute" Type="int" />
           <Property Name="Consumed" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Speed" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
@@ -432,6 +463,21 @@
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
+        <EntityType Name="tbl_UserDocument">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="ImageType_EVID" Type="int" />
+          <Property Name="ImageLinkPath" Type="nvarchar" MaxLength="500" />
+          <Property Name="ImageLinkName" Type="nvarchar(max)" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
         <EntityType Name="tbl_UserGroup">
           <Key>
             <PropertyRef Name="ID" />
@@ -488,6 +534,8 @@
         </EntityType>
         <EntityContainer Name="DB_A62358_ScoreMeModelStoreContainer">
           <EntitySet Name="ProviderType" EntityType="Self.ProviderType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_CALLDetail" EntityType="Self.tbl_CALLDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_CALLModel" EntityType="Self.tbl_CALLModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Customer" EntityType="Self.tbl_Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_EnumCategory" EntityType="Self.tbl_EnumCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_EnumValue" EntityType="Self.tbl_EnumValue" Schema="dbo" store:Type="Tables" />
@@ -515,6 +563,7 @@
           <EntitySet Name="tbl_SMSModel" EntityType="Self.tbl_SMSModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_SMSSenderInfo" EntityType="Self.tbl_SMSSenderInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UserDocument" EntityType="Self.tbl_UserDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserGroup" EntityType="Self.tbl_UserGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserRole" EntityType="Self.tbl_UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserService" EntityType="Self.tbl_UserService" Schema="dbo" store:Type="Tables" />
@@ -526,6 +575,8 @@
       <Schema Namespace="DB_A62358_ScoreMeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DB_A62358_ScoreMeEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="ProviderTypes" EntityType="DB_A62358_ScoreMeModel.ProviderType" />
+          <EntitySet Name="tbl_CALLDetail" EntityType="DB_A62358_ScoreMeModel.tbl_CALLDetail" />
+          <EntitySet Name="tbl_CALLModel" EntityType="DB_A62358_ScoreMeModel.tbl_CALLModel" />
           <EntitySet Name="tbl_Customer" EntityType="DB_A62358_ScoreMeModel.tbl_Customer" />
           <EntitySet Name="tbl_EnumCategory" EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" />
           <EntitySet Name="tbl_EnumValue" EntityType="DB_A62358_ScoreMeModel.tbl_EnumValue" />
@@ -553,6 +604,7 @@
           <EntitySet Name="tbl_SMSModel" EntityType="DB_A62358_ScoreMeModel.tbl_SMSModel" />
           <EntitySet Name="tbl_SMSSenderInfo" EntityType="DB_A62358_ScoreMeModel.tbl_SMSSenderInfo" />
           <EntitySet Name="tbl_User" EntityType="DB_A62358_ScoreMeModel.tbl_User" />
+          <EntitySet Name="tbl_UserDocument" EntityType="DB_A62358_ScoreMeModel.tbl_UserDocument" />
           <EntitySet Name="tbl_UserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_UserGroup" />
           <EntitySet Name="tbl_UserRole" EntityType="DB_A62358_ScoreMeModel.tbl_UserRole" />
           <EntitySet Name="tbl_UserService" EntityType="DB_A62358_ScoreMeModel.tbl_UserService" />
@@ -567,6 +619,35 @@
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ProviderIcon" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_CALLDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CALLModelID" Type="Int64" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RecievedDate" Type="DateTime" Precision="7" />
+          <Property Name="SendDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_CALLModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="TotalCallCount" Type="Int32" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -645,6 +726,8 @@
           <Property Name="Mobile_EVID" Type="Int64" Nullable="false" />
           <Property Name="Year" Type="Int32" />
           <Property Name="Month" Type="Int32" />
+          <Property Name="Hour" Type="Int32" />
+          <Property Name="Minute" Type="Int32" />
           <Property Name="Consumed" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Speed" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
@@ -985,6 +1068,21 @@
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
+        <EntityType Name="tbl_UserDocument">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="ImageType_EVID" Type="Int32" />
+          <Property Name="ImageLinkPath" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ImageLinkName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
         <EntityType Name="tbl_UserGroup">
           <Key>
             <PropertyRef Name="ID" />
@@ -1056,6 +1154,37 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_CALLDetail">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_CALLDetail">
+              <MappingFragment StoreEntitySet="tbl_CALLDetail">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+                <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="CALLModelID" ColumnName="CALLModelID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_CALLModel">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_CALLModel">
+              <MappingFragment StoreEntitySet="tbl_CALLModel">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="TotalCallCount" ColumnName="TotalCallCount" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1135,6 +1264,8 @@
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="Speed" ColumnName="Speed" />
                 <ScalarProperty Name="Consumed" ColumnName="Consumed" />
+                <ScalarProperty Name="Minute" ColumnName="Minute" />
+                <ScalarProperty Name="Hour" ColumnName="Hour" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="Mobile_EVID" ColumnName="Mobile_EVID" />
@@ -1495,6 +1626,22 @@
                 <ScalarProperty Name="UserType_EVID" ColumnName="UserType_EVID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserDocument">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserDocument">
+              <MappingFragment StoreEntitySet="tbl_UserDocument">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="ImageLinkName" ColumnName="ImageLinkName" />
+                <ScalarProperty Name="ImageLinkPath" ColumnName="ImageLinkPath" />
+                <ScalarProperty Name="ImageType_EVID" ColumnName="ImageType_EVID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

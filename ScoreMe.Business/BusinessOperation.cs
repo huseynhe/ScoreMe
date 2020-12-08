@@ -337,7 +337,7 @@ namespace ScoreMe.Business
         }
         #endregion
         #region Proposal
-        public BaseOutput AddProposalWithDetail(Proposal item,out Proposal itemOut)
+        public BaseOutput AddProposalWithDetail(Proposal item, out Proposal itemOut)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
@@ -362,7 +362,7 @@ namespace ScoreMe.Business
                 {
                     itemOut = new Proposal()
                     {
-                        ID=_Proposal.ID,
+                        ID = _Proposal.ID,
                         Name = _Proposal.Name,
                         Description = _Proposal.Description,
                         Note = _Proposal.Note,
@@ -494,6 +494,7 @@ namespace ScoreMe.Business
                         Description = _ProposalObj.Description,
                         Note = _ProposalObj.Note,
                         ProviderID = _ProposalObj.ProviderID,
+                        UserID = _Provider == null ? 0 : _Provider.UserId,
                         IsPublic = _ProposalObj.IsPublic,
                         StartDate = _ProposalObj.StartDate,
                         EndDate = _ProposalObj.EndDate,
@@ -580,6 +581,7 @@ namespace ScoreMe.Business
                             Description = proposalItem.Description,
                             Note = proposalItem.Note,
                             ProviderID = proposalItem.ProviderID,
+                            UserID = _Provider == null ? 0 : _Provider.UserId,
                             ProviderName = _Provider == null ? String.Empty : _Provider.Name,
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
@@ -646,6 +648,7 @@ namespace ScoreMe.Business
         }
         public BaseOutput GetProposalsByProviderID(Int64 providerid, out List<Proposal> proposals)
         {
+            ProposalRepository repository = new ProposalRepository();
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
             proposals = null;
@@ -654,7 +657,7 @@ namespace ScoreMe.Business
 
                 List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposalsByProviderID(providerid);
                 tbl_Provider _Provider = cRUDOperation.GetProviderById(providerid);
-            
+
                 proposals = new List<Proposal>();
 
                 if (tbl_Proposals.Count > 0)
@@ -668,6 +671,7 @@ namespace ScoreMe.Business
                             Description = proposalItem.Description,
                             Note = proposalItem.Note,
                             ProviderID = proposalItem.ProviderID,
+                            UserID = _Provider == null ? 0 : _Provider.UserId,
                             ProviderName = _Provider == null ? String.Empty : _Provider.Name,
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
@@ -713,6 +717,102 @@ namespace ScoreMe.Business
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
                         proposals.Add(proposal);
+
+                       
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalsWithStateByProviderID(Int64 providerid, out List<Proposal> proposals)
+        {
+            ProposalRepository repository = new ProposalRepository();
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+
+                List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetProposalsByProviderID(providerid);
+                tbl_Provider _Provider = cRUDOperation.GetProviderById(providerid);
+
+                proposals = new List<Proposal>();
+
+                if (tbl_Proposals.Count > 0)
+                {
+                    foreach (var proposalItem in tbl_Proposals)
+                    {
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ID,
+                            Name = proposalItem.Name,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = _Provider == null ? 0 : _Provider.UserId,
+                            ProviderName = _Provider == null ? String.Empty : _Provider.Name,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+                        proposals.Add(proposal);
+
+                        List<ProposalUserState> ProposalUserStates = repository.GetProposalUserStateByProposalID(proposal.ID);
+                        proposal.ProposalUserStateList = ProposalUserStates;
+                        proposals.Add(proposal);
                     }
 
 
@@ -756,6 +856,7 @@ namespace ScoreMe.Business
                             Description = proposalItem.Description,
                             Note = proposalItem.Note,
                             ProviderID = proposalItem.ProviderID,
+                            UserID = _Provider == null ? 0 : _Provider.UserId,
                             ProviderName = _Provider == null ? String.Empty : _Provider.Name,
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
@@ -805,7 +906,7 @@ namespace ScoreMe.Business
                         proposal.ProposalUserState = proposalUserState;
                         proposals.Add(proposal);
 
-                    
+
 
                     }
 
@@ -850,6 +951,7 @@ namespace ScoreMe.Business
                             Description = proposalItem.Description,
                             Note = proposalItem.Note,
                             ProviderID = proposalItem.ProviderID,
+                            UserID = _Provider == null ? 0 : _Provider.UserId,
                             ProviderName = _Provider == null ? String.Empty : _Provider.Name,
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
@@ -930,7 +1032,7 @@ namespace ScoreMe.Business
                             ProposolKey = pDetail.ProposolKey,
                             ProposolValue = pDetail.ProposolValue,
                         };
-                        if (proposalDetail.ID!=0)
+                        if (proposalDetail.ID != 0)
                         {
                             tbl_ProposalDetail _ProposalDetail = cRUDOperation.UpdateProposalDetail(proposalDetail);
                         }
@@ -953,14 +1055,15 @@ namespace ScoreMe.Business
 
 
                             };
-                            if (proposalUserGroup.ID != 0) {
+                            if (proposalUserGroup.ID != 0)
+                            {
                                 tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.UpdateProposalUserGroup(proposalUserGroup);
                             }
                             else
                             {
                                 tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroup(proposalUserGroup);
                             }
-                               
+
 
                         }
                     }
@@ -1033,8 +1136,8 @@ namespace ScoreMe.Business
             }
         }
         #endregion
-        #region SMSModel
 
+        #region SMSModel
         public BaseOutput GetSMSModels(out List<SMSModel> sMSModels)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
@@ -1126,7 +1229,7 @@ namespace ScoreMe.Business
             {
                 tbl_SMSModel sMSModel = new tbl_SMSModel()
                 {
-                    UserID=item.UserID,
+                    UserID = item.UserID,
                     TotalMessageCount = item.TotalMessageCount,
                     ShortMessageCount = item.ShortMessageCount,
 
@@ -1154,7 +1257,7 @@ namespace ScoreMe.Business
                 tbl_SMSModel tbl_SMSModel = new tbl_SMSModel()
                 {
                     ID = item.ID,
-                    UserID=item.UserID,
+                    UserID = item.UserID,
                     TotalMessageCount = item.TotalMessageCount,
                     ShortMessageCount = item.ShortMessageCount,
 
@@ -1207,7 +1310,199 @@ namespace ScoreMe.Business
 
                     }
 
-                   
+
+
+                    tbl_SMSModel tbl_SMSModel = cRUDOperation.DeleteSMSModel(id, 0);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
+
+        #region CALLModel
+        public BaseOutput GetCALLModels(out List<CALLModel> callModels)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            callModels = null;
+            try
+            {
+
+                List<tbl_CALLModel> tbl_CALLModels = cRUDOperation.GetCALLModels();
+                callModels = new List<CALLModel>();
+
+                if (tbl_CALLModels.Count > 0)
+                {
+                    foreach (var tblCallModel in tbl_CALLModels)
+                    {
+                        CALLModel callModel = new CALLModel()
+                        {
+                            ID = tblCallModel.ID,
+                            TotalCallCount = tblCallModel.TotalCallCount,
+                        };
+
+                        List<tbl_CALLDetail> tbl_CALLDetails = cRUDOperation.GetCALLDetailsByModelID(callModel.ID);
+
+
+                        callModel.CALLDetails = tbl_CALLDetails;
+                        callModels.Add(callModel);
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetCALLModelsByID(Int64 id, out CALLModel callModel)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            callModel = null;
+            try
+            {
+
+                tbl_CALLModel tblCallModel = cRUDOperation.GetCALLModelByID(id);
+                if (tblCallModel != null)
+                {
+                    callModel = new CALLModel()
+                    {
+                        ID = tblCallModel.ID,
+                        TotalCallCount = tblCallModel.TotalCallCount,
+                    };
+
+                    List<tbl_CALLDetail> tblCALLDetails = cRUDOperation.GetCALLDetailsByModelID(callModel.ID);
+                    callModel.CALLDetails = tblCALLDetails;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddCALLModel(CALLModel item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_CALLModel callModel = new tbl_CALLModel()
+                {
+                    UserID = item.UserID,
+                    TotalCallCount = item.TotalCallCount,
+
+                };
+
+                List<tbl_CALLDetail> tblCALLDetails = new List<tbl_CALLDetail>();
+
+                tblCALLDetails = item.CALLDetails;
+                tbl_CALLModel _CALLModel = cRUDOperation.AddCALLModel(callModel, tblCALLDetails);
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateCALLModel(CALLModel item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_CALLModel tblCALLModel = new tbl_CALLModel()
+                {
+                    ID = item.ID,
+                    UserID = item.UserID,
+                    TotalCallCount = item.TotalCallCount,
+
+                };
+
+                tbl_CALLModel _CALLModel = cRUDOperation.UpdateCALLModel(tblCALLModel);
+
+                if (_CALLModel != null)
+                {
+                    foreach (var callDetail in item.CALLDetails)
+                    {
+                        tbl_CALLDetail tblCALLDetail = cRUDOperation.UpdateCALLDetail(callDetail);
+                    }
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteCALLModel(Int64 id)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+
+                tbl_SMSModel _SMSModel = cRUDOperation.GetSMSModelByID(id);
+
+                if (_SMSModel != null)
+                {
+                    List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(_SMSModel.ID);
+
+                    foreach (var item in tbl_SMSDetails)
+                    {
+
+                        tbl_SMSDetail tbl_SMSDetail = cRUDOperation.DeleteSMSDetail(item.ID, 0);
+
+                    }
+
+
 
                     tbl_SMSModel tbl_SMSModel = cRUDOperation.DeleteSMSModel(id, 0);
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
