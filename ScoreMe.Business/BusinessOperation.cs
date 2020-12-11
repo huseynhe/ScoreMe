@@ -540,6 +540,8 @@ namespace ScoreMe.Business
                         proposal.ProposalUserGroups = proposalUserGroups;
                     }
 
+                    List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
+                    proposal.ProposalDocuments = ProposalDocumentList;
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
@@ -626,7 +628,10 @@ namespace ScoreMe.Business
                             }
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
+                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
+                        proposal.ProposalDocuments = ProposalDocumentList;
                         proposals.Add(proposal);
+                      
                     }
 
 
@@ -716,6 +721,8 @@ namespace ScoreMe.Business
                             }
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
+                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
+                        proposal.ProposalDocuments = ProposalDocumentList;
                         proposals.Add(proposal);
 
                        
@@ -808,6 +815,8 @@ namespace ScoreMe.Business
                             }
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
+                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
+                        proposal.ProposalDocuments = ProposalDocumentList;
                         proposals.Add(proposal);
 
                         List<ProposalUserState> ProposalUserStates = repository.GetProposalUserStateByProposalID(proposal.ID);
@@ -904,6 +913,8 @@ namespace ScoreMe.Business
 
                         ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(userDB.ID, proposal.ID);
                         proposal.ProposalUserState = proposalUserState;
+                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
+                        proposal.ProposalDocuments = ProposalDocumentList;
                         proposals.Add(proposal);
 
 
@@ -977,6 +988,8 @@ namespace ScoreMe.Business
 
                         ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(userDB.ID, proposal.ID);
                         proposal.ProposalUserState = proposalUserState;
+                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
+                        proposal.ProposalDocuments = ProposalDocumentList;
                         proposals.Add(proposal);
 
 

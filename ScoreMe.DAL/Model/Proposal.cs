@@ -24,5 +24,6 @@ namespace ScoreMe.DAL.Model
         public List<ProposalUserGroup> ProposalUserGroups { get; set; }
         public ProposalUserState ProposalUserState { get; set; }
         public List<ProposalUserState> ProposalUserStateList { get; set; }
+        public List<tbl_ProposalDocument> ProposalDocuments { get; set; }
     }
 }
