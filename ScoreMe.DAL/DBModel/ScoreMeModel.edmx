@@ -5,6 +5,40 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DB_A62358_ScoreMeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_DataChange' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="log_DataChange">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="OperationType" Type="int" />
+          <Property Name="OperationDateTime" Type="datetime" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ColumnName" Type="nvarchar" MaxLength="100" />
+          <Property Name="OriginalId" Type="int" />
+          <Property Name="OldValue" Type="nvarchar(max)" />
+          <Property Name="NewValue" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="log_Login">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserIPAddress" Type="nvarchar" MaxLength="20" />
+          <Property Name="LoginDateTime" Type="datetime" />
+          <Property Name="AccessDateTime" Type="datetime" />
+          <Property Name="LockDateTime" Type="datetime" />
+          <Property Name="PasswordChangeDateTime" Type="datetime" />
+          <Property Name="IsActive" Type="int" />
+        </EntityType>
         <EntityType Name="ProviderType">
           <Key>
             <PropertyRef Name="ID" />
@@ -18,6 +52,23 @@
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_AccessRight">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Controller" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ControllerDesc" Type="nvarchar" MaxLength="500" />
+          <Property Name="Action" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActionDesc" Type="nvarchar" MaxLength="500" />
+          <Property Name="HasAccess" Type="int" Nullable="false" />
+          <Property Name="InsertDate" Type="smalldatetime" />
+          <Property Name="InsertUser" Type="int" />
+          <Property Name="UpdateDate" Type="smalldatetime" />
+          <Property Name="UpdateUser" Type="int" />
         </EntityType>
         <EntityType Name="tbl_CALLDetail">
           <Key>
@@ -67,6 +118,23 @@
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="FatherName" Type="nvarchar" MaxLength="250" />
+          <Property Name="GenderType" Type="int" Nullable="false" />
+          <Property Name="PositionID" Type="int" Nullable="false" />
+          <Property Name="InsertDate" Type="smalldatetime" />
+          <Property Name="InsertUser" Type="int" />
+          <Property Name="UpdateDate" Type="smalldatetime" />
+          <Property Name="UpdateUser" Type="int" />
         </EntityType>
         <EntityType Name="tbl_EnumCategory">
           <Key>
@@ -245,7 +313,9 @@
           <Property Name="ProposalID" Type="bigint" Nullable="false" />
           <Property Name="UserID" Type="bigint" Nullable="false" />
           <Property Name="ProviderOfferAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ProviderOfferMonth" Type="int" />
           <Property Name="UserDemandAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UserDemandMonth" Type="int" />
           <Property Name="ProviderStateType" Type="bigint" />
           <Property Name="UserStateType" Type="bigint" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
@@ -458,6 +528,11 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="UserType_EVID" Type="bigint" Nullable="false" />
+          <Property Name="LoginFailedCount" Type="int" />
+          <Property Name="LastLoginDate" Type="datetime2" Precision="7" />
+          <Property Name="LoginIPAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastAccessedDate" Type="datetime2" Precision="7" />
+          <Property Name="AccountLocked" Type="int" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -534,9 +609,11 @@
         </EntityType>
         <EntityContainer Name="DB_A62358_ScoreMeModelStoreContainer">
           <EntitySet Name="ProviderType" EntityType="Self.ProviderType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_AccessRight" EntityType="Self.tbl_AccessRight" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLDetail" EntityType="Self.tbl_CALLDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLModel" EntityType="Self.tbl_CALLModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Customer" EntityType="Self.tbl_Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Employee" EntityType="Self.tbl_Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_EnumCategory" EntityType="Self.tbl_EnumCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_EnumValue" EntityType="Self.tbl_EnumValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Group" EntityType="Self.tbl_Group" Schema="dbo" store:Type="Tables" />
@@ -568,6 +645,32 @@
           <EntitySet Name="tbl_UserRole" EntityType="Self.tbl_UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserService" EntityType="Self.tbl_UserService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserServiceRating" EntityType="Self.tbl_UserServiceRating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="log_DataChange" EntityType="Self.log_DataChange" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [log_DataChange].[Id] AS [Id], 
+    [log_DataChange].[UserId] AS [UserId], 
+    [log_DataChange].[OperationType] AS [OperationType], 
+    [log_DataChange].[OperationDateTime] AS [OperationDateTime], 
+    [log_DataChange].[TableName] AS [TableName], 
+    [log_DataChange].[ColumnName] AS [ColumnName], 
+    [log_DataChange].[OriginalId] AS [OriginalId], 
+    [log_DataChange].[OldValue] AS [OldValue], 
+    [log_DataChange].[NewValue] AS [NewValue], 
+    [log_DataChange].[IsActive] AS [IsActive]
+    FROM [dbo].[log_DataChange] AS [log_DataChange]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="log_Login" EntityType="Self.log_Login" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [log_Login].[Id] AS [Id], 
+    [log_Login].[UserId] AS [UserId], 
+    [log_Login].[UserIPAddress] AS [UserIPAddress], 
+    [log_Login].[LoginDateTime] AS [LoginDateTime], 
+    [log_Login].[AccessDateTime] AS [AccessDateTime], 
+    [log_Login].[LockDateTime] AS [LockDateTime], 
+    [log_Login].[PasswordChangeDateTime] AS [PasswordChangeDateTime], 
+    [log_Login].[IsActive] AS [IsActive]
+    FROM [dbo].[log_Login] AS [log_Login]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -575,9 +678,11 @@
       <Schema Namespace="DB_A62358_ScoreMeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DB_A62358_ScoreMeEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="ProviderTypes" EntityType="DB_A62358_ScoreMeModel.ProviderType" />
+          <EntitySet Name="tbl_AccessRight" EntityType="DB_A62358_ScoreMeModel.tbl_AccessRight" />
           <EntitySet Name="tbl_CALLDetail" EntityType="DB_A62358_ScoreMeModel.tbl_CALLDetail" />
           <EntitySet Name="tbl_CALLModel" EntityType="DB_A62358_ScoreMeModel.tbl_CALLModel" />
           <EntitySet Name="tbl_Customer" EntityType="DB_A62358_ScoreMeModel.tbl_Customer" />
+          <EntitySet Name="tbl_Employee" EntityType="DB_A62358_ScoreMeModel.tbl_Employee" />
           <EntitySet Name="tbl_EnumCategory" EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" />
           <EntitySet Name="tbl_EnumValue" EntityType="DB_A62358_ScoreMeModel.tbl_EnumValue" />
           <EntitySet Name="tbl_Group" EntityType="DB_A62358_ScoreMeModel.tbl_Group" />
@@ -609,6 +714,8 @@
           <EntitySet Name="tbl_UserRole" EntityType="DB_A62358_ScoreMeModel.tbl_UserRole" />
           <EntitySet Name="tbl_UserService" EntityType="DB_A62358_ScoreMeModel.tbl_UserService" />
           <EntitySet Name="tbl_UserServiceRating" EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" />
+          <EntitySet Name="log_DataChange" EntityType="DB_A62358_ScoreMeModel.log_DataChange" />
+          <EntitySet Name="log_Login" EntityType="DB_A62358_ScoreMeModel.log_Login" />
         </EntityContainer>
         <EntityType Name="ProviderType">
           <Key>
@@ -623,6 +730,23 @@
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_AccessRight">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Controller" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="HasAccess" Type="Int32" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Precision="0" />
+          <Property Name="InsertUser" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="0" />
+          <Property Name="UpdateUser" Type="Int32" />
         </EntityType>
         <EntityType Name="tbl_CALLDetail">
           <Key>
@@ -672,6 +796,23 @@
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="FatherName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="GenderType" Type="Int32" Nullable="false" />
+          <Property Name="PositionID" Type="Int32" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Precision="0" />
+          <Property Name="InsertUser" Type="Int32" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="0" />
+          <Property Name="UpdateUser" Type="Int32" />
         </EntityType>
         <EntityType Name="tbl_EnumCategory">
           <Key>
@@ -850,7 +991,9 @@
           <Property Name="ProposalID" Type="Int64" Nullable="false" />
           <Property Name="UserID" Type="Int64" Nullable="false" />
           <Property Name="ProviderOfferAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ProviderOfferMonth" Type="Int32" />
           <Property Name="UserDemandAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UserDemandMonth" Type="Int32" />
           <Property Name="ProviderStateType" Type="Int64" />
           <Property Name="UserStateType" Type="Int64" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
@@ -1063,6 +1206,11 @@
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="UserType_EVID" Type="Int64" Nullable="false" />
+          <Property Name="LoginFailedCount" Type="Int32" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="7" />
+          <Property Name="LoginIPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastAccessedDate" Type="DateTime" Precision="7" />
+          <Property Name="AccountLocked" Type="Int32" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1137,6 +1285,36 @@
           <Property Name="UpdateUser" Type="Int64" />
           <Property Name="RatingTimestamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
+        <EntityType Name="log_DataChange">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="OperationType" Type="Int32" />
+          <Property Name="OperationDateTime" Type="DateTime" Precision="3" />
+          <Property Name="TableName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ColumnName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OriginalId" Type="Int32" />
+          <Property Name="OldValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NewValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="log_Login">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="UserIPAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LoginDateTime" Type="DateTime" Precision="3" />
+          <Property Name="AccessDateTime" Type="DateTime" Precision="3" />
+          <Property Name="LockDateTime" Type="DateTime" Precision="3" />
+          <Property Name="PasswordChangeDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1154,6 +1332,24 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_AccessRight">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AccessRight">
+              <MappingFragment StoreEntitySet="tbl_AccessRight">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="HasAccess" ColumnName="HasAccess" />
+                <ScalarProperty Name="ActionDesc" ColumnName="ActionDesc" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="ControllerDesc" ColumnName="ControllerDesc" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1204,6 +1400,24 @@
                 <ScalarProperty Name="FatherName" ColumnName="FatherName" />
                 <ScalarProperty Name="Surname" ColumnName="Surname" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Employee">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Employee">
+              <MappingFragment StoreEntitySet="tbl_Employee">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="GenderType" ColumnName="GenderType" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1398,7 +1612,9 @@
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="UserStateType" ColumnName="UserStateType" />
                 <ScalarProperty Name="ProviderStateType" ColumnName="ProviderStateType" />
+                <ScalarProperty Name="UserDemandMonth" ColumnName="UserDemandMonth" />
                 <ScalarProperty Name="UserDemandAmount" ColumnName="UserDemandAmount" />
+                <ScalarProperty Name="ProviderOfferMonth" ColumnName="ProviderOfferMonth" />
                 <ScalarProperty Name="ProviderOfferAmount" ColumnName="ProviderOfferAmount" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
@@ -1623,6 +1839,11 @@
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="AccountLocked" ColumnName="AccountLocked" />
+                <ScalarProperty Name="LastAccessedDate" ColumnName="LastAccessedDate" />
+                <ScalarProperty Name="LoginIPAddress" ColumnName="LoginIPAddress" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="LoginFailedCount" ColumnName="LoginFailedCount" />
                 <ScalarProperty Name="UserType_EVID" ColumnName="UserType_EVID" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -1702,6 +1923,36 @@
                 <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="log_DataChange">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.log_DataChange">
+              <MappingFragment StoreEntitySet="log_DataChange">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+                <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
+                <ScalarProperty Name="ColumnName" ColumnName="ColumnName" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="OperationDateTime" ColumnName="OperationDateTime" />
+                <ScalarProperty Name="OperationType" ColumnName="OperationType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="log_Login">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.log_Login">
+              <MappingFragment StoreEntitySet="log_Login">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="PasswordChangeDateTime" ColumnName="PasswordChangeDateTime" />
+                <ScalarProperty Name="LockDateTime" ColumnName="LockDateTime" />
+                <ScalarProperty Name="AccessDateTime" ColumnName="AccessDateTime" />
+                <ScalarProperty Name="LoginDateTime" ColumnName="LoginDateTime" />
+                <ScalarProperty Name="UserIPAddress" ColumnName="UserIPAddress" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

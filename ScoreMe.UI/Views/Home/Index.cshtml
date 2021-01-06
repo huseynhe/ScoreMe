@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "Əsas səhifə";
+}
+
+<!-- Styles -->
+<style>
+    #chartdiv {
+        width: 100%;
+        height: 500px;
+    }
+    #chartdivGender {
+        width: 100%;
+        height: 500px;
+    }
+</style>
+
+<script src="~/amcharts4/core.js"></script>
+<script src="~/amcharts4/charts.js"></script>
+<script src="~/amcharts4/themes/animated.js"></script>
+<script src="~/amcharts4/themes/amcharts.js"></script>
+<script src="~/amcharts4/custom.js"></script>
+<!-- Chart code -->
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="databox bg-white radius-bordered">
+                    <div class="databox-left bg-themesecondary">
+                        <div class="databox-piechart">
+                            <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="25" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">50%</span></div>
+                        </div>
+                    </div>
+                    <div class="databox-right">
+                        <span class="databox-number themeprimary">92</span>
+                        <div class="databox-text darkgray">NEW USERS</div>
+                        <div class="databox-state bg-themeprimary">
+                            <i class="fa fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="databox bg-white radius-bordered">
+                    <div class="databox-left bg-themethirdcolor">
+                        <div class="databox-piechart">
+                            <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="15" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.2)"><span class="white font-90">15%</span></div>
+                        </div>
+                    </div>
+                    <div class="databox-right">
+                        <span class="databox-number themeprimary">92</span>
+                        <div class="databox-text darkgray">NEW USERS</div>
+                        <div class="databox-state bg-themeprimary">
+                            <i class="fa fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="databox bg-white radius-bordered">
+                    <div class="databox-left bg-themeprimary">
+                        <div class="databox-piechart">
+                            <div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">76%</span></div>
+                        </div>
+                    </div>
+                    <div class="databox-right">
+                        <span class="databox-number themeprimary">92</span>
+                        <div class="databox-text darkgray">NEW USERS</div>
+                        <div class="databox-state bg-themeprimary">
+                            <i class="fa fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="databox bg-white radius-bordered">
+                    <div class="databox-left bg-themeprimary">
+                        <div class="databox-piechart">
+                            <div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">76%</span></div>
+                        </div>
+                    </div>
+                    <div class="databox-right">
+                        <span class="databox-number themeprimary">92</span>
+                        <div class="databox-text darkgray">NEW USERS</div>
+                        <div class="databox-state bg-themeprimary">
+                            <i class="fa fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+        <div class="databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+            <div id="chartdiv"></div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+        <div class="databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+            <div id="chartdivGender"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        initPieChart3D();
+    });
+    $(document).ready(function () {
+        variableheight3DPieChart();
+    });
+</script>

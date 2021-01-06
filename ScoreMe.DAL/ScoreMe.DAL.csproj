@@ -55,6 +55,12 @@
     <Compile Include="CodeObjects\BaseOutput.cs" />
     <Compile Include="CodeObjects\BOBaseOutputResponse.cs" />
     <Compile Include="CRUDOperation.cs" />
+    <Compile Include="DBModel\log_DataChange.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\log_Login.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\ProviderType.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -73,6 +79,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ScoreMeModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_AccessRight.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_CALLDetail.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -80,6 +89,9 @@
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_Customer.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\tbl_Employee.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_EnumCategory.cs">
@@ -175,6 +187,11 @@
     <Compile Include="DBModel\tbl_UserServiceRating.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DTO\AccessRightDTO.cs" />
+    <Compile Include="DTO\EnumDTO.cs" />
+    <Compile Include="DTO\PersonDTO.cs" />
+    <Compile Include="DTO\TypeDTO.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Enum\BOResultTypes.cs" />
     <Compile Include="ErrorManagment\CustomError.cs" />
     <Compile Include="Model\CALLModel.cs" />
@@ -186,10 +203,18 @@
     <Compile Include="Model\Provider.cs" />
     <Compile Include="Model\SMSModel.cs" />
     <Compile Include="Model\UserInfo.cs" />
+    <Compile Include="Objects\Search.cs" />
+    <Compile Include="Objects\UrlSessionData.cs" />
+    <Compile Include="Objects\UserProfileSessionData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccessRightsRepository.cs" />
+    <Compile Include="Repositories\EmployeeRepository.cs" />
+    <Compile Include="Repositories\EnumRepository.cs" />
+    <Compile Include="Repositories\LoginRepository.cs" />
     <Compile Include="Repositories\ProposalRepository.cs" />
     <Compile Include="Repositories\ProviderRepository.cs" />
     <Compile Include="Repositories\RegionRepository.cs" />
+    <Compile Include="Repositories\UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

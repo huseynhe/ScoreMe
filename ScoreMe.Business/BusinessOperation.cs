@@ -539,9 +539,8 @@ namespace ScoreMe.Business
                         }
                         proposal.ProposalUserGroups = proposalUserGroups;
                     }
-
-                    List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
-                    proposal.ProposalDocuments = ProposalDocumentList;
+                    proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                 
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
@@ -628,10 +627,9 @@ namespace ScoreMe.Business
                             }
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
-                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
-                        proposal.ProposalDocuments = ProposalDocumentList;
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
                         proposals.Add(proposal);
-                      
+
                     }
 
 
@@ -721,11 +719,10 @@ namespace ScoreMe.Business
                             }
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
-                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
-                        proposal.ProposalDocuments = ProposalDocumentList;
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
                         proposals.Add(proposal);
 
-                       
+
                     }
 
 
@@ -815,10 +812,7 @@ namespace ScoreMe.Business
                             }
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
-                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
-                        proposal.ProposalDocuments = ProposalDocumentList;
-                        proposals.Add(proposal);
-
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);        
                         List<ProposalUserState> ProposalUserStates = repository.GetProposalUserStateByProposalID(proposal.ID);
                         proposal.ProposalUserStateList = ProposalUserStates;
                         proposals.Add(proposal);
@@ -913,8 +907,7 @@ namespace ScoreMe.Business
 
                         ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(userDB.ID, proposal.ID);
                         proposal.ProposalUserState = proposalUserState;
-                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
-                        proposal.ProposalDocuments = ProposalDocumentList;
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
                         proposals.Add(proposal);
 
 
@@ -988,8 +981,7 @@ namespace ScoreMe.Business
 
                         ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(userDB.ID, proposal.ID);
                         proposal.ProposalUserState = proposalUserState;
-                        List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposal.ID);
-                        proposal.ProposalDocuments = ProposalDocumentList;
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
                         proposals.Add(proposal);
 
 
@@ -1147,6 +1139,18 @@ namespace ScoreMe.Business
 
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
+        }
+
+        private List<Int64> GetProposalDocuments(Int64 proposalID)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposalID);
+            List<Int64> proposalDocumentIds = new List<long>();
+            foreach (var item in ProposalDocumentList)
+            {
+                proposalDocumentIds.Add(item.ID);
+            }
+            return proposalDocumentIds;
         }
         #endregion
 

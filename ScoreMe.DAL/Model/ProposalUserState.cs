@@ -18,5 +18,8 @@ namespace ScoreMe.DAL.Model
         public string ProviderStateTypeDesc { get; set; }
         public Int64 UserStateType { get; set; }
         public string UserStateTypeDesc { get; set; }
+        public string CustomerFullName { get; set; }
+        public int ProviderOfferMonth { get; set; }
+        public int UserDemandMonth { get; set; }
     }
 }

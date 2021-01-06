@@ -1,0 +1,51 @@
+﻿@model ScoreMe.UI.Models.EnumVM
+@{
+    ViewBag.Title = "Enum kategori əlavə edilməsi ekranı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="row">
+
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.EnumCategoryCode, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EnumCategoryCode, new { htmlAttributes = new { @class = "form-control", tabindex = 1 } })
+                @Html.ValidationMessageFor(model => model.EnumCategoryCode, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.EnumCategoryName, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EnumCategoryName, new { htmlAttributes = new { @class = "form-control", tabindex = 2 } })
+                @Html.ValidationMessageFor(model => model.EnumCategoryName, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.EnumCategoryDesc, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EnumCategoryDesc, new { htmlAttributes = new { @class = "form-control", tabindex = 3 } })
+                @Html.ValidationMessageFor(model => model.EnumCategoryDesc, "", new { @class = "text-danger" })
+
+            </div>    
+       
+
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-6 control-label">
+                @Html.ActionLink("Listə Geri Dön", "Index", "EnumCategory", null, new { @class = "btn btn-primary btn-lg btn-block" })
+            </div>
+            <div class="col-md-6 control-label">
+                <input id="frmPosition" type="submit" value="Yarat" class="btn btn-primary btn-lg btn-block" tabindex="9" />
+            </div>
+        </div>
+    </div>
+}
+
+
+

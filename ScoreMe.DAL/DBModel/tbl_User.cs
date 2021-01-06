@@ -19,6 +19,11 @@ namespace ScoreMe.DAL.DBModel
         public string UserName { get; set; }
         public string Password { get; set; }
         public long UserType_EVID { get; set; }
+        public Nullable<int> LoginFailedCount { get; set; }
+        public Nullable<System.DateTime> LastLoginDate { get; set; }
+        public string LoginIPAddress { get; set; }
+        public Nullable<System.DateTime> LastAccessedDate { get; set; }
+        public Nullable<int> AccountLocked { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

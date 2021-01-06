@@ -26,9 +26,11 @@ namespace ScoreMe.DAL.DBModel
         }
     
         public virtual DbSet<ProviderType> ProviderTypes { get; set; }
+        public virtual DbSet<tbl_AccessRight> tbl_AccessRight { get; set; }
         public virtual DbSet<tbl_CALLDetail> tbl_CALLDetail { get; set; }
         public virtual DbSet<tbl_CALLModel> tbl_CALLModel { get; set; }
         public virtual DbSet<tbl_Customer> tbl_Customer { get; set; }
+        public virtual DbSet<tbl_Employee> tbl_Employee { get; set; }
         public virtual DbSet<tbl_EnumCategory> tbl_EnumCategory { get; set; }
         public virtual DbSet<tbl_EnumValue> tbl_EnumValue { get; set; }
         public virtual DbSet<tbl_Group> tbl_Group { get; set; }
@@ -60,5 +62,7 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_UserRole> tbl_UserRole { get; set; }
         public virtual DbSet<tbl_UserService> tbl_UserService { get; set; }
         public virtual DbSet<tbl_UserServiceRating> tbl_UserServiceRating { get; set; }
+        public virtual DbSet<log_DataChange> log_DataChange { get; set; }
+        public virtual DbSet<log_Login> log_Login { get; set; }
     }
 }

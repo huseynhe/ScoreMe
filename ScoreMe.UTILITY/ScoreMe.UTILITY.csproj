@@ -46,6 +46,8 @@
     <Compile Include="Custom\DataReaderExtensions.cs" />
     <Compile Include="Custom\StringExtension.cs" />
     <Compile Include="Custom\StripTag.cs" />
+    <Compile Include="EncodeAndDecode.cs" />
+    <Compile Include="MyTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

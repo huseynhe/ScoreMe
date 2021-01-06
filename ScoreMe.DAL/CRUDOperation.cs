@@ -1,8 +1,11 @@
 ﻿using ScoreMe.DAL.DBModel;
 using ScoreMe.DAL.Model;
+using ScoreMe.DAL.Repositories;
+using ScoreMe.UTILITY;
 using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -509,7 +512,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_User DeleteUser(Int64 id, int userId)
+        public tbl_User DeleteUser(Int64 id, Int64 userId)
         {
 
             try
@@ -561,6 +564,27 @@ namespace ScoreMe.DAL
                 {
                     var items = (from p in context.tbl_User
                                  where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_User> GetUsersByTypeEVID(int evID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_User
+                                 where p.Status == 1 && p.UserType_EVID== evID
                                  select p);
 
                     return items.ToList();
@@ -2506,7 +2530,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_EnumCategory DeleteEnumCategory(Int64 id, int userId)
+        public tbl_EnumCategory DeleteEnumCategory(Int64 id, Int64 userId)
         {
 
             try
@@ -2689,7 +2713,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_EnumValue DeleteEnumValue(Int64 id, int userId)
+        public tbl_EnumValue DeleteEnumValue(Int64 id, Int64 userId)
         {
 
             try
@@ -2874,6 +2898,7 @@ namespace ScoreMe.DAL
                         oldItem.Name = item.Name;
                         oldItem.Code = item.Code;
                         oldItem.Description = item.Description;
+                        oldItem.EnumCategoryID = item.EnumCategoryID;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -5036,7 +5061,9 @@ namespace ScoreMe.DAL
                         oldItem.ProposalID = item.ProposalID;
                         oldItem.UserID = item.UserID;
                         oldItem.ProviderOfferAmount = item.ProviderOfferAmount;
+                        oldItem.ProviderOfferMonth = item.ProviderOfferMonth;
                         oldItem.UserDemandAmount = item.UserDemandAmount;
+                        oldItem.UserDemandMonth = item.UserDemandMonth;
                         oldItem.ProviderStateType = item.ProviderStateType;
                         oldItem.UserStateType = item.UserStateType;
                         oldItem.UpdateDate = DateTime.Now;
@@ -5976,6 +6003,379 @@ namespace ScoreMe.DAL
 
         }
         #endregion
-     
+
+        #region tbl_Employee
+        public tbl_Employee AddEmployee(tbl_Employee item)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_Employee.Add(item);
+                    context.SaveChanges();
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_Employee DeleteEmployee(int id, int userId)
+        {
+
+            try
+            {
+                tbl_Employee oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_Employee
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_Employee.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_Employee> GetEmployees()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_Employee
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_Employee GetEmployeeById(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_Employee
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_Employee UpdateEmployee(tbl_Employee item)
+        {
+            try
+            {
+                tbl_Employee oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_Employee
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.FirstName = item.FirstName;
+                        oldItem.LastName = item.LastName;
+                        oldItem.FatherName = item.FatherName;
+                        oldItem.GenderType = item.GenderType;
+                        oldItem.UserId = item.UserId;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+                        context.tbl_Employee.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_Employee GetEmployeeByUserId(Int64 userId)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_Employee
+                                where p.UserId == userId && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region AccessRights
+        public bool AddAccessRights(tbl_AccessRight ar, out string ErrorMessage)
+        {
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    AccessRightsRepository ARR = new AccessRightsRepository();
+                    bool accessrightscheck = ARR.CheckAccessRights(0, ar.UserId, ar.Controller, ar.Action, 0);
+                    if (accessrightscheck)
+                    {
+                        ErrorMessage = "Bu icazə artıq daxil edilib.";
+                        return false;
+                    }
+                    ar.Status = 1;
+                    context.tbl_AccessRight.Add(ar);
+                    if (context.SaveChanges() == 0)
+                    {
+                        ErrorMessage = "İcazəni əlavə edərkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.";
+                        return false;
+                    }
+                    ErrorMessage = "İcazəni uğurla əlavə edilmiştir";
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public bool UpdateAccessRights(tbl_AccessRight ar, out string ErrorMessage)
+        {
+            DB_A62358_ScoreMeEntities entities = new DB_A62358_ScoreMeEntities();
+            tbl_AccessRight uar = entities.tbl_AccessRight.Where(x => x.Status == 1 && x.ID == ar.ID).FirstOrDefault();
+            try
+            {
+                AccessRightsRepository ARR = new AccessRightsRepository();
+                bool accessrightscheck = ARR.CheckAccessRights(ar.ID, ar.UserId, ar.Controller, ar.Action, ar.HasAccess);
+                if (accessrightscheck)
+                {
+                    ErrorMessage = "Bu icazə adı artıq daxil edilib.";
+                    return false;
+                }
+                uar.UserId = ar.UserId;
+                uar.Controller = ar.Controller;
+                uar.ControllerDesc = ar.ControllerDesc;
+                uar.ActionDesc = ar.ActionDesc;
+                uar.Action = ar.Action;
+                uar.HasAccess = ar.HasAccess;
+                entities.tbl_AccessRight.Attach(uar);
+                entities.Entry(uar).State = System.Data.Entity.EntityState.Modified;
+                if (entities.SaveChanges() == 0)
+                {
+                    ErrorMessage = "İstifadəçi icazəsini redaktə edərkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.";
+                    return false;
+                }
+                ErrorMessage = "İcazə uğurla redaktə edilmişdir";
+                return true;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                entities.Dispose();
+            }
+        }
+        public bool DeleteAccessRights(int Id, int userId, out string ErrorMessage)
+        {
+            try
+            {
+                tbl_AccessRight oar;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oar = (from ar in context.tbl_AccessRight
+                           where ar.ID == Id
+                           select ar).FirstOrDefault();
+                }
+                if (oar != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oar.Status = 0;
+                        oar.UpdateDate = DateTime.Now;
+                        oar.UpdateUser = userId;
+                        context.tbl_AccessRight.Attach(oar);
+                        context.Entry(oar).State = System.Data.Entity.EntityState.Modified;
+                        if (context.SaveChanges() == 0)
+                        {
+                            ErrorMessage = "İstifadəçi icazəsini silərkən xəta baş verdi. Zəhmət olmasa yenidən cəhd edin";
+                            return false;
+                        }
+                        ErrorMessage = "Icazə uğurla silinmişdir";
+                        return true;
+                    }
+                }
+                else
+                {
+                    Exception e = new Exception(Id.ToString() + " İD-li istifadəçi icazəsi yoxdur!");
+                    throw e;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public tbl_AccessRight GetAccessRight(int Id)
+        {
+            DB_A62358_ScoreMeEntities entities = new DB_A62358_ScoreMeEntities();
+            tbl_AccessRight ar = entities.tbl_AccessRight.Where(x => x.Status == 1 && x.ID == Id).FirstOrDefault();
+            entities.Dispose();
+            return ar;
+        }
+        public List<tbl_AccessRight> GetAccessRights()
+        {
+            DB_A62358_ScoreMeEntities entities = new DB_A62358_ScoreMeEntities();
+            List<tbl_AccessRight> ARL = entities.tbl_AccessRight.Where(x => x.Status == 1).ToList();
+            entities.Dispose();
+            return ARL;
+        }
+        #endregion
+
+        #region DataChange Log
+        public bool SaveToLog_DataChange(int UserId, int OperationType, string TableName, int OriginalId, List<MyTypes.DataChangeLog> Changes)
+        {
+            SqlConnection connection = new SqlConnection(ConnectionStrings.ConnectionString_Log);
+            connection.Open();
+            string query;
+            try
+            {
+                if (OperationType == 1 | OperationType == 3)
+                {
+                    query = @"INSERT INTO [dbo].[log_dataChange] (UserId, OperationType, TableName, OriginalId, OperationDateTime)
+                            VALUES(@UserId, @OperationType, @TableName, @OriginalId, GETDATE())";
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    cmd.Parameters.AddWithValue("@UserId", UserId);
+                    cmd.Parameters.AddWithValue("@OperationType", OperationType);
+                    cmd.Parameters.AddWithValue("@TableName", TableName);
+                    cmd.Parameters.AddWithValue("@OriginalId", OriginalId);
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    int result = cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    if (result > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    bool r = true;
+                    foreach (MyTypes.DataChangeLog Change in Changes)
+                    {
+                        query = @"INSERT INTO [dbo].[log_dataChange] (UserId, OperationType, TableName, OriginalId, ColumnName, OldValue, NewValue, OperationDateTime)
+                                VALUES(@UserId, @OperationType, @TableName, @OriginalId, @ColumnName, @OldValue, @NewValue, GETDATE())";
+                        SqlCommand cmd = new SqlCommand(query, connection);
+                        cmd.Parameters.AddWithValue("@UserId", UserId);
+                        cmd.Parameters.AddWithValue("@OperationType", OperationType);
+                        cmd.Parameters.AddWithValue("@TableName", TableName);
+                        cmd.Parameters.AddWithValue("@OriginalId", OriginalId);
+                        cmd.Parameters.AddWithValue("@ColumnName", Change.ColumnName);
+                        cmd.Parameters.AddWithValue("@OldValue", Change.OldValue);
+                        cmd.Parameters.AddWithValue("@NewValue", Change.NewValue);
+                        int eachresult = (int)cmd.ExecuteNonQuery();
+                        if (eachresult == 0)
+                        {
+                            r = false;
+                        }
+                        cmd.Dispose();
+                    }
+                    return r;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,57 @@
+﻿@model ScoreMe.UI.Models.EnumVM
+@{
+    ViewBag.Title = "Enum value redakte edilməsi ekranı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="row">
+            <div class="col-md-4">
+                @Html.HiddenFor(model => model.EnumValueID)
+                @Html.LabelFor(model => model.EnumCategoryID, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(x => Model.EnumCategoryID, new SelectList(Model.EnumCategoryList, "Value", "Text"), htmlAttributes: new { @class = "select2 form-control", tabindex = 1 })
+                @Html.ValidationMessageFor(model => model.EnumCategoryID, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.EnumValueCode, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EnumValueCode, new { htmlAttributes = new { @class = "form-control", tabindex = 2 } })
+                @Html.ValidationMessageFor(model => model.EnumValueCode, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.EnumValueName, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EnumValueName, new { htmlAttributes = new { @class = "form-control", tabindex = 3 } })
+                @Html.ValidationMessageFor(model => model.EnumValueName, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.EnumValueDesc, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EnumValueDesc, new { htmlAttributes = new { @class = "form-control", tabindex = 4 } })
+                @Html.ValidationMessageFor(model => model.EnumValueDesc, "", new { @class = "text-danger" })
+
+            </div>
+
+
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-6 control-label">
+                @Html.ActionLink("Listə Geri Dön", "Index", "EnumCategory", null, new { @class = "btn btn-primary btn-lg btn-block" })
+            </div>
+            <div class="col-md-6 control-label">
+                <input id="frmPosition" type="submit" value="Dəyiş" class="btn btn-primary btn-lg btn-block" tabindex="9" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+

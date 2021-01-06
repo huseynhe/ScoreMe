@@ -19,7 +19,9 @@ namespace ScoreMe.DAL.DBModel
         public long ProposalID { get; set; }
         public long UserID { get; set; }
         public Nullable<decimal> ProviderOfferAmount { get; set; }
+        public Nullable<int> ProviderOfferMonth { get; set; }
         public Nullable<decimal> UserDemandAmount { get; set; }
+        public Nullable<int> UserDemandMonth { get; set; }
         public Nullable<long> ProviderStateType { get; set; }
         public Nullable<long> UserStateType { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }

@@ -77,8 +77,7 @@ namespace ScoreMe.DAL.Repositories
             List<ProposalUserState> proposalUserStates = new List<ProposalUserState>();
             try
             {
-                var query = @"select 
-                                pus.ID,
+                var query = @"select  pus.ID,
                                 pus.[UserID],
                                 pus.ProposalID,
                                 pus.[ProviderOfferAmount],
@@ -86,8 +85,12 @@ namespace ScoreMe.DAL.Repositories
                                 pus.ProviderStateType,
                                 (select ev.Name from [dbo].[tbl_EnumValue] ev where ev.[ID]=pus.ProviderStateType)  as ProviderStateTypeDesc,
                                 pus.[UserStateType],
-                                (select ev.Name from [dbo].[tbl_EnumValue] ev where ev.[ID]=pus.[UserStateType])  as UserStateTypeDesc
-                                from dbo.tbl_ProposalUserState pus where pus.Status=1 and  pus.ProposalID=@P_ProposalID ";
+                                (select ev.Name from [dbo].[tbl_EnumValue] ev where ev.[ID]=pus.[UserStateType])  as UserStateTypeDesc,
+								ctm.Name+' '+ctm.Surname as CustomerFullName,
+								pus.[ProviderOfferMonth],
+								pus.[UserDemandMonth]
+                                from dbo.tbl_ProposalUserState pus, [dbo].[tbl_Customer] ctm
+								where pus.Status=1 and ctm.[Status]=1 and ctm.UserId=pus.UserID and pus.ProposalID=@P_ProposalID";
 
                 using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
                 {
@@ -111,7 +114,9 @@ namespace ScoreMe.DAL.Repositories
                                 ProviderStateTypeDesc = reader.GetStringOrEmpty(6),
                                 UserStateType = reader.GetInt64OrDefaultValue(7),
                                 UserStateTypeDesc = reader.GetStringOrEmpty(8),
-
+                                CustomerFullName=reader.GetStringOrEmpty(9),
+                                ProviderOfferMonth = reader.GetInt32OrDefaultValue(10),
+                                UserDemandMonth = reader.GetInt32OrDefaultValue(11),
                             };
                             proposalUserStates.Add(proposalUserState);
 
