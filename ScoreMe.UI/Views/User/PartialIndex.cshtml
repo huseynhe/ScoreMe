@@ -45,9 +45,9 @@
                         }
                     </td>
                     <td class="col-md-1 shsingle text-center" style="font-size:16px;">
-                        <a class="btn btn-xs" data-toggle="tooltip" href="@Url.Action("Edit","User", new { id = item.UserID})"><span title="Redaktə et" class="fa fa-pencil"></span></a>
-                        <span title="Sil"> @Html.ActionLink(" ", "Delete", "User", new { id = item.UserID }, new { @onclick = "return confirm('Silmək istədiyinizə əminsinizmi');", @class = "btn btn-xs fa fa-trash-o" })</span>
-                        <a class="btn btn-xs" data-toggle="tooltip" href="@Url.Action("Index","AccessRight", new { userId = item.UserID})"><span title="Detallar" class="fa fa-th-list"></span></a>
+                        <a class="btn  btn-primary active btn-xs" data-toggle="tooltip" href="@Url.Action("Edit","User", new { id = item.UserID})"><span title="Redaktə et" class="fa fa-pencil"></span></a>
+                        <span title="Sil"> @Html.ActionLink(" ", "Delete", "User", new { id = item.UserID }, new { @onclick = "return confirm('Silmək istədiyinizə əminsinizmi');", @class = "glyphicon glyphicon-trash" })</span>
+                        <a class="btn  btn-primary active btn-xs" data-toggle="tooltip" href="@Url.Action("Index","AccessRight", new { userId = item.UserID})"><span title="Detallar" class="fa fa-th-list"></span></a>
                     </td>
 
                 </tr>

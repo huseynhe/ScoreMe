@@ -1,0 +1,63 @@
+﻿@model ScoreMe.UI.Models.PackageVM
+@{
+    ViewBag.Title = "Paket redakte edilməsi ekranı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <div class="row">
+
+        <div class="col-md-4">
+            @Html.HiddenFor(model => model.PackageID)
+            @Html.LabelFor(model => model.Mobile_EVID, htmlAttributes: new { @class = "control-label" })
+            @Html.DropDownListFor(x => Model.Mobile_EVID, new SelectList(Model.MobileEVList, "Value", "Text"), htmlAttributes: new { @class = "select2 form-control", tabindex = 1 })
+            @Html.ValidationMessageFor(model => model.Mobile_EVID, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.PackageName, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.PackageName, new { htmlAttributes = new { @class = "form-control", tabindex = 2 } })
+            @Html.ValidationMessageFor(model => model.PackageName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.PackageSize, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.PackageSize, new { htmlAttributes = new { @class = "form-control", tabindex = 3 } })
+            @Html.ValidationMessageFor(model => model.PackageSize, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Validity, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Validity, new { htmlAttributes = new { @class = "form-control", tabindex = 4 } })
+            @Html.ValidationMessageFor(model => model.Validity, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.ValidityDesc, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.ValidityDesc, new { htmlAttributes = new { @class = "form-control", tabindex = 5 } })
+            @Html.ValidationMessageFor(model => model.ValidityDesc, "", new { @class = "text-danger" })
+
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-md-6 control-label">
+            @Html.ActionLink("Listə Geri Dön", "Index", "EnumCategory", null, new { @class = "btn btn-primary btn-lg btn-block" })
+        </div>
+        <div class="col-md-6 control-label">
+            <input id="frmPosition" type="submit" value="Dəyiş" class="btn btn-primary btn-lg btn-block" tabindex="9" />
+        </div>
+    </div>
+</div>
+}
+
+
+
+

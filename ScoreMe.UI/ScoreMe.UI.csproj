@@ -138,19 +138,22 @@
     <Compile Include="Attributes\DescriptionAttribute.cs" />
     <Compile Include="Attributes\Extensions.cs" />
     <Compile Include="Attributes\LoginCheck.cs" />
+    <Compile Include="Controllers\AmReportController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EnumCategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Enums\TypeEnum.cs" />
+    <Compile Include="Enums\CategoryEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessRightVM.cs" />
     <Compile Include="Models\EmployeeVM.cs" />
     <Compile Include="Models\EnumVM.cs" />
+    <Compile Include="Models\PackageVM.cs" />
     <Compile Include="Models\PersonVM.cs" />
     <Compile Include="Models\TypeVM.cs" />
     <Compile Include="Models\UserVM.cs" />
@@ -776,6 +779,8 @@
     <Content Include="assets\img\logo2.png" />
     <Content Include="assets\img\logo3.jpeg" />
     <Content Include="assets\img\pa.png" />
+    <Content Include="assets\img\pp.jpg" />
+    <Content Include="assets\img\scoremelogo.png" />
     <Content Include="assets\img\sort_asc.png" />
     <Content Include="assets\img\sort_asc_disabled.png" />
     <Content Include="assets\img\sort_both.png" />
@@ -2023,6 +2028,13 @@
     <Content Include="Views\EnumValue\Index.cshtml" />
     <Content Include="Views\EnumValue\PartialIndex.cshtml" />
     <Content Include="Views\EnumValue\Edit.cshtml" />
+    <Content Include="Views\Package\Index.cshtml" />
+    <Content Include="Views\Package\Create.cshtml" />
+    <Content Include="Views\Package\Edit.cshtml" />
+    <Content Include="Views\Package\PartialIndex.cshtml" />
+    <Content Include="Views\Package\PriceIndex.cshtml" />
+    <Content Include="Views\Package\CreatePrice.cshtml" />
+    <Content Include="Views\Package\EditPrice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

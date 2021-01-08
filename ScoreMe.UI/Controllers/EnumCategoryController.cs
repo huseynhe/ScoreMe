@@ -15,11 +15,12 @@ using System.Web.Mvc;
 
 namespace ScoreMe.UI.Controllers
 {
+    [LoginCheck]
+    [AccessRightsCheck]
     public class EnumCategoryController : Controller
     {
         // GET: EnumCategory
-        [LoginCheck]
-        [AccessRightsCheck]
+     
         [Description("Enum Kategori siyahısı")]
         public ActionResult Index(int? page, string vl, string prm = null)
         {

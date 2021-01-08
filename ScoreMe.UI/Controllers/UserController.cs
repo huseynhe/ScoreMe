@@ -22,11 +22,11 @@ namespace ScoreMe.UI.Controllers
 
     [LoginCheck]
     [AccessRightsCheck]
-    [Description("İstifadəçilər")]
+
     public class UserController : Controller
     {
         // GET: Users
-
+        [Description("İstifadəçilər")]
         public ActionResult Index(int? page, int? userId, string vl, string prm = null)
         {
             UserVM userViewModel = null;

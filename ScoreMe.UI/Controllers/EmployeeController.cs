@@ -17,11 +17,12 @@ using ScoreMe.DAL.DBModel;
 
 namespace ScoreMe.UI.Controllers
 {
+    [LoginCheck]
+    [AccessRightsCheck]
     public class EmployeeController : Controller
     {
         // GET: Employee
-        [LoginCheck]
-        [AccessRightsCheck]
+      
         [Description("Vəzifəli şəxs")]
         public ActionResult Index(int? page, string vl, string prm = null)
         {

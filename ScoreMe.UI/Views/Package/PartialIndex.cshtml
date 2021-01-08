@@ -1,0 +1,61 @@
+﻿@model ScoreMe.UI.Models.PackageVM
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "";
+}
+
+
+
+
+<div class="col-sm-1 col-sm-offset-11" style="position: absolute;">
+    <span class="label label-danger pull-right badgemargin">@Model.ListCount</span>
+</div>
+
+<table class="table table-bordered">
+    <tbody>
+        @foreach (var item in Model.RPackageList)
+        {
+        <tr>
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.Mobile_EVDesc)
+            </td>
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.PackageName)
+            </td>
+
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.PackageSize)
+            </td>
+
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.Validity)
+            </td>
+            <td class="col-md-2">
+                @Html.DisplayFor(modelItem => item.ValidityDesc)
+            </td>
+
+            <td class="col-md-1 shsingle text-center" style="font-size:16px;">
+                <a class="btn  btn-primary active btn-xs" title="Redaktə et" href="@Url.Action("Edit","Package", new { id = item.PackageID})"><span class="fa fa-pencil"></span></a>
+                <span title="Sil"> @Html.ActionLink(" ", "Delete", "Package", new { id = item.PackageID }, new { @onclick = "return confirm('Silmək istədiyinizə əminsinizmi?.');", @class = "glyphicon glyphicon-trash" })</span>
+
+                <a class="btn btn-primary active btn-xs" data-toggle="tooltip" title="Price list" href="@Url.Action("PriceIndex","Package", new {  packageID= item.PackageID})"><span class="fa fa-th-list"></span></a>
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="box-footer clearfix">
+    Səhifə @(Model.Paging.PageCount < Model.Paging.PageNumber ? 0 : Model.Paging.PageNumber) (cəmi @Model.Paging.PageCount)
+    @Html.PagedListPager(Model.Paging, page => Url.Action("Index", new { page }))
+</div>
+
+
+
+
+
+

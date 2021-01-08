@@ -3129,7 +3129,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_Package DeletePackage(Int64 id, int userId)
+        public tbl_Package DeletePackage(Int64 id, Int64 userId)
         {
 
             try
@@ -3311,7 +3311,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_PackagePrice DeletePackagePrice(Int64 id, int userId)
+        public tbl_PackagePrice DeletePackagePrice(Int64 id, Int64 userId)
         {
 
             try
