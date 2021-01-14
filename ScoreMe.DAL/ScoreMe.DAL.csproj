@@ -127,6 +127,9 @@
     <Compile Include="DBModel\tbl_ProposalUserGroup.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_ProposalUserSave.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_ProposalUserState.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>

@@ -12,19 +12,15 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_Employee
+    public partial class tbl_ProposalUserSave
     {
         public long ID { get; set; }
         public int Status { get; set; }
-        public long UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string FatherName { get; set; }
-        public Nullable<int> GenderType { get; set; }
-        public Nullable<int> PositionID { get; set; }
+        public long UserID { get; set; }
+        public long ProposalID { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
-        public Nullable<int> InsertUser { get; set; }
+        public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
-        public Nullable<int> UpdateUser { get; set; }
+        public Nullable<long> UpdateUser { get; set; }
     }
 }
