@@ -165,7 +165,7 @@ namespace ScoreMe.UI.Controllers
             viewModel.LastName = tblItem.LastName;
             viewModel.FatherName = tblItem.FatherName;
             viewModel.UserID = tblItem.UserId;
-            viewModel.GenderType = tblItem.GenderType;
+            viewModel.GenderType = (int)tblItem.GenderType;
 
             return View(viewModel);
 
