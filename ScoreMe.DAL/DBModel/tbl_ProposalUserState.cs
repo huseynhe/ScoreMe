@@ -24,6 +24,7 @@ namespace ScoreMe.DAL.DBModel
         public Nullable<int> UserDemandMonth { get; set; }
         public Nullable<long> ProviderStateType { get; set; }
         public Nullable<long> UserStateType { get; set; }
+        public Nullable<decimal> InitialPayment { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

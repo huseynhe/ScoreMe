@@ -359,6 +359,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UserDemandMonth" Type="int" />
           <Property Name="ProviderStateType" Type="bigint" />
           <Property Name="UserStateType" Type="bigint" />
+          <Property Name="InitialPayment" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -1084,6 +1085,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UserDemandMonth" Type="Int32" />
           <Property Name="ProviderStateType" Type="Int64" />
           <Property Name="UserStateType" Type="Int64" />
+          <Property Name="InitialPayment" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1742,6 +1744,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InitialPayment" ColumnName="InitialPayment" />
                 <ScalarProperty Name="UserStateType" ColumnName="UserStateType" />
                 <ScalarProperty Name="ProviderStateType" ColumnName="ProviderStateType" />
                 <ScalarProperty Name="UserDemandMonth" ColumnName="UserDemandMonth" />

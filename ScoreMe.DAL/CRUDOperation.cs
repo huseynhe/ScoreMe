@@ -5066,6 +5066,7 @@ namespace ScoreMe.DAL
                         oldItem.UserDemandMonth = item.UserDemandMonth;
                         oldItem.ProviderStateType = item.ProviderStateType;
                         oldItem.UserStateType = item.UserStateType;
+                        oldItem.InitialPayment = item.InitialPayment;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 

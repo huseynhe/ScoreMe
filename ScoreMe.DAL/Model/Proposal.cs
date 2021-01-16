@@ -25,7 +25,7 @@ namespace ScoreMe.DAL.Model
         public ProposalUserState ProposalUserState { get; set; }
         public List<ProposalUserState> ProposalUserStateList { get; set; }
         public List<Int64> ProposalDocumentIds { get; set; }
-        public int LikeCount { get; set; }
-        public int DislikeCount { get; set; }
+        public bool IsLike  { get; set; } = false;
+        public bool IsDislike { get; set; } = false;
     }
 }

@@ -484,10 +484,7 @@ namespace ScoreMe.Business
 
                 if (_ProposalObj != null)
                 {
-                    int dislikecount = 0;
-                    int likecount = cRUDOperation.GetProposalLikeDislikeCountByProposalId(id, out dislikecount);
                     tbl_Provider _Provider = cRUDOperation.GetProviderById(_ProposalObj.ProviderID);
-
                     proposal = new Proposal()
                     {
                         ID = _ProposalObj.ID,
@@ -500,8 +497,6 @@ namespace ScoreMe.Business
                         IsPublic = _ProposalObj.IsPublic,
                         StartDate = _ProposalObj.StartDate,
                         EndDate = _ProposalObj.EndDate,
-                        LikeCount = likecount,
-                        DislikeCount = dislikecount
 
                     };
 
@@ -580,9 +575,7 @@ namespace ScoreMe.Business
                     foreach (var proposalItem in tbl_Proposals)
                     {
                         tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
-                        int dislikecount = 0;
-                        int likecount = cRUDOperation.GetProposalLikeDislikeCountByProposalId(proposalItem.ID, out dislikecount);
-                        Proposal proposal = new Proposal()
+                       Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
                             Name = proposalItem.Name,
@@ -594,8 +587,7 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            LikeCount=likecount,
-                            DislikeCount=dislikecount
+                           
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -677,9 +669,7 @@ namespace ScoreMe.Business
 
                     foreach (var proposalItem in tbl_Proposals)
                     {
-                        int dislikecount = 0;
-                        int likecount = cRUDOperation.GetProposalLikeDislikeCountByProposalId(proposalItem.ID, out dislikecount);
-                        Proposal proposal = new Proposal()
+                       Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
                             Name = proposalItem.Name,
@@ -691,8 +681,7 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            LikeCount=likecount,
-                            DislikeCount=dislikecount
+                           
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -774,8 +763,6 @@ namespace ScoreMe.Business
                 {
                     foreach (var proposalItem in tbl_Proposals)
                     {
-                        int dislikecount = 0;
-                        int likecount = cRUDOperation.GetProposalLikeDislikeCountByProposalId(proposalItem.ID, out dislikecount);
                         Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
@@ -788,8 +775,6 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            LikeCount=likecount,
-                            DislikeCount=dislikecount
 
                         };
 
@@ -885,8 +870,8 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            LikeCount=likecount,
-                            DislikeCount=dislikecount
+                            IsLike=likecount>0?true:false,
+                            IsDislike= dislikecount>0?true:false,
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -985,8 +970,8 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            LikeCount=likecount,
-                            DislikeCount=dislikecount
+                            IsLike = likecount > 0 ? true : false,
+                            IsDislike = dislikecount > 0 ? true : false,
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
