@@ -24,6 +24,7 @@ namespace ScoreMe.DAL.DBModel
         public string LoginIPAddress { get; set; }
         public Nullable<System.DateTime> LastAccessedDate { get; set; }
         public Nullable<int> AccountLocked { get; set; }
+        public Nullable<int> IsActive { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

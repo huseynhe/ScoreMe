@@ -575,6 +575,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="LoginIPAddress" Type="nvarchar" MaxLength="50" />
           <Property Name="LastAccessedDate" Type="datetime2" Precision="7" />
           <Property Name="AccountLocked" Type="int" />
+          <Property Name="IsActive" Type="int" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -1301,6 +1302,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="LoginIPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastAccessedDate" Type="DateTime" Precision="7" />
           <Property Name="AccountLocked" Type="Int32" />
+          <Property Name="IsActive" Type="Int32" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1974,6 +1976,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
                 <ScalarProperty Name="AccountLocked" ColumnName="AccountLocked" />
                 <ScalarProperty Name="LastAccessedDate" ColumnName="LastAccessedDate" />
                 <ScalarProperty Name="LoginIPAddress" ColumnName="LoginIPAddress" />
