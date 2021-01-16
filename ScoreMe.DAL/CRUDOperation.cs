@@ -584,7 +584,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_User
-                                 where p.Status == 1 && p.UserType_EVID== evID
+                                 where p.Status == 1 && p.UserType_EVID == evID
                                  select p);
 
                     return items.ToList();
@@ -1017,7 +1017,7 @@ namespace ScoreMe.DAL
                             context.tbl_ProposalUserGroup.Add(proposalUserGroup);
                             context.SaveChanges();
                         }
-                      
+
                         transaction.Commit();
                     }
 
@@ -1105,7 +1105,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_Proposal
-                                 where p.Status == 1 && p.ProviderID== providerid
+                                 where p.Status == 1 && p.ProviderID == providerid
                                  select p);
 
                     return items.ToList();
@@ -1125,12 +1125,12 @@ namespace ScoreMe.DAL
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                  
+
                     var items = (from ug in context.tbl_UserGroup
                                  join g in context.tbl_Group on ug.GroupID equals g.ID
                                  join pug in context.tbl_ProposalUserGroup on g.ID equals pug.GroupID
                                  join p in context.tbl_Proposal on pug.ProposalID equals p.ID
-                                 where  ug.Status == 1 && pug.Status == 1 && p.Status == 1 && ug.UserID == userid
+                                 where ug.Status == 1 && pug.Status == 1 && p.Status == 1 && ug.UserID == userid
                                  select p);
 
 
@@ -1151,9 +1151,9 @@ namespace ScoreMe.DAL
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                   
+
                     var items = (from p in context.tbl_Proposal
-                                 where p.Status == 1 && p.IsPublic==true
+                                 where p.Status == 1 && p.IsPublic == true
                                  select p);
 
 
@@ -2807,8 +2807,8 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var item = (from ec in context.tbl_EnumCategory
-                                 where ec.Status == 1 && ec.Code == enumCategoryCode
-                                select ec).FirstOrDefault() ;
+                                where ec.Status == 1 && ec.Code == enumCategoryCode
+                                select ec).FirstOrDefault();
 
                     enumCategoryID = item.ID;
 
@@ -3021,7 +3021,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_Region
-                                 where p.Status == 1 &&p.Type==type
+                                 where p.Status == 1 && p.Type == type
                                  select p);
 
                     return items.ToList();
@@ -4583,7 +4583,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_SMSDetail
-                                 where p.Status == 1 && p.SMSModelID==modelID
+                                 where p.Status == 1 && p.SMSModelID == modelID
                                  select p);
 
                     return items.ToList();
@@ -5203,7 +5203,7 @@ namespace ScoreMe.DAL
 
                         oldItem.SenderName = item.SenderName;
                         oldItem.Number = item.Number;
-                        oldItem.ActivityType = item.ActivityType;                        
+                        oldItem.ActivityType = item.ActivityType;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
                         context.tbl_SMSSenderInfo.Attach(oldItem);
@@ -5558,7 +5558,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_UserDocument> GetUserDocumentsByUserIDAndImageTypeEVID(Int64 userID,int imageType_EVID)
+        public List<tbl_UserDocument> GetUserDocumentsByUserIDAndImageTypeEVID(Int64 userID, int imageType_EVID)
         {
 
             try
@@ -5566,7 +5566,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_UserDocument
-                                 where p.Status == 1 && p.UserID == userID && p.ImageType_EVID==imageType_EVID
+                                 where p.Status == 1 && p.UserID == userID && p.ImageType_EVID == imageType_EVID
                                  select p);
 
                     return items.ToList();
@@ -6750,7 +6750,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_ProposalLikeDislike
-                                where p.UserID == userId && p.Status == 1 && p.IsLike==1
+                                where p.UserID == userId && p.Status == 1 && p.IsLike == 1
                                 select p).ToList().Count;
 
                     return item;
@@ -6765,21 +6765,24 @@ namespace ScoreMe.DAL
 
         }
 
-        public Int64 GetProposalLikeCountByProposalId(Int64 proposalId)
+        public int GetProposalLikeDislikeCountByProposalId(Int64 proposalId, out int dislikecount)
         {
-
+            int likecount = 0;
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
 
+                    likecount = (from p in context.tbl_ProposalLikeDislike
+                                 where p.ProposalID == proposalId && p.Status == 1 && p.IsLike == 1
+                                 select p).ToList().Count;
 
-                    var item = (from p in context.tbl_ProposalLikeDislike
-                                where p.ProposalID == proposalId && p.Status == 1 && p.IsLike == 1
 
-                                select p).ToList().Count;
+                    dislikecount = (from p in context.tbl_ProposalLikeDislike
+                                    where p.ProposalID == proposalId && p.Status == 1 && p.IsDislike == 1
+                                    select p).ToList().Count;
 
-                    return item;
+                    return likecount;
 
                 }
             }
@@ -6958,7 +6961,7 @@ namespace ScoreMe.DAL
 
                     var item = (from pc in context.tbl_ProposalCommission
                                 join p in context.tbl_Proposal on pc.ProposalID equals p.ID
-                                  where p.ProviderID == providerId && p.Status == 1 && pc.Status == 1
+                                where p.ProviderID == providerId && p.Status == 1 && pc.Status == 1
                                 select pc).ToList();
 
                     return item;
@@ -6983,7 +6986,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_ProposalCommission
-                                where p.ProposalID == proposalId && p.Status == 1 
+                                where p.ProposalID == proposalId && p.Status == 1
 
                                 select p).FirstOrDefault();
 

@@ -35,8 +35,18 @@ namespace ScoreMe.API.Controllers
         public Int64 GetProposalLikeCountByProposalID(Int64 proposalID)
         {
             CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetProposalLikeCountByProposalId(proposalID); ;
+            int dislikecount = 0;
+            var items = operation.GetProposalLikeDislikeCountByProposalId(proposalID,out dislikecount); ;
             return items;
+        }
+        [HttpGet]
+        [Route("GetProposalDislikeCountByProposalID/{proposalID}")]
+        public Int64 GetProposalDislikeCountByProposalID(Int64 proposalID)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            int dislikecount = 0;
+            var items = operation.GetProposalLikeDislikeCountByProposalId(proposalID,out dislikecount); ;
+            return dislikecount;
         }
         [HttpGet]
         [Route("GetProposalLikeCountByUserID/{userID}")]
