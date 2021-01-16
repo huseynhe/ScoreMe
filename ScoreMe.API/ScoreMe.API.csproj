@@ -165,7 +165,9 @@
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\PackagePriceController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
+    <Compile Include="Controllers\ProposalCommissionController.cs" />
     <Compile Include="Controllers\ProposalController.cs" />
+    <Compile Include="Controllers\ProposalLikeDislikeController.cs" />
     <Compile Include="Controllers\ProposalUserSaveController.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\ProviderServiceController.cs" />

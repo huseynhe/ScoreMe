@@ -39,9 +39,12 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_PackagePrice> tbl_PackagePrice { get; set; }
         public virtual DbSet<tbl_Permission> tbl_Permission { get; set; }
         public virtual DbSet<tbl_Proposal> tbl_Proposal { get; set; }
+        public virtual DbSet<tbl_ProposalCommission> tbl_ProposalCommission { get; set; }
         public virtual DbSet<tbl_ProposalDetail> tbl_ProposalDetail { get; set; }
         public virtual DbSet<tbl_ProposalDocument> tbl_ProposalDocument { get; set; }
+        public virtual DbSet<tbl_ProposalLikeDislike> tbl_ProposalLikeDislike { get; set; }
         public virtual DbSet<tbl_ProposalUserGroup> tbl_ProposalUserGroup { get; set; }
+        public virtual DbSet<tbl_ProposalUserSave> tbl_ProposalUserSave { get; set; }
         public virtual DbSet<tbl_ProposalUserState> tbl_ProposalUserState { get; set; }
         public virtual DbSet<tbl_Provider> tbl_Provider { get; set; }
         public virtual DbSet<tbl_ProviderRole> tbl_ProviderRole { get; set; }
@@ -64,6 +67,5 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_UserServiceRating> tbl_UserServiceRating { get; set; }
         public virtual DbSet<log_DataChange> log_DataChange { get; set; }
         public virtual DbSet<log_Login> log_Login { get; set; }
-        public virtual DbSet<tbl_ProposalUserSave> tbl_ProposalUserSave { get; set; }
     }
 }
