@@ -17,8 +17,14 @@ namespace ScoreMe.DAL.DBModel
         public long ID { get; set; }
         public int Status { get; set; }
         public long UserID { get; set; }
-        public Nullable<int> TotalMessageCount { get; set; }
-        public Nullable<int> ShortMessageCount { get; set; }
+        public Nullable<long> TotalMessageCount { get; set; }
+        public Nullable<long> ShortMessageCount { get; set; }
+        public Nullable<long> OutMessageCount { get; set; }
+        public Nullable<long> InMessageCount { get; set; }
+        public Nullable<long> OutMessageForeignCount { get; set; }
+        public Nullable<long> InMessageForeigCount { get; set; }
+        public Nullable<long> OutMessageRoamingCount { get; set; }
+        public Nullable<long> InMessageRoamingCount { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

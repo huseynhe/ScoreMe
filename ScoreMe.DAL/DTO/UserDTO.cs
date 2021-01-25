@@ -14,6 +14,7 @@ namespace ScoreMe.DAL.DTO
         public Int64 UserType_EVID { get; set; }
         public string UserTypeDesc { get; set; }
         public int AccountLocked { get; set; }
+        public int IsActive { get; set; }
 
     }
 }

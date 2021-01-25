@@ -89,7 +89,7 @@ namespace ScoreMe.DAL.Repositories
 
             if (search.isCount == false)
             {
-                head = @"  us.ID, us.UserName,us.Password,us.AccountLocked,us.UserType_EVID,ev.Name as UserTypeDesc";
+                head = @"  us.ID, us.UserName,us.Password,us.AccountLocked,us.UserType_EVID,ev.Name as UserTypeDesc,us.IsActive ";
             }
             else
             {
@@ -148,7 +148,8 @@ namespace ScoreMe.DAL.Repositories
                                 Password = reader.GetStringOrEmpty(2),
                                 AccountLocked = reader.GetInt32OrDefaultValue(3),
                                 UserType_EVID = reader.GetInt64OrDefaultValue(4),
-                                UserTypeDesc= reader.GetStringOrEmpty(5),
+                                UserTypeDesc = reader.GetStringOrEmpty(5),
+                                IsActive = reader.GetInt32OrDefaultValue(6),
                             });
                         }
                         else
@@ -186,7 +187,7 @@ namespace ScoreMe.DAL.Repositories
             return _count;
         }
 
-     
+
 
     }
 }

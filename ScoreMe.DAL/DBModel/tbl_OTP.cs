@@ -12,19 +12,14 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_User
+    public partial class tbl_OTP
     {
         public long ID { get; set; }
         public int Status { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public long UserType_EVID { get; set; }
-        public Nullable<int> LoginFailedCount { get; set; }
-        public Nullable<System.DateTime> LastLoginDate { get; set; }
-        public string LoginIPAddress { get; set; }
-        public Nullable<System.DateTime> LastAccessedDate { get; set; }
-        public Nullable<int> AccountLocked { get; set; }
-        public int IsActive { get; set; }
+        public long UserID { get; set; }
+        public string OTPCode { get; set; }
+        public Nullable<System.DateTime> CreateTime { get; set; }
+        public Nullable<int> ISsuccess { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

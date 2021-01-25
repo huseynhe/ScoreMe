@@ -51,7 +51,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
         [Route("AddUser")]
-        public async Task<IHttpActionResult> AddUser(tbl_User item)
+        public IHttpActionResult AddUser(tbl_User item)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +66,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
         [Route("UpdateUser")]
-        public async Task<IHttpActionResult> UpdateUser(tbl_User item)
+        public IHttpActionResult UpdateUser(tbl_User item)
         {
             CRUDOperation operation = new CRUDOperation();
             if (item == null)
@@ -83,7 +83,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
         [Route("DeleteUser/{id}")]
-        public async Task<IHttpActionResult> DeleteUser(Int64 id)
+        public IHttpActionResult DeleteUser(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
 
@@ -94,8 +94,20 @@ namespace ScoreMe.API.Controllers
 
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
+        [Route("ChangeUserActivateStatus/{id}/{activateStatus}")]
+        public IHttpActionResult ChangeUserActivateStatus(Int64 id,int activateStatus)
+        {
+            CRUDOperation operation = new CRUDOperation();
+
+            var dbitem = operation.ActivateUser(id, 0, activateStatus);
+            return Ok(dbitem);
+
+        }
+
+        [HttpPost]
+        [ResponseType(typeof(tbl_User))]
         [Route("ChangePassword/{id}/{newpassword}")]
-        public async Task<IHttpActionResult> ChangePassword(Int64 id, string newpassword)
+        public IHttpActionResult ChangePassword(Int64 id, string newpassword)
         {
             CRUDOperation operation = new CRUDOperation();
 
@@ -106,7 +118,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
         [Route("ChangePasswordByUserName")]
-        public async Task<IHttpActionResult> ChangePasswordByUserName(UserInfo item)
+        public IHttpActionResult ChangePasswordByUserName(UserInfo item)
         {
             if (!ModelState.IsValid)
             {

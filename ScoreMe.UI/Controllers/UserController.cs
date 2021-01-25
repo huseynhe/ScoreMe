@@ -240,8 +240,6 @@ namespace ScoreMe.UI.Controllers
 
         public ActionResult Delete(int id)
         {
-
-
             try
             {
                 var UserProfile = (UserProfileSessionData)this.Session["UserProfile"];
@@ -278,6 +276,43 @@ namespace ScoreMe.UI.Controllers
 
 
         }
+        public ActionResult ChangeActivateStatus(Int64 id,int activateStatus)
+        {
+            try
+            {
+                var UserProfile = (UserProfileSessionData)this.Session["UserProfile"];
+                if (UserProfile != null)
+                {
+                    CRUDOperation CRUDOperation = new CRUDOperation();
 
+                    string responseMsj = string.Empty;
+                    tbl_User userDB = CRUDOperation.ActivateUser(id, UserProfile.UserId, activateStatus);
+                    if (userDB != null)
+                    {
+                        TempData["success"] = "Ok";
+                        TempData["message"] = "Məlumatlar uğurla dəyişdirildi";
+                        return RedirectToAction("Index");
+
+
+                    }
+                    else
+                    {
+                        TempData["success"] = "notOk";
+                        TempData["message"] = "Məlumatlar dəyişdirilərkən xəta baş verdi";
+                        return RedirectToAction("Index");
+
+
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "Error", "Error"));
+            }
+
+
+
+        }
     }
 }

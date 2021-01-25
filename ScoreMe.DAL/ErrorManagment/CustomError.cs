@@ -18,5 +18,14 @@ namespace ScoreMe.DAL.ErrorManagment
         public static string PasswordIncorrectDesc = "Password is incorrect ";
         public static int PasswordAndConfirmPasswordCode = 15;
         public static string PasswordAndConfirmPasswordDesc = "The password and confirmation password do not match. ";
+
+        public static int EmptyUserNameErrorCode = 16;
+        public static string EmptyUserNameErrorDesc = "Username is empty. ";
+
+        public static int EmptyOTPCodeErrorCode = 17;
+        public static string EmptyOTPCodeErrorDesc = "OTP code is empty. ";
+
+        public static int OTPCodeNotSendSMSServiceCode = 18;
+        public static string OTPCodeNotSendSMSServiceDesc = "OTP code can not send use service. ";
     }
 }

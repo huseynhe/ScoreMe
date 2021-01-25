@@ -499,6 +499,7 @@ namespace ScoreMe.DAL
                 using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
                 {
                     item.Status = 1;
+                    item.IsActive = 1;
                     item.InsertDate = DateTime.Now;
                     item.UpdateDate = DateTime.Now;
                     context.tbl_User.Add(item);
@@ -512,6 +513,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
+        
         public tbl_User DeleteUser(Int64 id, Int64 userId)
         {
 
@@ -555,6 +557,49 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_User ActivateUser(Int64 id, Int64 userId, int acivateStatus)
+        {
+
+            try
+            {
+                tbl_User oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_User
+                               where p.ID == id &&  p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.IsActive = acivateStatus;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_User.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public List<tbl_User> GetUsers()
         {
 
@@ -563,7 +608,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_User
-                                 where p.Status == 1
+                                 where p.Status == 1 && p.IsActive==1
                                  select p);
 
                     return items.ToList();
@@ -584,7 +629,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_User
-                                 where p.Status == 1 && p.UserType_EVID == evID
+                                 where p.Status == 1 && p.IsActive==1 && p.UserType_EVID == evID
                                  select p);
 
                     return items.ToList();
@@ -607,7 +652,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_User
-                                where p.ID == Id && p.Status == 1
+                                where p.ID == Id && p.IsActive==1 && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -631,7 +676,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_User
-                                where p.UserName == username && p.Status == 1
+                                where p.UserName == username && p.IsActive==1 && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -698,7 +743,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     oldItem = (from p in context.tbl_User
-                               where p.ID == id && p.Status == 1
+                               where p.ID == id && p.IsActive==1 && p.Status == 1
                                select p).FirstOrDefault();
 
                 }
@@ -741,7 +786,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     oldItem = (from p in context.tbl_User
-                               where p.UserName == username && p.Status == 1
+                               where p.UserName == username && p.IsActive==1 && p.Status == 1
                                select p).FirstOrDefault();
 
                 }
@@ -786,7 +831,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_User
-                                where p.UserName == username && p.Password == password && p.Status == 1
+                                where p.UserName == username && p.Password == password && p.IsActive==1 && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -4107,7 +4152,6 @@ namespace ScoreMe.DAL
         }
         #endregion
 
-
         #region tbl_UserGroup
         public tbl_UserGroup AddUserGroup(tbl_UserGroup item)
         {
@@ -4489,7 +4533,7 @@ namespace ScoreMe.DAL
         }
         #endregion
 
-        #region AddSMSDetail
+        #region SMSDetail
         public tbl_SMSDetail AddSMSDetail(tbl_SMSDetail item)
         {
 
@@ -4642,6 +4686,9 @@ namespace ScoreMe.DAL
                         oldItem.RecievedDate = item.RecievedDate;
                         oldItem.SendDate = item.SendDate;
                         oldItem.Message = item.Message;
+                        oldItem.InOutType = item.InOutType;
+                        oldItem.IsForeign = item.IsForeign;
+                        oldItem.IsRoaming = item.IsRoaming;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -4670,6 +4717,7 @@ namespace ScoreMe.DAL
 
 
         #endregion
+
         #region tbl_SMSModel
         public List<tbl_SMSModel> GetSMSModels()
         {
@@ -4777,6 +4825,17 @@ namespace ScoreMe.DAL
                         oldItem.UserID = item.UserID;
                         oldItem.TotalMessageCount = item.TotalMessageCount;
                         oldItem.ShortMessageCount = item.ShortMessageCount;
+
+                        oldItem.OutMessageCount = item.OutMessageCount;
+                        oldItem.InMessageCount = item.InMessageCount;
+
+                        oldItem.OutMessageForeignCount = item.OutMessageForeignCount;
+                        oldItem.InMessageForeigCount = item.InMessageForeigCount;
+
+                        oldItem.OutMessageRoamingCount = item.OutMessageRoamingCount;
+                        oldItem.InMessageRoamingCount = item.InMessageRoamingCount;
+
+
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -5978,6 +6037,9 @@ namespace ScoreMe.DAL
                         oldItem.Duration = item.Duration;
                         oldItem.RecievedDate = item.RecievedDate;
                         oldItem.SendDate = item.SendDate;
+                        oldItem.InOutType = item.InOutType;
+                        oldItem.IsForeign = item.IsForeign;
+                        oldItem.IsRoaming = item.IsRoaming;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -6584,6 +6646,7 @@ namespace ScoreMe.DAL
 
         }
         #endregion
+
         #region tbl_ProposalLikeDislike
         public tbl_ProposalLikeDislike AddProposalLikeDislike(tbl_ProposalLikeDislike item)
         {
@@ -6766,6 +6829,34 @@ namespace ScoreMe.DAL
 
         }
 
+        public int GetUserProposalLikeDislikeCount(Int64 proposalId,Int64 userId, out int dislikecount)
+        {
+            int likecount = 0;
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    likecount = (from p in context.tbl_ProposalLikeDislike
+                                 where p.ProposalID == proposalId && p.UserID==userId && p.Status == 1 && p.IsLike == 1
+                                 select p).ToList().Count;
+
+
+                    dislikecount = (from p in context.tbl_ProposalLikeDislike
+                                    where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1 && p.IsDislike == 1
+                                    select p).ToList().Count;
+
+                    return likecount;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public int GetProposalLikeDislikeCountByProposalId(Int64 proposalId, out int dislikecount)
         {
             int likecount = 0;
@@ -6976,7 +7067,6 @@ namespace ScoreMe.DAL
             }
 
         }
-
         public tbl_ProposalCommission GetProposalCommissionByProposalId(Int64 proposalId)
         {
 
@@ -6990,6 +7080,213 @@ namespace ScoreMe.DAL
                                 where p.ProposalID == proposalId && p.Status == 1
 
                                 select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_OTP
+        public tbl_OTP AddOTP(tbl_OTP item)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_OTP.Add(item);
+                    context.SaveChanges();
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_OTP DeleteOTP(Int64 id, Int64 userId)
+        {
+
+            try
+            {
+                tbl_OTP oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_OTP
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_OTP.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_OTP> GetOTPs()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_OTP
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_OTP GetOTPById(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_OTP
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_OTP GetOTPByOtpCode(string otpCode)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_OTP
+                                where p.OTPCode == otpCode && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_OTP UpdateOTP(tbl_OTP item)
+        {
+            try
+            {
+                tbl_OTP oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_OTP
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.UserID = item.UserID;
+                        oldItem.OTPCode = item.OTPCode;
+                        oldItem.CreateTime = item.CreateTime;
+                        oldItem.ISsuccess = item.ISsuccess;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+                        context.tbl_OTP.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_OTP> GetOTPByUserId(Int64 userId)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from o in context.tbl_OTP
+                                where o.UserID == userId && o.Status == 1 
+                                select o).ToList();
 
                     return item;
 

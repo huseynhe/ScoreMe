@@ -539,7 +539,7 @@ namespace ScoreMe.Business
                         proposal.ProposalUserGroups = proposalUserGroups;
                     }
                     proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
-                 
+
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
@@ -575,7 +575,7 @@ namespace ScoreMe.Business
                     foreach (var proposalItem in tbl_Proposals)
                     {
                         tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
-                       Proposal proposal = new Proposal()
+                        Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
                             Name = proposalItem.Name,
@@ -587,7 +587,7 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                           
+
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -669,7 +669,7 @@ namespace ScoreMe.Business
 
                     foreach (var proposalItem in tbl_Proposals)
                     {
-                       Proposal proposal = new Proposal()
+                        Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
                             Name = proposalItem.Name,
@@ -681,7 +681,7 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                           
+
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -816,7 +816,7 @@ namespace ScoreMe.Business
                             }
                             proposal.ProposalUserGroups = proposalUserGroups;
                         }
-                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);        
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
                         List<ProposalUserState> ProposalUserStates = repository.GetProposalUserStateByProposalID(proposal.ID);
                         proposal.ProposalUserStateList = ProposalUserStates;
                         proposals.Add(proposal);
@@ -857,7 +857,7 @@ namespace ScoreMe.Business
                     {
                         tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
                         int dislikecount = 0;
-                        int likecount = cRUDOperation.GetProposalLikeDislikeCountByProposalId(proposalItem.ID, out dislikecount);
+                        int likecount = cRUDOperation.GetUserProposalLikeDislikeCount(proposalItem.ID, userDB.ID, out dislikecount);
                         Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
@@ -870,8 +870,8 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            IsLike=likecount>0?true:false,
-                            IsDislike= dislikecount>0?true:false,
+                            IsLike = likecount > 0 ? true : false,
+                            IsDislike = dislikecount > 0 ? true : false,
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -957,7 +957,7 @@ namespace ScoreMe.Business
                     {
                         tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
                         int dislikecount = 0;
-                        int likecount = cRUDOperation.GetProposalLikeDislikeCountByProposalId(proposalItem.ID, out dislikecount);
+                        int likecount = cRUDOperation.GetUserProposalLikeDislikeCount(proposalItem.ID, userDB.ID, out dislikecount);
                         Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
@@ -1186,7 +1186,16 @@ namespace ScoreMe.Business
                         {
                             ID = tbl_SMSModel.ID,
                             TotalMessageCount = tbl_SMSModel.TotalMessageCount,
-                            ShortMessageCount = tbl_SMSModel.ShortMessageCount
+                            ShortMessageCount = tbl_SMSModel.ShortMessageCount,
+
+                            OutMessageCount = tbl_SMSModel.OutMessageCount,
+                            InMessageCount = tbl_SMSModel.InMessageCount,
+
+                            OutMessageForeignCount = tbl_SMSModel.OutMessageForeignCount,
+                            InMessageForeigCount = tbl_SMSModel.InMessageForeigCount,
+
+                            OutMessageRoamingCount = tbl_SMSModel.OutMessageRoamingCount,
+                            InMessageRoamingCount = tbl_SMSModel.InMessageRoamingCount,
                         };
 
                         List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(sMSModel.ID);
@@ -1229,7 +1238,16 @@ namespace ScoreMe.Business
                     {
                         ID = tbl_SMSModel.ID,
                         TotalMessageCount = tbl_SMSModel.TotalMessageCount,
-                        ShortMessageCount = tbl_SMSModel.ShortMessageCount
+                        ShortMessageCount = tbl_SMSModel.ShortMessageCount,
+
+                        OutMessageCount = tbl_SMSModel.OutMessageCount,
+                        InMessageCount = tbl_SMSModel.InMessageCount,
+
+                        OutMessageForeignCount = tbl_SMSModel.OutMessageForeignCount,
+                        InMessageForeigCount = tbl_SMSModel.InMessageForeigCount,
+
+                        OutMessageRoamingCount = tbl_SMSModel.OutMessageRoamingCount,
+                        InMessageRoamingCount = tbl_SMSModel.InMessageRoamingCount,
                     };
 
                     List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(sMSModel.ID);
@@ -1262,6 +1280,14 @@ namespace ScoreMe.Business
                     TotalMessageCount = item.TotalMessageCount,
                     ShortMessageCount = item.ShortMessageCount,
 
+                    OutMessageCount = item.OutMessageCount,
+                    InMessageCount = item.InMessageCount,
+
+                    OutMessageForeignCount = item.OutMessageForeignCount,
+                    InMessageForeigCount = item.InMessageForeigCount,
+
+                    OutMessageRoamingCount = item.OutMessageRoamingCount,
+                    InMessageRoamingCount = item.InMessageRoamingCount,
                 };
 
                 List<tbl_SMSDetail> tbl_SMSDetails = new List<tbl_SMSDetail>();
@@ -1289,6 +1315,15 @@ namespace ScoreMe.Business
                     UserID = item.UserID,
                     TotalMessageCount = item.TotalMessageCount,
                     ShortMessageCount = item.ShortMessageCount,
+
+                    OutMessageCount = item.OutMessageCount,
+                    InMessageCount = item.InMessageCount,
+
+                    OutMessageForeignCount = item.OutMessageForeignCount,
+                    InMessageForeigCount = item.InMessageForeigCount,
+
+                    OutMessageRoamingCount = item.OutMessageRoamingCount,
+                    InMessageRoamingCount = item.InMessageRoamingCount,
 
                 };
 

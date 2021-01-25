@@ -35,6 +35,7 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_EnumValue> tbl_EnumValue { get; set; }
         public virtual DbSet<tbl_Group> tbl_Group { get; set; }
         public virtual DbSet<tbl_NetConsume> tbl_NetConsume { get; set; }
+        public virtual DbSet<tbl_OTP> tbl_OTP { get; set; }
         public virtual DbSet<tbl_Package> tbl_Package { get; set; }
         public virtual DbSet<tbl_PackagePrice> tbl_PackagePrice { get; set; }
         public virtual DbSet<tbl_Permission> tbl_Permission { get; set; }

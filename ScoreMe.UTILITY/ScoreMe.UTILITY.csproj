@@ -49,6 +49,7 @@
     <Compile Include="EncodeAndDecode.cs" />
     <Compile Include="MyTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebServiceUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

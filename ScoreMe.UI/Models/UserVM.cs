@@ -38,6 +38,9 @@ namespace ScoreMe.UI.Models
         public int? LockType { get; set; }
         public IEnumerable<SelectListItem> LockTypes { get; set; }
 
+        [Display(Name = "Activlik tipi")]
+        public int ActivateType { get; set; }
+
         [Display(Name = "Sonuncu giriş")]
         public DateTime? LastLoginDate { get; set; }
 

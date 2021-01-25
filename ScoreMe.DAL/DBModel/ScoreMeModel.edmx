@@ -77,6 +77,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="CALLModelID" Type="bigint" Nullable="false" />
+          <Property Name="InOutType" Type="int" />
+          <Property Name="IsRoaming" Type="int" />
+          <Property Name="IsForeign" Type="int" />
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
           <Property Name="Duration" Type="decimal" Precision="18" Scale="2" />
           <Property Name="RecievedDate" Type="datetime2" Precision="7" />
@@ -193,6 +196,21 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Minute" Type="int" />
           <Property Name="Consumed" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Speed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_OTP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="OTPCode" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime2" Precision="7" />
+          <Property Name="ISsuccess" Type="int" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -523,6 +541,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="SMSModelID" Type="bigint" Nullable="false" />
+          <Property Name="InOutType" Type="int" />
+          <Property Name="IsRoaming" Type="int" />
+          <Property Name="IsForeign" Type="int" />
           <Property Name="SenderName" Type="nvarchar" MaxLength="100" />
           <Property Name="SenderPhoneNumber" Type="nvarchar" MaxLength="100" />
           <Property Name="RecievedDate" Type="datetime2" Precision="7" />
@@ -540,8 +561,14 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="UserID" Type="bigint" Nullable="false" />
-          <Property Name="TotalMessageCount" Type="int" />
-          <Property Name="ShortMessageCount" Type="int" />
+          <Property Name="TotalMessageCount" Type="bigint" />
+          <Property Name="ShortMessageCount" Type="bigint" />
+          <Property Name="OutMessageCount" Type="bigint" />
+          <Property Name="InMessageCount" Type="bigint" />
+          <Property Name="OutMessageForeignCount" Type="bigint" />
+          <Property Name="InMessageForeigCount" Type="bigint" />
+          <Property Name="OutMessageRoamingCount" Type="bigint" />
+          <Property Name="InMessageRoamingCount" Type="bigint" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -575,7 +602,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="LoginIPAddress" Type="nvarchar" MaxLength="50" />
           <Property Name="LastAccessedDate" Type="datetime2" Precision="7" />
           <Property Name="AccountLocked" Type="int" />
-          <Property Name="IsActive" Type="int" />
+          <Property Name="IsActive" Type="int" Nullable="false" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -661,6 +688,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_EnumValue" EntityType="Self.tbl_EnumValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Group" EntityType="Self.tbl_Group" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_NetConsume" EntityType="Self.tbl_NetConsume" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_OTP" EntityType="Self.tbl_OTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Package" EntityType="Self.tbl_Package" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_PackagePrice" EntityType="Self.tbl_PackagePrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Permission" EntityType="Self.tbl_Permission" Schema="dbo" store:Type="Tables" />
@@ -733,6 +761,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_EnumValue" EntityType="DB_A62358_ScoreMeModel.tbl_EnumValue" />
           <EntitySet Name="tbl_Group" EntityType="DB_A62358_ScoreMeModel.tbl_Group" />
           <EntitySet Name="tbl_NetConsume" EntityType="DB_A62358_ScoreMeModel.tbl_NetConsume" />
+          <EntitySet Name="tbl_OTP" EntityType="DB_A62358_ScoreMeModel.tbl_OTP" />
           <EntitySet Name="tbl_Package" EntityType="DB_A62358_ScoreMeModel.tbl_Package" />
           <EntitySet Name="tbl_PackagePrice" EntityType="DB_A62358_ScoreMeModel.tbl_PackagePrice" />
           <EntitySet Name="tbl_Permission" EntityType="DB_A62358_ScoreMeModel.tbl_Permission" />
@@ -804,6 +833,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="CALLModelID" Type="Int64" Nullable="false" />
+          <Property Name="InOutType" Type="Int32" />
+          <Property Name="IsRoaming" Type="Int32" />
+          <Property Name="IsForeign" Type="Int32" />
           <Property Name="PhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="RecievedDate" Type="DateTime" Precision="7" />
@@ -920,6 +952,21 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Minute" Type="Int32" />
           <Property Name="Consumed" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Speed" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_OTP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="OTPCode" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Precision="7" />
+          <Property Name="ISsuccess" Type="Int32" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1250,6 +1297,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="SMSModelID" Type="Int64" Nullable="false" />
+          <Property Name="InOutType" Type="Int32" />
+          <Property Name="IsRoaming" Type="Int32" />
+          <Property Name="IsForeign" Type="Int32" />
           <Property Name="SenderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SenderPhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RecievedDate" Type="DateTime" Precision="7" />
@@ -1267,8 +1317,14 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int64" Nullable="false" />
-          <Property Name="TotalMessageCount" Type="Int32" />
-          <Property Name="ShortMessageCount" Type="Int32" />
+          <Property Name="TotalMessageCount" Type="Int64" />
+          <Property Name="ShortMessageCount" Type="Int64" />
+          <Property Name="OutMessageCount" Type="Int64" />
+          <Property Name="InMessageCount" Type="Int64" />
+          <Property Name="OutMessageForeignCount" Type="Int64" />
+          <Property Name="InMessageForeigCount" Type="Int64" />
+          <Property Name="OutMessageRoamingCount" Type="Int64" />
+          <Property Name="InMessageRoamingCount" Type="Int64" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1302,7 +1358,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="LoginIPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LastAccessedDate" Type="DateTime" Precision="7" />
           <Property Name="AccountLocked" Type="Int32" />
-          <Property Name="IsActive" Type="Int32" />
+          <Property Name="IsActive" Type="Int32" Nullable="false" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1457,6 +1513,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
+                <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
+                <ScalarProperty Name="InOutType" ColumnName="InOutType" />
                 <ScalarProperty Name="CALLModelID" ColumnName="CALLModelID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1577,6 +1636,22 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="Mobile_EVID" ColumnName="Mobile_EVID" />
                 <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_OTP">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_OTP">
+              <MappingFragment StoreEntitySet="tbl_OTP">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="ISsuccess" ColumnName="ISsuccess" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="OTPCode" ColumnName="OTPCode" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -1933,6 +2008,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
                 <ScalarProperty Name="SenderPhoneNumber" ColumnName="SenderPhoneNumber" />
                 <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
+                <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
+                <ScalarProperty Name="InOutType" ColumnName="InOutType" />
                 <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
@@ -1946,6 +2024,12 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InMessageRoamingCount" ColumnName="InMessageRoamingCount" />
+                <ScalarProperty Name="OutMessageRoamingCount" ColumnName="OutMessageRoamingCount" />
+                <ScalarProperty Name="InMessageForeigCount" ColumnName="InMessageForeigCount" />
+                <ScalarProperty Name="OutMessageForeignCount" ColumnName="OutMessageForeignCount" />
+                <ScalarProperty Name="InMessageCount" ColumnName="InMessageCount" />
+                <ScalarProperty Name="OutMessageCount" ColumnName="OutMessageCount" />
                 <ScalarProperty Name="ShortMessageCount" ColumnName="ShortMessageCount" />
                 <ScalarProperty Name="TotalMessageCount" ColumnName="TotalMessageCount" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />

@@ -44,8 +44,34 @@
                             Write("");
                         }
                     </td>
+                    <td class="col-md-2">
+
+                        @{
+                            if (item.IsActive == 1)
+                            {
+                                Write("Aktiv");
+                            }
+                            else if (item.IsActive == 0)
+                            {
+                                Write("Deaktiv");
+                            }
+                        }
+                    </td>
                     <td class="col-md-1 shsingle text-center" style="font-size:16px;">
-                        <a class="btn  btn-primary active btn-xs" data-toggle="tooltip" href="@Url.Action("Edit","User", new { id = item.UserID})"><span title="Redaktə et" class="fa fa-pencil"></span></a>
+
+                        @{
+                            if (item.IsActive == 1)
+                            {
+                                <span title="Deactiv et"> @Html.ActionLink(" ", "ChangeActivateStatus", "User", new { id = item.UserID, activateStatus = 0 }, new { @onclick = "return confirm('Deactiv etməyə əminsinizmi');", @class = "btn btn-danger btn-sm glyphicon glyphicon-remove text-danger" })</span>
+                            }
+                            else if (item.IsActive == 0)
+                            {
+                                <span title="Activ et"> @Html.ActionLink(" ", "ChangeActivateStatus", "User", new { id = item.UserID, activateStatus = 1 }, new { @onclick = "return confirm('Activ etməyə əminsinizmi');", @class = "btn btn-success btn-sm glyphicon  glyphicon-ok" })</span>
+                            }
+
+                        }
+                        <a class="btn  btn-primary active btn-xs" data-toggle="tooltip" href="@Url.Action("Edit", "User", new { id = item.UserID })"><span title="Redaktə et" class="fa fa-pencil"></span></a>
+
                         <span title="Sil"> @Html.ActionLink(" ", "Delete", "User", new { id = item.UserID }, new { @onclick = "return confirm('Silmək istədiyinizə əminsinizmi');", @class = "glyphicon glyphicon-trash" })</span>
                         <a class="btn  btn-primary active btn-xs" data-toggle="tooltip" href="@Url.Action("Index","AccessRight", new { userId = item.UserID})"><span title="Detallar" class="fa fa-th-list"></span></a>
                     </td>
