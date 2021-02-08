@@ -73,6 +73,53 @@ namespace ScoreMe.Business
             }
 
         }
+        public BaseOutput ResetPasswordByUserName(UserInfo item, Int64 LoginUserID, out tbl_User itemOut)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                if (item.Newpassword != item.ConfirmPassword)
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(true, CustomError.PasswordAndConfirmPasswordCode, CustomError.PasswordAndConfirmPasswordDesc, "");
+
+                }
+
+
+                tbl_User user = cRUDOperation.GetUserByUserName(item.UserName);
+                if (user == null)
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(true, CustomError.UserNameNotFoundCode, CustomError.UserNameNotFoundDesc, "");
+
+                }
+                else
+                {
+                    string encryptedNewPassword = UserUtil.MD5HashedPassword(item.Newpassword);
+                    tbl_User _User = cRUDOperation.ChangePassword(user.ID, LoginUserID, encryptedNewPassword);
+                    if (_User != null)
+                    {
+                        itemOut = _User;
+                        return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                    }
+                    else
+                    {
+                        itemOut = null;
+                        return baseOutput = new BaseOutput(true, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, "");
+
+                    }
+                }
+             
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
         #endregion
         #region Account
         public BaseOutput ValidLogin(string userName, string userPassword, out tbl_User itemOut)
@@ -336,6 +383,7 @@ namespace ScoreMe.Business
             }
         }
         #endregion
+
         #region Proposal
         public BaseOutput AddProposalWithDetail(Proposal item, out Proposal itemOut)
         {
@@ -1152,7 +1200,6 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
-
         private List<Int64> GetProposalDocuments(Int64 proposalID)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
@@ -1196,6 +1243,9 @@ namespace ScoreMe.Business
 
                             OutMessageRoamingCount = tbl_SMSModel.OutMessageRoamingCount,
                             InMessageRoamingCount = tbl_SMSModel.InMessageRoamingCount,
+
+                            BeginDate = tbl_SMSModel.BeginDate,
+                            EndDate = tbl_SMSModel.EndDate,
                         };
 
                         List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(sMSModel.ID);
@@ -1248,10 +1298,58 @@ namespace ScoreMe.Business
 
                         OutMessageRoamingCount = tbl_SMSModel.OutMessageRoamingCount,
                         InMessageRoamingCount = tbl_SMSModel.InMessageRoamingCount,
+
+                        BeginDate = tbl_SMSModel.BeginDate,
+                        EndDate = tbl_SMSModel.EndDate,
                     };
 
                     List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(sMSModel.ID);
                     sMSModel.SMSDetails = tbl_SMSDetails;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetLastSMSModelByUserName(string userName, out SMSModel sMSModel)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            sMSModel = null;
+            try
+            {
+
+                tbl_SMSModel tbl_SMSModel = cRUDOperation.GetLastSMSModelByUserName(userName);
+                if (tbl_SMSModel != null)
+                {
+                    sMSModel = new SMSModel()
+                    {
+                        ID = tbl_SMSModel.ID,
+                        TotalMessageCount = tbl_SMSModel.TotalMessageCount,
+                        ShortMessageCount = tbl_SMSModel.ShortMessageCount,
+
+                        OutMessageCount = tbl_SMSModel.OutMessageCount,
+                        InMessageCount = tbl_SMSModel.InMessageCount,
+
+                        OutMessageForeignCount = tbl_SMSModel.OutMessageForeignCount,
+                        InMessageForeigCount = tbl_SMSModel.InMessageForeigCount,
+
+                        OutMessageRoamingCount = tbl_SMSModel.OutMessageRoamingCount,
+                        InMessageRoamingCount = tbl_SMSModel.InMessageRoamingCount,
+
+                        BeginDate = tbl_SMSModel.BeginDate,
+                        EndDate = tbl_SMSModel.EndDate,
+                    };
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
@@ -1288,6 +1386,8 @@ namespace ScoreMe.Business
 
                     OutMessageRoamingCount = item.OutMessageRoamingCount,
                     InMessageRoamingCount = item.InMessageRoamingCount,
+                    BeginDate = item.BeginDate,
+                    EndDate = item.EndDate,
                 };
 
                 List<tbl_SMSDetail> tbl_SMSDetails = new List<tbl_SMSDetail>();
@@ -1324,6 +1424,9 @@ namespace ScoreMe.Business
 
                     OutMessageRoamingCount = item.OutMessageRoamingCount,
                     InMessageRoamingCount = item.InMessageRoamingCount,
+
+                    BeginDate = item.BeginDate,
+                    EndDate = item.EndDate,
 
                 };
 
@@ -1417,6 +1520,8 @@ namespace ScoreMe.Business
                         {
                             ID = tblCallModel.ID,
                             TotalCallCount = tblCallModel.TotalCallCount,
+                            BeginDate = tblCallModel.BeginDate,
+                            EndDate = tblCallModel.EndDate,
                         };
 
                         List<tbl_CALLDetail> tbl_CALLDetails = cRUDOperation.GetCALLDetailsByModelID(callModel.ID);
@@ -1459,10 +1564,47 @@ namespace ScoreMe.Business
                     {
                         ID = tblCallModel.ID,
                         TotalCallCount = tblCallModel.TotalCallCount,
+                        BeginDate = tblCallModel.BeginDate,
+                        EndDate = tblCallModel.EndDate,
                     };
 
                     List<tbl_CALLDetail> tblCALLDetails = cRUDOperation.GetCALLDetailsByModelID(callModel.ID);
                     callModel.CALLDetails = tblCALLDetails;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetLastCALLModelByUserName(string userName, out CALLModel callModel)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            callModel = null;
+            try
+            {
+
+                tbl_CALLModel tblCallModel = cRUDOperation.GetLastCALLModelByUserName(userName);
+                if (tblCallModel != null)
+                {
+                    callModel = new CALLModel()
+                    {
+                        ID = tblCallModel.ID,
+                        TotalCallCount = tblCallModel.TotalCallCount,
+                        BeginDate = tblCallModel.BeginDate,
+                        EndDate = tblCallModel.EndDate,
+                    };
+
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
@@ -1489,7 +1631,8 @@ namespace ScoreMe.Business
                 {
                     UserID = item.UserID,
                     TotalCallCount = item.TotalCallCount,
-
+                    BeginDate = item.BeginDate,
+                    EndDate = item.EndDate,
                 };
 
                 List<tbl_CALLDetail> tblCALLDetails = new List<tbl_CALLDetail>();
@@ -1516,7 +1659,8 @@ namespace ScoreMe.Business
                     ID = item.ID,
                     UserID = item.UserID,
                     TotalCallCount = item.TotalCallCount,
-
+                    BeginDate = item.BeginDate,
+                    EndDate = item.EndDate,
                 };
 
                 tbl_CALLModel _CALLModel = cRUDOperation.UpdateCALLModel(tblCALLModel);

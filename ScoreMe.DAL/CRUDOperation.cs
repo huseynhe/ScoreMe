@@ -642,6 +642,28 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_User> GetMessajeUsersByTypeEVID(int evID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from u in context.tbl_User
+                                 join sm in context.tbl_SMSModel  on u.ID equals sm.UserID 
+                                 where u.Status == 1 && sm.Status==1 && u.IsActive == 1 && u.UserType_EVID == evID
+                                 select u).Distinct();
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public tbl_User GetUserById(Int64 Id)
         {
 
@@ -4764,6 +4786,32 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_SMSModel GetLastSMSModelByUserName(string userName)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from s in context.tbl_SMSModel
+                                join u in context.tbl_User on s.UserID equals u.ID
+                                where u.UserName == userName && s.Status == 1 && u.Status == 1
+                                orderby s.EndDate descending
+                                select s).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_SMSModel AddSMSModel(tbl_SMSModel smsModel, List<tbl_SMSDetail> smsDetails)
         {
             tbl_SMSModel dbItem = null;
@@ -4835,6 +4883,8 @@ namespace ScoreMe.DAL
                         oldItem.OutMessageRoamingCount = item.OutMessageRoamingCount;
                         oldItem.InMessageRoamingCount = item.InMessageRoamingCount;
 
+                        oldItem.BeginDate = item.BeginDate;
+                        oldItem.EndDate = item.EndDate;
 
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
@@ -5755,6 +5805,32 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_CALLModel GetLastCALLModelByUserName(string userName)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_CALLModel
+                                join u in context.tbl_User on p.UserID equals u.ID 
+                                where u.UserName == userName && p.Status == 1 &&u.Status==1
+                                orderby p.EndDate descending
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_CALLModel AddCALLModel(tbl_CALLModel callModel, List<tbl_CALLDetail> callDetails)
         {
             tbl_CALLModel dbItem = null;
@@ -5815,8 +5891,12 @@ namespace ScoreMe.DAL
                     {
                         oldItem.UserID = item.UserID;
                         oldItem.TotalCallCount = item.TotalCallCount;
+                        oldItem.BeginDate = item.BeginDate;
+                        oldItem.EndDate = item.EndDate;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
+
+                    
 
                         context.tbl_CALLModel.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
@@ -7229,6 +7309,30 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_OTP GetOTPByOtpCode(string otpCode,string phoneNumber)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_OTP
+                                where p.OTPCode == otpCode && p.PhoneNumber==phoneNumber && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_OTP UpdateOTP(tbl_OTP item)
         {
             try
@@ -7292,6 +7396,213 @@ namespace ScoreMe.DAL
 
                 }
             }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_OperatorInformation
+        public tbl_OperatorInformation AddOperatorInformation(tbl_OperatorInformation item)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_OperatorInformation.Add(item);
+                    context.SaveChanges();
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_OperatorInformation DeleteOperatorInformation(Int64 id, Int64 userId)
+        {
+
+            try
+            {
+                tbl_OperatorInformation oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_OperatorInformation
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_OperatorInformation.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_OperatorInformation> GetOperatorInformations()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_OperatorInformation
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_OperatorInformation GetOperatorInformationById(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_OperatorInformation
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_OperatorInformation GetOperatorInformationByPrefix(string prefix)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_OperatorInformation
+                                where p.Name == prefix && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_OperatorInformation GetOperatorInformationByPrefixAndType(string prefix, int type)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_OperatorInformation
+                                where p.Name == prefix && p.InOutType == type && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_OperatorInformation UpdateOperatorInformation(tbl_OperatorInformation item)
+        {
+            try
+            {
+                tbl_OperatorInformation oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_OperatorInformation
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.Name = item.Name;
+                        oldItem.InOutType = item.InOutType;
+                        oldItem.Price = item.Price;
+                        oldItem.Point = item.Point;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+                        context.tbl_OperatorInformation.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
             catch (Exception ex)
             {
 

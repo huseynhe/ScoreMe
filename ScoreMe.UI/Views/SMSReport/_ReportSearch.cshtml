@@ -1,0 +1,26 @@
+﻿@model IEnumerable<ScoreMe.DAL.DTO.SMSReportDTO>
+@{ int STT = 0;}
+@foreach (var m in Model)
+{
+    STT++;
+<tr>
+    <td>@STT</td>
+    <td>@m.Name</td>
+    <td>@m.Year</td>
+    <td>@m.January</td>
+    <td>@m.February</td>
+    <td>@m.March</td>
+    <td>@m.April</td>
+    <td>@m.May</td>
+    <td>@m.June</td>
+    <td>@m.July</td>
+    <td>@m.August</td>
+    <td>@m.September</td>
+    <td>@m.October</td>
+    <td>@m.November</td>
+    <td>@m.December</td>
+    <td>@Html.ActionLink("Modify", "Edit", "Home", new { id = m.ID, @class = "badge badge-warning" })</td>
+    <td>@Html.ActionLink("Removed", "Delete", "Home", new { id = m.ID, @class = "badge badge-danger" })</td>
+</tr>
+}
+

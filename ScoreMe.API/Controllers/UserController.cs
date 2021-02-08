@@ -138,6 +138,28 @@ namespace ScoreMe.API.Controllers
 
         }
 
+        [HttpPost]
+        [ResponseType(typeof(tbl_User))]
+        [Route("ResetPasswordByUserName")]
+        public IHttpActionResult ResetPasswordByUserName(UserInfo item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+            tbl_User itemOut = null;
+            BaseOutput dbitem = businessOperation.ResetPasswordByUserName(item, 0, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+        }
         #region UserDocument
         [HttpPost]
         [Route("AddUserDocument")]

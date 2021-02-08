@@ -12,6 +12,8 @@ namespace ScoreMe.DAL.Model
         public Int64 ID { get; set; }
         public Int64 UserID { get; set; }
         public int? TotalCallCount { get; set; }
+        public DateTime? BeginDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public List<tbl_CALLDetail> CALLDetails { get; set; }
     }
 }

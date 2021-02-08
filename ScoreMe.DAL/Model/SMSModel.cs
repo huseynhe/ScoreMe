@@ -19,6 +19,8 @@ namespace ScoreMe.DAL.Model
         public Int64? InMessageForeigCount { get; set; }
         public Int64? OutMessageRoamingCount { get; set; }
         public Int64? InMessageRoamingCount { get; set; }
+        public DateTime? BeginDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public List<tbl_SMSDetail> SMSDetails { get; set; }
 
 

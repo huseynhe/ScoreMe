@@ -25,6 +25,8 @@ namespace ScoreMe.DAL.DBModel
         public Nullable<long> InMessageForeigCount { get; set; }
         public Nullable<long> OutMessageRoamingCount { get; set; }
         public Nullable<long> InMessageRoamingCount { get; set; }
+        public Nullable<System.DateTime> BeginDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

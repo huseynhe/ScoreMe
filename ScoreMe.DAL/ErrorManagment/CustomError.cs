@@ -27,5 +27,8 @@ namespace ScoreMe.DAL.ErrorManagment
 
         public static int OTPCodeNotSendSMSServiceCode = 18;
         public static string OTPCodeNotSendSMSServiceDesc = "OTP code can not send use service. ";
+
+        public static int PhoneNumberErrorCode = 19;
+        public static string PhoneNumberErrorDesc = "PhoneNumber is empty. ";
     }
 }

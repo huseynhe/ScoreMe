@@ -57,5 +57,45 @@ namespace ScoreMe.API.Controllers
 
 
         }
+
+
+        [HttpPost]
+        [Route("GenarateOTPByNumber/{phoneNumber}")]
+        public IHttpActionResult GenarateOTPUseNumber(string phoneNumber)
+        {
+
+
+            OTPOperation businessOperation = new OTPOperation();
+            string itemOut = string.Empty;
+            BaseOutput dbitem = businessOperation.GenarateOTPByNumber(phoneNumber, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
+        }
+
+        [HttpPost]
+        [Route("VerifyOTPByNumber/{phoneNumber}/{otptext}")]
+        public IHttpActionResult VerifyOTPUseNumber(string phoneNumber, string otptext)
+        {
+
+            OTPOperation businessOperation = new OTPOperation();
+            bool itemOut = false;
+            BaseOutput dbitem = businessOperation.VerifyOTPByNumber(phoneNumber, otptext, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+        }
     }
 }

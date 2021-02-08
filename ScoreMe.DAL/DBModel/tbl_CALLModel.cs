@@ -18,6 +18,8 @@ namespace ScoreMe.DAL.DBModel
         public int Status { get; set; }
         public long UserID { get; set; }
         public Nullable<int> TotalCallCount { get; set; }
+        public Nullable<System.DateTime> BeginDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

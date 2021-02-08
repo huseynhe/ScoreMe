@@ -106,6 +106,9 @@
     <Compile Include="DBModel\tbl_NetConsume.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_OperatorInformation.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_OTP.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -206,6 +209,7 @@
     <Compile Include="DTO\PackagePriceDTO.cs" />
     <Compile Include="DTO\PersonDTO.cs" />
     <Compile Include="DTO\ReportDTO.cs" />
+    <Compile Include="DTO\SMSReportDTO.cs" />
     <Compile Include="DTO\TypeDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Enum\BOResultTypes.cs" />
@@ -232,6 +236,7 @@
     <Compile Include="Repositories\ProviderRepository.cs" />
     <Compile Include="Repositories\RegionRepository.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
+    <Compile Include="Repositories\SMSRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>

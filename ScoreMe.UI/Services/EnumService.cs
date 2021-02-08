@@ -249,7 +249,27 @@ namespace ScoreMe.UI.Services
             return new SelectList(items, "Value", "Text");
         }
 
+        public static IEnumerable<SelectListItem> GetMessajeUsersByTypeEVID(int evID)
+        {
 
+            CRUDOperation dataOperations = new CRUDOperation();
+            List<SelectListItem> items = dataOperations.GetMessajeUsersByTypeEVID(evID)
+                .OrderBy(n => n.UserName)
+                    .Select(n =>
+                    new SelectListItem
+                    {
+                        Value = n.ID.ToString()+ "~"+ n.UserName,
+                        Text = n.UserName,
+                        //Selected = n.ID == parentID ? true : false
+                    }).ToList();
+            var itemtip = new SelectListItem()
+            {
+                Value = "0",
+                Text = "---  Seçiniz ---"
+            };
+            items.Insert(0, itemtip);
+            return new SelectList(items, "Value", "Text");
+        }
 
         public static IEnumerable<SelectListItem> GetEmployeeList()
         {

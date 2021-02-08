@@ -12,15 +12,14 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_OTP
+    public partial class tbl_OperatorInformation
     {
         public long ID { get; set; }
         public int Status { get; set; }
-        public long UserID { get; set; }
-        public string PhoneNumber { get; set; }
-        public string OTPCode { get; set; }
-        public Nullable<System.DateTime> CreateTime { get; set; }
-        public Nullable<int> ISsuccess { get; set; }
+        public string Name { get; set; }
+        public Nullable<int> InOutType { get; set; }
+        public Nullable<decimal> Price { get; set; }
+        public Nullable<decimal> Point { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

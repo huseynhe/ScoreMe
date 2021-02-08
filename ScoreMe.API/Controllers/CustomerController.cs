@@ -70,7 +70,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(Customer))]
         [Route("AddCustomerWithUser")]
-        public async Task<IHttpActionResult> AddCustomerWithUser(Customer item)
+        public IHttpActionResult AddCustomerWithUser(Customer item)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace ScoreMe.API.Controllers
             BusinessOperation businessOperation = new BusinessOperation();
             Customer itemOut = null;
             BaseOutput dbitem = businessOperation.AddCustomerWithUser(item, out itemOut);
-            if (dbitem.ResultCode==1)
+            if (dbitem.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
@@ -88,7 +88,7 @@ namespace ScoreMe.API.Controllers
                 return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
             }
 
-      
+
         }
 
         [HttpPost]

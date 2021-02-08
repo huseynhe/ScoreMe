@@ -1,0 +1,123 @@
+﻿
+@model IEnumerable<ScoreMe.DAL.DTO.SMSReportDTO>
+
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "_PartialReport";
+    Layout = "";
+}
+@{
+    if (Model.Count() > 0)
+    {
+
+
+    <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Il</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+                <th>9</th>
+                <th>10</th>
+                <th>11</th>
+                <th>12</th>
+                <th>Orta aylıq</th>
+                <th>Orta aylıq xərc</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Year)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.January)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.February)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.March)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.April)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.May)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.June)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.July)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.August)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.September)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.October)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.November)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.December)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Average)
+                        </td>
+                        <td>
+                            @if (item.AveragePrice == null)
+                            {
+                                Write("-");
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.AveragePrice)
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+     }
+     else {
+                    <span> Seçilən parapetrələrə uyğun məlumat tapılmadı</span>
+        }
+}
+<script>
+    $(document).ready(function () {
+        var table = $('#example').DataTable({
+            fixedHeader: {
+                header: true,
+                footer: true
+            },
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: true,
+            fixedColumns: true
+        });
+    });
+</script>

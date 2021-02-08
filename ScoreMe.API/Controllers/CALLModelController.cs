@@ -48,6 +48,23 @@ namespace ScoreMe.API.Controllers
                 return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
             }
         }
+        [HttpGet]
+        [ResponseType(typeof(CALLModel))]
+        [Route("GetLastCALLModelByUserName/{userName}")]
+        public IHttpActionResult GetLastCALLModelByUserName(string userName)
+        {
+            BusinessOperation businessOperation = new BusinessOperation();
+            CALLModel itemOut = null;
+            BaseOutput dbitem = businessOperation.GetLastCALLModelByUserName(userName, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+        }
         [HttpPost]
         [ResponseType(typeof(CALLModel))]
         [Route("AddCALLModelWithDetail")]
