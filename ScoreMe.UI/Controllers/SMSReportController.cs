@@ -81,7 +81,8 @@ namespace ScoreMe.UI.Controllers
         {
             SMSRepository repository = new SMSRepository();
             List<SMSReportDTO> RSMSReports = repository.SW_GetSMSReports(userID, userName, year);
-            return RSMSReports;
+            List<SMSReportDTO> RSMSReportShortMsjs = repository.SW_GetSMSReportShortMsjs(userID, userName, year);
+            return RSMSReports.Concat(RSMSReportShortMsjs).OrderBy(x=>x.INOUT_EVType).ToList();
         }
 
 

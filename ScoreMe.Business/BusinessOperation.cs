@@ -1514,14 +1514,29 @@ namespace ScoreMe.Business
 
                 if (tbl_CALLModels.Count > 0)
                 {
-                    foreach (var tblCallModel in tbl_CALLModels)
+                    foreach (var item in tbl_CALLModels)
                     {
                         CALLModel callModel = new CALLModel()
                         {
-                            ID = tblCallModel.ID,
-                            TotalCallCount = tblCallModel.TotalCallCount,
-                            BeginDate = tblCallModel.BeginDate,
-                            EndDate = tblCallModel.EndDate,
+                            ID = item.ID,
+                            UserID = item.UserID,
+                            TotalCallCount = item.TotalCallCount,
+                            OutCallCount = item.OutCallCount,
+                            OutMissedCallCount = item.OutMissedCallCount,
+                            OutCallMinute = item.OutCallMinute,
+                            InCallCount = item.InCallCount,
+                            InMissedCallCount = item.InMissedCallCount,
+                            InCallMinute = item.InCallMinute,
+                            OutCallForeignCount = item.OutCallForeignCount,
+                            OutCallForeignMinute = item.OutCallForeignMinute,
+                            InCallForeignCount = item.InCallForeignCount,
+                            InCallForeignMinute = item.InCallForeignMinute,
+                            OutCallRoamingCount = item.OutCallRoamingCount,
+                            OutCallRoamingMinute = item.OutCallRoamingMinute,
+                            InCallRoamingCount = item.InCallRoamingCount,
+                            InCallRoamingMinute = item.InCallRoamingMinute,
+                            BeginDate = item.BeginDate,
+                            EndDate = item.EndDate
                         };
 
                         List<tbl_CALLDetail> tbl_CALLDetails = cRUDOperation.GetCALLDetailsByModelID(callModel.ID);
@@ -1557,15 +1572,30 @@ namespace ScoreMe.Business
             try
             {
 
-                tbl_CALLModel tblCallModel = cRUDOperation.GetCALLModelByID(id);
-                if (tblCallModel != null)
+                tbl_CALLModel item = cRUDOperation.GetCALLModelByID(id);
+                if (item != null)
                 {
                     callModel = new CALLModel()
                     {
-                        ID = tblCallModel.ID,
-                        TotalCallCount = tblCallModel.TotalCallCount,
-                        BeginDate = tblCallModel.BeginDate,
-                        EndDate = tblCallModel.EndDate,
+                        ID = item.ID,
+                        UserID = item.UserID,
+                        TotalCallCount = item.TotalCallCount,
+                        OutCallCount = item.OutCallCount,
+                        OutMissedCallCount = item.OutMissedCallCount,
+                        OutCallMinute = item.OutCallMinute,
+                        InCallCount = item.InCallCount,
+                        InMissedCallCount = item.InMissedCallCount,
+                        InCallMinute = item.InCallMinute,
+                        OutCallForeignCount = item.OutCallForeignCount,
+                        OutCallForeignMinute = item.OutCallForeignMinute,
+                        InCallForeignCount = item.InCallForeignCount,
+                        InCallForeignMinute = item.InCallForeignMinute,
+                        OutCallRoamingCount = item.OutCallRoamingCount,
+                        OutCallRoamingMinute = item.OutCallRoamingMinute,
+                        InCallRoamingCount = item.InCallRoamingCount,
+                        InCallRoamingMinute = item.InCallRoamingMinute,
+                        BeginDate = item.BeginDate,
+                        EndDate = item.EndDate
                     };
 
                     List<tbl_CALLDetail> tblCALLDetails = cRUDOperation.GetCALLDetailsByModelID(callModel.ID);
@@ -1594,15 +1624,30 @@ namespace ScoreMe.Business
             try
             {
 
-                tbl_CALLModel tblCallModel = cRUDOperation.GetLastCALLModelByUserName(userName);
-                if (tblCallModel != null)
+                tbl_CALLModel item = cRUDOperation.GetLastCALLModelByUserName(userName);
+                if (item != null)
                 {
                     callModel = new CALLModel()
                     {
-                        ID = tblCallModel.ID,
-                        TotalCallCount = tblCallModel.TotalCallCount,
-                        BeginDate = tblCallModel.BeginDate,
-                        EndDate = tblCallModel.EndDate,
+                        ID = item.ID,
+                        UserID=item.UserID,
+                        TotalCallCount = item.TotalCallCount,
+                        OutCallCount = item.OutCallCount,
+                        OutMissedCallCount = item.OutMissedCallCount,
+                        OutCallMinute = item.OutCallMinute,
+                        InCallCount = item.InCallCount,
+                        InMissedCallCount = item.InMissedCallCount,
+                        InCallMinute = item.InCallMinute,
+                        OutCallForeignCount = item.OutCallForeignCount,
+                        OutCallForeignMinute = item.OutCallForeignMinute,
+                        InCallForeignCount = item.InCallForeignCount,
+                        InCallForeignMinute = item.InCallForeignMinute,
+                        OutCallRoamingCount = item.OutCallRoamingCount,
+                        OutCallRoamingMinute = item.OutCallRoamingMinute,
+                        InCallRoamingCount = item.InCallRoamingCount,
+                        InCallRoamingMinute = item.InCallRoamingMinute,
+                        BeginDate = item.BeginDate,
+                        EndDate = item.EndDate
                     };
 
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
@@ -1631,6 +1676,20 @@ namespace ScoreMe.Business
                 {
                     UserID = item.UserID,
                     TotalCallCount = item.TotalCallCount,
+                    OutCallCount = item.OutCallCount,
+                    OutMissedCallCount = item.OutMissedCallCount,
+                    OutCallMinute = item.OutCallMinute,
+                    InCallCount = item.InCallCount,
+                    InMissedCallCount = item.InMissedCallCount,
+                    InCallMinute = item.InCallMinute,
+                    OutCallForeignCount = item.OutCallForeignCount,
+                    OutCallForeignMinute = item.OutCallForeignMinute,
+                    InCallForeignCount = item.InCallForeignCount,
+                    InCallForeignMinute = item.InCallForeignMinute,
+                    OutCallRoamingCount = item.OutCallRoamingCount,
+                    OutCallRoamingMinute = item.OutCallRoamingMinute,
+                    InCallRoamingCount = item.InCallRoamingCount,
+                    InCallRoamingMinute = item.InCallRoamingMinute,
                     BeginDate = item.BeginDate,
                     EndDate = item.EndDate,
                 };
@@ -1659,6 +1718,20 @@ namespace ScoreMe.Business
                     ID = item.ID,
                     UserID = item.UserID,
                     TotalCallCount = item.TotalCallCount,
+                    OutCallCount = item.OutCallCount,
+                    OutMissedCallCount = item.OutMissedCallCount,
+                    OutCallMinute = item.OutCallMinute,
+                    InCallCount = item.InCallCount,
+                    InMissedCallCount = item.InMissedCallCount,
+                    InCallMinute = item.InCallMinute,
+                    OutCallForeignCount = item.OutCallForeignCount,
+                    OutCallForeignMinute = item.OutCallForeignMinute,
+                    InCallForeignCount = item.InCallForeignCount,
+                    InCallForeignMinute = item.InCallForeignMinute,
+                    OutCallRoamingCount = item.OutCallRoamingCount,
+                    OutCallRoamingMinute = item.OutCallRoamingMinute,
+                    InCallRoamingCount = item.InCallRoamingCount,
+                    InCallRoamingMinute = item.InCallRoamingMinute,
                     BeginDate = item.BeginDate,
                     EndDate = item.EndDate,
                 };

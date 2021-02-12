@@ -20,7 +20,6 @@ namespace ScoreMe.DAL.DBModel
         public Nullable<int> InOutType { get; set; }
         public Nullable<int> IsRoaming { get; set; }
         public Nullable<int> IsForeign { get; set; }
-        public string PhoneNumber { get; set; }
         public Nullable<decimal> Duration { get; set; }
         public Nullable<System.DateTime> RecievedDate { get; set; }
         public Nullable<System.DateTime> SendDate { get; set; }

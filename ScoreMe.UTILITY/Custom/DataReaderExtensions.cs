@@ -81,7 +81,21 @@ namespace ScoreMe.UTILITY.Custom
             }
 
         }
+        public static Int32? GetInt32OrNull(this IDataReader reader, int ordinal = 0)
+        {
+            try
+            {
+                if (reader.IsDBNull(ordinal))
+                    return null;
 
+                return reader.GetInt32(ordinal);
+            }
+            catch
+            {
+                return 0;
+            }
+
+        }
         public static Int32 GetInt32OrDefaultValue(this IDataReader reader, string columnName)
         {
             return reader.GetInt32OrDefaultValue(reader.GetOrdinal(columnName));

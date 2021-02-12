@@ -46,8 +46,7 @@ namespace ScoreMe.Business
                     string phoneNumber = string.Empty;
                     if (user.UserType_EVID == (long)UserType.Customer)
                     {
-                        tbl_Customer customer = cRUDOperation.GetCustomerByUserId(user.ID);
-                        phoneNumber = customer.PhoneNumber;
+                        phoneNumber = userName;
                     }
                     else if (user.UserType_EVID == (long)UserType.Provider)
                     {
@@ -82,7 +81,9 @@ namespace ScoreMe.Business
                         {
                             tbl_OTP _OTP = new tbl_OTP()
                             {
+
                                 UserID = user.ID,
+                                PhoneNumber = phoneNumber,
                                 CreateTime = DateTime.Now,
                                 OTPCode = result,
                                 ISsuccess = 0,
@@ -132,9 +133,39 @@ namespace ScoreMe.Business
 
                 }
 
+                tbl_User user = cRUDOperation.GetUserByUserName(userName);
+
+                if (user == null)
+                {
+                    verify = false;
+                    return baseOutput = new BaseOutput(true, CustomError.UserNameNotFoundCode, CustomError.UserNameNotFoundDesc, "");
+
+                }
                 else
                 {
-                    tbl_User user = cRUDOperation.GetUserByUserName(userName);
+                    string phoneNumber = string.Empty;
+                    if (user.UserType_EVID == (long)UserType.Customer)
+                    {
+                        phoneNumber = userName;
+                    }
+                    else if (user.UserType_EVID == (long)UserType.Provider)
+                    {
+                        tbl_Provider customer = cRUDOperation.GetProviderByUserName(user.UserName);
+                        phoneNumber = customer.RelatedPersonPhone;
+                    }
+                    else if (user.UserType_EVID == (long)UserType.ProviderBranch)
+                    {
+                        tbl_Provider customer = cRUDOperation.GetProviderByUserName(user.UserName);
+                        phoneNumber = customer.RelatedPersonPhone;
+                    }
+                    if (string.IsNullOrEmpty(phoneNumber))
+                    {
+                        verify = false;
+                        return baseOutput = new BaseOutput(true, CustomError.PhoneNumberErrorCode, CustomError.PhoneNumberErrorDesc, "");
+
+                    }
+
+
 
                     byte[] bytes = System.Text.Encoding.UTF8.GetBytes(userName);
                     var totp = new Totp(bytes, step: 300);
@@ -142,7 +173,7 @@ namespace ScoreMe.Business
                     long timeStepMatched;
                     verify = totp.VerifyTotp(input, out timeStepMatched, window: null);
 
-                    tbl_OTP OTPObj = cRUDOperation.GetOTPByOtpCode(otptext);
+                    tbl_OTP OTPObj = cRUDOperation.GetOTPByOtpCode(otptext, phoneNumber);
                     if (verify)
                     {
 

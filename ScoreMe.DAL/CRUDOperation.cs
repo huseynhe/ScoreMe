@@ -5891,6 +5891,22 @@ namespace ScoreMe.DAL
                     {
                         oldItem.UserID = item.UserID;
                         oldItem.TotalCallCount = item.TotalCallCount;
+                   
+                        oldItem.OutCallCount = item.OutCallCount;
+                        oldItem.OutMissedCallCount = item.OutMissedCallCount;
+                        oldItem.OutCallMinute = item.OutCallMinute;
+                        oldItem.InCallCount = item.InCallCount;
+                        oldItem.InMissedCallCount = item.InMissedCallCount;
+                        oldItem.InCallMinute = item.InCallMinute;
+                        oldItem.OutCallForeignCount = item.OutCallForeignCount;
+                        oldItem.OutCallForeignMinute = item.OutCallForeignMinute;
+                        oldItem.InCallForeignCount = item.InCallForeignCount;
+                        oldItem.InCallForeignMinute = item.InCallForeignMinute;
+                        oldItem.OutCallRoamingCount = item.OutCallRoamingCount;
+                        oldItem.OutCallRoamingMinute = item.OutCallRoamingMinute;
+                        oldItem.InCallRoamingCount = item.InCallRoamingCount;
+                        oldItem.InCallRoamingMinute = item.InCallRoamingMinute;
+
                         oldItem.BeginDate = item.BeginDate;
                         oldItem.EndDate = item.EndDate;
                         oldItem.UpdateDate = DateTime.Now;
@@ -6113,7 +6129,6 @@ namespace ScoreMe.DAL
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
 
-                        oldItem.PhoneNumber = item.PhoneNumber;
                         oldItem.Duration = item.Duration;
                         oldItem.RecievedDate = item.RecievedDate;
                         oldItem.SendDate = item.SendDate;
