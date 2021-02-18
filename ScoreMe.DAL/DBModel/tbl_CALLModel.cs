@@ -21,19 +21,18 @@ namespace ScoreMe.DAL.DBModel
         public Nullable<System.DateTime> BeginDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<long> OutCallCount { get; set; }
-        public Nullable<long> OutMissedCallCount { get; set; }
-        public Nullable<decimal> OutCallMinute { get; set; }
+        public Nullable<decimal> OutCallSecond { get; set; }
         public Nullable<long> InCallCount { get; set; }
-        public Nullable<long> InMissedCallCount { get; set; }
-        public Nullable<decimal> InCallMinute { get; set; }
+        public Nullable<decimal> InCallSecond { get; set; }
+        public Nullable<long> MissedCallCount { get; set; }
         public Nullable<long> OutCallForeignCount { get; set; }
-        public Nullable<decimal> OutCallForeignMinute { get; set; }
+        public Nullable<decimal> OutCallForeignSecond { get; set; }
         public Nullable<long> InCallForeignCount { get; set; }
-        public Nullable<decimal> InCallForeignMinute { get; set; }
+        public Nullable<decimal> InCallForeignSecond { get; set; }
         public Nullable<long> OutCallRoamingCount { get; set; }
-        public Nullable<decimal> OutCallRoamingMinute { get; set; }
+        public Nullable<decimal> OutCallRoamingSecond { get; set; }
         public Nullable<long> InCallRoamingCount { get; set; }
-        public Nullable<decimal> InCallRoamingMinute { get; set; }
+        public Nullable<decimal> InCallRoamingSecond { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

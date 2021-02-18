@@ -99,19 +99,18 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="BeginDate" Type="datetime2" Precision="7" />
           <Property Name="EndDate" Type="datetime2" Precision="7" />
           <Property Name="OutCallCount" Type="bigint" />
-          <Property Name="OutMissedCallCount" Type="bigint" />
-          <Property Name="OutCallMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallSecond" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InCallCount" Type="bigint" />
-          <Property Name="InMissedCallCount" Type="bigint" />
-          <Property Name="InCallMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallSecond" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MissedCallCount" Type="bigint" />
           <Property Name="OutCallForeignCount" Type="bigint" />
-          <Property Name="OutCallForeignMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallForeignSecond" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InCallForeignCount" Type="bigint" />
-          <Property Name="InCallForeignMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallForeignSecond" Type="decimal" Precision="18" Scale="2" />
           <Property Name="OutCallRoamingCount" Type="bigint" />
-          <Property Name="OutCallRoamingMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallRoamingSecond" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InCallRoamingCount" Type="bigint" />
-          <Property Name="InCallRoamingMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallRoamingSecond" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -890,19 +889,18 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="BeginDate" Type="DateTime" Precision="7" />
           <Property Name="EndDate" Type="DateTime" Precision="7" />
           <Property Name="OutCallCount" Type="Int64" />
-          <Property Name="OutMissedCallCount" Type="Int64" />
-          <Property Name="OutCallMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallSecond" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InCallCount" Type="Int64" />
-          <Property Name="InMissedCallCount" Type="Int64" />
-          <Property Name="InCallMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallSecond" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MissedCallCount" Type="Int64" />
           <Property Name="OutCallForeignCount" Type="Int64" />
-          <Property Name="OutCallForeignMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallForeignSecond" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InCallForeignCount" Type="Int64" />
-          <Property Name="InCallForeignMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallForeignSecond" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="OutCallRoamingCount" Type="Int64" />
-          <Property Name="OutCallRoamingMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallRoamingSecond" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InCallRoamingCount" Type="Int64" />
-          <Property Name="InCallRoamingMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallRoamingSecond" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1596,19 +1594,18 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="InCallRoamingMinute" ColumnName="InCallRoamingMinute" />
+                <ScalarProperty Name="InCallRoamingSecond" ColumnName="InCallRoamingSecond" />
                 <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
-                <ScalarProperty Name="OutCallRoamingMinute" ColumnName="OutCallRoamingMinute" />
+                <ScalarProperty Name="OutCallRoamingSecond" ColumnName="OutCallRoamingSecond" />
                 <ScalarProperty Name="OutCallRoamingCount" ColumnName="OutCallRoamingCount" />
-                <ScalarProperty Name="InCallForeignMinute" ColumnName="InCallForeignMinute" />
+                <ScalarProperty Name="InCallForeignSecond" ColumnName="InCallForeignSecond" />
                 <ScalarProperty Name="InCallForeignCount" ColumnName="InCallForeignCount" />
-                <ScalarProperty Name="OutCallForeignMinute" ColumnName="OutCallForeignMinute" />
+                <ScalarProperty Name="OutCallForeignSecond" ColumnName="OutCallForeignSecond" />
                 <ScalarProperty Name="OutCallForeignCount" ColumnName="OutCallForeignCount" />
-                <ScalarProperty Name="InCallMinute" ColumnName="InCallMinute" />
-                <ScalarProperty Name="InMissedCallCount" ColumnName="InMissedCallCount" />
+                <ScalarProperty Name="MissedCallCount" ColumnName="MissedCallCount" />
+                <ScalarProperty Name="InCallSecond" ColumnName="InCallSecond" />
                 <ScalarProperty Name="InCallCount" ColumnName="InCallCount" />
-                <ScalarProperty Name="OutCallMinute" ColumnName="OutCallMinute" />
-                <ScalarProperty Name="OutMissedCallCount" ColumnName="OutMissedCallCount" />
+                <ScalarProperty Name="OutCallSecond" ColumnName="OutCallSecond" />
                 <ScalarProperty Name="OutCallCount" ColumnName="OutCallCount" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
                 <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />

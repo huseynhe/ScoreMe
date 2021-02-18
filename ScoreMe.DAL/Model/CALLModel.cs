@@ -13,19 +13,18 @@ namespace ScoreMe.DAL.Model
         public Int64 UserID { get; set; }
         public Int64? TotalCallCount { get; set; }
         public Int64? OutCallCount { get; set; }
-        public Int64? OutMissedCallCount { get; set; }
-        public decimal? OutCallMinute { get; set; }
+        public decimal? OutCallSecond { get; set; }
         public Int64? InCallCount { get; set; }
-        public Int64? InMissedCallCount { get; set; }
-        public decimal? InCallMinute { get; set; }
+        public decimal? InCallSecond { get; set; }
+        public Int64? MissedCallCount { get; set; }
         public Int64? OutCallForeignCount { get; set; }
-        public decimal? OutCallForeignMinute { get; set; }
+        public decimal? OutCallForeignSecond { get; set; }
         public Int64? InCallForeignCount { get; set; }
-        public decimal? InCallForeignMinute { get; set; }
+        public decimal? InCallForeignSecond { get; set; }
         public Int64? OutCallRoamingCount { get; set; }
-        public decimal? OutCallRoamingMinute { get; set; }
+        public decimal? OutCallRoamingSecond { get; set; }
         public Int64? InCallRoamingCount { get; set; }
-        public decimal? InCallRoamingMinute { get; set; }
+        public decimal? InCallRoamingSecond { get; set; }
         public DateTime? BeginDate { get; set; }
         public DateTime? EndDate { get; set; }
         public List<tbl_CALLDetail> CALLDetails { get; set; }

@@ -203,6 +203,7 @@
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DTO\AccessRightDTO.cs" />
+    <Compile Include="DTO\CALLReportDTO.cs" />
     <Compile Include="DTO\EnumDTO.cs" />
     <Compile Include="DTO\OTPResult.cs" />
     <Compile Include="DTO\PackageDTO.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Objects\UserProfileSessionData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccessRightsRepository.cs" />
+    <Compile Include="Repositories\CALLRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\EnumRepository.cs" />
     <Compile Include="Repositories\LoginRepository.cs" />

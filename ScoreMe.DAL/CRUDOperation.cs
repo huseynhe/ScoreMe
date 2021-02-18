@@ -5893,19 +5893,19 @@ namespace ScoreMe.DAL
                         oldItem.TotalCallCount = item.TotalCallCount;
                    
                         oldItem.OutCallCount = item.OutCallCount;
-                        oldItem.OutMissedCallCount = item.OutMissedCallCount;
-                        oldItem.OutCallMinute = item.OutCallMinute;
+                        oldItem.OutCallSecond = item.OutCallSecond;
                         oldItem.InCallCount = item.InCallCount;
-                        oldItem.InMissedCallCount = item.InMissedCallCount;
-                        oldItem.InCallMinute = item.InCallMinute;
+                        oldItem.InCallSecond = item.InCallSecond;
+
+                        oldItem.MissedCallCount = item.MissedCallCount;
                         oldItem.OutCallForeignCount = item.OutCallForeignCount;
-                        oldItem.OutCallForeignMinute = item.OutCallForeignMinute;
+                        oldItem.OutCallForeignSecond = item.OutCallForeignSecond;
                         oldItem.InCallForeignCount = item.InCallForeignCount;
-                        oldItem.InCallForeignMinute = item.InCallForeignMinute;
+                        oldItem.InCallForeignSecond = item.InCallForeignSecond;
                         oldItem.OutCallRoamingCount = item.OutCallRoamingCount;
-                        oldItem.OutCallRoamingMinute = item.OutCallRoamingMinute;
+                        oldItem.OutCallRoamingSecond = item.OutCallRoamingSecond;
                         oldItem.InCallRoamingCount = item.InCallRoamingCount;
-                        oldItem.InCallRoamingMinute = item.InCallRoamingMinute;
+                        oldItem.InCallRoamingSecond = item.InCallRoamingSecond;
 
                         oldItem.BeginDate = item.BeginDate;
                         oldItem.EndDate = item.EndDate;

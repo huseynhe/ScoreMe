@@ -149,6 +149,7 @@
     <Compile Include="Attributes\Extensions.cs" />
     <Compile Include="Attributes\LoginCheck.cs" />
     <Compile Include="Controllers\AmReportController.cs" />
+    <Compile Include="Controllers\CallReportController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EnumCategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
@@ -162,6 +163,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessRightVM.cs" />
+    <Compile Include="Models\CALLReportVM.cs" />
     <Compile Include="Models\EmployeeVM.cs" />
     <Compile Include="Models\EnumVM.cs" />
     <Compile Include="Models\PackageVM.cs" />
@@ -2056,6 +2058,7 @@
     <Content Include="Views\SMSReport\PartialIndex.cshtml" />
     <Content Include="Views\SMSReport\_PartialReport.cshtml" />
     <Content Include="Views\SMSReport\ReportIndex.cshtml" />
+    <Content Include="Views\CallReport\ReportIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

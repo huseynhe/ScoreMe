@@ -31,6 +31,7 @@
                 <th>12</th>
                 <th>Orta aylıq</th>
                 <th>Orta aylıq xərc</th>
+                <th>Bal</th>
             </tr>
         </thead>
         <tbody>
@@ -38,64 +39,172 @@
             @{
                 foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Year)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.January)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.February)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.March)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.April)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.May)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.June)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.July)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.August)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.September)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.October)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.November)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.December)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Average)
-                        </td>
-                        <td>
-                            @if (item.AveragePrice == null)
-                            {
-                                Write("-");
-                            }
-                            else
-                            {
-                                @Html.DisplayFor(modelItem => item.AveragePrice)
-                            }
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Year)
+                            </td>
+                            <td>
+                                @if (item.January == null || item.January==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.January)
+                                }
+                            </td>
+                            <td>
+                                @if (item.February == null || item.February==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.February)
+                                }
+                            </td>
+                            <td>
+                                @if (item.March == null ||item.March==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.March)
+                                }
+                            </td>
+                            <td>
+                                @if (item.April == null||item.April==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.April)
+                                }
+                            </td>
+                            <td>
 
-                        </td>
-                    </tr>
+                                @if (item.May == null||item.May==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.May)
+                                }
+                            </td>
+                            <td>
+                                @if (item.June == null||item.June==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.June)
+                                }
+                            </td>
+                            <td>
+
+                                @if (item.July == null||item.July==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.July)
+                                }
+                            </td>
+                            <td>
+
+                                @if (item.August == null||item.August==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.August)
+                                }
+                            </td>
+                            <td>
+                                @if (item.September == null||item.September==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.September)
+                                }
+
+                            </td>
+                            <td>
+                                @if (item.October == null||item.October==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.October)
+                                }
+
+                            </td>
+                            <td>
+
+                                @if (item.November == null||item.November==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.November)
+                                }
+                            </td>
+                            <td>
+                                @if (item.December == null||item.December==0)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.December)
+                                }
+                            </td>
+                            <td>
+                                @if (item.Average == null)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.Average)
+                                }
+                            </td>
+                            <td>
+                                @if (item.AveragePrice == null)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.AveragePrice)
+                                }
+
+                            </td>
+                            <td>
+                                @if (item.AveragePoint == null)
+                                {
+                                    Write("-");
+                                }
+                                else
+                                {
+                                    @Html.DisplayFor(modelItem => item.AveragePoint)
+                                }
+
+                            </td>
+                        </tr>
                 }
 
             }
@@ -113,6 +222,7 @@
                 header: true,
                 footer: true
             },
+            order:[],
             scrollY: "300px",
             scrollX: true,
             scrollCollapse: true,
