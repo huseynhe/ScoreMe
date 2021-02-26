@@ -60,7 +60,7 @@ namespace ScoreMe.DAL.Repositories
         {
             var result = new List<CALLReportDTO>();
             StringBuilder allQuery = new StringBuilder();
-            var query = @"select * from  [GetMessageReport](@P_USERID,@P_year) ";
+            var query = @"select * from  [GetCALLReport](@P_USERID,@P_year) ";
 
             allQuery.Append(query);
 
