@@ -11,7 +11,10 @@ namespace ScoreMe.UI.Enums
         OperatorType = 1,
         SourceType=2,
         UserType = 3,
-      
+        InOutType=14,
+        OperatorChanelType =15,
+        OperatorPrefixType=16,
+
 
     }
 

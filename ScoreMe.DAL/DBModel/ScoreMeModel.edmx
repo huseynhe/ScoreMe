@@ -80,6 +80,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="InOutType" Type="int" />
           <Property Name="IsRoaming" Type="int" />
           <Property Name="IsForeign" Type="int" />
+          <Property Name="PhonePrefix" Type="nvarchar" MaxLength="50" />
           <Property Name="Duration" Type="decimal" Precision="18" Scale="2" />
           <Property Name="RecievedDate" Type="datetime2" Precision="7" />
           <Property Name="SendDate" Type="datetime2" Precision="7" />
@@ -116,6 +117,45 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
+        <EntityType Name="tbl_CALLReport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="CALLModelID" Type="bigint" Nullable="false" />
+          <Property Name="CALLDetailID" Type="bigint" Nullable="false" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="OutCallCountSame" Type="int" />
+          <Property Name="OutCallSecondSame" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallMinuteSame" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallCountOther" Type="int" />
+          <Property Name="OutCallSecondOther" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallMinuteOther" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallCount" Type="int" />
+          <Property Name="InCallSecond" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutMissedCallCount" Type="int" />
+          <Property Name="InMissedCallCount" Type="int" />
+          <Property Name="OutCallForeignCount" Type="int" />
+          <Property Name="OutCallForeignSecond" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallForeignMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallForeignCount" Type="int" />
+          <Property Name="InCallForeignSecond" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallForeignMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallRoamingCount" Type="int" />
+          <Property Name="OutCallRoamingSecond" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallRoamingMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallRoamingCount" Type="int" />
+          <Property Name="InCallRoamingSecond" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InCallRoamingMinute" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
         <EntityType Name="tbl_Customer">
           <Key>
             <PropertyRef Name="ID" />
@@ -130,6 +170,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
           <Property Name="RegionId" Type="bigint" />
+          <Property Name="Longitudes" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Latitudes" Type="decimal" Precision="9" Scale="6" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
@@ -221,8 +263,10 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="OperatorType_EVID" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="InOutType" Type="int" />
+          <Property Name="OperatorChanelType_EVID" Type="int" />
+          <Property Name="InOutType_EVID" Type="int" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Point" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
@@ -714,6 +758,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_AccessRight" EntityType="Self.tbl_AccessRight" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLDetail" EntityType="Self.tbl_CALLDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLModel" EntityType="Self.tbl_CALLModel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_CALLReport" EntityType="Self.tbl_CALLReport" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Customer" EntityType="Self.tbl_Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Employee" EntityType="Self.tbl_Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_EnumCategory" EntityType="Self.tbl_EnumCategory" Schema="dbo" store:Type="Tables" />
@@ -788,6 +833,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_AccessRight" EntityType="DB_A62358_ScoreMeModel.tbl_AccessRight" />
           <EntitySet Name="tbl_CALLDetail" EntityType="DB_A62358_ScoreMeModel.tbl_CALLDetail" />
           <EntitySet Name="tbl_CALLModel" EntityType="DB_A62358_ScoreMeModel.tbl_CALLModel" />
+          <EntitySet Name="tbl_CALLReport" EntityType="DB_A62358_ScoreMeModel.tbl_CALLReport" />
           <EntitySet Name="tbl_Customer" EntityType="DB_A62358_ScoreMeModel.tbl_Customer" />
           <EntitySet Name="tbl_Employee" EntityType="DB_A62358_ScoreMeModel.tbl_Employee" />
           <EntitySet Name="tbl_EnumCategory" EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" />
@@ -870,6 +916,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="InOutType" Type="Int32" />
           <Property Name="IsRoaming" Type="Int32" />
           <Property Name="IsForeign" Type="Int32" />
+          <Property Name="PhonePrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="RecievedDate" Type="DateTime" Precision="7" />
           <Property Name="SendDate" Type="DateTime" Precision="7" />
@@ -906,6 +953,45 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
+        <EntityType Name="tbl_CALLReport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="CALLModelID" Type="Int64" Nullable="false" />
+          <Property Name="CALLDetailID" Type="Int64" Nullable="false" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="OutCallCountSame" Type="Int32" />
+          <Property Name="OutCallSecondSame" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallMinuteSame" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallCountOther" Type="Int32" />
+          <Property Name="OutCallSecondOther" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallMinuteOther" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallCount" Type="Int32" />
+          <Property Name="InCallSecond" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutMissedCallCount" Type="Int32" />
+          <Property Name="InMissedCallCount" Type="Int32" />
+          <Property Name="OutCallForeignCount" Type="Int32" />
+          <Property Name="OutCallForeignSecond" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallForeignMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallForeignCount" Type="Int32" />
+          <Property Name="InCallForeignSecond" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallForeignMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallRoamingCount" Type="Int32" />
+          <Property Name="OutCallRoamingSecond" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="OutCallRoamingMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallRoamingCount" Type="Int32" />
+          <Property Name="InCallRoamingSecond" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InCallRoamingMinute" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
         <EntityType Name="tbl_Customer">
           <Key>
             <PropertyRef Name="ID" />
@@ -920,6 +1006,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="PhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RegionId" Type="Int64" />
+          <Property Name="Longitudes" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Latitudes" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
@@ -1011,8 +1099,10 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="OperatorType_EVID" Type="Int32" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="InOutType" Type="Int32" />
+          <Property Name="OperatorChanelType_EVID" Type="Int32" />
+          <Property Name="InOutType_EVID" Type="Int32" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Point" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
@@ -1578,6 +1668,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="SendDate" ColumnName="SendDate" />
                 <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
                 <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="PhonePrefix" ColumnName="PhonePrefix" />
                 <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
                 <ScalarProperty Name="InOutType" ColumnName="InOutType" />
@@ -1616,6 +1707,46 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_CALLReport">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_CALLReport">
+              <MappingFragment StoreEntitySet="tbl_CALLReport">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InCallRoamingMinute" ColumnName="InCallRoamingMinute" />
+                <ScalarProperty Name="InCallRoamingSecond" ColumnName="InCallRoamingSecond" />
+                <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
+                <ScalarProperty Name="OutCallRoamingMinute" ColumnName="OutCallRoamingMinute" />
+                <ScalarProperty Name="OutCallRoamingSecond" ColumnName="OutCallRoamingSecond" />
+                <ScalarProperty Name="OutCallRoamingCount" ColumnName="OutCallRoamingCount" />
+                <ScalarProperty Name="InCallForeignMinute" ColumnName="InCallForeignMinute" />
+                <ScalarProperty Name="InCallForeignSecond" ColumnName="InCallForeignSecond" />
+                <ScalarProperty Name="InCallForeignCount" ColumnName="InCallForeignCount" />
+                <ScalarProperty Name="OutCallForeignMinute" ColumnName="OutCallForeignMinute" />
+                <ScalarProperty Name="OutCallForeignSecond" ColumnName="OutCallForeignSecond" />
+                <ScalarProperty Name="OutCallForeignCount" ColumnName="OutCallForeignCount" />
+                <ScalarProperty Name="InMissedCallCount" ColumnName="InMissedCallCount" />
+                <ScalarProperty Name="OutMissedCallCount" ColumnName="OutMissedCallCount" />
+                <ScalarProperty Name="InCallMinute" ColumnName="InCallMinute" />
+                <ScalarProperty Name="InCallSecond" ColumnName="InCallSecond" />
+                <ScalarProperty Name="InCallCount" ColumnName="InCallCount" />
+                <ScalarProperty Name="OutCallMinuteOther" ColumnName="OutCallMinuteOther" />
+                <ScalarProperty Name="OutCallSecondOther" ColumnName="OutCallSecondOther" />
+                <ScalarProperty Name="OutCallCountOther" ColumnName="OutCallCountOther" />
+                <ScalarProperty Name="OutCallMinuteSame" ColumnName="OutCallMinuteSame" />
+                <ScalarProperty Name="OutCallSecondSame" ColumnName="OutCallSecondSame" />
+                <ScalarProperty Name="OutCallCountSame" ColumnName="OutCallCountSame" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="CALLDetailID" ColumnName="CALLDetailID" />
+                <ScalarProperty Name="CALLModelID" ColumnName="CALLModelID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Customer">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Customer">
               <MappingFragment StoreEntitySet="tbl_Customer">
@@ -1624,6 +1755,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Latitudes" ColumnName="Latitudes" />
+                <ScalarProperty Name="Longitudes" ColumnName="Longitudes" />
                 <ScalarProperty Name="RegionId" ColumnName="RegionId" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
@@ -1730,8 +1863,10 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
                 <ScalarProperty Name="Point" ColumnName="Point" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="InOutType" ColumnName="InOutType" />
+                <ScalarProperty Name="InOutType_EVID" ColumnName="InOutType_EVID" />
+                <ScalarProperty Name="OperatorChanelType_EVID" ColumnName="OperatorChanelType_EVID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OperatorType_EVID" ColumnName="OperatorType_EVID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

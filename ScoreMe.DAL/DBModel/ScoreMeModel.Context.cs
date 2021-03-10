@@ -29,6 +29,7 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_AccessRight> tbl_AccessRight { get; set; }
         public virtual DbSet<tbl_CALLDetail> tbl_CALLDetail { get; set; }
         public virtual DbSet<tbl_CALLModel> tbl_CALLModel { get; set; }
+        public virtual DbSet<tbl_CALLReport> tbl_CALLReport { get; set; }
         public virtual DbSet<tbl_Customer> tbl_Customer { get; set; }
         public virtual DbSet<tbl_Employee> tbl_Employee { get; set; }
         public virtual DbSet<tbl_EnumCategory> tbl_EnumCategory { get; set; }

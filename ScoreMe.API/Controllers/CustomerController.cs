@@ -94,7 +94,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Customer))]
         [Route("UpdateCustomer")]
-        public async Task<IHttpActionResult> UpdateCustomer(tbl_Customer item)
+        public IHttpActionResult UpdateCustomer(tbl_Customer item)
         {
             CRUDOperation operation = new CRUDOperation();
             if (item == null)
@@ -111,7 +111,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_Customer))]
         [Route("DeleteCustomer/{id}")]
-        public async Task<IHttpActionResult> DeleteCustomer(Int64 id)
+        public IHttpActionResult DeleteCustomer(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
 

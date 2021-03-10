@@ -16,8 +16,10 @@ namespace ScoreMe.DAL.DBModel
     {
         public long ID { get; set; }
         public int Status { get; set; }
+        public Nullable<int> OperatorType_EVID { get; set; }
         public string Name { get; set; }
-        public Nullable<int> InOutType { get; set; }
+        public Nullable<int> OperatorChanelType_EVID { get; set; }
+        public Nullable<int> InOutType_EVID { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Point { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }

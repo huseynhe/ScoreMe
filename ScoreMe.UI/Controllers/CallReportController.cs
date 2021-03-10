@@ -73,7 +73,7 @@ namespace ScoreMe.UI.Controllers
         public List<CALLReportDTO> GetCALLReportDTOs(int userID, string userName, int year)
         {
             CALLRepository repository = new CALLRepository();
-            List<CALLReportDTO> RCALLReports = repository.SW_GetCALLReports(userID, userName, year).OrderBy(x => x.INOUT_EVType).ToList();
+            List<CALLReportDTO> RCALLReports = repository.SW_GetCALLReports(userID, userName, year).OrderBy(x => x.Name).ToList();
             return RCALLReports;
         }
 

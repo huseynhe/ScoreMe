@@ -12,7 +12,7 @@ namespace ScoreMe.DAL.Model
         public string UserName { get; set; }
         public string Password { get; set; }
         public Int64 UserType_EVID { get; set; }
-        public long ProviderID { get; set; }
+        public long ID { get; set; }
         public string Name { get; set; }
         public long ParentID { get; set; }
         public long Type { get; set; }
@@ -23,6 +23,8 @@ namespace ScoreMe.DAL.Model
         public string RelatedPersonProfession { get; set; }
         public string RelatedPersonPhone { get; set; }
         public string RP_HomePhone { get; set; }
+        public string LogoLinkPath { get; set; }
+        public string LogoLinkName { get; set; }
         public string VOEN { get; set; }
     }
 }

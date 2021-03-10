@@ -55,7 +55,7 @@ namespace ScoreMe.DAL.Repositories
                                 UserName = reader.GetStringOrEmpty(1),
                                 Password = reader.GetStringOrEmpty(2),
                                 UserType_EVID = reader.GetInt64OrDefaultValue(3),
-                                ProviderID = reader.GetInt64OrDefaultValue(4),
+                                ID = reader.GetInt64OrDefaultValue(4),
                                 Name = reader.GetStringOrEmpty(5),
                                 ParentID = reader.GetInt64OrDefaultValue(6),
                                 Type = reader.GetInt64OrDefaultValue(7),

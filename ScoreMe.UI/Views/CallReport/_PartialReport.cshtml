@@ -12,33 +12,33 @@
     {
 
 
-    <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
-        <thead>
-            <tr>
-                <th>Ad</th>
-                <th>Il</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
-                <th>6</th>
-                <th>7</th>
-                <th>8</th>
-                <th>9</th>
-                <th>10</th>
-                <th>11</th>
-                <th>12</th>
-                <th>Orta aylıq</th>
-                <th>Orta aylıq xərc</th>
-                <th>Bal</th>
-            </tr>
-        </thead>
-        <tbody>
+        <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Il</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>10</th>
+                    <th>11</th>
+                    <th>12</th>
+                    <th>Orta aylıq</th>
+                    <th>Orta aylıq xərc</th>
+                    <th>Bal</th>
+                </tr>
+            </thead>
+            <tbody>
 
-            @{
-                foreach (var item in Model)
-                {
+                @{
+                    foreach (var item in Model)
+                    {
                         <tr>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
@@ -47,7 +47,7 @@
                                 @Html.DisplayFor(modelItem => item.Year)
                             </td>
                             <td>
-                                @if (item.January == null || item.January==0)
+                                @if (item.January == null || item.January == 0)
                                 {
                                     Write("-");
                                 }
@@ -57,7 +57,7 @@
                                 }
                             </td>
                             <td>
-                                @if (item.February == null || item.February==0)
+                                @if (item.February == null || item.February == 0)
                                 {
                                     Write("-");
                                 }
@@ -67,7 +67,7 @@
                                 }
                             </td>
                             <td>
-                                @if (item.March == null ||item.March==0)
+                                @if (item.March == null || item.March == 0)
                                 {
                                     Write("-");
                                 }
@@ -77,7 +77,7 @@
                                 }
                             </td>
                             <td>
-                                @if (item.April == null||item.April==0)
+                                @if (item.April == null || item.April == 0)
                                 {
                                     Write("-");
                                 }
@@ -88,7 +88,7 @@
                             </td>
                             <td>
 
-                                @if (item.May == null||item.May==0)
+                                @if (item.May == null || item.May == 0)
                                 {
                                     Write("-");
                                 }
@@ -98,7 +98,7 @@
                                 }
                             </td>
                             <td>
-                                @if (item.June == null||item.June==0)
+                                @if (item.June == null || item.June == 0)
                                 {
                                     Write("-");
                                 }
@@ -109,7 +109,7 @@
                             </td>
                             <td>
 
-                                @if (item.July == null||item.July==0)
+                                @if (item.July == null || item.July == 0)
                                 {
                                     Write("-");
                                 }
@@ -120,7 +120,7 @@
                             </td>
                             <td>
 
-                                @if (item.August == null||item.August==0)
+                                @if (item.August == null || item.August == 0)
                                 {
                                     Write("-");
                                 }
@@ -130,7 +130,7 @@
                                 }
                             </td>
                             <td>
-                                @if (item.September == null||item.September==0)
+                                @if (item.September == null || item.September == 0)
                                 {
                                     Write("-");
                                 }
@@ -141,7 +141,7 @@
 
                             </td>
                             <td>
-                                @if (item.October == null||item.October==0)
+                                @if (item.October == null || item.October == 0)
                                 {
                                     Write("-");
                                 }
@@ -153,7 +153,7 @@
                             </td>
                             <td>
 
-                                @if (item.November == null||item.November==0)
+                                @if (item.November == null || item.November == 0)
                                 {
                                     Write("-");
                                 }
@@ -163,7 +163,7 @@
                                 }
                             </td>
                             <td>
-                                @if (item.December == null||item.December==0)
+                                @if (item.December == null || item.December == 0)
                                 {
                                     Write("-");
                                 }
@@ -205,15 +205,16 @@
 
                             </td>
                         </tr>
-                }
+                    }
 
-            }
-        </tbody>
-    </table>
-     }
-     else {
-                    <span> Seçilən parapetrələrə uyğun məlumat tapılmadı</span>
-        }
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <span> Seçilən parapetrələrə uyğun məlumat tapılmadı</span>
+    }
 }
 <script>
     $(document).ready(function () {
@@ -222,7 +223,8 @@
                 header: true,
                 footer: true
             },
-            order:[],
+            order: [],
+            pageLength: 25,
             scrollY: "300px",
             scrollX: true,
             scrollCollapse: true,

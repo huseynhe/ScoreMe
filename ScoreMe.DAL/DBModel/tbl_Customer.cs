@@ -24,6 +24,8 @@ namespace ScoreMe.DAL.DBModel
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public Nullable<long> RegionId { get; set; }
+        public Nullable<decimal> Longitudes { get; set; }
+        public Nullable<decimal> Latitudes { get; set; }
         public string Address { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }

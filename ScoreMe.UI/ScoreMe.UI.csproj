@@ -155,6 +155,7 @@
     <Compile Include="Controllers\EnumValueController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OperatorInformationController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\SMSReportController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Models\CALLReportVM.cs" />
     <Compile Include="Models\EmployeeVM.cs" />
     <Compile Include="Models\EnumVM.cs" />
+    <Compile Include="Models\OperatorInformationVM.cs" />
     <Compile Include="Models\PackageVM.cs" />
     <Compile Include="Models\PersonVM.cs" />
     <Compile Include="Models\SMSReportVM.cs" />
@@ -2060,6 +2062,10 @@
     <Content Include="Views\SMSReport\ReportIndex.cshtml" />
     <Content Include="Views\CallReport\ReportIndex.cshtml" />
     <Content Include="Views\CallReport\_PartialReport.cshtml" />
+    <Content Include="Views\OperatorInformation\Index.cshtml" />
+    <Content Include="Views\OperatorInformation\PartialIndex.cshtml" />
+    <Content Include="Views\OperatorInformation\Create.cshtml" />
+    <Content Include="Views\OperatorInformation\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

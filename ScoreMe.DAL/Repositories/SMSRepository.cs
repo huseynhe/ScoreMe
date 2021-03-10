@@ -1,5 +1,6 @@
 ﻿using ScoreMe.DAL.DBModel;
 using ScoreMe.DAL.DTO;
+using ScoreMe.DAL.Enum;
 using ScoreMe.UTILITY;
 using ScoreMe.UTILITY.Custom;
 using System;
@@ -50,7 +51,7 @@ namespace ScoreMe.DAL.Repositories
         private static tbl_OperatorInformation GetAverageCost(string prefix, int type) {
 
             CRUDOperation cRUDOperation = new CRUDOperation();
-            tbl_OperatorInformation operatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(prefix, type);
+            tbl_OperatorInformation operatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(prefix, type,(int)OperatorChanelType.Message);
             return operatorInformation;
 
 

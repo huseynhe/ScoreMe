@@ -134,12 +134,23 @@ namespace ScoreMe.API.Controllers
         }
 
         [HttpGet]
+        [ResponseType(typeof(Provider))]
         [Route("GetProviderByUserName/{username}")]
-        public tbl_Provider GetProviderByUserName(string username)
+        public IHttpActionResult GetProviderByUserName(string username)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var provider = operation.GetProviderByUserName(username);
-            return provider;
+
+            BusinessOperation businessOperation = new BusinessOperation();
+            Provider itemOut = null;
+            BaseOutput dbitem = businessOperation.GetProviderByUserName(username, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
         }
     }
 }

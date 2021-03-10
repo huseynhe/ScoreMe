@@ -55,6 +55,7 @@
     <Compile Include="CodeObjects\BaseOutput.cs" />
     <Compile Include="CodeObjects\BOBaseOutputResponse.cs" />
     <Compile Include="CRUDOperation.cs" />
+    <Compile Include="DALOperation.cs" />
     <Compile Include="DBModel\log_DataChange.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -86,6 +87,9 @@
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_CALLModel.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\tbl_CALLReport.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_Customer.cs">
@@ -205,6 +209,7 @@
     <Compile Include="DTO\AccessRightDTO.cs" />
     <Compile Include="DTO\CALLReportDTO.cs" />
     <Compile Include="DTO\EnumDTO.cs" />
+    <Compile Include="DTO\OperatorInformationDTO.cs" />
     <Compile Include="DTO\OTPResult.cs" />
     <Compile Include="DTO\PackageDTO.cs" />
     <Compile Include="DTO\PackagePriceDTO.cs" />
@@ -214,6 +219,7 @@
     <Compile Include="DTO\TypeDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Enum\BOResultTypes.cs" />
+    <Compile Include="Enum\EnumValue.cs" />
     <Compile Include="ErrorManagment\CustomError.cs" />
     <Compile Include="Model\CALLModel.cs" />
     <Compile Include="Model\Customer.cs" />
@@ -233,6 +239,7 @@
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\EnumRepository.cs" />
     <Compile Include="Repositories\LoginRepository.cs" />
+    <Compile Include="Repositories\OperatorInformationRepository.cs" />
     <Compile Include="Repositories\PackageRepository.cs" />
     <Compile Include="Repositories\ProposalRepository.cs" />
     <Compile Include="Repositories\ProviderRepository.cs" />

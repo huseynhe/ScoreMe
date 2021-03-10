@@ -336,5 +336,47 @@ namespace ScoreMe.UI.Services
             items.Insert(0, itemtip);
             return new SelectList(items, "Value", "Text");
         }
+        public static IEnumerable<SelectListItem> GetEnumValueListByEcIDForINOUT(Int64 ecategoryId)
+        {
+
+            CRUDOperation dataOperations = new CRUDOperation();
+            List<SelectListItem> items = dataOperations.GetEnumValuesByEnumCategoryID(ecategoryId)
+                .OrderBy(n => n.Name)
+                    .Select(n =>
+                    new SelectListItem
+                    {
+                        Value = n.ID.ToString(),
+                        Text = n.Name+"("+n.Description+")",
+                        //Selected = n.ID == parentID ? true : false
+                    }).ToList();
+            var itemtip = new SelectListItem()
+            {
+                Value = "0",
+                Text = "---  Seçiniz ---"
+            };
+            items.Insert(0, itemtip);
+            return new SelectList(items, "Value", "Text");
+        }
+        public static IEnumerable<SelectListItem> GetEnumValueListByEcIDForPrefix(Int64 ecategoryId)
+        {
+
+            CRUDOperation dataOperations = new CRUDOperation();
+            List<SelectListItem> items = dataOperations.GetEnumValuesByEnumCategoryID(ecategoryId)
+                .OrderBy(n => n.Name)
+                    .Select(n =>
+                    new SelectListItem
+                    {
+                        Value = n.Name.ToString(),
+                        Text = n.Name,
+                        //Selected = n.ID == parentID ? true : false
+                    }).ToList();
+            var itemtip = new SelectListItem()
+            {
+                Value = "0",
+                Text = "---  Seçiniz ---"
+            };
+            items.Insert(0, itemtip);
+            return new SelectList(items, "Value", "Text");
+        }
     }
 }

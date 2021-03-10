@@ -460,6 +460,8 @@ namespace ScoreMe.DAL
                         oldItem.PhoneNumber = item.PhoneNumber;
                         oldItem.IdentityCode = item.IdentityCode;
                         oldItem.Email = item.Email;
+                        oldItem.Longitudes = item.Longitudes;
+                        oldItem.Latitudes = item.Latitudes;
                         oldItem.RegionId = item.RegionId;
                         oldItem.Address = item.Address;
 
@@ -513,7 +515,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        
+
         public tbl_User DeleteUser(Int64 id, Int64 userId)
         {
 
@@ -567,7 +569,7 @@ namespace ScoreMe.DAL
                 {
 
                     oldItem = (from p in context.tbl_User
-                               where p.ID == id &&  p.Status == 1
+                               where p.ID == id && p.Status == 1
                                select p).FirstOrDefault();
 
                 }
@@ -608,7 +610,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_User
-                                 where p.Status == 1 && p.IsActive==1
+                                 where p.Status == 1 && p.IsActive == 1
                                  select p);
 
                     return items.ToList();
@@ -629,7 +631,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_User
-                                 where p.Status == 1 && p.IsActive==1 && p.UserType_EVID == evID
+                                 where p.Status == 1 && p.IsActive == 1 && p.UserType_EVID == evID
                                  select p);
 
                     return items.ToList();
@@ -650,8 +652,8 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from u in context.tbl_User
-                                 join sm in context.tbl_SMSModel  on u.ID equals sm.UserID 
-                                 where u.Status == 1 && sm.Status==1 && u.IsActive == 1 && u.UserType_EVID == evID
+                                 join sm in context.tbl_SMSModel on u.ID equals sm.UserID
+                                 where u.Status == 1 && sm.Status == 1 && u.IsActive == 1 && u.UserType_EVID == evID
                                  select u).Distinct();
 
                     return items.ToList();
@@ -674,7 +676,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_User
-                                where p.ID == Id && p.IsActive==1 && p.Status == 1
+                                where p.ID == Id && p.IsActive == 1 && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -698,7 +700,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_User
-                                where p.UserName == username && p.IsActive==1 && p.Status == 1
+                                where p.UserName == username && p.IsActive == 1 && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -765,7 +767,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     oldItem = (from p in context.tbl_User
-                               where p.ID == id && p.IsActive==1 && p.Status == 1
+                               where p.ID == id && p.IsActive == 1 && p.Status == 1
                                select p).FirstOrDefault();
 
                 }
@@ -808,7 +810,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     oldItem = (from p in context.tbl_User
-                               where p.UserName == username && p.IsActive==1 && p.Status == 1
+                               where p.UserName == username && p.IsActive == 1 && p.Status == 1
                                select p).FirstOrDefault();
 
                 }
@@ -853,7 +855,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_User
-                                where p.UserName == username && p.Password == password && p.IsActive==1 && p.Status == 1
+                                where p.UserName == username && p.Password == password && p.IsActive == 1 && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -1152,6 +1154,7 @@ namespace ScoreMe.DAL
                 {
                     var items = (from p in context.tbl_Proposal
                                  where p.Status == 1
+                                 orderby p.ID descending
                                  select p);
 
                     return items.ToList();
@@ -1173,6 +1176,7 @@ namespace ScoreMe.DAL
                 {
                     var items = (from p in context.tbl_Proposal
                                  where p.Status == 1 && p.ProviderID == providerid
+                                 orderby p.ID descending
                                  select p);
 
                     return items.ToList();
@@ -1198,6 +1202,7 @@ namespace ScoreMe.DAL
                                  join pug in context.tbl_ProposalUserGroup on g.ID equals pug.GroupID
                                  join p in context.tbl_Proposal on pug.ProposalID equals p.ID
                                  where ug.Status == 1 && pug.Status == 1 && p.Status == 1 && ug.UserID == userid
+                                 orderby p.ID descending
                                  select p);
 
 
@@ -1221,6 +1226,7 @@ namespace ScoreMe.DAL
 
                     var items = (from p in context.tbl_Proposal
                                  where p.Status == 1 && p.IsPublic == true
+                                 orderby p.ID descending
                                  select p);
 
 
@@ -1245,6 +1251,7 @@ namespace ScoreMe.DAL
 
                     var item = (from p in context.tbl_Proposal
                                 where p.ID == Id && p.Status == 1
+                                orderby p.ID descending
                                 select p).FirstOrDefault();
 
                     return item;
@@ -5815,8 +5822,8 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_CALLModel
-                                join u in context.tbl_User on p.UserID equals u.ID 
-                                where u.UserName == userName && p.Status == 1 &&u.Status==1
+                                join u in context.tbl_User on p.UserID equals u.ID
+                                where u.UserName == userName && p.Status == 1 && u.Status == 1
                                 orderby p.EndDate descending
                                 select p).FirstOrDefault();
 
@@ -5834,6 +5841,8 @@ namespace ScoreMe.DAL
         public tbl_CALLModel AddCALLModel(tbl_CALLModel callModel, List<tbl_CALLDetail> callDetails)
         {
             tbl_CALLModel dbItem = null;
+            tbl_User userObj = GetUserById(callModel.UserID);
+            DALOperation dALOperation = new DALOperation();
             using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
             {
 
@@ -5853,8 +5862,21 @@ namespace ScoreMe.DAL
                             callDetail.Status = 1;
                             callDetail.InsertDate = DateTime.Now;
                             callDetail.UpdateDate = DateTime.Now;
-                            context.tbl_CALLDetail.Add(callDetail);
+                            tbl_CALLDetail callDetailDBItem = context.tbl_CALLDetail.Add(callDetail);
                             context.SaveChanges();
+
+                            try
+                            {
+                                DALOperation operation = new DALOperation();
+                                operation.AddCALLReportDetail(dbItem.UserID, userObj.UserName, callDetailDBItem);
+                            }
+                            catch (Exception ex)
+                            {
+
+
+                            }
+
+
                         }
 
 
@@ -5891,7 +5913,7 @@ namespace ScoreMe.DAL
                     {
                         oldItem.UserID = item.UserID;
                         oldItem.TotalCallCount = item.TotalCallCount;
-                   
+
                         oldItem.OutCallCount = item.OutCallCount;
                         oldItem.OutCallSecond = item.OutCallSecond;
                         oldItem.InCallCount = item.InCallCount;
@@ -5912,7 +5934,7 @@ namespace ScoreMe.DAL
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
-                    
+
 
                         context.tbl_CALLModel.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
@@ -6128,7 +6150,7 @@ namespace ScoreMe.DAL
                 {
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
-
+                        oldItem.PhonePrefix = item.PhonePrefix;
                         oldItem.Duration = item.Duration;
                         oldItem.RecievedDate = item.RecievedDate;
                         oldItem.SendDate = item.SendDate;
@@ -6853,6 +6875,30 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_ProposalLikeDislike GetProposalLikeDislikeByPropsalIdAndUserID(Int64 proposalId, Int64 userId)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalLikeDislike
+                                where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_ProposalLikeDislike UpdateProposalLikeDislike(tbl_ProposalLikeDislike item)
         {
             try
@@ -6871,8 +6917,6 @@ namespace ScoreMe.DAL
                     {
 
 
-                        oldItem.ProposalID = item.ProposalID;
-                        oldItem.UserID = item.UserID;
                         oldItem.IsLike = item.IsLike;
                         oldItem.IsDislike = item.IsDislike;
                         oldItem.UpdateDate = DateTime.Now;
@@ -6899,7 +6943,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public Int64 GetProposalLikeCountByUserId(Int64 userId)
+        public Int64 GetProposalLikeCountByProposalIDAndUserID(Int64 userId)
         {
 
             try
@@ -6924,22 +6968,39 @@ namespace ScoreMe.DAL
 
         }
 
-        public int GetUserProposalLikeDislikeCount(Int64 proposalId,Int64 userId, out int dislikecount)
+        public int GetUserProposalLikeDislikeCount(Int64 proposalId, Int64 userId, out int dislikecount)
         {
             int likecount = 0;
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
+                    try
+                    {
 
-                    likecount = (from p in context.tbl_ProposalLikeDislike
-                                 where p.ProposalID == proposalId && p.UserID==userId && p.Status == 1 && p.IsLike == 1
-                                 select p).ToList().Count;
+                        likecount = (from p in context.tbl_ProposalLikeDislike
+                                     where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1 && p.IsLike == 1
+                                     select p).ToList().Count;
+                    }
+                    catch (Exception)
+                    {
+
+                        likecount = 0;
+                    }
+
+                    try
+                    {
+                        dislikecount = (from p in context.tbl_ProposalLikeDislike
+                                        where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1 && p.IsDislike == 1
+                                        select p).ToList().Count;
+                    }
+                    catch (Exception ex)
+                    {
+
+                        dislikecount = 0;
+                    }
 
 
-                    dislikecount = (from p in context.tbl_ProposalLikeDislike
-                                    where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1 && p.IsDislike == 1
-                                    select p).ToList().Count;
 
                     return likecount;
 
@@ -6959,15 +7020,32 @@ namespace ScoreMe.DAL
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
+                    try
+                    {
+                        likecount = (from p in context.tbl_ProposalLikeDislike
+                                     where p.ProposalID == proposalId && p.Status == 1 && p.IsLike == 1
+                                     select p).ToList().Count;
+                    }
+                    catch (Exception ex)
+                    {
 
-                    likecount = (from p in context.tbl_ProposalLikeDislike
-                                 where p.ProposalID == proposalId && p.Status == 1 && p.IsLike == 1
-                                 select p).ToList().Count;
+                        likecount = 0;
+                    }
 
 
-                    dislikecount = (from p in context.tbl_ProposalLikeDislike
-                                    where p.ProposalID == proposalId && p.Status == 1 && p.IsDislike == 1
-                                    select p).ToList().Count;
+                    try
+                    {
+                        dislikecount = (from p in context.tbl_ProposalLikeDislike
+                                        where p.ProposalID == proposalId && p.Status == 1 && p.IsDislike == 1
+                                        select p).ToList().Count;
+                    }
+                    catch (Exception ex)
+                    {
+
+                        dislikecount = 0;
+                    }
+
+
 
                     return likecount;
 
@@ -7324,7 +7402,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_OTP GetOTPByOtpCode(string otpCode,string phoneNumber)
+        public tbl_OTP GetOTPByOtpCode(string otpCode, string phoneNumber)
         {
 
             try
@@ -7334,7 +7412,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_OTP
-                                where p.OTPCode == otpCode && p.PhoneNumber==phoneNumber && p.Status == 1
+                                where p.OTPCode == otpCode && p.PhoneNumber == phoneNumber && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -7404,7 +7482,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from o in context.tbl_OTP
-                                where o.UserID == userId && o.Status == 1 
+                                where o.UserID == userId && o.Status == 1
                                 select o).ToList();
 
                     return item;
@@ -7555,7 +7633,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_OperatorInformation GetOperatorInformationByPrefixAndType(string prefix, int type)
+        public tbl_OperatorInformation GetOperatorInformationByPrefixAndType(string prefix, int type, int operatorChanelType)
         {
 
             try
@@ -7565,7 +7643,7 @@ namespace ScoreMe.DAL
 
 
                     var item = (from p in context.tbl_OperatorInformation
-                                where p.Name == prefix && p.InOutType == type && p.Status == 1
+                                where p.Name == prefix && p.InOutType_EVID == type && p.OperatorChanelType_EVID == operatorChanelType && p.Status == 1
                                 select p).FirstOrDefault();
 
                     return item;
@@ -7598,7 +7676,8 @@ namespace ScoreMe.DAL
 
 
                         oldItem.Name = item.Name;
-                        oldItem.InOutType = item.InOutType;
+                        oldItem.OperatorChanelType_EVID = item.OperatorChanelType_EVID;
+                        oldItem.InOutType_EVID = item.InOutType_EVID;
                         oldItem.Price = item.Price;
                         oldItem.Point = item.Point;
                         oldItem.UpdateDate = DateTime.Now;
@@ -7626,6 +7705,211 @@ namespace ScoreMe.DAL
 
         }
         #endregion
+
+
+
+        #region CALLDetail
+        public tbl_CALLReport AddCALLReport(tbl_CALLReport item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_CALLReport.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_CALLReport DeleteCALLReport(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_CALLReport oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_CALLReport
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_CALLReport.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_CALLReport> GetCALLReports()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_CALLReport
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_CALLReport> GetCALLReportsByModelID(Int64 modelID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_CALLReport
+                                 where p.Status == 1 && p.CALLModelID == modelID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_CALLReport GetCALLReportByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_CALLReport
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_CALLReport UpdateCALLReport(tbl_CALLReport item)
+        {
+            try
+            {
+                tbl_CALLReport oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_CALLReport
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.UserID = item.UserID;
+
+                        oldItem.OutCallCountSame = item.OutCallCountSame;
+                        oldItem.OutCallSecondSame = item.OutCallSecondSame;
+                        oldItem.OutCallMinuteSame = item.OutCallMinuteSame;
+
+                        oldItem.OutCallCountOther = item.OutCallCountOther;
+                        oldItem.OutCallSecondOther = item.OutCallSecondOther;
+                        oldItem.OutCallMinuteOther = item.OutCallMinuteOther;
+
+                        oldItem.InCallCount = item.InCallCount;
+                        oldItem.InCallSecond = item.InCallSecond;
+
+                        oldItem.OutMissedCallCount = item.OutMissedCallCount;
+                        oldItem.InMissedCallCount = item.InMissedCallCount;
+                        oldItem.OutCallForeignCount = item.OutCallForeignCount;
+                        oldItem.OutCallForeignSecond = item.OutCallForeignSecond;
+                        oldItem.InCallForeignCount = item.InCallForeignCount;
+                        oldItem.InCallForeignSecond = item.InCallForeignSecond;
+                        //oldItem.OutCallRoamingCount = item.OutCallRoamingCount;
+                        //oldItem.OutCallRoamingSecond = item.OutCallRoamingSecond;
+                        //oldItem.InCallRoamingCount = item.InCallRoamingCount;
+                        //oldItem.InCallRoamingSecond = item.InCallRoamingSecond;
+
+                        oldItem.Month = item.Month;
+                        oldItem.Year = item.Year;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+
+
+                        context.tbl_CALLReport.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
 
     }
 }

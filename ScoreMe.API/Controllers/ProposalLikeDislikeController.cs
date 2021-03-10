@@ -1,4 +1,6 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.Business;
+using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -13,23 +15,7 @@ namespace ScoreMe.API.Controllers
     [RoutePrefix("api/proposal")]
     public class ProposalLikeDislikeController : ApiController
     {
-        [HttpGet]
-        [Route("GetProposalLikeDislikes")]
-        public List<tbl_ProposalLikeDislike> GetProposalLikeDislikes()
-        {
-            CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetProposalLikeDislikes(); ;
-            return items;
-        }
-
-        [HttpGet]
-        [Route("GetProposalLikeDislikeByID/{id}")]
-        public tbl_ProposalLikeDislike GetProposalLikeDislikeByID(Int64 id)
-        {
-            CRUDOperation operation = new CRUDOperation();
-            var item = operation.GetProposalLikeDislikeById(id); ;
-            return item;
-        }
+        
         [HttpGet]
         [Route("GetProposalLikeCountByProposalID/{proposalID}")]
         public Int64 GetProposalLikeCountByProposalID(Int64 proposalID)
@@ -48,14 +34,17 @@ namespace ScoreMe.API.Controllers
             var items = operation.GetProposalLikeDislikeCountByProposalId(proposalID,out dislikecount); ;
             return dislikecount;
         }
+
         [HttpGet]
-        [Route("GetProposalLikeCountByUserID/{userID}")]
-        public Int64 GetProposalLikeCountByUserID(Int64 userID)
+        [Route("GetProposalLikeDislikeByPropsalIdAndUserID/{proposalID}/{userID}")]
+        public tbl_ProposalLikeDislike GetProposalLikeDislikeByPropsalIdAndUserID(Int64 proposalID, Int64 userID)
         {
             CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetProposalLikeCountByUserId(userID); ;
+            var items = operation.GetProposalLikeDislikeByPropsalIdAndUserID(proposalID,userID); ;
             return items;
         }
+       
+
         [HttpPost]
         [ResponseType(typeof(tbl_ProposalLikeDislike))]
         [Route("AddProposalLikeDislike")]
@@ -65,27 +54,19 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_ProposalLikeDislike dbitem = operation.AddProposalLikeDislike(item);
+            BusinessOperation businessOperation = new BusinessOperation();
 
-            return Ok(dbitem);
-        }
-
-        [HttpPost]
-        [ResponseType(typeof(tbl_ProposalLikeDislike))]
-        [Route("UpdateProposalLikeDislike")]
-        public IHttpActionResult UpdateProposalLikeDislike(tbl_ProposalLikeDislike item)
-        {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            BaseOutput dbitem = businessOperation.AddProposalLikeDislike(item);
+            if (dbitem.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(dbitem);
             }
             else
             {
-                var dbitem = operation.UpdateProposalLikeDislike(item);
-                return Ok(dbitem);
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
             }
+
+
         }
 
         [HttpPost]

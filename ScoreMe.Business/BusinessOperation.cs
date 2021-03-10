@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ScoreMe.DAL.Repositories;
+using ScoreMe.UTILITY;
 
 namespace ScoreMe.Business
 {
@@ -111,7 +112,7 @@ namespace ScoreMe.Business
 
                     }
                 }
-             
+
             }
             catch (Exception)
             {
@@ -214,7 +215,7 @@ namespace ScoreMe.Business
                             {
                                 UserID = providerDB.UserId,
                                 UserName = userDB.UserName,
-                                ProviderID = providerDB.ID,
+                                ID = providerDB.ID,
                                 ParentID = providerDB.ParentID,
                                 Name = providerDB.Name,
                                 Type = providerDB.Type == null ? 0 : (Int64)providerDB.Type,
@@ -261,7 +262,6 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
-
         public BaseOutput GetProviderByID(Int64 id, out Provider itemOut)
         {
             ProviderRepository providerRepository = new ProviderRepository();
@@ -269,6 +269,58 @@ namespace ScoreMe.Business
             try
             {
                 Provider provider = providerRepository.GetProviderByID(id);
+
+                if (provider != null)
+                {
+                    itemOut = provider;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                itemOut = null;
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProviderByUserName(string username, out Provider itemOut)
+        {
+            ProviderRepository providerRepository = new ProviderRepository();
+            BaseOutput baseOutput;
+            try
+            {
+                CRUDOperation operation = new CRUDOperation();
+                var tblprovider = operation.GetProviderByUserName(username);
+                Provider provider = new Provider()
+                {
+                    ID = tblprovider.ID,
+                    UserID = tblprovider.UserId,
+                    UserName = username,
+                    Name = tblprovider.Name,
+                    ParentID = tblprovider.ParentID,
+                    Type = tblprovider.Type == null ? 0 : (Int64)tblprovider.Type,
+                    Description = tblprovider.Description,
+                    RegionId = tblprovider.RegionId == null ? 0 : (Int64)tblprovider.RegionId,
+                    Address = tblprovider.Address,
+                    RelatedPersonName = tblprovider.RelatedPersonName,
+                    RelatedPersonProfession = tblprovider.RelatedPersonProfession,
+                    RelatedPersonPhone = tblprovider.RelatedPersonPhone,
+                    RP_HomePhone = tblprovider.RP_HomePhone,
+                    VOEN = tblprovider.VOEN,
+                    LogoLinkPath = tblprovider.LogoLinkPath,
+                    LogoLinkName = tblprovider.LogoLinkName,
+
+                };
 
                 if (provider != null)
                 {
@@ -1523,7 +1575,7 @@ namespace ScoreMe.Business
                             TotalCallCount = item.TotalCallCount,
                             OutCallCount = item.OutCallCount,
                             OutCallSecond = item.OutCallSecond,
-                            InCallCount = item.InCallCount,                     
+                            InCallCount = item.InCallCount,
                             InCallSecond = item.InCallSecond,
                             MissedCallCount = item.MissedCallCount,
                             OutCallForeignCount = item.OutCallForeignCount,
@@ -1581,7 +1633,7 @@ namespace ScoreMe.Business
                         TotalCallCount = item.TotalCallCount,
                         OutCallCount = item.OutCallCount,
                         OutCallSecond = item.OutCallSecond,
-                        InCallCount = item.InCallCount,              
+                        InCallCount = item.InCallCount,
                         InCallSecond = item.InCallSecond,
                         MissedCallCount = item.MissedCallCount,
                         OutCallForeignCount = item.OutCallForeignCount,
@@ -1628,11 +1680,11 @@ namespace ScoreMe.Business
                     callModel = new CALLModel()
                     {
                         ID = item.ID,
-                        UserID=item.UserID,
+                        UserID = item.UserID,
                         TotalCallCount = item.TotalCallCount,
                         OutCallCount = item.OutCallCount,
                         OutCallSecond = item.OutCallSecond,
-                        InCallCount = item.InCallCount,               
+                        InCallCount = item.InCallCount,
                         InCallSecond = item.InCallSecond,
                         MissedCallCount = item.MissedCallCount,
                         OutCallForeignCount = item.OutCallForeignCount,
@@ -1667,6 +1719,8 @@ namespace ScoreMe.Business
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
+           
+
             try
             {
                 tbl_CALLModel callModel = new tbl_CALLModel()
@@ -1675,7 +1729,7 @@ namespace ScoreMe.Business
                     TotalCallCount = item.TotalCallCount,
                     OutCallCount = item.OutCallCount,
                     OutCallSecond = item.OutCallSecond,
-                    InCallCount = item.InCallCount,             
+                    InCallCount = item.InCallCount,
                     InCallSecond = item.InCallSecond,
                     MissedCallCount = item.MissedCallCount,
                     OutCallForeignCount = item.OutCallForeignCount,
@@ -1694,6 +1748,9 @@ namespace ScoreMe.Business
 
                 tblCALLDetails = item.CALLDetails;
                 tbl_CALLModel _CALLModel = cRUDOperation.AddCALLModel(callModel, tblCALLDetails);
+           
+             
+
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
@@ -1716,7 +1773,7 @@ namespace ScoreMe.Business
                     TotalCallCount = item.TotalCallCount,
                     OutCallCount = item.OutCallCount,
                     OutCallSecond = item.OutCallSecond,
-                    InCallCount = item.InCallCount,               
+                    InCallCount = item.InCallCount,
                     InCallSecond = item.InCallSecond,
                     MissedCallCount = item.MissedCallCount,
                     OutCallForeignCount = item.OutCallForeignCount,
@@ -1799,7 +1856,46 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
-        #endregion
-    }
 
+      
+
+
+
+
+        #endregion
+
+        #region ProposalLikeDislike
+        public BaseOutput AddProposalLikeDislike(tbl_ProposalLikeDislike item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_ProposalLikeDislike dbItem = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserID(item.ProposalID, item.UserID);
+
+                if (dbItem == null)
+                {
+                    tbl_ProposalLikeDislike additem = cRUDOperation.AddProposalLikeDislike(item);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla əlavə edilmişdir.");
+                }
+                else
+                {
+                    dbItem.IsLike = item.IsLike;
+                    dbItem.IsDislike = item.IsDislike;
+                    tbl_ProposalLikeDislike additem = cRUDOperation.UpdateProposalLikeDislike(dbItem);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla dəyişiklik edilmişdir.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
+
+    }
 }
+
+
