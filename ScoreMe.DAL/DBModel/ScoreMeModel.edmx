@@ -616,8 +616,10 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="SMSModelID" Type="bigint" Nullable="false" />
           <Property Name="InOutType" Type="int" />
+          <Property Name="IsShortMessage" Type="int" />
           <Property Name="IsRoaming" Type="int" />
           <Property Name="IsForeign" Type="int" />
+          <Property Name="PhonePrefix" Type="nvarchar" MaxLength="50" />
           <Property Name="SenderName" Type="nvarchar" MaxLength="100" />
           <Property Name="SenderPhoneNumber" Type="nvarchar" MaxLength="100" />
           <Property Name="RecievedDate" Type="datetime2" Precision="7" />
@@ -1452,8 +1454,10 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="SMSModelID" Type="Int64" Nullable="false" />
           <Property Name="InOutType" Type="Int32" />
+          <Property Name="IsShortMessage" Type="Int32" />
           <Property Name="IsRoaming" Type="Int32" />
           <Property Name="IsForeign" Type="Int32" />
+          <Property Name="PhonePrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="SenderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="SenderPhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RecievedDate" Type="DateTime" Precision="7" />
@@ -2240,8 +2244,10 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
                 <ScalarProperty Name="SenderPhoneNumber" ColumnName="SenderPhoneNumber" />
                 <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="PhonePrefix" ColumnName="PhonePrefix" />
                 <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
+                <ScalarProperty Name="IsShortMessage" ColumnName="IsShortMessage" />
                 <ScalarProperty Name="InOutType" ColumnName="InOutType" />
                 <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />

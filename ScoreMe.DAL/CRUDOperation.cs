@@ -4716,6 +4716,8 @@ namespace ScoreMe.DAL
                         oldItem.SendDate = item.SendDate;
                         oldItem.Message = item.Message;
                         oldItem.InOutType = item.InOutType;
+                        oldItem.IsShortMessage = item.IsShortMessage;
+                        oldItem.PhonePrefix = item.PhonePrefix;
                         oldItem.IsForeign = item.IsForeign;
                         oldItem.IsRoaming = item.IsRoaming;
                         oldItem.UpdateDate = DateTime.Now;
