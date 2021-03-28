@@ -378,5 +378,30 @@ namespace ScoreMe.UI.Services
             items.Insert(0, itemtip);
             return new SelectList(items, "Value", "Text");
         }
+
+        public static IEnumerable<SelectListItem> GetBoleanEnumTypes()
+        {
+
+            List<SelectListItem> items = new List<SelectListItem>();
+            var itemtip = new SelectListItem()
+            {
+                Value = null,
+                Text = "---  Seçiniz ---"
+            };
+            items.Insert(0, itemtip);
+            var itemtipMale = new SelectListItem()
+            {
+                Value = "0",
+                Text = "Xeyir"
+            };
+            items.Insert(1, itemtipMale);
+            var itemtFemale = new SelectListItem()
+            {
+                Value = "1",
+                Text = "Bəli"
+            };
+            items.Insert(2, itemtFemale);
+            return new SelectList(items, "Value", "Text");
+        }
     }
 }

@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-4">
                 @Html.LabelFor(model => model.OperatorChanelTypeEVID, htmlAttributes: new { @class = "control-label" })
-                @Html.DropDownListFor(x => Model.OperatorChanelTypeEVID, new SelectList(Model.OperatorChanelTypeList, "Value", "Text"), htmlAttributes: new { @class = "select2 form-control", tabindex = 3 })
+                @Html.DropDownListFor(x => Model.OperatorChanelTypeEVID, new SelectList(Model.OperatorChanelTypeList, "Value", "Text"), htmlAttributes: new { @class = "select2 form-control", tabindex = 3, @onchange = "FillInOutType()" })
                 @Html.ValidationMessageFor(model => model.OperatorChanelTypeEVID, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
@@ -64,4 +64,23 @@
 }
 
 
+
+<script>
+        function FillInOutType() {
+            var operatorChanelTypeEVID = $('#OperatorChanelTypeEVID').val();
+            $.ajax({
+                url: '/OperatorInformation/FillInOutType',
+                type: "GET",
+                dataType: "JSON",
+                data: { chanelTypeEVID: operatorChanelTypeEVID },
+                success: function (InOutTypeList) {
+                    $("#InOutTypeEVID").html(""); // clear before appending new list
+                    $.each(InOutTypeList, function (i, item) {
+                        $("#InOutTypeEVID").append(
+                            $('<option></option>').val(item.Value).html(item.Text));
+                    });
+                }
+            });
+        }
+</script>
 

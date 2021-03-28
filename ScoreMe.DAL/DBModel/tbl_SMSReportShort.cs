@@ -12,18 +12,24 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_SMSSenderInfo
+    public partial class tbl_SMSReportShort
     {
         public long ID { get; set; }
         public int Status { get; set; }
-        public int ActivityType { get; set; }
-        public Nullable<int> IsParse { get; set; }
+        public long UserID { get; set; }
+        public long SMSModelID { get; set; }
+        public long SMSDetailID { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
         public string SenderName { get; set; }
-        public string Number { get; set; }
-        public string Description { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public Nullable<decimal> Point { get; set; }
-        public Nullable<decimal> Cheque { get; set; }
+        public Nullable<int> IsExpense { get; set; }
+        public decimal Amount { get; set; }
+        public string Currency { get; set; }
+        public string CardNumber { get; set; }
+        public Nullable<System.DateTime> OperationDate { get; set; }
+        public string MerchantName { get; set; }
+        public Nullable<decimal> Balance { get; set; }
+        public string BalanceCurrency { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

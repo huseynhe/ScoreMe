@@ -1747,10 +1747,7 @@ namespace ScoreMe.Business
                 List<tbl_CALLDetail> tblCALLDetails = new List<tbl_CALLDetail>();
 
                 tblCALLDetails = item.CALLDetails;
-                tbl_CALLModel _CALLModel = cRUDOperation.AddCALLModel(callModel, tblCALLDetails);
-           
-             
-
+                tbl_CALLModel _CALLModel = cRUDOperation.AddCALLModel(callModel, tblCALLDetails);     
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
@@ -1822,22 +1819,22 @@ namespace ScoreMe.Business
             try
             {
 
-                tbl_SMSModel _SMSModel = cRUDOperation.GetSMSModelByID(id);
+                tbl_CALLModel _CALLModel = cRUDOperation.GetCALLModelByID(id);
 
-                if (_SMSModel != null)
+                if (_CALLModel != null)
                 {
-                    List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(_SMSModel.ID);
+                    List<tbl_CALLDetail> tbl_CALLDetails = cRUDOperation.GetCALLDetailsByModelID(_CALLModel.ID);
 
-                    foreach (var item in tbl_SMSDetails)
+                    foreach (var item in tbl_CALLDetails)
                     {
 
-                        tbl_SMSDetail tbl_SMSDetail = cRUDOperation.DeleteSMSDetail(item.ID, 0);
+                        tbl_CALLDetail tbl_CALLDetail = cRUDOperation.DeleteCALLDetail(item.ID, 0);
 
                     }
 
 
 
-                    tbl_SMSModel tbl_SMSModel = cRUDOperation.DeleteSMSModel(id, 0);
+                    tbl_CALLModel tbl_CALLModel = cRUDOperation.DeleteCALLModel(id, 0);
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
@@ -1856,12 +1853,6 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
-
-      
-
-
-
-
         #endregion
 
         #region ProposalLikeDislike
@@ -1885,6 +1876,239 @@ namespace ScoreMe.Business
                     tbl_ProposalLikeDislike additem = cRUDOperation.UpdateProposalLikeDislike(dbItem);
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla dəyişiklik edilmişdir.");
                 }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
+
+
+        #region NetConsumeModel
+        public BaseOutput GetNetConsumeModels(out List<NetConsumeModel> netConsumeModels)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            netConsumeModels = null;
+            try
+            {
+
+                List<tbl_NetConsumeModel> tblNetConsumeModels = cRUDOperation.GetNetConsumeModels();
+                netConsumeModels = new List<NetConsumeModel>();
+
+                if (tblNetConsumeModels.Count > 0)
+                {
+                    foreach (var item in tblNetConsumeModels)
+                    {
+                        NetConsumeModel consumeModel = new NetConsumeModel()
+                        {
+                            ID = item.ID,
+                            UserID = item.UserID,
+                            BeginDate = item.BeginDate,
+                            EndDate = item.EndDate
+                        };
+
+                        List<tbl_NetConsumeDetail> tbl_netConsumeDetails = cRUDOperation.GetNetConsumeDetailsByModelID(consumeModel.ID);
+
+                        consumeModel.NetConsumeDetails = tbl_netConsumeDetails;
+                        netConsumeModels.Add(consumeModel);
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetNetConsumeModelByID(Int64 id, out NetConsumeModel netConsumeModel)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            netConsumeModel = null;
+            try
+            {
+
+                tbl_NetConsumeModel item = cRUDOperation.GetNetConsumeModelByID(id);
+                if (item != null)
+                {
+                    netConsumeModel = new NetConsumeModel()
+                    {
+                        ID = item.ID,
+                        UserID = item.UserID,
+                        BeginDate = item.BeginDate,
+                        EndDate = item.EndDate
+                    };
+
+                    List<tbl_NetConsumeDetail> tbl_NetConsumeDetails = cRUDOperation.GetNetConsumeDetailsByModelID(netConsumeModel.ID);
+                    netConsumeModel.NetConsumeDetails = tbl_NetConsumeDetails;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetLastNetConsumeModelByUserName(string userName, out NetConsumeModel netConsumeModel)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            netConsumeModel = null;
+            try
+            {
+
+                tbl_NetConsumeModel item = cRUDOperation.GetLastNetConsumeModelByUserName(userName);
+                if (item != null)
+                {
+                    netConsumeModel = new NetConsumeModel()
+                    {
+                        ID = item.ID,
+                        UserID = item.UserID,
+                        BeginDate = item.BeginDate,
+                        EndDate = item.EndDate
+                    };
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddNetConsumeModel(NetConsumeModel item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+
+
+            try
+            {
+                tbl_NetConsumeModel netConsumeModel = new tbl_NetConsumeModel()
+                {
+                    UserID = item.UserID,
+                    BeginDate = item.BeginDate,
+                    EndDate = item.EndDate,
+                };
+
+                List<tbl_NetConsumeDetail> tblNetConsumeDetails = new List<tbl_NetConsumeDetail>();
+
+                tblNetConsumeDetails = item.NetConsumeDetails;
+                tbl_NetConsumeModel _netConsumeModel = cRUDOperation.AddNetConsumeModel(netConsumeModel, tblNetConsumeDetails);
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateNetConsumeModel(NetConsumeModel item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_NetConsumeModel tblNetConsumeModel = new tbl_NetConsumeModel()
+                {
+                    ID = item.ID,
+                    UserID = item.UserID,
+                    BeginDate = item.BeginDate,
+                    EndDate = item.EndDate,
+                };
+
+                tbl_NetConsumeModel _NetConsumeModel = cRUDOperation.UpdateNetConsumeModel(tblNetConsumeModel);
+
+                if (_NetConsumeModel != null)
+                {
+                    foreach (var consumeDetail in item.NetConsumeDetails)
+                    {
+                        tbl_NetConsumeDetail tblNetConsumeDetail = cRUDOperation.UpdateNetConsumeDetail(consumeDetail);
+                    }
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteNetConsumeModel(Int64 id)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+
+                tbl_NetConsumeModel _NetConsumeModel = cRUDOperation.GetNetConsumeModelByID(id);
+
+                if (_NetConsumeModel != null)
+                {
+                    List<tbl_NetConsumeDetail> netConsumeDetails = cRUDOperation.GetNetConsumeDetailsByModelID(_NetConsumeModel.ID);
+
+                    foreach (var item in netConsumeDetails)
+                    {
+
+                        tbl_NetConsumeDetail tbl_NetConsumeDeatilDB = cRUDOperation.DeleteNetConsumeDetail(item.ID, 0);
+
+                    }
+
+
+
+                    tbl_NetConsumeModel netConsumeModel = cRUDOperation.DeleteNetConsumeModel(id, 0);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
 
             }
             catch (Exception ex)

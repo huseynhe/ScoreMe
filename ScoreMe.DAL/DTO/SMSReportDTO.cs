@@ -11,20 +11,23 @@ namespace ScoreMe.DAL.DTO
         public Int64 ID { get; set; }
         public int INOUT_EVType { get; set; }
         public string SenderName { get; set; }
+        public int ExpenseType { get; set; }
+        public string ExpenseTypeDesc { get; set; }
+        public string OperationType { get; set; }
         public string Name { get; set; }
         public int Year { get; set; }
-        public int? January { get; set; }
-        public int? February { get; set; }
-        public int? March { get; set; }
-        public int? April { get; set; }
-        public int? May { get; set; }
-        public int? June { get; set; }
-        public int? July { get; set; }
-        public int? August { get; set; }
-        public int? September { get; set; }
-        public int? October { get; set; }
-        public int? November { get; set; }
-        public int? December { get; set; }
+        public decimal? January { get; set; }
+        public decimal? February { get; set; }
+        public decimal? March { get; set; }
+        public decimal? April { get; set; }
+        public decimal? May { get; set; }
+        public decimal? June { get; set; }
+        public decimal? July { get; set; }
+        public decimal? August { get; set; }
+        public decimal? September { get; set; }
+        public decimal? October { get; set; }
+        public decimal? November { get; set; }
+        public decimal? December { get; set; }
         public decimal? Average { get; set; }
         public decimal? AveragePrice { get; set; }
         public decimal? AveragePoint { get; set; }

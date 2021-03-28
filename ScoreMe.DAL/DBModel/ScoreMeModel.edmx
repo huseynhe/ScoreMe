@@ -237,21 +237,39 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="int" />
         </EntityType>
-        <EntityType Name="tbl_NetConsume">
+        <EntityType Name="tbl_NetConsumeDetail">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="UserId" Type="bigint" Nullable="false" />
+          <Property Name="NetModelID" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
           <Property Name="Source_EVID" Type="bigint" Nullable="false" />
-          <Property Name="Mobile_EVID" Type="bigint" Nullable="false" />
-          <Property Name="Year" Type="int" />
-          <Property Name="Month" Type="int" />
+          <Property Name="Operator_EVID" Type="bigint" />
+          <Property Name="OperatorName" Type="nvarchar" MaxLength="500" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="Day" Type="int" Nullable="false" />
           <Property Name="Hour" Type="int" />
           <Property Name="Minute" Type="int" />
           <Property Name="Consumed" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="Speed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="DownloadSpeed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UploadSpeed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_NetConsumeModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="BeginDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -615,8 +633,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="SMSModelID" Type="bigint" Nullable="false" />
-          <Property Name="InOutType" Type="int" />
-          <Property Name="IsShortMessage" Type="int" />
+          <Property Name="InOutType" Type="int" Nullable="false" />
+          <Property Name="IsShortMessage" Type="int" Nullable="false" />
+          <Property Name="IsParse" Type="int" />
           <Property Name="IsRoaming" Type="int" />
           <Property Name="IsForeign" Type="int" />
           <Property Name="PhonePrefix" Type="nvarchar" MaxLength="50" />
@@ -652,15 +671,68 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
+        <EntityType Name="tbl_SMSReport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="SMSModelID" Type="bigint" Nullable="false" />
+          <Property Name="SMSDetailID" Type="bigint" Nullable="false" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="OutMsjCountSame" Type="int" />
+          <Property Name="OutMsjCountOther" Type="int" />
+          <Property Name="OutMsjForeignCount" Type="int" />
+          <Property Name="OutMsjRoamingCount" Type="int" />
+          <Property Name="InMsjCount" Type="int" />
+          <Property Name="InMsjForeignCount" Type="int" />
+          <Property Name="InCallRoamingCount" Type="int" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_SMSReportShort">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="SMSModelID" Type="bigint" Nullable="false" />
+          <Property Name="SMSDetailID" Type="bigint" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="SenderName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="IsExpense" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Currency" Type="nvarchar" MaxLength="50" />
+          <Property Name="CardNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="OperationDate" Type="datetime2" Precision="7" />
+          <Property Name="MerchantName" Type="nvarchar" MaxLength="500" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BalanceCurrency" Type="nvarchar" MaxLength="50" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
         <EntityType Name="tbl_SMSSenderInfo">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ActivityType" Type="int" Nullable="false" />
+          <Property Name="IsParse" Type="int" />
           <Property Name="SenderName" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ActivityType" Type="nvarchar(max)" />
+          <Property Name="Number" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Point" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Cheque" Type="decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -766,7 +838,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_EnumCategory" EntityType="Self.tbl_EnumCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_EnumValue" EntityType="Self.tbl_EnumValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Group" EntityType="Self.tbl_Group" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_NetConsume" EntityType="Self.tbl_NetConsume" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_NetConsumeDetail" EntityType="Self.tbl_NetConsumeDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_NetConsumeModel" EntityType="Self.tbl_NetConsumeModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_OperatorInformation" EntityType="Self.tbl_OperatorInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_OTP" EntityType="Self.tbl_OTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Package" EntityType="Self.tbl_Package" Schema="dbo" store:Type="Tables" />
@@ -792,6 +865,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_Score_x" EntityType="Self.tbl_Score_x" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_SMSDetail" EntityType="Self.tbl_SMSDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_SMSModel" EntityType="Self.tbl_SMSModel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SMSReport" EntityType="Self.tbl_SMSReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SMSReportShort" EntityType="Self.tbl_SMSReportShort" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_SMSSenderInfo" EntityType="Self.tbl_SMSSenderInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserDocument" EntityType="Self.tbl_UserDocument" Schema="dbo" store:Type="Tables" />
@@ -841,7 +916,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_EnumCategory" EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" />
           <EntitySet Name="tbl_EnumValue" EntityType="DB_A62358_ScoreMeModel.tbl_EnumValue" />
           <EntitySet Name="tbl_Group" EntityType="DB_A62358_ScoreMeModel.tbl_Group" />
-          <EntitySet Name="tbl_NetConsume" EntityType="DB_A62358_ScoreMeModel.tbl_NetConsume" />
+          <EntitySet Name="tbl_NetConsumeDetail" EntityType="DB_A62358_ScoreMeModel.tbl_NetConsumeDetail" />
+          <EntitySet Name="tbl_NetConsumeModel" EntityType="DB_A62358_ScoreMeModel.tbl_NetConsumeModel" />
           <EntitySet Name="tbl_OperatorInformation" EntityType="DB_A62358_ScoreMeModel.tbl_OperatorInformation" />
           <EntitySet Name="tbl_OTP" EntityType="DB_A62358_ScoreMeModel.tbl_OTP" />
           <EntitySet Name="tbl_Package" EntityType="DB_A62358_ScoreMeModel.tbl_Package" />
@@ -867,6 +943,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_Score_x" EntityType="DB_A62358_ScoreMeModel.tbl_Score_x" />
           <EntitySet Name="tbl_SMSDetail" EntityType="DB_A62358_ScoreMeModel.tbl_SMSDetail" />
           <EntitySet Name="tbl_SMSModel" EntityType="DB_A62358_ScoreMeModel.tbl_SMSModel" />
+          <EntitySet Name="tbl_SMSReport" EntityType="DB_A62358_ScoreMeModel.tbl_SMSReport" />
+          <EntitySet Name="tbl_SMSReportShort" EntityType="DB_A62358_ScoreMeModel.tbl_SMSReportShort" />
           <EntitySet Name="tbl_SMSSenderInfo" EntityType="DB_A62358_ScoreMeModel.tbl_SMSSenderInfo" />
           <EntitySet Name="tbl_User" EntityType="DB_A62358_ScoreMeModel.tbl_User" />
           <EntitySet Name="tbl_UserDocument" EntityType="DB_A62358_ScoreMeModel.tbl_UserDocument" />
@@ -1075,21 +1153,39 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int32" />
         </EntityType>
-        <EntityType Name="tbl_NetConsume">
+        <EntityType Name="tbl_NetConsumeDetail">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int64" Nullable="false" />
+          <Property Name="NetModelID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
           <Property Name="Source_EVID" Type="Int64" Nullable="false" />
-          <Property Name="Mobile_EVID" Type="Int64" Nullable="false" />
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Month" Type="Int32" />
+          <Property Name="Operator_EVID" Type="Int64" />
+          <Property Name="OperatorName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="Day" Type="Int32" Nullable="false" />
           <Property Name="Hour" Type="Int32" />
           <Property Name="Minute" Type="Int32" />
           <Property Name="Consumed" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Speed" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="DownloadSpeed" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UploadSpeed" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_NetConsumeModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1453,8 +1549,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="SMSModelID" Type="Int64" Nullable="false" />
-          <Property Name="InOutType" Type="Int32" />
-          <Property Name="IsShortMessage" Type="Int32" />
+          <Property Name="InOutType" Type="Int32" Nullable="false" />
+          <Property Name="IsShortMessage" Type="Int32" Nullable="false" />
+          <Property Name="IsParse" Type="Int32" />
           <Property Name="IsRoaming" Type="Int32" />
           <Property Name="IsForeign" Type="Int32" />
           <Property Name="PhonePrefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1490,15 +1587,68 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
+        <EntityType Name="tbl_SMSReport">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="SMSModelID" Type="Int64" Nullable="false" />
+          <Property Name="SMSDetailID" Type="Int64" Nullable="false" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="OutMsjCountSame" Type="Int32" />
+          <Property Name="OutMsjCountOther" Type="Int32" />
+          <Property Name="OutMsjForeignCount" Type="Int32" />
+          <Property Name="OutMsjRoamingCount" Type="Int32" />
+          <Property Name="InMsjCount" Type="Int32" />
+          <Property Name="InMsjForeignCount" Type="Int32" />
+          <Property Name="InCallRoamingCount" Type="Int32" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_SMSReportShort">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="SMSModelID" Type="Int64" Nullable="false" />
+          <Property Name="SMSDetailID" Type="Int64" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="SenderName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsExpense" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CardNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OperationDate" Type="DateTime" Precision="7" />
+          <Property Name="MerchantName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BalanceCurrency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
         <EntityType Name="tbl_SMSSenderInfo">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ActivityType" Type="Int32" Nullable="false" />
+          <Property Name="IsParse" Type="Int32" />
           <Property Name="SenderName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Number" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ActivityType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Point" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Cheque" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1837,22 +1987,41 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_NetConsume">
-            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_NetConsume">
-              <MappingFragment StoreEntitySet="tbl_NetConsume">
+          <EntitySetMapping Name="tbl_NetConsumeDetail">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_NetConsumeDetail">
+              <MappingFragment StoreEntitySet="tbl_NetConsumeDetail">
                 <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Speed" ColumnName="Speed" />
+                <ScalarProperty Name="UploadSpeed" ColumnName="UploadSpeed" />
+                <ScalarProperty Name="DownloadSpeed" ColumnName="DownloadSpeed" />
                 <ScalarProperty Name="Consumed" ColumnName="Consumed" />
                 <ScalarProperty Name="Minute" ColumnName="Minute" />
                 <ScalarProperty Name="Hour" ColumnName="Hour" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
                 <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Mobile_EVID" ColumnName="Mobile_EVID" />
+                <ScalarProperty Name="OperatorName" ColumnName="OperatorName" />
+                <ScalarProperty Name="Operator_EVID" ColumnName="Operator_EVID" />
                 <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="NetModelID" ColumnName="NetModelID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_NetConsumeModel">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_NetConsumeModel">
+              <MappingFragment StoreEntitySet="tbl_NetConsumeModel">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -2247,6 +2416,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="PhonePrefix" ColumnName="PhonePrefix" />
                 <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
                 <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
+                <ScalarProperty Name="IsParse" ColumnName="IsParse" />
                 <ScalarProperty Name="IsShortMessage" ColumnName="IsShortMessage" />
                 <ScalarProperty Name="InOutType" ColumnName="InOutType" />
                 <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
@@ -2278,6 +2448,56 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SMSReport">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSReport">
+              <MappingFragment StoreEntitySet="tbl_SMSReport">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
+                <ScalarProperty Name="InMsjForeignCount" ColumnName="InMsjForeignCount" />
+                <ScalarProperty Name="InMsjCount" ColumnName="InMsjCount" />
+                <ScalarProperty Name="OutMsjRoamingCount" ColumnName="OutMsjRoamingCount" />
+                <ScalarProperty Name="OutMsjForeignCount" ColumnName="OutMsjForeignCount" />
+                <ScalarProperty Name="OutMsjCountOther" ColumnName="OutMsjCountOther" />
+                <ScalarProperty Name="OutMsjCountSame" ColumnName="OutMsjCountSame" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="SMSDetailID" ColumnName="SMSDetailID" />
+                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SMSReportShort">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSReportShort">
+              <MappingFragment StoreEntitySet="tbl_SMSReportShort">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="BalanceCurrency" ColumnName="BalanceCurrency" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="MerchantName" ColumnName="MerchantName" />
+                <ScalarProperty Name="OperationDate" ColumnName="OperationDate" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="IsExpense" ColumnName="IsExpense" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="SMSDetailID" ColumnName="SMSDetailID" />
+                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_SMSSenderInfo">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSSenderInfo">
               <MappingFragment StoreEntitySet="tbl_SMSSenderInfo">
@@ -2285,9 +2505,14 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
                 <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+                <ScalarProperty Name="Cheque" ColumnName="Cheque" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="IsParse" ColumnName="IsParse" />
+                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

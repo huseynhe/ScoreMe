@@ -11,31 +11,31 @@ using System.Threading.Tasks;
 
 namespace ScoreMe.DAL.Repositories
 {
-    public class OperatorInformationRepository
+    public class SMSSenderInfoRepository
     {
         private int pageNumber = 1;
         private int pageSize = 1000000;
 
         #region Package
-        private List<OperatorInformationDTO> GetOperatorInformations(Search search, out int _count)
+        private List<SMSSenderInfoDTO> GetSMSSenderInfos(Search search, out int _count)
         {
             _count = 0;
-            var result = new List<OperatorInformationDTO>();
+            var result = new List<SMSSenderInfoDTO>();
             string queryEnd = "";
             string head = "";
 
             if (search.isCount == false)
             {
-                head = @"  ID
-                           ,[OperatorType_EVID]
-                           ,(select ev.Name from [dbo].[tbl_EnumValue] ev where ev.ID=op.OperatorType_EVID) as OperatorTypeDesc
-	                       ,Name
-	                       ,[OperatorChanelType_EVID]
-	                       ,(select ev.Name from [dbo].[tbl_EnumValue] ev where ev.ID=op.OperatorChanelType_EVID) as OperatorChanelTypeDesc
-	                       ,[InOutType_EVID]
-	                       ,(select ev.Name+' ('+ ev.Description+')' from [dbo].[tbl_EnumValue] ev where ev.ID=op.InOutType_EVID) as InOutTypeDesc
-	                       ,Price
-	                       ,Point";
+                head = @" ID
+	                     ,ActivityType
+	                     ,(select ev.Name +' ('+ev.Description+')' from [dbo].[tbl_EnumValue] ev where ev.ID=si.ActivityType) as ActivityTypeDesc
+	                     ,SenderName
+	                     ,Number
+                         ,Price
+                         ,Point
+                         ,Cheque
+                         ,IsParse
+                         ,si.Description";
             }
             else
             {
@@ -45,10 +45,10 @@ namespace ScoreMe.DAL.Repositories
 
             StringBuilder allQuery = new StringBuilder();
 
-            var query = @"SELECT " + head + @"  FROM [DB_A62358_ScoreMe].[dbo].[tbl_OperatorInformation] op where op.Status=1  ";
+            var query = @"SELECT " + head + @"  FROM [dbo].[tbl_SMSSenderInfo] si  where si.Status=1  ";
             allQuery.Append(query);
 
-            string queryName = @" and  op.Name like N'%'+@P_Name+'%'";
+            string queryName = @" and  si.SenderName like N'%'+@P_Name+'%'";
 
 
             if (!string.IsNullOrEmpty(search.Name))
@@ -60,7 +60,7 @@ namespace ScoreMe.DAL.Repositories
 
             if (search.isCount == false)
             {
-                queryEnd = @" order by   op.Name desc OFFSET ( @PageNo - 1 ) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY";
+                queryEnd = @" order by   si.ActivityType desc OFFSET ( @PageNo - 1 ) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY";
             }
 
 
@@ -83,20 +83,29 @@ namespace ScoreMe.DAL.Repositories
                     {
                         if (search.isCount == false)
                         {
-                            result.Add(new OperatorInformationDTO()
+                            SMSSenderInfoDTO senderInfoDTO= new SMSSenderInfoDTO()
                             {
                                 //[ID],[Code],[Name],[N_Name],[Sort]
                                 ID = reader.GetInt64OrDefaultValue(0),
-                                OperatorTypeEVID = reader.GetInt32OrDefaultValue(1),
-                                OperatorTypeDesc = reader.GetStringOrEmpty(2),
-                                Name = reader.GetStringOrEmpty(3),
-                                OperatorChanelTypeEVID = reader.GetInt32OrDefaultValue(4),
-                                OperatorChanelTypeDesc = reader.GetStringOrEmpty(5),
-                                InOutTypeEVID = reader.GetInt32OrDefaultValue(6),
-                                InOutTypeDesc = reader.GetStringOrEmpty(7),
-                                Price = reader.GetDecimalOrDefaultValue(8),
-                                Point = reader.GetDecimalOrDefaultValue(9),
-                            });
+                                ActivityType = reader.GetInt32OrDefaultValue(1),
+                                ActivityTypeDesc = reader.GetStringOrEmpty(2),
+                                SenderName = reader.GetStringOrEmpty(3),
+                                Number = reader.GetStringOrEmpty(4),
+                                Price = reader.GetDecimalOrDefaultValue(5),
+                                Point = reader.GetDecimalOrDefaultValue(6),
+                                Cheque = reader.GetDecimalOrDefaultValue(7),
+                                IsParse = reader.GetInt32OrDefaultValue(8),
+                                Description = reader.GetStringOrEmpty(9),
+                            };
+                            if (senderInfoDTO.IsParse==1)
+                            {
+                                senderInfoDTO.IsParseDesc = "Bəli";
+                            }
+                            else
+                            {
+                                senderInfoDTO.IsParseDesc = "Xeyir";
+                            }
+                            result.Add(senderInfoDTO);
                         }
                         else
                         {
@@ -111,7 +120,7 @@ namespace ScoreMe.DAL.Repositories
 
             return result;
         }
-        public IList<OperatorInformationDTO> SW_GetOperatorInformations(Search search)
+        public IList<SMSSenderInfoDTO> SW_GetGetSMSSenderInfos(Search search)
         {
             int _count = 0;
             if (search.pageNumber <= 0 || search.pageSize <= 0)
@@ -121,14 +130,14 @@ namespace ScoreMe.DAL.Repositories
             }
             search.isCount = false;
 
-            IList<OperatorInformationDTO> slist = GetOperatorInformations(search, out _count);
+            IList<SMSSenderInfoDTO> slist = GetSMSSenderInfos(search, out _count);
             return slist;
         }
-        public int SW_GetOperatorInformationsCount(Search search)
+        public int SW_GetSMSSenderInfosCount(Search search)
         {
             search.isCount = true;
             int _count = 0;
-            GetOperatorInformations(search, out _count);
+            GetSMSSenderInfos(search, out _count);
             return _count;
         }
         #endregion

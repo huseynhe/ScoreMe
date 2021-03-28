@@ -19,12 +19,13 @@ namespace ScoreMe.UI.Controllers
 {
     [LoginCheck]
     [AccessRightsCheck]
-    public class OperatorInformationController : Controller
+    [Description("SMS gonderici")]
+    public class SMSSenderInfoController : Controller
     {
-        [Description("Operator məlumatlarının siyahısı")]
+        [Description("SMS gondericilerin siyahısı")]
         public ActionResult Index(int? page, string vl, string prm = null)
         {
-            OperatorInformationRepository repository = new OperatorInformationRepository();
+            SMSSenderInfoRepository repository = new SMSSenderInfoRepository();
             try
             {
                 Search search = new Search();
@@ -34,15 +35,15 @@ namespace ScoreMe.UI.Controllers
                 int pageSize = 15;
                 int pageNumber = (page ?? 1);
 
-                OperatorInformationVM viewModel = new OperatorInformationVM();
+                SMSSenderInfoVM viewModel = new SMSSenderInfoVM();
                 viewModel.Search = search;
 
                 viewModel.Search.pageSize = pageSize;
                 viewModel.Search.pageNumber = pageNumber;
 
-                viewModel.ROperatorInformationList = repository.SW_GetOperatorInformations(viewModel.Search);
+                viewModel.RSMSSenderInfoList = repository.SW_GetGetSMSSenderInfos(viewModel.Search);
 
-                viewModel.ListCount = repository.SW_GetOperatorInformationsCount(viewModel.Search);
+                viewModel.ListCount = repository.SW_GetSMSSenderInfosCount(viewModel.Search);
                 int[] pc = new int[viewModel.ListCount];
 
                 viewModel.Paging = pc.ToPagedList(pageNumber, pageSize);
@@ -87,16 +88,16 @@ namespace ScoreMe.UI.Controllers
 
         }
 
-        [Description("Yeni Operator məlumatını əlavə etmək")]
+        [Description("Yeni SMS gonderici əlavə etmək")]
         public ActionResult Create()
         {
-            OperatorInformationVM viewModel = new OperatorInformationVM();
+            SMSSenderInfoVM viewModel = new SMSSenderInfoVM();
             viewModel = poulateDropDownList(viewModel);
             return View(viewModel);
 
         }
         [HttpPost]
-        public ActionResult Create(OperatorInformationVM viewModel)
+        public ActionResult Create(SMSSenderInfoVM viewModel)
         {
 
             try
@@ -106,21 +107,22 @@ namespace ScoreMe.UI.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        tbl_OperatorInformation item = new tbl_OperatorInformation()
+                        tbl_SMSSenderInfo item = new tbl_SMSSenderInfo()
                         {
-                            OperatorType_EVID = viewModel.OperatorTypeEVID,
-                            Name = viewModel.Name,
-                            OperatorChanelType_EVID = viewModel.OperatorChanelTypeEVID,
-                            InOutType_EVID = viewModel.InOutTypeEVID,
-                            Price = viewModel.Price,
-                            Point = viewModel.Point,
+                            ActivityType = viewModel.ActivityTypeEVID,
+                            SenderName = viewModel.SenderName,
+                            Description=viewModel.Description,
+                            Number = viewModel.Number,
+                            Price=viewModel.Price,
+                            Point=viewModel.Point,
+                            Cheque=viewModel.Cheque,
                             InsertDate = DateTime.Now,
                             InsertUser = UserProfile.UserId
                         };
                         CRUDOperation dataOperations = new CRUDOperation();
 
-                        tbl_OperatorInformation operatorInformationControl = dataOperations.ControlOperatorInformation(item);
-                        if (operatorInformationControl != null)
+                        tbl_SMSSenderInfo sMSSenderInfoControl = dataOperations.GetSMSSenderInfoByName(item.SenderName);
+                        if (sMSSenderInfoControl != null)
                         {
                             TempData["success"] = "notOk";
                             TempData["message"] = "Eyni parametrelerə sahib məlumat sistemdə mövcudur";
@@ -128,7 +130,7 @@ namespace ScoreMe.UI.Controllers
                         }
                         else
                         {
-                            tbl_OperatorInformation dbItem = dataOperations.AddOperatorInformation(item);
+                            tbl_SMSSenderInfo dbItem = dataOperations.AddSMSSenderInfo(item);
                             if (dbItem != null)
                             {
                                 TempData["success"] = "Ok";
@@ -148,7 +150,7 @@ namespace ScoreMe.UI.Controllers
 
 
                     }
-                   
+
                 }
                 throw new ApplicationException("Invalid model");
             }
@@ -159,35 +161,29 @@ namespace ScoreMe.UI.Controllers
 
                 return View(viewModel);
             }
-            
+
 
         }
-        [Description("Operator məlumatını redaktə etmək")]
+        [Description("SMS gonderici məlumatını redaktə etmək")]
         public ActionResult Edit(int id)
         {
-            OperatorInformationVM viewModel = new OperatorInformationVM();
-          
-   
+            SMSSenderInfoVM viewModel = new SMSSenderInfoVM();
             CRUDOperation dataOperations = new CRUDOperation();
-           
-            tbl_OperatorInformation tblItem = dataOperations.GetOperatorInformationById(id);
-            tbl_EnumValue enumValue = dataOperations.GetEnumValueById((int)tblItem.OperatorChanelType_EVID);
-            viewModel.EnumCategoryID = enumValue.EnumCategoryID;
+            tbl_SMSSenderInfo tblItem = dataOperations.GetSMSSenderInfoByID(id);
             viewModel = poulateDropDownList(viewModel);
-
             viewModel.ID = id;
-            viewModel.OperatorTypeEVID = tblItem.OperatorType_EVID==null?0:(int)tblItem.OperatorType_EVID;
-            viewModel.Name = tblItem.Name;
-            viewModel.OperatorChanelTypeEVID = tblItem.OperatorChanelType_EVID == null ? 0 : (int)tblItem.OperatorChanelType_EVID;
-            viewModel.InOutTypeEVID = tblItem.InOutType_EVID == null ? 0 : (int)tblItem.InOutType_EVID;
-            viewModel.Price = tblItem.Price==null?0:(decimal)tblItem.Price;
-            viewModel.Point = tblItem.Point == null ? 0 : (decimal)tblItem.Point;
-
+            viewModel.ActivityTypeEVID = tblItem.ActivityType;
+            viewModel.SenderName = tblItem.SenderName;
+            viewModel.Description = tblItem.Description;
+            viewModel.Number = tblItem.Number;
+            viewModel.Price = tblItem.Price;
+            viewModel.Point = tblItem.Point;
+            viewModel.Cheque = tblItem.Cheque;
             return View(viewModel);
 
         }
         [HttpPost]
-        public ActionResult Edit(OperatorInformationVM viewModel)
+        public ActionResult Edit(SMSSenderInfoVM viewModel)
         {
             try
             {
@@ -197,21 +193,23 @@ namespace ScoreMe.UI.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        tbl_OperatorInformation item = new tbl_OperatorInformation()
+                        tbl_SMSSenderInfo item = new tbl_SMSSenderInfo()
                         {
-                            ID=viewModel.ID,
-                            OperatorType_EVID = viewModel.OperatorTypeEVID,
-                            Name = viewModel.Name,
-                            OperatorChanelType_EVID = viewModel.OperatorChanelTypeEVID,
-                            InOutType_EVID = viewModel.InOutTypeEVID,
+                            ID = viewModel.ID,
+                            ActivityType = viewModel.ActivityTypeEVID,
+                            SenderName = viewModel.SenderName,
+                            Description = viewModel.Description,
+                            Number = viewModel.Number,
                             Price = viewModel.Price,
                             Point = viewModel.Point,
+                            Cheque = viewModel.Cheque,
+                            IsParse=viewModel.IsParse,
                             UpdateDate = DateTime.Now,
                             UpdateUser = UserProfile.UserId
                         };
 
                         CRUDOperation dataOperations = new CRUDOperation();
-                        tbl_OperatorInformation dbItem = dataOperations.UpdateOperatorInformation(item);
+                        tbl_SMSSenderInfo dbItem = dataOperations.UpdateSMSSenderInfo(item);
                         if (dbItem != null)
                         {
                             TempData["success"] = "Ok";
@@ -238,7 +236,7 @@ namespace ScoreMe.UI.Controllers
             }
 
         }
-        [Description("Operator məlumatını sil")]
+        [Description("SMS gonderici məlumatını sil")]
         public ActionResult Delete(int id)
         {
             try
@@ -247,7 +245,7 @@ namespace ScoreMe.UI.Controllers
                 var UserProfile = (UserProfileSessionData)this.Session["UserProfile"];
                 if (UserProfile != null)
                 {
-                    dataOperations.DeleteOperatorInformation(id, UserProfile.UserId);
+                    dataOperations.DeleteSMSSenderInfo(id, UserProfile.UserId);
                 }
                 return RedirectToAction("Index");
             }
@@ -256,27 +254,17 @@ namespace ScoreMe.UI.Controllers
                 return View("Error", new HandleErrorInfo(ex, "Error", "Error"));
             }
         }
-        private OperatorInformationVM poulateDropDownList(OperatorInformationVM viewModel)
+        private SMSSenderInfoVM poulateDropDownList(SMSSenderInfoVM viewModel)
         {
-            viewModel.OperatorTypeList = EnumService.GetEnumValueListByEcID((int)CategoryEnum.OperatorType);
-            viewModel.OperatorChanelTypeList = EnumService.GetEnumValueListByEcID((int)CategoryEnum.OperatorChanelType);
-            if (viewModel.EnumCategoryID==17)
-            {
-                viewModel.InOutTypeList = EnumService.GetEnumValueListByEcIDForINOUT((int)CategoryEnum.InOutTypeMessage);
-            }
-            else
-            {
-                viewModel.InOutTypeList = EnumService.GetEnumValueListByEcIDForINOUT((int)CategoryEnum.InOutTypeCall);
-            }
-          
-            viewModel.OperatorPrefixList = EnumService.GetEnumValueListByEcIDForPrefix((int)CategoryEnum.OperatorPrefixType);
+            viewModel.ActivityTypeList = EnumService.GetEnumValueListByEcID((int)CategoryEnum.ActivityType);
+            viewModel.IsParseList = EnumService.GetBoleanEnumTypes();
             return viewModel;
         }
 
         public ActionResult FillInOutType(int chanelTypeEVID)
         {
             int categoryID = 0;
-            if (chanelTypeEVID==48)
+            if (chanelTypeEVID == 48)
             {
                 categoryID = (int)CategoryEnum.InOutTypeMessage;
             }
@@ -287,6 +275,5 @@ namespace ScoreMe.UI.Controllers
             IEnumerable<SelectListItem> InOutTypeList = EnumService.GetEnumValueListByEcIDForINOUT(categoryID);
             return Json(InOutTypeList, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

@@ -118,7 +118,7 @@ namespace ScoreMe.API.Controllers
         }
 
         [HttpPost]
-        [ResponseType(typeof(Proposal))]
+        [ResponseType(typeof(SMSModel))]
         [Route("DeleteSMSModelWithDetail")]
         public IHttpActionResult DeleteSMSModelWithDetail(Int64 id)
         {

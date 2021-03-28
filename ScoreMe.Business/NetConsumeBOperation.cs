@@ -28,8 +28,8 @@ namespace ScoreMe.Business
                     {
                         decimal totalConsumed = 0;
                         decimal avreageConsumed = 0;
-                        List<tbl_NetConsume> lists = operation.GetNetConsumes(userId, sourceEV,mobileEV).Take(lastMontCount).ToList<tbl_NetConsume>(); ;
-                        foreach (tbl_NetConsume item in lists)
+                        List<tbl_NetConsumeDetail> lists = operation.GetNetConsumeDetails(userId, sourceEV,mobileEV).Take(lastMontCount).ToList<tbl_NetConsumeDetail>(); ;
+                        foreach (tbl_NetConsumeDetail item in lists)
                         {
                             totalConsumed = totalConsumed + (item.Consumed==null?0:(decimal)+item.Consumed);
                         }
@@ -48,8 +48,8 @@ namespace ScoreMe.Business
                     {
                         decimal totalConsumed = 0;
                         decimal avreageConsumed = 0;
-                        List<tbl_NetConsume> lists  = operation.GetNetConsumesByYear(userId, sourceEV, mobileEV,year).Take(firstMountCount).ToList<tbl_NetConsume>(); ;
-                        foreach (tbl_NetConsume item in lists)
+                        List<tbl_NetConsumeDetail> lists  = operation.GetNetConsumeDetailsByYear(userId, sourceEV, mobileEV,year).Take(firstMountCount).ToList<tbl_NetConsumeDetail>(); ;
+                        foreach (tbl_NetConsumeDetail item in lists)
                         {
                             totalConsumed = totalConsumed + (item.Consumed == null ? 0 : (decimal)+item.Consumed);
                         }
@@ -61,8 +61,8 @@ namespace ScoreMe.Business
                     {
                         decimal totalConsumed = 0;
                         decimal avreageConsumed = 0;
-                        List<tbl_NetConsume> lists = operation.GetNetConsumesByYear(userId, sourceEV, mobileEV, year).Where(x => x.Month >= startMont && x.Month <= endMonth).ToList<tbl_NetConsume>();
-                        foreach (tbl_NetConsume item in lists)
+                        List<tbl_NetConsumeDetail> lists = operation.GetNetConsumeDetailsByYear(userId, sourceEV, mobileEV, year).Where(x => x.Month >= startMont && x.Month <= endMonth).ToList<tbl_NetConsumeDetail>();
+                        foreach (tbl_NetConsumeDetail item in lists)
                         {
                             totalConsumed = totalConsumed + (item.Consumed == null ? 0 : (decimal)+item.Consumed);
                         }

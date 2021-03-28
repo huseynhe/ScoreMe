@@ -35,7 +35,8 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_EnumCategory> tbl_EnumCategory { get; set; }
         public virtual DbSet<tbl_EnumValue> tbl_EnumValue { get; set; }
         public virtual DbSet<tbl_Group> tbl_Group { get; set; }
-        public virtual DbSet<tbl_NetConsume> tbl_NetConsume { get; set; }
+        public virtual DbSet<tbl_NetConsumeDetail> tbl_NetConsumeDetail { get; set; }
+        public virtual DbSet<tbl_NetConsumeModel> tbl_NetConsumeModel { get; set; }
         public virtual DbSet<tbl_OperatorInformation> tbl_OperatorInformation { get; set; }
         public virtual DbSet<tbl_OTP> tbl_OTP { get; set; }
         public virtual DbSet<tbl_Package> tbl_Package { get; set; }
@@ -61,6 +62,8 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_Score_x> tbl_Score_x { get; set; }
         public virtual DbSet<tbl_SMSDetail> tbl_SMSDetail { get; set; }
         public virtual DbSet<tbl_SMSModel> tbl_SMSModel { get; set; }
+        public virtual DbSet<tbl_SMSReport> tbl_SMSReport { get; set; }
+        public virtual DbSet<tbl_SMSReportShort> tbl_SMSReportShort { get; set; }
         public virtual DbSet<tbl_SMSSenderInfo> tbl_SMSSenderInfo { get; set; }
         public virtual DbSet<tbl_User> tbl_User { get; set; }
         public virtual DbSet<tbl_UserDocument> tbl_UserDocument { get; set; }

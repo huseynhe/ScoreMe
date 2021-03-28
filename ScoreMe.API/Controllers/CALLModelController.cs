@@ -113,7 +113,7 @@ namespace ScoreMe.API.Controllers
         }
 
         [HttpPost]
-        [ResponseType(typeof(Proposal))]
+        [ResponseType(typeof(CALLModel))]
         [Route("DeleteCALLModelWithDetail")]
         public IHttpActionResult DeleteCALLModelWithDetail(Int64 id)
         {

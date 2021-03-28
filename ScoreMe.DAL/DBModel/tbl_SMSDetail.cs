@@ -17,8 +17,9 @@ namespace ScoreMe.DAL.DBModel
         public long ID { get; set; }
         public int Status { get; set; }
         public long SMSModelID { get; set; }
-        public Nullable<int> InOutType { get; set; }
-        public Nullable<int> IsShortMessage { get; set; }
+        public int InOutType { get; set; }
+        public int IsShortMessage { get; set; }
+        public Nullable<int> IsParse { get; set; }
         public Nullable<int> IsRoaming { get; set; }
         public Nullable<int> IsForeign { get; set; }
         public string PhonePrefix { get; set; }

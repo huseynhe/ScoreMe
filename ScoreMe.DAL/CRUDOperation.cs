@@ -3546,20 +3546,43 @@ namespace ScoreMe.DAL
         }
         #endregion
 
-        #region tbl_NetConsume
-        public tbl_NetConsume AddNetConsume(tbl_NetConsume item)
+        #region tbl_NetConsumeModel
+        public List<tbl_NetConsumeModel> GetNetConsumeModels()
         {
 
             try
             {
-                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    item.Status = 1;
-                    item.InsertDate = DateTime.Now;
-                    item.UpdateDate = DateTime.Now;
-                    context.tbl_NetConsume.Add(item);
-                    context.SaveChanges();
+                    var items = (from p in context.tbl_NetConsumeModel
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_NetConsumeModel GetNetConsumeModelByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_NetConsumeModel
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
                     return item;
+
                 }
             }
             catch (Exception ex)
@@ -3567,17 +3590,146 @@ namespace ScoreMe.DAL
 
                 throw ex;
             }
+
         }
-        public tbl_NetConsume DeleteNetConsume(Int64 id, int userId)
+        public tbl_NetConsumeModel GetLastNetConsumeModelByUserName(string userName)
         {
 
             try
             {
-                tbl_NetConsume oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
 
-                    oldItem = (from p in context.tbl_NetConsume
+
+                    var item = (from p in context.tbl_NetConsumeModel
+                                join u in context.tbl_User on p.UserID equals u.ID
+                                where u.UserName == userName && p.Status == 1 && u.Status == 1
+                                orderby p.EndDate descending
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_NetConsumeModel AddNetConsumeModel(tbl_NetConsumeModel netConsumeModel, List<tbl_NetConsumeDetail> netConsumeDetails)
+        {
+            tbl_NetConsumeModel dbItem = null;
+            tbl_User userObj = GetUserById(netConsumeModel.UserID);
+            DALOperation dALOperation = new DALOperation();
+            using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+            {
+
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        netConsumeModel.Status = 1;
+                        netConsumeModel.InsertDate = DateTime.Now;
+                        netConsumeModel.UpdateDate = DateTime.Now;
+                        dbItem = context.tbl_NetConsumeModel.Add(netConsumeModel);
+                        context.SaveChanges();
+                        foreach (var netConsumeDetail in netConsumeDetails)
+                        {
+                            netConsumeDetail.NetModelID = dbItem.ID;
+                            netConsumeDetail.Status = 1;
+                            netConsumeDetail.InsertDate = DateTime.Now;
+                            tbl_NetConsumeDetail netConsumeDetailDBItem = context.tbl_NetConsumeDetail.Add(netConsumeDetail);
+                            context.SaveChanges();
+                            /*
+                            try
+                            {
+                                DALOperation operation = new DALOperation();
+                                operation.AddCALLReportDetail(dbItem.UserID, userObj.UserName, callDetailDBItem);
+                            }
+                            catch (Exception ex)
+                            {
+
+
+                            }
+                            */
+
+
+                        }
+
+
+                        transaction.Commit();
+                    }
+
+                    catch (Exception ex)
+
+                    {
+                        transaction.Rollback();
+                        throw ex;
+
+                    }
+
+                }
+            }
+            return dbItem;
+        }
+        public tbl_NetConsumeModel UpdateNetConsumeModel(tbl_NetConsumeModel item)
+        {
+            try
+            {
+                tbl_NetConsumeModel oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_NetConsumeModel
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.UserID = item.UserID;                    
+
+                        oldItem.BeginDate = item.BeginDate;
+                        oldItem.EndDate = item.EndDate;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_NetConsumeModel.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_NetConsumeModel DeleteNetConsumeModel(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_NetConsumeModel oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_NetConsumeModel
                                where p.ID == id && p.Status == 1
                                select p).FirstOrDefault();
 
@@ -3590,7 +3742,7 @@ namespace ScoreMe.DAL
                         oldItem.Status = 0;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = userId;
-                        context.tbl_NetConsume.Attach(oldItem);
+                        context.tbl_NetConsumeModel.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
 
@@ -3611,15 +3763,82 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_NetConsume> GetNetConsumes(Int64 userId, Int64 sourceEV, Int64 mobileEV)
+        #endregion
+
+        #region tbl_NetConsumeDetail
+        public tbl_NetConsumeDetail AddNetConsumeDetail(tbl_NetConsumeDetail item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_NetConsumeDetail.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_NetConsumeDetail DeleteNetConsumeDetail(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_NetConsumeDetail oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_NetConsumeDetail
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_NetConsumeDetail.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_NetConsumeDetail> GetNetConsumeDetails(Int64 userId, Int64 sourceEV, Int64 mobileEV)
         {
 
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    var items = (from p in context.tbl_NetConsume
-                                 where p.Status == 1 && p.UserId == userId && p.Source_EVID == sourceEV && p.Mobile_EVID == mobileEV
+                    var items = (from p in context.tbl_NetConsumeDetail
+                                 where p.Status == 1 && p.UserID == userId && p.Source_EVID == sourceEV && p.Operator_EVID == mobileEV
                                  select p);
 
                     return items.OrderByDescending(x => x.Year).OrderByDescending(y => y.Month).ToList();
@@ -3632,38 +3851,15 @@ namespace ScoreMe.DAL
             }
 
         }
-
-        public List<tbl_NetConsume> GetNetConsumesByYear(Int64 userId, Int64 sourceEV, Int64 mobileEV, int year)
+        public List<tbl_NetConsumeDetail> GetNetConsumeDetailsByModelID(Int64 netConsumeModelID)
         {
 
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    var items = (from p in context.tbl_NetConsume
-                                 where p.Status == 1 && p.UserId == userId && p.Source_EVID == sourceEV
-                                 && p.Mobile_EVID == mobileEV && p.Year == year
-                                 select p);
-
-                    return items.OrderBy(y => y.Month).ToList();
-
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-        }
-        public List<tbl_NetConsume> GetNetConsumesByUserID(Int64 userID)
-        {
-
-            try
-            {
-                using (var context = new DB_A62358_ScoreMeEntities())
-                {
-                    var items = (from p in context.tbl_NetConsume
-                                 where p.Status == 1 && p.UserId == userID
+                    var items = (from p in context.tbl_NetConsumeDetail
+                                 where p.Status == 1 && p.NetModelID == netConsumeModelID
                                  select p);
 
                     return items.ToList();
@@ -3676,15 +3872,58 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_NetConsume> GetNetConsumesByUserIDAndYear(Int64 userID, int year)
+        public List<tbl_NetConsumeDetail> GetNetConsumeDetailsByYear(Int64 userId, Int64 sourceEV, Int64 mobileEV, int year)
         {
 
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    var items = (from p in context.tbl_NetConsume
-                                 where p.Status == 1 && p.UserId == userID && p.Year == year
+                    var items = (from p in context.tbl_NetConsumeDetail
+                                 where p.Status == 1 && p.UserID == userId && p.Source_EVID == sourceEV
+                                 && p.Operator_EVID == mobileEV && p.Year == year
+                                 select p);
+
+                    return items.OrderBy(y => y.Month).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_NetConsumeDetail> GetNetConsumeDetailsByUserID(Int64 userID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_NetConsumeDetail
+                                 where p.Status == 1 && p.UserID == userID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_NetConsumeDetail> GetNetConsumeDetailsByUserIDAndYear(Int64 userID, int year)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_NetConsumeDetail
+                                 where p.Status == 1 && p.UserID == userID && p.Year == year
                                  select p);
 
                     return items.OrderByDescending(x => x.Month).ToList();
@@ -3697,7 +3936,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_NetConsume GetNetConsumeByID(Int64 id)
+        public tbl_NetConsumeDetail GetNetConsumeDetailByID(Int64 id)
         {
 
             try
@@ -3706,7 +3945,7 @@ namespace ScoreMe.DAL
                 {
 
 
-                    var item = (from p in context.tbl_NetConsume
+                    var item = (from p in context.tbl_NetConsumeDetail
                                 where p.ID == id && p.Status == 1
                                 select p).FirstOrDefault();
 
@@ -3721,14 +3960,14 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_NetConsume UpdateNetConsume(tbl_NetConsume item)
+        public tbl_NetConsumeDetail UpdateNetConsumeDetail(tbl_NetConsumeDetail item)
         {
             try
             {
-                tbl_NetConsume oldItem;
+                tbl_NetConsumeDetail oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    oldItem = (from p in context.tbl_NetConsume
+                    oldItem = (from p in context.tbl_NetConsumeDetail
                                where p.ID == item.ID && p.Status == 1
                                select p).FirstOrDefault();
 
@@ -3739,19 +3978,23 @@ namespace ScoreMe.DAL
                     {
 
 
-                        oldItem.UserId = item.UserId;
+                        oldItem.UserID = item.UserID;
                         oldItem.Source_EVID = item.Source_EVID;
+                        oldItem.Operator_EVID = item.Operator_EVID;
+                        oldItem.OperatorName = item.OperatorName;
                         oldItem.Year = item.Year;
                         oldItem.Month = item.Month;
+                        oldItem.Day = item.Day;
                         oldItem.Hour = item.Hour;
                         oldItem.Minute = item.Minute;
                         oldItem.Consumed = item.Consumed;
-                        oldItem.Speed = item.Speed;
+                        oldItem.DownloadSpeed = item.DownloadSpeed;
+                        oldItem.UploadSpeed = item.UploadSpeed;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
 
-                        context.tbl_NetConsume.Attach(oldItem);
+                        context.tbl_NetConsumeDetail.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
                         return oldItem;
@@ -4824,6 +5067,7 @@ namespace ScoreMe.DAL
         public tbl_SMSModel AddSMSModel(tbl_SMSModel smsModel, List<tbl_SMSDetail> smsDetails)
         {
             tbl_SMSModel dbItem = null;
+            tbl_User userObj = GetUserById(smsModel.UserID);
             using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
             {
 
@@ -4843,8 +5087,35 @@ namespace ScoreMe.DAL
                             smsDetail.Status = 1;
                             smsDetail.InsertDate = DateTime.Now;
                             smsDetail.UpdateDate = DateTime.Now;
-                            context.tbl_SMSDetail.Add(smsDetail);
+                            tbl_SMSSenderInfo senderInfo = GetSMSSenderInfoByName(smsDetail.SenderName);
+
+                            if (senderInfo!=null)
+                            {
+                                if (senderInfo.IsParse==1)
+                                {
+                                    smsDetail.IsParse = 1;
+                                }
+                                else
+                                {
+                                    smsDetail.IsParse = 0;
+                                }
+                            }
+                            else
+                            {
+                                smsDetail.IsParse = 0;
+                            }
+                            tbl_SMSDetail smsDetailDBItem = context.tbl_SMSDetail.Add(smsDetail);
                             context.SaveChanges();
+                            try
+                            {
+                                DALOperation operation = new DALOperation();
+                                operation.AddSMSReportDetail(dbItem.UserID, userObj.UserName, smsDetailDBItem);
+                            }
+                            catch (Exception ex)
+                            {
+
+
+                            }
                         }
 
 
@@ -5321,8 +5592,13 @@ namespace ScoreMe.DAL
                     {
 
                         oldItem.SenderName = item.SenderName;
+                        oldItem.Description = item.Description;
                         oldItem.Number = item.Number;
                         oldItem.ActivityType = item.ActivityType;
+                        oldItem.IsParse = item.IsParse;
+                        oldItem.Price = item.Price;
+                        oldItem.Point = item.Point;
+                        oldItem.Cheque = item.Cheque;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
                         context.tbl_SMSSenderInfo.Attach(oldItem);
@@ -5347,7 +5623,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_SMSSenderInfo DeleteSMSSenderInfo(Int64 id, int userId)
+        public tbl_SMSSenderInfo DeleteSMSSenderInfo(Int64 id, Int64 userId)
         {
 
             try
@@ -7501,6 +7777,34 @@ namespace ScoreMe.DAL
         #endregion
 
         #region tbl_OperatorInformation
+        public tbl_OperatorInformation ControlOperatorInformation(tbl_OperatorInformation oi)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_OperatorInformation
+                                where p.OperatorType_EVID == oi.OperatorType_EVID
+                                   && p.Name == oi.Name
+                                   && p.OperatorChanelType_EVID == oi.OperatorChanelType_EVID
+                                   && p.InOutType_EVID == oi.InOutType_EVID
+                                   && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_OperatorInformation AddOperatorInformation(tbl_OperatorInformation item)
         {
 
@@ -7676,7 +7980,7 @@ namespace ScoreMe.DAL
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
 
-
+                        oldItem.OperatorType_EVID = item.OperatorType_EVID;
                         oldItem.Name = item.Name;
                         oldItem.OperatorChanelType_EVID = item.OperatorChanelType_EVID;
                         oldItem.InOutType_EVID = item.InOutType_EVID;
@@ -7912,6 +8216,52 @@ namespace ScoreMe.DAL
         }
         #endregion
 
+        #region SMSReport
+        public tbl_SMSReport AddSMSReport(tbl_SMSReport item)
+        {
 
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_SMSReport.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region SMSReportShort
+        public tbl_SMSReportShort AddSMSReportShort(tbl_SMSReportShort item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_SMSReportShort.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+             
+            }
+        }
+        #endregion
     }
 }

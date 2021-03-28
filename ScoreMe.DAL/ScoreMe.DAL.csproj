@@ -107,7 +107,10 @@
     <Compile Include="DBModel\tbl_Group.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DBModel\tbl_NetConsume.cs">
+    <Compile Include="DBModel\tbl_NetConsumeDetail.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\tbl_NetConsumeModel.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_OperatorInformation.cs">
@@ -185,6 +188,12 @@
     <Compile Include="DBModel\tbl_SMSModel.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_SMSReport.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\tbl_SMSReportShort.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_SMSSenderInfo.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -216,6 +225,8 @@
     <Compile Include="DTO\PersonDTO.cs" />
     <Compile Include="DTO\ReportDTO.cs" />
     <Compile Include="DTO\SMSReportDTO.cs" />
+    <Compile Include="DTO\SMSReportShortDTO.cs" />
+    <Compile Include="DTO\SMSSenderInfoDTO.cs" />
     <Compile Include="DTO\TypeDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Enum\BOResultTypes.cs" />
@@ -223,6 +234,7 @@
     <Compile Include="ErrorManagment\CustomError.cs" />
     <Compile Include="Model\CALLModel.cs" />
     <Compile Include="Model\Customer.cs" />
+    <Compile Include="Model\NetConsumeModel.cs" />
     <Compile Include="Model\Proposal.cs" />
     <Compile Include="Model\ProposalDetail.cs" />
     <Compile Include="Model\ProposalUserGroup.cs" />
@@ -246,6 +258,7 @@
     <Compile Include="Repositories\RegionRepository.cs" />
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\SMSRepository.cs" />
+    <Compile Include="Repositories\SMSSenderInfoRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>

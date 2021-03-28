@@ -18,15 +18,7 @@ namespace ScoreMe.UI.Controllers
     [AccessRightsCheck]
     public class SMSReportController : Controller
     {
-        // GET: SMSReport
-        [Description("SMS Report siyahisi")]
-        public ActionResult Index()
-        {
-            SMSReportVM viewModel = new SMSReportVM();
-            viewModel = populateDropDownList(viewModel);
-            return View(viewModel);
-        }
-
+        
         [Description("SMS Report siyahisi")]
         public ActionResult ReportIndex()
         {
@@ -82,7 +74,8 @@ namespace ScoreMe.UI.Controllers
             SMSRepository repository = new SMSRepository();
             List<SMSReportDTO> RSMSReports = repository.SW_GetSMSReports(userID, userName, year);
             List<SMSReportDTO> RSMSReportShortMsjs = repository.SW_GetSMSReportShortMsjs(userID, userName, year);
-            return RSMSReports.Concat(RSMSReportShortMsjs).OrderBy(x=>x.INOUT_EVType).ToList();
+            List<SMSReportDTO> RSMSReportShortParseMsjs = repository.SW_GetSMSReportShorParsetMsjs(userID, userName, year);
+            return RSMSReports.Concat(RSMSReportShortMsjs).Concat(RSMSReportShortParseMsjs).OrderBy(x=>x.INOUT_EVType).ToList();
         }
 
 

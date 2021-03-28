@@ -2,6 +2,7 @@
 using ScoreMe.DAL;
 using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,67 +17,124 @@ namespace ScoreMe.API.Controllers
     [RoutePrefix("api/netConsume")]
     public class NetConsumeController : ApiController
     {
-
         [HttpGet]
-        [Route("GetNetConsumeByID/{id}")]
-        public tbl_NetConsume GetNetConsumeByID(Int64 id)
+        [Route("GetNetConsumeModelWithDetails")]
+        public List<NetConsumeModel> GetNetConsumeModelWithDetails()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var item = operation.GetNetConsumeByID(id); ;
-            return item;
+            BusinessOperation businessOperation = new BusinessOperation();
+            List<NetConsumeModel> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetNetConsumeModels(out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return itemsOut;
+            }
+            else
+            {
+                return null;
+            }
         }
-
         [HttpGet]
-        [Route("GetNetConsumesByUserID/{userID}")]
-        public List<tbl_NetConsume> GetNetConsumesByUserID(Int64 userID)
+        [ResponseType(typeof(NetConsumeModel))]
+        [Route("GetNetConsumeModelWithDetailByID/{id}")]
+        public IHttpActionResult GetNetConsumeModelWithDetailByID(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetNetConsumesByUserID(userID); ;
-            return items;
+            BusinessOperation businessOperation = new BusinessOperation();
+            NetConsumeModel itemOut = null;
+            BaseOutput dbitem = businessOperation.GetNetConsumeModelByID(id, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
         }
-
-
+        [HttpGet]
+        [ResponseType(typeof(NetConsumeModel))]
+        [Route("GetLastNetConsumeModelByUserName/{userName}")]
+        public IHttpActionResult GetLastNetConsumeModelByUserName(string userName)
+        {
+            BusinessOperation businessOperation = new BusinessOperation();
+            NetConsumeModel itemOut = null;
+            BaseOutput dbitem = businessOperation.GetLastNetConsumeModelByUserName(userName, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+        }
         [HttpPost]
-        [ResponseType(typeof(tbl_NetConsume))]
-        [Route("AddNetConsume")]
-        public IHttpActionResult AddNetConsume(tbl_NetConsume item)
+        [ResponseType(typeof(NetConsumeModel))]
+        [Route("AddNetConsumeModelWithDetail")]
+        public IHttpActionResult AddNetConsumeModelWithDetail(NetConsumeModel item)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_NetConsume dbitem = operation.AddNetConsume(item);
+            BusinessOperation businessOperation = new BusinessOperation();
 
-            return Ok(dbitem);
-        }
-
-        [HttpPost]
-        [ResponseType(typeof(tbl_NetConsume))]
-        [Route("UpdateNetConsume")]
-        public IHttpActionResult UpdateNetConsume(tbl_NetConsume item)
-        {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            BaseOutput dbitem = businessOperation.AddNetConsumeModel(item);
+            if (dbitem.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(dbitem);
             }
             else
             {
-                var dbitem = operation.UpdateNetConsume(item);
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
+        }
+        [HttpPost]
+        [ResponseType(typeof(NetConsumeModel))]
+        [Route("UpdateNetConsumeModelWithDetail")]
+        public IHttpActionResult UpdateNetConsumeModelWithDetail(NetConsumeModel item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
+
+            BaseOutput dbitem = businessOperation.UpdateNetConsumeModel(item);
+            if (dbitem.ResultCode == 1)
+            {
                 return Ok(dbitem);
             }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
+
         }
 
         [HttpPost]
-        [ResponseType(typeof(tbl_NetConsume))]
-        [Route("DeleteNetConsume/{id}")]
-        public IHttpActionResult DeleteNetConsume(Int64 id)
+        [ResponseType(typeof(NetConsumeModel))]
+        [Route("DeleteNetConsumeModelWithDetail")]
+        public IHttpActionResult DeleteNetConsumeModelWithDetail(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            BusinessOperation businessOperation = new BusinessOperation();
 
-            var dbitem = operation.DeleteNetConsume(id, 0);
-            return Ok(dbitem);
+            BaseOutput dbitem = businessOperation.DeleteNetConsumeModel(id);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(dbitem);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+
 
         }
 
