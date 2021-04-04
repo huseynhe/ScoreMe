@@ -2119,6 +2119,239 @@ namespace ScoreMe.Business
         }
         #endregion
 
+        #region AppConsumeModel
+        public BaseOutput GetAppConsumeModels(out List<AppConsumeModel> appConsumeModels)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            appConsumeModels = null;
+            try
+            {
+
+                List<tbl_AppConsumeModel> tblAppConsumeModels = cRUDOperation.GetAppConsumeModels();
+                appConsumeModels = new List<AppConsumeModel>();
+
+                if (appConsumeModels.Count > 0)
+                {
+                    foreach (var item in appConsumeModels)
+                    {
+                        AppConsumeModel consumeModel = new AppConsumeModel()
+                        {
+                            ID = item.ID,
+                            UserID = item.UserID,
+                            BeginDate = item.BeginDate,
+                            EndDate = item.EndDate
+                        };
+
+                        List<tbl_AppConsumeDetail> tbl_appConsumeDetails = cRUDOperation.GetAppConsumeDetailsByModelID(consumeModel.ID);
+
+                        consumeModel.AppConsumeDetails = tbl_appConsumeDetails;
+                        appConsumeModels.Add(consumeModel);
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetAppConsumeModelByID(Int64 id, out AppConsumeModel appConsumeModel)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            appConsumeModel = null;
+            try
+            {
+
+                tbl_AppConsumeModel item = cRUDOperation.GetAppConsumeModelByID(id);
+                if (item != null)
+                {
+                    appConsumeModel = new AppConsumeModel()
+                    {
+                        ID = item.ID,
+                        UserID = item.UserID,
+                        BeginDate = item.BeginDate,
+                        EndDate = item.EndDate
+                    };
+
+                    List<tbl_AppConsumeDetail> tbl_AppConsumeDetails = cRUDOperation.GetAppConsumeDetailsByModelID(appConsumeModel.ID);
+                    appConsumeModel.AppConsumeDetails = tbl_AppConsumeDetails;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetLastAppConsumeModelByUserName(string userName, out AppConsumeModel appConsumeModel)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            appConsumeModel = null;
+            try
+            {
+
+                tbl_AppConsumeModel item = cRUDOperation.GetLastAppConsumeModelByUserName(userName);
+                if (item != null)
+                {
+                    appConsumeModel = new AppConsumeModel()
+                    {
+                        ID = item.ID,
+                        UserID = item.UserID,
+                        BeginDate = item.BeginDate,
+                        EndDate = item.EndDate
+                    };
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddAppConsumeModel(AppConsumeModel item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+
+
+            try
+            {
+                tbl_AppConsumeModel appConsumeModel = new tbl_AppConsumeModel()
+                {
+                    UserID = item.UserID,
+                    BeginDate = item.BeginDate,
+                    EndDate = item.EndDate,
+                };
+
+                List<tbl_AppConsumeDetail> tblAppConsumeDetails = new List<tbl_AppConsumeDetail>();
+
+                tblAppConsumeDetails = item.AppConsumeDetails;
+                tbl_AppConsumeModel _appConsumeModel = cRUDOperation.AddAppConsumeModel(appConsumeModel, tblAppConsumeDetails);
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateAppConsumeModel(AppConsumeModel item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_AppConsumeModel tblAppConsumeModel = new tbl_AppConsumeModel()
+                {
+                    ID = item.ID,
+                    UserID = item.UserID,
+                    BeginDate = item.BeginDate,
+                    EndDate = item.EndDate,
+                };
+
+                tbl_AppConsumeModel _AppetConsumeModel = cRUDOperation.UpdateAppConsumeModel(tblAppConsumeModel);
+
+                if (_AppetConsumeModel != null)
+                {
+                    foreach (var consumeDetail in item.AppConsumeDetails)
+                    {
+                        tbl_AppConsumeDetail tblAppConsumeDetail = cRUDOperation.UpdateAppConsumeDetail(consumeDetail);
+                    }
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteAppConsumeModel(Int64 id)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+
+                tbl_AppConsumeModel _AppConsumeModel = cRUDOperation.GetAppConsumeModelByID(id);
+
+                if (_AppConsumeModel != null)
+                {
+                    List<tbl_AppConsumeDetail> appConsumeDetails = cRUDOperation.GetAppConsumeDetailsByModelID(_AppConsumeModel.ID);
+
+                    foreach (var item in appConsumeDetails)
+                    {
+
+                        tbl_AppConsumeDetail appConsumeDetail = cRUDOperation.DeleteAppConsumeDetail(item.ID, 0);
+
+                    }
+
+
+
+                    tbl_AppConsumeModel appConsumeModel = cRUDOperation.DeleteAppConsumeModel(id, 0);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
+
+
     }
 }
 

@@ -70,6 +70,40 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="smalldatetime" />
           <Property Name="UpdateUser" Type="int" />
         </EntityType>
+        <EntityType Name="tbl_AppConsumeDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="AppConsumeModelID" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="AppType_EVID" Type="bigint" Nullable="false" />
+          <Property Name="AppName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="AppDescription" Type="nvarchar(max)" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="Day" Type="int" Nullable="false" />
+          <Property Name="Consumed" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_AppConsumeModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="BeginDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
         <EntityType Name="tbl_CALLDetail">
           <Key>
             <PropertyRef Name="ID" />
@@ -830,6 +864,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
         <EntityContainer Name="DB_A62358_ScoreMeModelStoreContainer">
           <EntitySet Name="ProviderType" EntityType="Self.ProviderType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_AccessRight" EntityType="Self.tbl_AccessRight" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_AppConsumeDetail" EntityType="Self.tbl_AppConsumeDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_AppConsumeModel" EntityType="Self.tbl_AppConsumeModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLDetail" EntityType="Self.tbl_CALLDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLModel" EntityType="Self.tbl_CALLModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLReport" EntityType="Self.tbl_CALLReport" Schema="dbo" store:Type="Tables" />
@@ -954,6 +990,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_UserServiceRating" EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" />
           <EntitySet Name="log_DataChange" EntityType="DB_A62358_ScoreMeModel.log_DataChange" />
           <EntitySet Name="log_Login" EntityType="DB_A62358_ScoreMeModel.log_Login" />
+          <EntitySet Name="tbl_AppConsumeDetail" EntityType="DB_A62358_ScoreMeModel.tbl_AppConsumeDetail" />
+          <EntitySet Name="tbl_AppConsumeModel" EntityType="DB_A62358_ScoreMeModel.tbl_AppConsumeModel" />
         </EntityContainer>
         <EntityType Name="ProviderType">
           <Key>
@@ -1772,6 +1810,40 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="LockDateTime" Type="DateTime" Precision="3" />
           <Property Name="PasswordChangeDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_AppConsumeDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="AppConsumeModelID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="AppType_EVID" Type="Int64" Nullable="false" />
+          <Property Name="AppName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AppDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="Day" Type="Int32" Nullable="false" />
+          <Property Name="Consumed" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_AppConsumeModel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2640,6 +2712,42 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="UserIPAddress" ColumnName="UserIPAddress" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_AppConsumeDetail">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AppConsumeDetail">
+              <MappingFragment StoreEntitySet="tbl_AppConsumeDetail">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="Consumed" ColumnName="Consumed" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="AppDescription" ColumnName="AppDescription" />
+                <ScalarProperty Name="AppName" ColumnName="AppName" />
+                <ScalarProperty Name="AppType_EVID" ColumnName="AppType_EVID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="AppConsumeModelID" ColumnName="AppConsumeModelID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_AppConsumeModel">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AppConsumeModel">
+              <MappingFragment StoreEntitySet="tbl_AppConsumeModel">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -14,16 +14,16 @@ using System.Web.Http.Description;
 
 namespace ScoreMe.API.Controllers
 {
-    [RoutePrefix("api/netConsume")]
-    public class NetConsumeController : ApiController
+    [RoutePrefix("api/appConsume")]
+    public class AppConsumeController : ApiController
     {
         [HttpGet]
-        [Route("GetNetConsumeModelWithDetails")]
-        public List<NetConsumeModel> GetNetConsumeModelWithDetails()
+        [Route("GetAppConsumeModelWithDetails")]
+        public List<AppConsumeModel> GetAppConsumeModelWithDetails()
         {
             BusinessOperation businessOperation = new BusinessOperation();
-            List<NetConsumeModel> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetNetConsumeModels(out itemsOut);
+            List<AppConsumeModel> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetAppConsumeModels(out itemsOut);
             if (dbitem.ResultCode == 1)
             {
                 return itemsOut;
@@ -34,13 +34,13 @@ namespace ScoreMe.API.Controllers
             }
         }
         [HttpGet]
-        [ResponseType(typeof(NetConsumeModel))]
-        [Route("GetNetConsumeModelWithDetailByID/{id}")]
-        public IHttpActionResult GetNetConsumeModelWithDetailByID(Int64 id)
+        [ResponseType(typeof(AppConsumeModel))]
+        [Route("GetAppConsumeModelWithDetailByID/{id}")]
+        public IHttpActionResult GetAppConsumeModelWithDetailByID(Int64 id)
         {
             BusinessOperation businessOperation = new BusinessOperation();
-            NetConsumeModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetNetConsumeModelByID(id, out itemOut);
+            AppConsumeModel itemOut = null;
+            BaseOutput dbitem = businessOperation.GetAppConsumeModelByID(id, out itemOut);
             if (dbitem.ResultCode == 1)
             {
                 return Ok(itemOut);
@@ -51,13 +51,13 @@ namespace ScoreMe.API.Controllers
             }
         }
         [HttpGet]
-        [ResponseType(typeof(NetConsumeModel))]
-        [Route("GetLastNetConsumeModelByUserName/{userName}")]
-        public IHttpActionResult GetLastNetConsumeModelByUserName(string userName)
+        [ResponseType(typeof(AppConsumeModel))]
+        [Route("GetLastAppConsumeModelByUserName/{userName}")]
+        public IHttpActionResult GetLastAppConsumeModelByUserName(string userName)
         {
             BusinessOperation businessOperation = new BusinessOperation();
-            NetConsumeModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetLastNetConsumeModelByUserName(userName, out itemOut);
+            AppConsumeModel itemOut = null;
+            BaseOutput dbitem = businessOperation.GetLastAppConsumeModelByUserName(userName, out itemOut);
             if (dbitem.ResultCode == 1)
             {
                 return Ok(itemOut);
@@ -68,9 +68,9 @@ namespace ScoreMe.API.Controllers
             }
         }
         [HttpPost]
-        [ResponseType(typeof(NetConsumeModel))]
-        [Route("AddNetConsumeModelWithDetail")]
-        public IHttpActionResult AddNetConsumeModelWithDetail(NetConsumeModel item)
+        [ResponseType(typeof(AppConsumeModel))]
+        [Route("AddAppConsumeModelWithDetail")]
+        public IHttpActionResult AddAppConsumeModelWithDetail(AppConsumeModel item)
         {
             if (!ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.AddNetConsumeModel(item);
+            BaseOutput dbitem = businessOperation.AddAppConsumeModel(item);
             if (dbitem.ResultCode == 1)
             {
                 return Ok(dbitem);
@@ -91,9 +91,9 @@ namespace ScoreMe.API.Controllers
 
         }
         [HttpPost]
-        [ResponseType(typeof(NetConsumeModel))]
-        [Route("UpdateNetConsumeModelWithDetail")]
-        public IHttpActionResult UpdateNetConsumeModelWithDetail(NetConsumeModel item)
+        [ResponseType(typeof(AppConsumeModel))]
+        [Route("UpdateAppConsumeModelWithDetail")]
+        public IHttpActionResult UpdateAppConsumeModelWithDetail(AppConsumeModel item)
         {
             if (!ModelState.IsValid)
             {
@@ -101,7 +101,7 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.UpdateNetConsumeModel(item);
+            BaseOutput dbitem = businessOperation.UpdateAppConsumeModel(item);
             if (dbitem.ResultCode == 1)
             {
                 return Ok(dbitem);
@@ -114,9 +114,9 @@ namespace ScoreMe.API.Controllers
 
         }
         [HttpPost]
-        [ResponseType(typeof(NetConsumeModel))]
-        [Route("DeleteNetConsumeModelWithDetail")]
-        public IHttpActionResult DeleteNetConsumeModelWithDetail(Int64 id)
+        [ResponseType(typeof(AppConsumeModel))]
+        [Route("DeleteAppConsumeModelWithDetail")]
+        public IHttpActionResult DeleteAppConsumeModelWithDetail(Int64 id)
         {
             if (!ModelState.IsValid)
             {
@@ -124,7 +124,7 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.DeleteNetConsumeModel(id);
+            BaseOutput dbitem = businessOperation.DeleteAppConsumeModel(id);
             if (dbitem.ResultCode == 1)
             {
                 return Ok(dbitem);
@@ -136,22 +136,7 @@ namespace ScoreMe.API.Controllers
 
 
         }
-        [HttpGet]
-        [Route("GetMontlyAverage")]
-        public decimal GetMontlyAverage(Int64 userId, Int64 sourceEV, Int64 mobileEV, int year, int lastMontCount, int firstMountCount, int startMont, int endMonth)
-        {
-            decimal _monthlyAverage = 0;
-            if (userId == 0 || sourceEV == 0 || mobileEV == 0)
-            {
-                return _monthlyAverage;
-            }
+ 
 
-            NetConsumeBOperation businessOperation = new NetConsumeBOperation();
-
-            BaseOutput dbitem = businessOperation.GetMontlyAverage(userId, sourceEV, mobileEV, year, lastMontCount, firstMountCount, startMont, endMonth, out _monthlyAverage);
-
-            return _monthlyAverage;
-
-        }
     }
 }

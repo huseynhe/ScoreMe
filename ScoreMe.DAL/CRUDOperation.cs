@@ -666,6 +666,28 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_User> GetNetConsumeUsersByTypeEVID(int evID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from u in context.tbl_User
+                                 join ncm in context.tbl_NetConsumeModel on u.ID equals ncm.UserID
+                                 where u.Status == 1 && ncm.Status == 1 && u.IsActive == 1 && u.UserType_EVID == evID
+                                 select u).Distinct();
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public tbl_User GetUserById(Int64 Id)
         {
 
@@ -8261,6 +8283,475 @@ namespace ScoreMe.DAL
                 return null;
              
             }
+        }
+        #endregion
+
+
+        #region AppConsumeModel
+        public List<tbl_AppConsumeModel> GetAppConsumeModels()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_AppConsumeModel
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_AppConsumeModel GetAppConsumeModelByID(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_AppConsumeModel
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_AppConsumeModel GetLastAppConsumeModelByUserName(string userName)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_AppConsumeModel
+                                join u in context.tbl_User on p.UserID equals u.ID
+                                where u.UserName == userName && p.Status == 1 && u.Status == 1
+                                orderby p.EndDate descending
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_AppConsumeModel AddAppConsumeModel(tbl_AppConsumeModel appConsumeModel, List<tbl_AppConsumeDetail> appConsumeDetails)
+        {
+            tbl_AppConsumeModel dbItem = null;
+            tbl_User userObj = GetUserById(appConsumeModel.UserID);
+            DALOperation dALOperation = new DALOperation();
+            using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+            {
+
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        appConsumeModel.Status = 1;
+                        appConsumeModel.InsertDate = DateTime.Now;
+                        appConsumeModel.UpdateDate = DateTime.Now;
+                        dbItem = context.tbl_AppConsumeModel.Add(appConsumeModel);
+                        context.SaveChanges();
+                        foreach (var appConsumeDetail in appConsumeDetails)
+                        {
+                            appConsumeDetail.AppConsumeModelID = dbItem.ID;
+                            appConsumeDetail.Status = 1;
+                            appConsumeDetail.InsertDate = DateTime.Now;
+                            tbl_AppConsumeDetail appConsumeDetailDBItem = context.tbl_AppConsumeDetail.Add(appConsumeDetail);
+                            context.SaveChanges();
+                            /*
+                            try
+                            {
+                                DALOperation operation = new DALOperation();
+                                operation.AddCALLReportDetail(dbItem.UserID, userObj.UserName, callDetailDBItem);
+                            }
+                            catch (Exception ex)
+                            {
+
+
+                            }
+                            */
+
+
+                        }
+
+
+                        transaction.Commit();
+                    }
+
+                    catch (Exception ex)
+
+                    {
+                        transaction.Rollback();
+                        throw ex;
+
+                    }
+
+                }
+            }
+            return dbItem;
+        }
+        public tbl_AppConsumeModel UpdateAppConsumeModel(tbl_AppConsumeModel item)
+        {
+            try
+            {
+                tbl_AppConsumeModel oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_AppConsumeModel
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.UserID = item.UserID;
+
+                        oldItem.BeginDate = item.BeginDate;
+                        oldItem.EndDate = item.EndDate;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+                        context.tbl_AppConsumeModel.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_AppConsumeModel DeleteAppConsumeModel(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_AppConsumeModel oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_AppConsumeModel
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_AppConsumeModel.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region AppConsumeDetail
+        public tbl_AppConsumeDetail AddAppConsumeDetail(tbl_AppConsumeDetail item)
+        {
+
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_AppConsumeDetail.Add(item);
+                    context.SaveChanges();
+                    return item;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_AppConsumeDetail DeleteAppConsumeDetail(Int64 id, int userId)
+        {
+
+            try
+            {
+                tbl_AppConsumeDetail oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_AppConsumeDetail
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_AppConsumeDetail.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_AppConsumeDetail> GetAppConsumeDetails(Int64 userId, Int64 appTypeEVID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_AppConsumeDetail
+                                 where p.Status == 1 && p.UserID == userId && p.AppType_EVID == appTypeEVID
+                                 select p);
+
+                    return items.OrderByDescending(x => x.Year).OrderByDescending(y => y.Month).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_AppConsumeDetail> GetAppConsumeDetailsByModelID(Int64 appConsumeModelID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_AppConsumeDetail
+                                 where p.Status == 1 && p.AppConsumeModelID == appConsumeModelID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_AppConsumeDetail> GetAppConsumeDetailsByYear(Int64 userId, Int64 appTypeEVID, int year)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_AppConsumeDetail
+                                 where p.Status == 1 && p.UserID == userId && p.AppType_EVID == appTypeEVID
+                                 && p.Year == year
+                                 select p);
+
+                    return items.OrderBy(y => y.Month).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_AppConsumeDetail> GetAppConsumeDetailsByUserID(Int64 userID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_AppConsumeDetail
+                                 where p.Status == 1 && p.UserID == userID
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_AppConsumeDetail> GetAppConsumeDetailsByUserIDAndYear(Int64 userID, int year)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_AppConsumeDetail
+                                 where p.Status == 1 && p.UserID == userID && p.Year == year
+                                 select p);
+
+                    return items.OrderByDescending(x => x.Month).ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_AppConsumeDetail GetAppConsumeDetailByID(Int64 id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_AppConsumeDetail
+                                where p.ID == id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_AppConsumeDetail UpdateAppConsumeDetail(tbl_AppConsumeDetail item)
+        {
+            try
+            {
+                tbl_AppConsumeDetail oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_AppConsumeDetail
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.UserID = item.UserID;
+                        oldItem.AppType_EVID = item.AppType_EVID;
+                        oldItem.AppName = item.AppName;
+                        oldItem.AppDescription = item.AppDescription;
+                        oldItem.Year = item.Year;
+                        oldItem.Month = item.Month;
+                        oldItem.Day = item.Day;
+                        oldItem.Consumed = item.Consumed;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+
+
+                        context.tbl_AppConsumeDetail.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
         }
         #endregion
     }

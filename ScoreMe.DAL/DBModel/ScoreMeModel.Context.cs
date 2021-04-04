@@ -73,5 +73,7 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_UserServiceRating> tbl_UserServiceRating { get; set; }
         public virtual DbSet<log_DataChange> log_DataChange { get; set; }
         public virtual DbSet<log_Login> log_Login { get; set; }
+        public virtual DbSet<tbl_AppConsumeDetail> tbl_AppConsumeDetail { get; set; }
+        public virtual DbSet<tbl_AppConsumeModel> tbl_AppConsumeModel { get; set; }
     }
 }
