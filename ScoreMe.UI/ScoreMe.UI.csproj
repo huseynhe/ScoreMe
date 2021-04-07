@@ -151,6 +151,8 @@
     <Compile Include="Attributes\Extensions.cs" />
     <Compile Include="Attributes\LoginCheck.cs" />
     <Compile Include="Controllers\AmReportController.cs" />
+    <Compile Include="Controllers\AppConsumeReportController.cs" />
+    <Compile Include="Controllers\AppInformationController.cs" />
     <Compile Include="Controllers\CallReportController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EnumCategoryController.cs" />
@@ -169,6 +171,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessRightVM.cs" />
+    <Compile Include="Models\AppConsumeReportVM.cs" />
+    <Compile Include="Models\AppInformationVM.cs" />
     <Compile Include="Models\CALLReportVM.cs" />
     <Compile Include="Models\EmployeeVM.cs" />
     <Compile Include="Models\EnumVM.cs" />
@@ -2079,6 +2083,10 @@
     <Content Include="Views\Expense\_PartialReport.cshtml" />
     <Content Include="Views\NetConsumeReport\ReportIndex.cshtml" />
     <Content Include="Views\NetConsumeReport\_PartialReport.cshtml" />
+    <Content Include="Views\AppConsumeReport\ReportIndex.cshtml" />
+    <Content Include="Views\AppConsumeReport\_PartialReport.cshtml" />
+    <Content Include="Views\AppInformation\Index.cshtml" />
+    <Content Include="Views\AppInformation\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model ScoreMe.UI.Models.AppInformationVM
+
+
+@{
+
+
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <div class="clearfix"></div><br />
+
+            <div class="well bs-component">
+                <a class="btn btn-warning pull-right btn-icon" href="@Url.Action("Create","AppInformation")"><span class="fa fa-plus"></span> Əlavə et</a>
+
+                <div class="clearfix"></div>
+                <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th> @Html.DisplayNameFor(model => model.CategoryType)</th>
+                            <th> @Html.DisplayNameFor(model => model.CategoryName)</th>
+                            <th> @Html.DisplayNameFor(model => model.PriceUsage)</th>
+                            <th> @Html.DisplayNameFor(model => model.PointUsage)</th>
+                            <th> @Html.DisplayNameFor(model => model.PriceCount)</th>
+                            <th> @Html.DisplayNameFor(model => model.PointCount)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{
+                            var obj = Model.RAppInformationList;
+                            if (obj != null)
+                            {
+                                foreach (var item in Model.RAppInformationList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CategoryType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CategoryName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PriceUsage)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PointUsage)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PriceCount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PointCount)
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    
+}
+

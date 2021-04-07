@@ -1,0 +1,68 @@
+﻿
+@model ScoreMe.UI.Models.AppInformationVM
+@{
+    ViewBag.Title = "Operator məlumatlarının əlavə edilməsi ekranı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.CategoryType, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CategoryType, new { htmlAttributes = new { @class = "form-control", tabindex = 1 } })
+                @Html.ValidationMessageFor(model => model.CategoryType, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", tabindex = 2 } })
+                @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PriceUsage, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.PriceUsage, new { htmlAttributes = new { @class = "form-control", tabindex = 5 } })
+                @Html.ValidationMessageFor(model => model.PriceUsage, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PointUsage, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.PointUsage, new { htmlAttributes = new { @class = "form-control", tabindex = 6 } })
+                @Html.ValidationMessageFor(model => model.PointUsage, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PriceCount, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.PriceCount, new { htmlAttributes = new { @class = "form-control", tabindex = 7 } })
+                @Html.ValidationMessageFor(model => model.PriceCount, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.PointCount, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.PointCount, new { htmlAttributes = new { @class = "form-control", tabindex = 8 } })
+                @Html.ValidationMessageFor(model => model.PointCount, "", new { @class = "text-danger" })
+
+            </div>
+
+
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-6 control-label">
+                @Html.ActionLink("Listə Geri Dön", "Index", "AppInformation", null, new { @class = "btn btn-primary btn-lg btn-block" })
+            </div>
+            <div class="col-md-6 control-label">
+                <input id="frmPosition" type="submit" value="Yarat" class="btn btn-primary btn-lg btn-block" tabindex="9" />
+            </div>
+        </div>
+    </div>
+}
+

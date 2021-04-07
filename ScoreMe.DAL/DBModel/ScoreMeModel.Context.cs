@@ -75,5 +75,6 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<log_Login> log_Login { get; set; }
         public virtual DbSet<tbl_AppConsumeDetail> tbl_AppConsumeDetail { get; set; }
         public virtual DbSet<tbl_AppConsumeModel> tbl_AppConsumeModel { get; set; }
+        public virtual DbSet<tbl_AppInformation> tbl_AppInformation { get; set; }
     }
 }
