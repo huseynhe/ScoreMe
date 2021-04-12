@@ -666,6 +666,28 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_User> GetCALLUsersByTypeEVID(int evID)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from u in context.tbl_User
+                                 join cm in context.tbl_CALLModel on u.ID equals cm.UserID
+                                 where u.Status == 1 && cm.Status == 1 && u.IsActive == 1 && u.UserType_EVID == evID
+                                 select u).Distinct();
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public List<tbl_User> GetNetConsumeUsersByTypeEVID(int evID)
         {
 
@@ -3735,7 +3757,7 @@ namespace ScoreMe.DAL
                 {
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
-                        oldItem.UserID = item.UserID;                    
+                        oldItem.UserID = item.UserID;
 
                         oldItem.BeginDate = item.BeginDate;
                         oldItem.EndDate = item.EndDate;
@@ -5133,9 +5155,9 @@ namespace ScoreMe.DAL
                             smsDetail.UpdateDate = DateTime.Now;
                             tbl_SMSSenderInfo senderInfo = GetSMSSenderInfoByName(smsDetail.SenderName);
 
-                            if (senderInfo!=null)
+                            if (senderInfo != null)
                             {
-                                if (senderInfo.IsParse==1)
+                                if (senderInfo.IsParse == 1)
                                 {
                                     smsDetail.IsParse = 1;
                                 }
@@ -8303,7 +8325,7 @@ namespace ScoreMe.DAL
             catch (Exception ex)
             {
                 return null;
-             
+
             }
         }
         #endregion
@@ -8890,7 +8912,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_AppInformation GeAppInformationById(Int64 Id)
+        public tbl_AppInformation GetAppInformationById(Int64 Id)
         {
 
             try
@@ -8940,6 +8962,256 @@ namespace ScoreMe.DAL
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
                         context.tbl_AppInformation.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_AppInformation
+        public bool ControlUserPhoneInformation(tbl_UserPhoneInforamtion oi)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_UserPhoneInforamtion
+                                where p.CompanyName == oi.CompanyName
+                                   && p.ModelName == oi.ModelName
+                                   && p.ModelNumber == oi.ModelNumber
+                                   && p.SerialNumber == oi.SerialNumber
+                                   && p.IMEI1 == oi.IMEI1
+                                   && p.IMEI2 == oi.IMEI2
+                                   && p.OSName == oi.OSName
+                                   && p.OSVersion == oi.OSVersion
+                                   && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    if (item != null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+
+        }
+        public tbl_UserPhoneInforamtion AddUserPhoneInformation(tbl_UserPhoneInforamtion item)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    context.tbl_UserPhoneInforamtion.Add(item);
+                    context.SaveChanges();
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_UserPhoneInforamtion DeleteUserPhoneInformation(Int64 id, Int64 userId)
+        {
+
+            try
+            {
+                tbl_UserPhoneInforamtion oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_UserPhoneInforamtion
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_UserPhoneInforamtion.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_UserPhoneInforamtion> GetUserPhoneInformations()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_UserPhoneInforamtion
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_UserPhoneInforamtion> GetUserPhoneInformationsByUserName(string userName)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_UserPhoneInforamtion
+                                 join u in context.tbl_User on p.UserID equals u.ID 
+                                 where p.Status == 1 && u.UserName == userName && u.Status==1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_UserPhoneInforamtion GetUserPhoneInformationById(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_UserPhoneInforamtion
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_UserPhoneInforamtion GetLastUserPhoneInformationByUserName(string userName)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_UserPhoneInforamtion
+                                join u in context.tbl_User on p.UserID equals u.ID
+                                where u.UserName == userName && p.Status == 1 && u.Status==1
+                                orderby p.ID descending
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_UserPhoneInforamtion UpdateUserPhoneInformation(tbl_UserPhoneInforamtion item)
+        {
+            try
+            {
+                tbl_UserPhoneInforamtion oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_UserPhoneInforamtion
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.CompanyName = item.CompanyName;
+                        oldItem.ModelName = item.ModelName;
+                        oldItem.ModelNumber = item.ModelNumber;
+                        oldItem.SerialNumber = item.SerialNumber;
+                        oldItem.IMEI1 = item.IMEI1;
+                        oldItem.IMEI2 = item.IMEI2;
+                        oldItem.OSName = item.OSName;
+                        oldItem.OSVersion = item.OSVersion;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+                        context.tbl_UserPhoneInforamtion.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
                         return oldItem;

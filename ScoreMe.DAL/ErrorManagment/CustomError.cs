@@ -30,5 +30,11 @@ namespace ScoreMe.DAL.ErrorManagment
 
         public static int PhoneNumberErrorCode = 19;
         public static string PhoneNumberErrorDesc = "PhoneNumber is empty. ";
+
+        public static int ExistRecordErrorCode = 20;
+        public static string ExistRecordErrorDesc = "Same record is exist. ";
+
+        public static int NotExistRecordErrorCode = 21;
+        public static string NotExistRecordErrorDesc = "This record is not exist. ";
     }
 }

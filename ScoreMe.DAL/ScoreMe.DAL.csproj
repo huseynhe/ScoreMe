@@ -215,6 +215,9 @@
     <Compile Include="DBModel\tbl_UserGroup.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_UserPhoneInforamtion.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_UserRole.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -240,6 +243,7 @@
     <Compile Include="DTO\SMSSenderInfoDTO.cs" />
     <Compile Include="DTO\TypeDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="DTO\UserPhoneDTO.cs" />
     <Compile Include="Enum\BOResultTypes.cs" />
     <Compile Include="Enum\EnumValue.cs" />
     <Compile Include="ErrorManagment\CustomError.cs" />
@@ -273,6 +277,7 @@
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\SMSRepository.cs" />
     <Compile Include="Repositories\SMSSenderInfoRepository.cs" />
+    <Compile Include="Repositories\UserPhoneRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
   </ItemGroup>
   <ItemGroup>

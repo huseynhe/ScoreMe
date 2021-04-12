@@ -1,6 +1,6 @@
-﻿@model ScoreMe.UI.Models.SMSReportVM
+﻿@model ScoreMe.UI.Models.AppConsumeReportVM
 @{
-    ViewBag.Title = "SMS istifadə raporu";
+    ViewBag.Title = "Uygulamaların internet istifadə raporu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -26,7 +26,7 @@
                 <div class="panel-heading">Axtarış parametrələri</div>
                 <div class="panel-body">
                     <div class="row">
-                        @using (Ajax.BeginForm("AjaxSearch", "SMSReport", new AjaxOptions
+                        @using (Ajax.BeginForm("UnitAjaxSearch", "AppConsumeReport", new AjaxOptions
                         {
                             InsertionMode = InsertionMode.Replace,
                             HttpMethod = "GET",
@@ -36,19 +36,20 @@
 
                         }))
                         {
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
                                 @Html.DropDownListFor(x => Model.userIDName, new SelectList(Model.UserList, "Value", "Text"), htmlAttributes: new { @class = "select2 form-control", id = "ApplicationType", tabindex = 13 })
                                 @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label" })
                                 @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", tabindex = 4 } })
                                 @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
 
                             </div>
+                   
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <br />
                                 <input type="submit" value="Axtar" class="btn btn-success" />
                                 <img id="ajax-loader"
@@ -73,9 +74,9 @@
             <div class="panel-heading">Hesabat</div>
             <div class="panel-body">
                 <div class="row">
-                        <div id="searchResult">
-                        </div>
-             
+                    <div id="searchResult">
+                    </div>
+
                 </div>
             </div>
 
@@ -88,7 +89,7 @@
     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/fixedcolumns/3.3.2/js/dataTables.fixedColumns.min.js"></script>
     <script src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
- 
+
     <script>
         $(document).ready(function () {
             function searchFailed() {

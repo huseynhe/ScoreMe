@@ -185,6 +185,7 @@
     <Compile Include="Controllers\SMSController.cs" />
     <Compile Include="Controllers\SMSSenderInfoController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserPhoneInformationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -1,4 +1,5 @@
-﻿using ScoreMe.DAL.DTO;
+﻿using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.DTO;
 using ScoreMe.UTILITY;
 using ScoreMe.UTILITY.Custom;
 using System;
@@ -13,47 +14,77 @@ namespace ScoreMe.DAL.Repositories
 {
     public class AppConsumeRepository
     {
-        //private List<tbl_Package> GetPackageList(Int64 mobileEVID)
-        //{
+        private List<tbl_AppInformation> AppInformationList = null;
+        
+        public AppConsumeRepository()
+        {
+            AppInformationList = GetAppInformations();
+        }
+        private List<tbl_AppInformation> GetAppInformations()
+        {
 
-        //    CRUDOperation cRUDOperation = new CRUDOperation();
-        //    List<tbl_Package> packages = cRUDOperation.GetPackagesByMobileEVID(mobileEVID);
-        //    return packages;
-
-
-        //}
-        //public tbl_PackagePrice GetPackagePrice(Int64 mobileEVID, decimal? consumedNet)
-        //{
-        //    try
-        //    {
-        //        if (consumedNet == null || consumedNet == 0)
-        //        {
-        //            return null;
-        //        }
-
-        //        CRUDOperation cRUDOperation = new CRUDOperation();
-        //        List<tbl_Package> packages = GetPackageList(mobileEVID);
-        //        Int64 packageID = 0;
-        //        foreach (var item in packages)
-        //        {
-        //            if (consumedNet < item.PackageSize)
-        //            {
-        //                packageID = item.ID;
-        //                break;
-        //            }
-        //        }
-        //        tbl_PackagePrice packagePrice = cRUDOperation.GetPackagePriceByID(packageID);
-        //        return packagePrice;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return null;
-        //    }
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            List<tbl_AppInformation> appInformations = cRUDOperation.GetAppInformations();
+            return appInformations;
 
 
-        //}
+          }
+        public AppConsumeReportDTO GetAppConsumePriceAndPoint(AppConsumeReportDTO item)
+        {
+            try
+            {
+                if (item == null)
+                {
+                    return null;
+                }
 
+          
+                foreach (var listitem in AppInformationList)
+                {
+                    if (listitem.CategoryType==item.AppType)
+                    {
+                        item.AveragePoint = item.Average*listitem.PointUsage;
+                        break;
+                    }
+                }
+                return item;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+
+        }
+        public AppConsumeReportDTO GetAppCountPriceAndPoint(AppConsumeReportDTO item)
+        {
+            try
+            {
+                if (item == null)
+                {
+                    return null;
+                }
+
+
+                foreach (var listitem in AppInformationList)
+                {
+                    if (listitem.CategoryType == item.AppType)
+                    {
+                        item.AveragePoint = item.Average * listitem.PointCount;
+                        break;
+                    }
+                }
+                return item;
+            }
+            catch (Exception ex)
+            {
+
+                return null;
+            }
+
+
+        }
         public List<AppConsumeReportDTO> SW_GetAppConsumeReports(int userID, string userName, int year)
         {
             var result = new List<AppConsumeReportDTO>();
@@ -103,7 +134,7 @@ namespace ScoreMe.DAL.Repositories
 
 
                         appConsumeReportDTO.Average = GetAverage(appConsumeReportDTO);
-                    
+                        appConsumeReportDTO = GetAppConsumePriceAndPoint(appConsumeReportDTO);
 
                         result.Add(appConsumeReportDTO);
 
@@ -163,7 +194,68 @@ namespace ScoreMe.DAL.Repositories
 
 
                         appConsumeReportDTO.Average = GetAverage(appConsumeReportDTO);
+                        appConsumeReportDTO = GetAppCountPriceAndPoint(appConsumeReportDTO);
 
+                        result.Add(appConsumeReportDTO);
+
+                    }
+                }
+                connection.Close();
+            }
+
+            return result;
+        }
+        public List<AppConsumeReportDTO> SW_GetUnitAppCountReports(int userID, string userName, int year)
+        {
+            var result = new List<AppConsumeReportDTO>();
+            StringBuilder allQuery = new StringBuilder();
+            var query = @"select * from  [GetUnitAppUsage](@P_USERID,@P_year) ";
+
+            allQuery.Append(query);
+
+            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(allQuery.ToString(), connection))
+                {
+                    SqlParameter puserID = new SqlParameter("@P_USERID", SqlDbType.Int);
+                    puserID.Value = userID;
+                    command.Parameters.Add(puserID);
+                    SqlParameter pyear = new SqlParameter("@P_year", SqlDbType.Int);
+                    pyear.Value = year;
+                    command.Parameters.Add(pyear);
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+
+                        AppConsumeReportDTO appConsumeReportDTO = new AppConsumeReportDTO()
+                        {
+                            INOUT_EVType = reader.GetInt32OrDefaultValue(0),
+                            AppType = reader.GetInt32OrDefaultValue(1),
+                            AppTypeDesc = reader.GetStringOrEmpty(2),
+                            AppName=reader.GetStringOrEmpty(3),
+                            Year = reader.GetInt32OrDefaultValue(4),
+                            January = reader.GetDecimalOrDefaultValue2(5),
+                            February = reader.GetDecimalOrDefaultValue2(6),
+                            March = reader.GetDecimalOrDefaultValue2(7),
+                            April = reader.GetDecimalOrDefaultValue2(8),
+                            May = reader.GetDecimalOrDefaultValue2(9),
+                            June = reader.GetDecimalOrDefaultValue2(10),
+                            July = reader.GetDecimalOrDefaultValue2(11),
+                            August = reader.GetDecimalOrDefaultValue2(12),
+                            September = reader.GetDecimalOrDefaultValue2(13),
+                            October = reader.GetDecimalOrDefaultValue2(14),
+                            November = reader.GetDecimalOrDefaultValue2(15),
+                            December = reader.GetDecimalOrDefaultValue2(16),
+
+
+                        };
+
+
+                        appConsumeReportDTO.Average = GetAverage(appConsumeReportDTO);
+                        appConsumeReportDTO = GetAppConsumePriceAndPoint(appConsumeReportDTO);
 
                         result.Add(appConsumeReportDTO);
 

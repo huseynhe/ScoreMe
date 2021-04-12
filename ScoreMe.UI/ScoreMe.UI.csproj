@@ -166,6 +166,7 @@
     <Compile Include="Controllers\SMSReportController.cs" />
     <Compile Include="Controllers\SMSSenderInfoController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserPhoneController.cs" />
     <Compile Include="Enums\CategoryEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -183,6 +184,7 @@
     <Compile Include="Models\SMSReportVM.cs" />
     <Compile Include="Models\SMSSenderInfoVM.cs" />
     <Compile Include="Models\TypeVM.cs" />
+    <Compile Include="Models\UserPhoneVM.cs" />
     <Compile Include="Models\UserVM.cs" />
     <Compile Include="Models\Visualizer1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -2087,11 +2089,17 @@
     <Content Include="Views\AppConsumeReport\_PartialReport.cshtml" />
     <Content Include="Views\AppInformation\Index.cshtml" />
     <Content Include="Views\AppInformation\Create.cshtml" />
+    <Content Include="Views\AppInformation\Edit.cshtml" />
+    <Content Include="Views\AppConsumeReport\ReportUnitIndex.cshtml" />
+    <Content Include="Views\AppConsumeReport\_PartialReportUnit.cshtml" />
+    <Content Include="Views\UserPhone\Index.cshtml" />
+    <Content Include="Views\UserPhone\PartialIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\tempOfficialFile\" />
     <Folder Include="Content\tempOutFile\" />
+    <Folder Include="Views\UserPhoneInformation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css.map" />

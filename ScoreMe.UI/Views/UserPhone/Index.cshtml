@@ -1,0 +1,77 @@
+﻿@model ScoreMe.UI.Models.UserPhoneVM
+
+@{
+    ViewBag.Title = "Istifadəçi telefon məlumatları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+
+
+        <div class="clearfix"></div><br />
+
+        <div class="well bs-component">
+
+            @*<a class="btn btn-warning pull-right btn-icon" href="@Url.Action("Add","Employee")"><span class="fa fa-plus"></span> Əlavə et</a>*@
+
+            <div class="clearfix"></div>
+            <div class="table-responsive">
+                <table class="table table-bordered" style="margin:0;">
+                    <tbody>
+                        <tr>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.UserID)
+                   
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.UserName)
+                                <input onkeyup="Search(this, 'UserPhone', 'Index', 'UserName')" class="form-control" placeholder="axtar" />
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.CustomerName)
+                            </th>
+                   
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.CompanyName)
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.ModelName)
+                            </th>
+
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.ModelNumber)
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.SerialNumber)
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.IMEI1)
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.IMEI2)
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.OSName)
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.OSVersion)
+                            </th>
+                            <th class="col-md-1" style="font-size:14px; text-align:center; vertical-align:middle; background-color: gainsboro;">
+                                @Html.DisplayNameFor(model => model.InsertDate)
+                            </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="AjaxPaginationList">
+                    @Html.Partial("PartialIndex")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/pagedList.js"></script>
+
+
+

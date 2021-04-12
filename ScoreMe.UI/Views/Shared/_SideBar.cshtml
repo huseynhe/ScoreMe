@@ -78,7 +78,7 @@
                     @Html.ActionLink("App məlumatları", "Index", "AppInformation")
 
                 </li>
-                
+       
             </ul>
         </li>
 
@@ -94,10 +94,11 @@
             </a>
 
             <ul class="submenu">
-                <li>
-                    @Html.ActionLink("Hesabat1", "Index", "Report")
-                </li>
+           
+                  <li>
+                    @Html.ActionLink("Telefon məlumatları", "Index", "UserPhone")
 
+                </li>
                 <li>
                     @Html.ActionLink("SMS Report", "ReportIndex", "SMSReport")
                 </li>
@@ -110,7 +111,9 @@
                 <li>
                     @Html.ActionLink("AppConsume Report", "ReportIndex", "AppConsumeReport")
                 </li>
-
+                <li>
+                    @Html.ActionLink("AppUnitConsume Report", "ReportUnitIndex", "AppConsumeReport")
+                </li>
             </ul>
         </li>
 

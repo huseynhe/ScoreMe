@@ -12,6 +12,7 @@ namespace ScoreMe.DAL.DTO
         public int INOUT_EVType { get; set; }
         public int AppType { get; set; }
         public string AppTypeDesc { get; set; }
+        public string AppName { get; set; }
         public int Year { get; set; }
         public decimal? January { get; set; }
         public decimal? February { get; set; }

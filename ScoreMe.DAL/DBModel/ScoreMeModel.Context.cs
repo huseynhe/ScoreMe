@@ -27,6 +27,9 @@ namespace ScoreMe.DAL.DBModel
     
         public virtual DbSet<ProviderType> ProviderTypes { get; set; }
         public virtual DbSet<tbl_AccessRight> tbl_AccessRight { get; set; }
+        public virtual DbSet<tbl_AppConsumeDetail> tbl_AppConsumeDetail { get; set; }
+        public virtual DbSet<tbl_AppConsumeModel> tbl_AppConsumeModel { get; set; }
+        public virtual DbSet<tbl_AppInformation> tbl_AppInformation { get; set; }
         public virtual DbSet<tbl_CALLDetail> tbl_CALLDetail { get; set; }
         public virtual DbSet<tbl_CALLModel> tbl_CALLModel { get; set; }
         public virtual DbSet<tbl_CALLReport> tbl_CALLReport { get; set; }
@@ -68,13 +71,11 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_User> tbl_User { get; set; }
         public virtual DbSet<tbl_UserDocument> tbl_UserDocument { get; set; }
         public virtual DbSet<tbl_UserGroup> tbl_UserGroup { get; set; }
+        public virtual DbSet<tbl_UserPhoneInforamtion> tbl_UserPhoneInforamtion { get; set; }
         public virtual DbSet<tbl_UserRole> tbl_UserRole { get; set; }
         public virtual DbSet<tbl_UserService> tbl_UserService { get; set; }
         public virtual DbSet<tbl_UserServiceRating> tbl_UserServiceRating { get; set; }
         public virtual DbSet<log_DataChange> log_DataChange { get; set; }
         public virtual DbSet<log_Login> log_Login { get; set; }
-        public virtual DbSet<tbl_AppConsumeDetail> tbl_AppConsumeDetail { get; set; }
-        public virtual DbSet<tbl_AppConsumeModel> tbl_AppConsumeModel { get; set; }
-        public virtual DbSet<tbl_AppInformation> tbl_AppInformation { get; set; }
     }
 }

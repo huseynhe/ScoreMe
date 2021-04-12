@@ -26,6 +26,7 @@ namespace ScoreMe.UI.Controllers
             viewModel.ReportType = 1;
             return View(viewModel);
         }
+
         public Search SetValue(int? page, string vl, string prm = null)
         {
             if (prm == null && page == null)
@@ -95,6 +96,44 @@ namespace ScoreMe.UI.Controllers
             return RAppCountReports;
         }
 
+        [Description("Tətbiqlərin Birim Tüketimi Raporu")]
+        public ActionResult ReportUnitIndex()
+        {
+            AppConsumeReportVM viewModel = new AppConsumeReportVM();
+            viewModel = populateDropDownList(viewModel);
+            viewModel.ReportType = 1;
+            return View(viewModel);
+        }
+
+        public ActionResult UnitAjaxSearch(string userIDName, int year)
+        {
+            List<AppConsumeReportDTO> data = new List<AppConsumeReportDTO>();
+            try
+            {
+
+
+                string[] list = userIDName.Split('~');
+
+                data = GetUnitAppConsumeReportDTOs(int.Parse(list[0]), list[1], year);
+
+
+            }
+            catch (Exception ex)
+            {
+
+
+            }
+            //return PartialView("_ReportSearch", data);
+            return PartialView("_PartialReportUnit", data);
+
+        }
+
+        public List<AppConsumeReportDTO> GetUnitAppConsumeReportDTOs(int userID, string userName, int year)
+        {
+            AppConsumeRepository repository = new AppConsumeRepository();
+            List<AppConsumeReportDTO> RAppConsumeReports = repository.SW_GetUnitAppCountReports(userID, userName, year).OrderBy(x => x.AppType).ToList();
+            return RAppConsumeReports;
+        }
         private AppConsumeReportVM populateDropDownList(AppConsumeReportVM viewModel)
         {
             viewModel.UserList = EnumService.GetAppConsumeUsersByTypeEVID(8);

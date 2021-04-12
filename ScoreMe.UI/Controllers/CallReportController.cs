@@ -80,7 +80,7 @@ namespace ScoreMe.UI.Controllers
 
         private CALLReportVM populateDropDownList(CALLReportVM viewModel)
         {
-            viewModel.UserList = EnumService.GetMessajeUsersByTypeEVID(8);
+            viewModel.UserList = EnumService.GetCALLUsersByTypeEVID(8);
             return viewModel;
         }
     }

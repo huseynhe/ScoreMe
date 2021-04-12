@@ -1719,7 +1719,7 @@ namespace ScoreMe.Business
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
-           
+
 
             try
             {
@@ -1747,7 +1747,7 @@ namespace ScoreMe.Business
                 List<tbl_CALLDetail> tblCALLDetails = new List<tbl_CALLDetail>();
 
                 tblCALLDetails = item.CALLDetails;
-                tbl_CALLModel _CALLModel = cRUDOperation.AddCALLModel(callModel, tblCALLDetails);     
+                tbl_CALLModel _CALLModel = cRUDOperation.AddCALLModel(callModel, tblCALLDetails);
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
@@ -2351,6 +2351,170 @@ namespace ScoreMe.Business
         }
         #endregion
 
+
+        #region AppConsumeModel
+        public BaseOutput GetUserPhoneInformationsByUserName(string userName, out List<tbl_UserPhoneInforamtion> userPhoneInforamtions)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            userPhoneInforamtions = null;
+            try
+            {
+
+
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    userPhoneInforamtions = cRUDOperation.GetUserPhoneInformationsByUserName(userName);
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.EmptyUserNameErrorCode, CustomError.EmptyUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetLastUserPhoneInformationByUserName(string userName, out tbl_UserPhoneInforamtion userPhoneInforamtion)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            userPhoneInforamtion = null;
+            try
+            {
+
+                if (!string.IsNullOrEmpty(userName))
+                {
+
+                    userPhoneInforamtion = cRUDOperation.GetLastUserPhoneInformationByUserName(userName);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.EmptyUserNameErrorCode, CustomError.EmptyUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetUserPhoneInformationByID(Int64 id, out tbl_UserPhoneInforamtion userPhoneInforamtion)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            userPhoneInforamtion = null;
+            try
+            {
+
+                userPhoneInforamtion = cRUDOperation.GetUserPhoneInformationById(id);
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddUserPhoneInformation(tbl_UserPhoneInforamtion item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+
+
+            try
+            {
+                bool flag = cRUDOperation.ControlUserPhoneInformation(item);
+                if (!flag)
+                {
+                    tbl_UserPhoneInforamtion _UserPhoneInforamtion = cRUDOperation.AddUserPhoneInformation(item);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.ExistRecordErrorCode, CustomError.ExistRecordErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateUserPhoneInformation(tbl_UserPhoneInforamtion item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+
+                tbl_UserPhoneInforamtion _UserPhoneInforamtion = cRUDOperation.UpdateUserPhoneInformation(item);
+
+                if (_UserPhoneInforamtion != null)
+                {
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.NotExistRecordErrorCode, CustomError.NotExistRecordErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteUserPhoneInformation(Int64 id)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+
+                tbl_UserPhoneInforamtion _UserPhoneInforamtion = cRUDOperation.DeleteUserPhoneInformation(id, 0);
+
+                if (_UserPhoneInforamtion != null)
+                {
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.NotExistRecordErrorCode, CustomError.NotExistRecordErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
 
     }
 }
