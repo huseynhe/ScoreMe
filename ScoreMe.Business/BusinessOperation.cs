@@ -1039,6 +1039,106 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
+        public BaseOutput GetFavoriteProposalsByUserName(string username, out List<Proposal> proposals)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            ProposalRepository repository = new ProposalRepository();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                tbl_User userDB = cRUDOperation.GetUserByUserName(username);
+                List<tbl_Proposal> tbl_Proposals = cRUDOperation.GetFavoriteProposalsByUserID(userDB.ID);
+                proposals = new List<Proposal>();
+
+                if (tbl_Proposals.Count > 0)
+                {
+                    foreach (var proposalItem in tbl_Proposals)
+                    {
+                        tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
+                        int dislikecount = 0;
+                        int likecount = cRUDOperation.GetUserProposalLikeDislikeCount(proposalItem.ID, userDB.ID, out dislikecount);
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ID,
+                            Name = proposalItem.Name,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = _Provider == null ? 0 : _Provider.UserId,
+                            ProviderName = _Provider == null ? String.Empty : _Provider.Name,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                            IsLike = likecount > 0 ? true : false,
+                            IsDislike = dislikecount > 0 ? true : false,
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+
+                        ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(userDB.ID, proposal.ID);
+                        proposal.ProposalUserState = proposalUserState;
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                        proposals.Add(proposal);
+
+
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
         public BaseOutput GetProposalWithDetailsByIsPublic(string username, out List<Proposal> proposals)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
@@ -2516,6 +2616,35 @@ namespace ScoreMe.Business
         }
         #endregion
 
+        #region ProposalFavorite
+        public BaseOutput AddProposalFavorite(tbl_ProposalFavorite item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_ProposalFavorite dbItem = cRUDOperation.GetProposalFavoriteByPropsalIdAndUserID(item.ProposalID, item.UserID);
+
+                if (dbItem == null)
+                {
+                    tbl_ProposalFavorite additem = cRUDOperation.AddProposalFavorite(item);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla əlavə edilmişdir.");
+                }
+                else
+                {
+                    dbItem.IsFavorite = item.IsFavorite;
+                    tbl_ProposalFavorite additem = cRUDOperation.UpdateProposalFavorite(dbItem);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla dəyişiklik edilmişdir.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
     }
 }
 

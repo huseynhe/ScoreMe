@@ -225,6 +225,22 @@ namespace ScoreMe.API.Controllers
             }
         }
         [HttpGet]
+        [Route("GetFavoriteProposalWithDetailsByUserName/{username}")]
+        public List<Proposal> GetFavoriteProposalWithDetailsByUserName(string username)
+        {
+            BusinessOperation businessOperation = new BusinessOperation();
+            List<Proposal> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetFavoriteProposalsByUserName(username, out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return itemsOut;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        [HttpGet]
         [Route("GetProposalWithDetailsByIsPublic/{username}")]
         public List<Proposal> GetProposalWithDetailsByIsPublic(string username)
         {

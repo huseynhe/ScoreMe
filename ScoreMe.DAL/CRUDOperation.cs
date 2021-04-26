@@ -1282,6 +1282,32 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_Proposal> GetFavoriteProposalsByUserID(Int64 userid)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    var items = (from p in context.tbl_Proposal
+                                 join f in context.tbl_ProposalFavorite on p.ID equals f.ProposalID 
+                                 where p.Status == 1 && f.Status == 1  
+                                 && f.IsFavorite==1 && f.UserID == userid
+                                 orderby p.ID descending
+                                 select p);
+
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public List<tbl_Proposal> GetProposalsByIsPublic()
         {
 
@@ -9234,5 +9260,235 @@ namespace ScoreMe.DAL
 
         }
         #endregion
+
+        #region tbl_ProposalFavorite
+        public tbl_ProposalFavorite AddProposalFavorite(tbl_ProposalFavorite item)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_ProposalFavorite.Add(item);
+                    context.SaveChanges();
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_ProposalFavorite DeleteProposalFavorite(Int64 id, Int64 userId)
+        {
+
+            try
+            {
+                tbl_ProposalFavorite oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_ProposalFavorite
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_ProposalFavorite.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_ProposalFavorite> GetProposalFavorites()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ProposalFavorite
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalFavorite GetProposalFavoriteById(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalFavorite
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalFavorite GetProposalFavoriteByPropsalIdAndUserID(Int64 proposalId, Int64 userId)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalFavorite
+                                where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalFavorite UpdateProposalFavorite(tbl_ProposalFavorite item)
+        {
+            try
+            {
+                tbl_ProposalFavorite oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_ProposalFavorite
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.IsFavorite = item.IsFavorite;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+                        context.tbl_ProposalFavorite.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public Int64 GetProposalFavoriteCountByUserID(Int64 userId)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalFavorite
+                                where p.UserID == userId && p.Status == 1 && p.IsFavorite == 1
+                                select p).ToList().Count;
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public Int64 GetProposalFavoriteCountByPropsalId(Int64 proposalId)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalFavorite
+                                where p.ProposalID == proposalId && p.Status == 1 && p.IsFavorite == 1
+                                select p).ToList().Count;
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        #endregion
+
     }
 }

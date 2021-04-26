@@ -149,6 +149,9 @@
     <Compile Include="DBModel\tbl_ProposalDocument.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_ProposalFavorite.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_ProposalLikeDislike.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>

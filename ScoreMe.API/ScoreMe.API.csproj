@@ -175,6 +175,7 @@
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\ProposalCommissionController.cs" />
     <Compile Include="Controllers\ProposalController.cs" />
+    <Compile Include="Controllers\ProposalFavoriteController.cs" />
     <Compile Include="Controllers\ProposalLikeDislikeController.cs" />
     <Compile Include="Controllers\ProposalUserSaveController.cs" />
     <Compile Include="Controllers\ProviderController.cs" />
