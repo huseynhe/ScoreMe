@@ -12,6 +12,7 @@ namespace ScoreMe.DAL.Repositories
 {
     public class ProposalRepository
     {
+       
         public ProposalUserState GetProposalUserStateByUserID(Int64 userId,Int64 proposalId)
         {
             ProposalUserState proposalUserState = null;

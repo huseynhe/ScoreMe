@@ -1,5 +1,7 @@
 ﻿using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.DTO;
 using ScoreMe.DAL.Model;
+using ScoreMe.DAL.Objects;
 using ScoreMe.UTILITY;
 using ScoreMe.UTILITY.Custom;
 using System;
@@ -13,6 +15,8 @@ namespace ScoreMe.DAL.Repositories
 {
     public class ProviderRepository
     {
+        private int pageNumber = 1;
+        private int pageSize = 1000000;
         public Provider GetProviderByID(Int64 providerID)
         {
             Provider provider = null;
@@ -86,6 +90,123 @@ namespace ScoreMe.DAL.Repositories
             }
 
 
+        }
+
+        internal List<ProviderReportDTO> GetProviderReport(Search search, out int _count)
+        {
+            var result = new List<ProviderReportDTO>();
+            _count = 0;
+            string queryEnd = "";
+            string head = "";
+
+            if (search.isCount == false)
+            {
+                head = @" pr.ID,pr.Name,
+                       (select Count(*)from tbl_Proposal prop where pr.ID=prop.ProviderID and prop.Status=1) as YerlesdirilmisXidmetSay,
+                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
+                       where prop.Status=1 and pus.Status=1 and
+                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.UserStateType=19 ) as MuracietEdilmisXidmetSay,
+                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
+                       where prop.Status=1 and pus.Status=1 and
+                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.UserStateType=20 and pus.ProviderStateType=15 ) as QebulEdilmisXidmetSay,
+                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
+                       where prop.Status=1 and pus.Status=1 and
+                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.ProviderStateType=16 ) as RedEdilmisXidmetSay,
+                       (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
+                       where prop.Status=1 and pus.Status=1 and
+                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.ProviderStateType=17 ) as GozlemedekiXidmetSay";
+
+            }
+            else
+            {
+                head = @" count(pr.ID) ";
+            }
+
+
+            StringBuilder allQuery = new StringBuilder();
+
+            var query = @"SELECT " + head + @"  from tbl_Provider pr, tbl_proposal p 
+                                     where pr.Status=1  and p.Status=1 and pr.ID=p.ProviderID ";
+            allQuery.Append(query);
+
+
+            var providerIDQuery = @" and pr.ID=@P_ProviderID";
+            if (search.ProviderID>0)
+            {
+                allQuery.Append(providerIDQuery);
+            }
+
+            var dateQuery = @" and  p.InsertDate between @P_FromDate and @P_ToDate";
+            if (search.FromtDate!=null &&search.ToDate!=null)
+            {
+                allQuery.Append(dateQuery);
+            }
+
+            if (search.isCount == false)
+            {
+                queryEnd = " group by pr.ID,pr.Name order by pr.Name";
+               // queryEnd = @" order by   emp.[FirstName] asc OFFSET ( @PageNo - 1 ) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY";
+            }
+
+
+            allQuery.Append(queryEnd);
+
+            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(allQuery.ToString(), connection))
+                {
+                    //command.Parameters.AddWithValue("@PageNo", search.pageNumber);
+                    //command.Parameters.AddWithValue("@RecordsPerPage", search.pageSize);
+                    //command.Parameters.AddWithValue("@P_FirstName", search.Name.GetStringOrEmptyData());
+                    command.Parameters.AddWithValue("@P_ProviderID", search.ProviderID);
+                    command.Parameters.AddWithValue("@P_FromDate", search.FromtDate.HasValue?search.FromtDate.Value:DateTime.Now);
+                    command.Parameters.AddWithValue("@P_ToDate", search.ToDate.HasValue?search.ToDate.Value:DateTime.Now);
+
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        if (search.isCount == false)
+                        {
+                            result.Add(new ProviderReportDTO()
+                            {
+                                ProviderID = reader.GetInt64OrDefaultValue(0),
+                                ProviderName = reader.GetStringOrEmpty(1),
+                                DeclaredProposalCount = reader.GetInt32OrDefaultValue(2),
+                                AppliedProposalCount = reader.GetInt32OrDefaultValue(3),
+                                AccteptedProposalCount = reader.GetInt32OrDefaultValue(4),
+                                RejectedProposalCount = reader.GetInt32OrDefaultValue(5),
+                                WaitingProposalCount = reader.GetInt32OrDefaultValue(6),
+                            });
+                        }
+                        else
+                        {
+
+                            _count = reader.GetInt32OrDefaultValue(0);
+
+                        }
+                    }
+                }
+                connection.Close();
+            }
+
+            return result;
+        }
+
+        public IList<ProviderReportDTO> SW_GetProviderReports(Search search)
+        {
+            int _count = 0;
+            if (search.pageNumber <= 0 || search.pageSize <= 0)
+            {
+                search.pageNumber = pageNumber;
+                search.pageSize = pageSize;
+            }
+            search.isCount = false;
+
+            IList<ProviderReportDTO> slist = GetProviderReport(search, out _count);
+            return slist;
         }
     }
 }

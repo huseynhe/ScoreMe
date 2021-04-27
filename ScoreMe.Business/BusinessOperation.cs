@@ -956,8 +956,8 @@ namespace ScoreMe.Business
                     foreach (var proposalItem in tbl_Proposals)
                     {
                         tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
-                        int dislikecount = 0;
-                        int likecount = cRUDOperation.GetUserProposalLikeDislikeCount(proposalItem.ID, userDB.ID, out dislikecount);
+                        tbl_ProposalLikeDislike proposalLikeDislikeDB = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserIDNotNull(proposalItem.ID, userDB.ID);
+                        tbl_ProposalFavorite proposalFavoriteDB = cRUDOperation.GetProposalFavoriteByPropsalIdAndUserIDNotNull(proposalItem.ID, userDB.ID);
                         Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
@@ -970,8 +970,9 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            IsLike = likecount > 0 ? true : false,
-                            IsDislike = dislikecount > 0 ? true : false,
+                            IsLike = proposalLikeDislikeDB.IsLike == 1 ? true : false,
+                            IsDislike = proposalLikeDislikeDB.IsDislike == 1 ? true : false,
+                            IsFavorite = proposalFavoriteDB.IsFavorite == 1 ? true : false,
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -1056,8 +1057,8 @@ namespace ScoreMe.Business
                     foreach (var proposalItem in tbl_Proposals)
                     {
                         tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
-                        int dislikecount = 0;
-                        int likecount = cRUDOperation.GetUserProposalLikeDislikeCount(proposalItem.ID, userDB.ID, out dislikecount);
+                        tbl_ProposalLikeDislike proposalLikeDislikeDB = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserIDNotNull(proposalItem.ID, userDB.ID);
+                        tbl_ProposalFavorite proposalFavoriteDB = cRUDOperation.GetProposalFavoriteByPropsalIdAndUserIDNotNull(proposalItem.ID, userDB.ID);
                         Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
@@ -1070,8 +1071,9 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            IsLike = likecount > 0 ? true : false,
-                            IsDislike = dislikecount > 0 ? true : false,
+                            IsLike = proposalLikeDislikeDB.IsLike == 1 ? true : false,
+                            IsDislike = proposalLikeDislikeDB.IsDislike == 1 ? true : false,
+                            IsFavorite = proposalFavoriteDB.IsFavorite == 1 ? true : false,
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -1156,8 +1158,9 @@ namespace ScoreMe.Business
                     foreach (var proposalItem in tbl_Proposals)
                     {
                         tbl_Provider _Provider = cRUDOperation.GetProviderById(proposalItem.ProviderID);
-                        int dislikecount = 0;
-                        int likecount = cRUDOperation.GetUserProposalLikeDislikeCount(proposalItem.ID, userDB.ID, out dislikecount);
+
+                        tbl_ProposalLikeDislike proposalLikeDislikeDB = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserIDNotNull(proposalItem.ID, userDB.ID);
+                        tbl_ProposalFavorite proposalFavoriteDB = cRUDOperation.GetProposalFavoriteByPropsalIdAndUserIDNotNull(proposalItem.ID, userDB.ID);
                         Proposal proposal = new Proposal()
                         {
                             ID = proposalItem.ID,
@@ -1170,8 +1173,9 @@ namespace ScoreMe.Business
                             IsPublic = proposalItem.IsPublic,
                             StartDate = proposalItem.StartDate,
                             EndDate = proposalItem.EndDate,
-                            IsLike = likecount > 0 ? true : false,
-                            IsDislike = dislikecount > 0 ? true : false,
+                            IsLike = proposalLikeDislikeDB.IsLike == 1 ? true : false,
+                            IsDislike = proposalLikeDislikeDB.IsDislike == 1 ? true : false,
+                            IsFavorite = proposalFavoriteDB.IsFavorite == 1 ? true : false,
                         };
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
@@ -1240,6 +1244,13 @@ namespace ScoreMe.Business
 
                 if (_Proposal != null)
                 {
+                    //butun deteail list silinir
+                    List<tbl_ProposalDetail> dbdetails = cRUDOperation.GetProposalDetailsByProposalID(_Proposal.ID);
+                    foreach (var ditem in dbdetails)
+                    {
+                        cRUDOperation.DeleteProposalDetail(ditem.ID, 0);
+                    }
+
                     foreach (var pDetail in item.ProposalDetails)
                     {
                         tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
@@ -1262,6 +1273,13 @@ namespace ScoreMe.Business
 
                     if (!_Proposal.IsPublic)
                     {
+                        //butun usergruplar silinir list silinir
+                        List<tbl_ProposalUserGroup> db_proposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(_Proposal.ID);
+                        foreach (var ditem in db_proposalUserGroups)
+                        {
+                            cRUDOperation.DeleteProposalUserGroup(ditem.ID,0);
+                        }
+
                         foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
                         {
                             tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
@@ -1971,8 +1989,15 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    dbItem.IsLike = item.IsLike;
-                    dbItem.IsDislike = item.IsDislike;
+                    if (item.IsLike.HasValue)
+                    {
+                        dbItem.IsLike = item.IsLike;
+                    }
+                    if (item.IsDislike.HasValue)
+                    {
+                        dbItem.IsDislike = item.IsDislike;
+                    }
+
                     tbl_ProposalLikeDislike additem = cRUDOperation.UpdateProposalLikeDislike(dbItem);
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla dəyişiklik edilmişdir.");
                 }

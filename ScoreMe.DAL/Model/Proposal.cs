@@ -15,6 +15,7 @@ namespace ScoreMe.DAL.Model
         public string Description { get; set; }
         public string Note { get; set; }
         public Int64 ProviderID { get; set; }
+        public Int64 OwnerUserID { get; set; }
         public Int64 UserID { get; set; }
         public string ProviderName { get; set; }
         public bool IsPublic { get; set; }
@@ -27,5 +28,6 @@ namespace ScoreMe.DAL.Model
         public List<Int64> ProposalDocumentIds { get; set; }
         public bool IsLike  { get; set; } = false;
         public bool IsDislike { get; set; } = false;
+        public bool IsFavorite { get; set; } = false;
     }
 }

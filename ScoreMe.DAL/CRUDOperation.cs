@@ -4249,7 +4249,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     oldItem = (from p in context.tbl_ProposalDetail
-                               where p.ID == item.ID && p.Status == 1
+                               where p.ID == item.ID 
                                select p).FirstOrDefault();
 
                 }
@@ -4257,7 +4257,7 @@ namespace ScoreMe.DAL
                 {
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
-
+                        oldItem.Status = 1;
                         oldItem.ProposalID = item.ProposalID;
                         oldItem.ProposolKey = item.ProposolKey;
                         oldItem.ProposolValue = item.ProposolValue;
@@ -4790,7 +4790,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     oldItem = (from p in context.tbl_ProposalUserGroup
-                               where p.ID == item.ID && p.Status == 1
+                               where p.ID == item.ID
                                select p).FirstOrDefault();
 
                 }
@@ -4798,7 +4798,7 @@ namespace ScoreMe.DAL
                 {
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
-
+                        oldItem.Status = 1;
                         oldItem.ProposalID = item.ProposalID;
                         oldItem.GroupID = item.GroupID;
                         oldItem.UpdateDate = DateTime.Now;
@@ -7257,8 +7257,39 @@ namespace ScoreMe.DAL
                     var item = (from p in context.tbl_ProposalLikeDislike
                                 where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1
                                 select p).FirstOrDefault();
-
                     return item;
+                    
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalLikeDislike GetProposalLikeDislikeByPropsalIdAndUserIDNotNull(Int64 proposalId, Int64 userId)
+        {
+            tbl_ProposalLikeDislike dbItem = new tbl_ProposalLikeDislike();
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalLikeDislike
+                                where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1
+                                select p).FirstOrDefault();
+                    if (item != null)
+                    {
+                        return item;
+                    }
+                    else
+                    {
+                        return dbItem;
+                    }
+
 
                 }
             }
@@ -9477,6 +9508,37 @@ namespace ScoreMe.DAL
                                 select p).ToList().Count;
 
                     return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_ProposalFavorite GetProposalFavoriteByPropsalIdAndUserIDNotNull(Int64 proposalId, Int64 userId)
+        {
+            tbl_ProposalFavorite dbItem = new tbl_ProposalFavorite();
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ProposalFavorite
+                                where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1
+                                select p).FirstOrDefault();
+                    if (item != null)
+                    {
+                        return item;
+                    }
+                    else
+                    {
+                        return dbItem;
+                    }
+
 
                 }
             }

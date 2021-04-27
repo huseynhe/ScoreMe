@@ -13,13 +13,16 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ScoreMe.DAL.DTO;
+using ScoreMe.DAL.Objects;
+using ScoreMe.DAL.Repositories;
 
 namespace ScoreMe.API.Controllers
 {
     [RoutePrefix("api/provider")]
     public class ProviderController : ApiController
     {
-     
+
         [HttpGet]
         [Route("GetProviders")]
         public List<tbl_Provider> GetProviders()
@@ -38,6 +41,20 @@ namespace ScoreMe.API.Controllers
             return providers;
         }
 
+        [HttpGet]
+        [Route("GetProviderReports/{providerID?}/{fromDate?}/{toDate?}")]
+        public List<ProviderReportDTO> GetProviderReports(Int64 providerID=0, DateTime? fromDate=null, DateTime? toDate=null)
+        {
+            Search search = new Search
+            {
+                ProviderID = providerID,
+                FromtDate = fromDate,
+                ToDate = toDate,
+            };
+            ProviderRepository repository = new ProviderRepository();
+            var providerReports = repository.SW_GetProviderReports(search);
+            return providerReports.ToList();
+        }
         [HttpPost]
         [ResponseType(typeof(tbl_Provider))]
         [Route("AddProvider")]
