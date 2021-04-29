@@ -137,5 +137,70 @@ namespace ScoreMe.DAL.Repositories
 
 
         }
+
+        public int SW_DeleteProposalUserGroup(Int64 proposalId) 
+        {
+            int numberOfRowsAffectedCount = 0 ;
+            try
+            {
+                var query = @"UPDATE [dbo].[tbl_ProposalUserGroup]
+                                SET Status=0
+                                WHERE ProposalID=@P_ProposalID ";
+
+                using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@P_ProposalID", proposalId);
+                        numberOfRowsAffectedCount = command.ExecuteNonQuery();
+
+                       
+
+                    }
+                    connection.Close();
+                    return numberOfRowsAffectedCount;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return -1;
+            }
+
+        }
+        public int SW_DeleteProposalDetail(Int64 proposalId)
+        {
+            int numberOfRowsAffectedCount = 0;
+            try
+            {
+                var query = @"UPDATE [dbo].[tbl_ProposalDetail]
+                                SET Status=0
+                                WHERE ProposalID=@P_ProposalID";
+
+                using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@P_ProposalID", proposalId);
+                        numberOfRowsAffectedCount = command.ExecuteNonQuery();
+
+
+
+                    }
+                    connection.Close();
+                    return numberOfRowsAffectedCount;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return -1;
+            }
+
+        }
     }
 }

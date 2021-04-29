@@ -42,8 +42,8 @@ namespace ScoreMe.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetProviderReports/{providerID?}/{fromDate?}/{toDate?}")]
-        public List<ProviderReportDTO> GetProviderReports(Int64 providerID=0, DateTime? fromDate=null, DateTime? toDate=null)
+        [Route("GetProviderReportsByDatePeriod/{providerID}/{fromDate}/{toDate}")]
+        public List<ProviderReportDTO> GetProviderReportsByDatePeriod(Int64 providerID, DateTime fromDate, DateTime toDate)
         {
             Search search = new Search
             {
@@ -55,6 +55,23 @@ namespace ScoreMe.API.Controllers
             var providerReports = repository.SW_GetProviderReports(search);
             return providerReports.ToList();
         }
+
+        [HttpGet]
+        [Route("GetProviderReportsByYearAndMonths{providerID}/{year}/{months}")]
+        public List<ProviderReportDTO> GetProviderReportsByYearAndMonths(Int64 providerID, int year, string months)
+        {
+           
+            Search search = new Search
+            {
+                ProviderID = providerID,
+                Year=year,
+                Months = months,
+            };
+            ProviderRepository repository = new ProviderRepository();
+            var providerReports = repository.SW_GetProviderReportsByYearAndMonths(search);
+            return providerReports.ToList();
+        }
+
         [HttpPost]
         [ResponseType(typeof(tbl_Provider))]
         [Route("AddProvider")]

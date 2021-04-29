@@ -1224,6 +1224,7 @@ namespace ScoreMe.Business
         public BaseOutput UpdateProposalWithDetail(Proposal item)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
+            ProposalRepository proposalRepository = new ProposalRepository();
             BaseOutput baseOutput;
             try
             {
@@ -1245,11 +1246,7 @@ namespace ScoreMe.Business
                 if (_Proposal != null)
                 {
                     //butun deteail list silinir
-                    List<tbl_ProposalDetail> dbdetails = cRUDOperation.GetProposalDetailsByProposalID(_Proposal.ID);
-                    foreach (var ditem in dbdetails)
-                    {
-                        cRUDOperation.DeleteProposalDetail(ditem.ID, 0);
-                    }
+                    int nrCount = proposalRepository.SW_DeleteProposalDetail(_Proposal.ID);
 
                     foreach (var pDetail in item.ProposalDetails)
                     {
@@ -1271,14 +1268,13 @@ namespace ScoreMe.Business
 
                     }
 
-                    if (!_Proposal.IsPublic)
+                    if (_Proposal.IsPublic)
                     {
-                        //butun usergruplar silinir list silinir
-                        List<tbl_ProposalUserGroup> db_proposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(_Proposal.ID);
-                        foreach (var ditem in db_proposalUserGroups)
-                        {
-                            cRUDOperation.DeleteProposalUserGroup(ditem.ID,0);
-                        }
+                        int nrUSCount = proposalRepository.SW_DeleteProposalUserGroup(_Proposal.ID);
+                    }
+                    else
+                    {
+                       int nrUSCount = proposalRepository.SW_DeleteProposalUserGroup(_Proposal.ID);
 
                         foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
                         {

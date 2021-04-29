@@ -28,5 +28,7 @@ namespace ScoreMe.DAL.Objects
 
         public DateTime? FromtDate { get; set; }
         public DateTime? ToDate { get; set; }
+        public int Year { get; set; }
+        public string Months { get; set; }
     }
 }
