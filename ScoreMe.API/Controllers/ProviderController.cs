@@ -43,7 +43,7 @@ namespace ScoreMe.API.Controllers
 
         [HttpGet]
         [Route("GetProviderReportsByDatePeriod/{providerID}/{fromDate}/{toDate}")]
-        public List<ProviderReportDTO> GetProviderReportsByDatePeriod(Int64 providerID, DateTime fromDate, DateTime toDate)
+        public ProviderReportDTO GetProviderReportsByDatePeriod(Int64 providerID, DateTime fromDate, DateTime toDate)
         {
             Search search = new Search
             {
@@ -52,13 +52,13 @@ namespace ScoreMe.API.Controllers
                 ToDate = toDate,
             };
             ProviderRepository repository = new ProviderRepository();
-            var providerReports = repository.SW_GetProviderReports(search);
-            return providerReports.ToList();
+            var providerReportDTO = repository.SW_GetProviderReportsByDatePeriod(search);
+            return providerReportDTO;
         }
 
         [HttpGet]
         [Route("GetProviderReportsByYearAndMonths{providerID}/{year}/{months}")]
-        public List<ProviderReportDTO> GetProviderReportsByYearAndMonths(Int64 providerID, int year, string months)
+        public ProviderReportDTO GetProviderReportsByYearAndMonths(Int64 providerID, int year, string months)
         {
            
             Search search = new Search
@@ -68,8 +68,8 @@ namespace ScoreMe.API.Controllers
                 Months = months,
             };
             ProviderRepository repository = new ProviderRepository();
-            var providerReports = repository.SW_GetProviderReportsByYearAndMonths(search);
-            return providerReports.ToList();
+            var providerReportDTO = repository.SW_GetProviderReportsByYearAndMonths(search);
+            return providerReportDTO;
         }
 
         [HttpPost]
@@ -103,7 +103,7 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
             Provider itemOut = null;
             BaseOutput dbitem = businessOperation.AddProviderWithUser(item, out itemOut);
             if (dbitem.ResultCode == 1)
@@ -123,7 +123,7 @@ namespace ScoreMe.API.Controllers
         public IHttpActionResult GetProviderWithUser(Int64 providerID)
         {
 
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
             Provider itemOut = null;
             BaseOutput dbitem = businessOperation.GetProviderByID(providerID, out itemOut);
             if (dbitem.ResultCode == 1)
@@ -160,10 +160,19 @@ namespace ScoreMe.API.Controllers
         [Route("DeleteProvider/{id}")]
         public IHttpActionResult DeleteProvider(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
 
-            var dbitem = operation.DeleteProvider(id, 0);
-            return Ok(dbitem);
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
+            tbl_Provider itemOut = null;
+            BaseOutput dbitem = businessOperation.DeleteProvider(id, out itemOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+            }
+         
 
         }
 
@@ -173,7 +182,7 @@ namespace ScoreMe.API.Controllers
         public IHttpActionResult GetProviderByUserName(string username)
         {
 
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
             Provider itemOut = null;
             BaseOutput dbitem = businessOperation.GetProviderByUserName(username, out itemOut);
             if (dbitem.ResultCode == 1)

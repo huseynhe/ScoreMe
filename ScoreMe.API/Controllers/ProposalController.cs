@@ -105,7 +105,7 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             Proposal itemOut = null;
             BaseOutput dbitem = businessOperation.AddProposalWithDetail(item,out itemOut);
             if (dbitem.ResultCode == 1)
@@ -128,7 +128,7 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
 
             BaseOutput dbitem = businessOperation.AddProposalWithDetailNew(item);
             if (dbitem.ResultCode == 1)
@@ -147,7 +147,7 @@ namespace ScoreMe.API.Controllers
         [Route("GetProposalWithDetailsByID/{id}")]
         public IHttpActionResult GetProposalWithDetailsByID(Int64 id)
         {
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             Proposal itemOut = null;
             BaseOutput dbitem = businessOperation.GetProposalByID(id, out itemOut);
             if (dbitem.ResultCode == 1)
@@ -164,7 +164,7 @@ namespace ScoreMe.API.Controllers
         [Route("GetProposalWithDetails")]
         public List<Proposal> GetProposalWithDetails()
         {
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposals(out itemsOut);
             if (dbitem.ResultCode == 1)
@@ -180,7 +180,7 @@ namespace ScoreMe.API.Controllers
         [Route("GetProposalWithDetailsByProviderID/{providerid}")]
         public List<Proposal> GetProposalWithDetailsByProviderID(Int64 providerid)
         {
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalsByProviderID(providerid, out itemsOut);
             if (dbitem.ResultCode == 1)
@@ -196,7 +196,7 @@ namespace ScoreMe.API.Controllers
         [Route("GetProposalWithDetailAndStatesByProviderID/{providerid}")]
         public List<Proposal> GetProposalWithDetailAndStatesByProviderID(Int64 providerid)
         {
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalsWithStateByProviderID(providerid, out itemsOut);
             if (dbitem.ResultCode == 1)
@@ -212,7 +212,7 @@ namespace ScoreMe.API.Controllers
         [Route("GetProposalWithDetailsByUserName/{username}")]
         public List<Proposal> GetProposalWithDetailsByUserName(string username)
         {
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalsByUserName(username, out itemsOut);
             if (dbitem.ResultCode == 1)
@@ -228,7 +228,7 @@ namespace ScoreMe.API.Controllers
         [Route("GetFavoriteProposalWithDetailsByUserName/{username}")]
         public List<Proposal> GetFavoriteProposalWithDetailsByUserName(string username)
         {
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetFavoriteProposalsByUserName(username, out itemsOut);
             if (dbitem.ResultCode == 1)
@@ -244,7 +244,7 @@ namespace ScoreMe.API.Controllers
         [Route("GetProposalWithDetailsByIsPublic/{username}")]
         public List<Proposal> GetProposalWithDetailsByIsPublic(string username)
         {
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalWithDetailsByIsPublic(username, out itemsOut);
             if (dbitem.ResultCode == 1)
@@ -265,7 +265,7 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
 
             BaseOutput dbitem = businessOperation.UpdateProposalWithDetail(item);
             if (dbitem.ResultCode == 1)
@@ -289,7 +289,7 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
 
             BaseOutput dbitem = businessOperation.DeleteProposalWithDetail(id);
             if (dbitem.ResultCode == 1)

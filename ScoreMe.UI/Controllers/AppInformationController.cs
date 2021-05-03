@@ -27,7 +27,7 @@ namespace ScoreMe.UI.Controllers
 
 
                 AppInformationVM viewModel = new AppInformationVM();
-                viewModel.RAppInformationList = cRUDOperation.GetAppInformations();
+                viewModel.RAppInformationList = cRUDOperation.GetAppGroupInformations();
 
                return View(viewModel);
             }
@@ -56,7 +56,7 @@ namespace ScoreMe.UI.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        tbl_AppInformation item = new tbl_AppInformation()
+                        tbl_AppGroupInformation item = new tbl_AppGroupInformation()
                         {
                             CategoryType = viewModel.CategoryType,
                             CategoryName = viewModel.CategoryName,
@@ -69,7 +69,7 @@ namespace ScoreMe.UI.Controllers
                         };
                         CRUDOperation dataOperations = new CRUDOperation();
 
-                        tbl_AppInformation operatorInformationControl = dataOperations.ControlAppInformation(item);
+                        tbl_AppGroupInformation operatorInformationControl = dataOperations.ControlAppGroupInformation(item);
                         if (operatorInformationControl != null)
                         {
                             TempData["success"] = "notOk";
@@ -78,7 +78,7 @@ namespace ScoreMe.UI.Controllers
                         }
                         else
                         {
-                            tbl_AppInformation dbItem = dataOperations.AddAppInformation(item);
+                            tbl_AppGroupInformation dbItem = dataOperations.UpdateAppGroupInformation(item);
                             if (dbItem != null)
                             {
                                 TempData["success"] = "Ok";
@@ -119,7 +119,7 @@ namespace ScoreMe.UI.Controllers
 
             CRUDOperation dataOperations = new CRUDOperation();
 
-            tbl_AppInformation tblItem = dataOperations.GetAppInformationById(id);
+            tbl_AppGroupInformation tblItem = dataOperations.GetAppGroupInformationById(id);
 
 
             viewModel.ID = id;
@@ -144,7 +144,7 @@ namespace ScoreMe.UI.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        tbl_AppInformation item = new tbl_AppInformation()
+                        tbl_AppGroupInformation item = new tbl_AppGroupInformation()
                         {
                             ID = viewModel.ID,
                             CategoryType = viewModel.CategoryType,
@@ -158,7 +158,7 @@ namespace ScoreMe.UI.Controllers
                         };
 
                         CRUDOperation dataOperations = new CRUDOperation();
-                        tbl_AppInformation dbItem = dataOperations.UpdateAppInformation(item);
+                        tbl_AppGroupInformation dbItem = dataOperations.UpdateAppGroupInformation(item);
                         if (dbItem != null)
                         {
                             TempData["success"] = "Ok";
@@ -193,7 +193,7 @@ namespace ScoreMe.UI.Controllers
                 var UserProfile = (UserProfileSessionData)this.Session["UserProfile"];
                 if (UserProfile != null)
                 {
-                    dataOperations.DeleteAppInformation(id, UserProfile.UserId);
+                    dataOperations.DeleteAppGroupInformation(id, UserProfile.UserId);
                 }
                 return RedirectToAction("Index");
             }

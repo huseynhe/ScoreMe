@@ -14,7 +14,7 @@ namespace ScoreMe.UI.Models
         public Search Search;
         public PagedList.IPagedList<int> Paging { get; set; }
         public int ListCount { get; set; }
-        public IList<tbl_AppInformation> RAppInformationList { get; set; }
+        public IList<tbl_AppGroupInformation> RAppInformationList { get; set; }
 
         public Int64 ID { get; set; }
 

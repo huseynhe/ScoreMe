@@ -36,5 +36,8 @@ namespace ScoreMe.DAL.ErrorManagment
 
         public static int NotExistRecordErrorCode = 21;
         public static string NotExistRecordErrorDesc = "This record is not exist. ";
+
+        public static int ProposalRecordExistErrorCode = 22;
+        public static string ProposalRecordExistErrorDesc = "This provider has proposals";
     }
 }

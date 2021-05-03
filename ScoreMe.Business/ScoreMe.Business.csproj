@@ -57,6 +57,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ProposalBusinessOperation.cs" />
+    <Compile Include="ProviderBusinessOperation.cs" />
     <Compile Include="Util\UserUtil.cs" />
     <Compile Include="Web References\poctgoyerciniSRV\Reference.cs">
       <AutoGen>True</AutoGen>

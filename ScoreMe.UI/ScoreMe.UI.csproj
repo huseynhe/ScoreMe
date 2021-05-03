@@ -153,6 +153,7 @@
     <Compile Include="Controllers\AmReportController.cs" />
     <Compile Include="Controllers\AppConsumeReportController.cs" />
     <Compile Include="Controllers\AppInformationController.cs" />
+    <Compile Include="Controllers\ApplicationInformationController.cs" />
     <Compile Include="Controllers\CallReportController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\EnumCategoryController.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Models\AccessRightVM.cs" />
     <Compile Include="Models\AppConsumeReportVM.cs" />
     <Compile Include="Models\AppInformationVM.cs" />
+    <Compile Include="Models\ApplicationInformationVM.cs" />
     <Compile Include="Models\CALLReportVM.cs" />
     <Compile Include="Models\EmployeeVM.cs" />
     <Compile Include="Models\EnumVM.cs" />
@@ -2099,6 +2101,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Content\tempOfficialFile\" />
     <Folder Include="Content\tempOutFile\" />
+    <Folder Include="Views\ApplicationInformation\" />
     <Folder Include="Views\UserPhoneInformation\" />
   </ItemGroup>
   <ItemGroup>

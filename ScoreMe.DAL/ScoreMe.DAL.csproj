@@ -89,7 +89,10 @@
     <Compile Include="DBModel\tbl_AppConsumeModel.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DBModel\tbl_AppInformation.cs">
+    <Compile Include="DBModel\tbl_AppGroupInformation.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DBModel\tbl_ApplicationInformation.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_CALLDetail.cs">
@@ -240,6 +243,7 @@
     <Compile Include="DTO\PackageDTO.cs" />
     <Compile Include="DTO\PackagePriceDTO.cs" />
     <Compile Include="DTO\PersonDTO.cs" />
+    <Compile Include="DTO\ProposalDTO.cs" />
     <Compile Include="DTO\ProviderReportDTO.cs" />
     <Compile Include="DTO\ReportDTO.cs" />
     <Compile Include="DTO\SMSReportDTO.cs" />
@@ -268,6 +272,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AccessRightsRepository.cs" />
     <Compile Include="Repositories\AppConsumeRepository.cs" />
+    <Compile Include="Repositories\ApplicationInformationRepository.cs" />
     <Compile Include="Repositories\CALLRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\EnumRepository.cs" />

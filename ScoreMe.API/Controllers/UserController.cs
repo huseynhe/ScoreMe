@@ -14,10 +14,13 @@ using System.Web.Http.Description;
 using System.Web;
 using System.IO;
 using System.Net.Http.Headers;
+using ScoreMe.API.Attribute;
+using System.Web.Http.Cors;
 
 namespace ScoreMe.API.Controllers
 {
-
+    //[EnableCorsAttribute("*","*","*")]
+    //[CustomAuthenticationFilter]
     [RoutePrefix("api/user")]
     public class UserController : ApiController
     {

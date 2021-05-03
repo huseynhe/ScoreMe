@@ -104,7 +104,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
-        <EntityType Name="tbl_AppInformation">
+        <EntityType Name="tbl_AppGroupInformation">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -116,6 +116,24 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="PointUsage" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PriceCount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="PointCount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="datetime2" Precision="7" />
+          <Property Name="InsertUser" Type="bigint" />
+          <Property Name="UpdateDate" Type="datetime2" Precision="7" />
+          <Property Name="UpdateUser" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_ApplicationInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Platform" Type="nvarchar" MaxLength="500" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="100" />
+          <Property Name="AppName" Type="nvarchar" MaxLength="500" />
+          <Property Name="Author" Type="nvarchar" MaxLength="500" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Point" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NetUsage" Type="nvarchar" MaxLength="50" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -919,7 +937,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_AccessRight" EntityType="Self.tbl_AccessRight" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_AppConsumeDetail" EntityType="Self.tbl_AppConsumeDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_AppConsumeModel" EntityType="Self.tbl_AppConsumeModel" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_AppInformation" EntityType="Self.tbl_AppInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_AppGroupInformation" EntityType="Self.tbl_AppGroupInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ApplicationInformation" EntityType="Self.tbl_ApplicationInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLDetail" EntityType="Self.tbl_CALLDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLModel" EntityType="Self.tbl_CALLModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CALLReport" EntityType="Self.tbl_CALLReport" Schema="dbo" store:Type="Tables" />
@@ -1002,7 +1021,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_AccessRight" EntityType="DB_A62358_ScoreMeModel.tbl_AccessRight" />
           <EntitySet Name="tbl_AppConsumeDetail" EntityType="DB_A62358_ScoreMeModel.tbl_AppConsumeDetail" />
           <EntitySet Name="tbl_AppConsumeModel" EntityType="DB_A62358_ScoreMeModel.tbl_AppConsumeModel" />
-          <EntitySet Name="tbl_AppInformation" EntityType="DB_A62358_ScoreMeModel.tbl_AppInformation" />
+          <EntitySet Name="tbl_AppGroupInformation" EntityType="DB_A62358_ScoreMeModel.tbl_AppGroupInformation" />
+          <EntitySet Name="tbl_ApplicationInformation" EntityType="DB_A62358_ScoreMeModel.tbl_ApplicationInformation" />
           <EntitySet Name="tbl_CALLDetail" EntityType="DB_A62358_ScoreMeModel.tbl_CALLDetail" />
           <EntitySet Name="tbl_CALLModel" EntityType="DB_A62358_ScoreMeModel.tbl_CALLModel" />
           <EntitySet Name="tbl_CALLReport" EntityType="DB_A62358_ScoreMeModel.tbl_CALLReport" />
@@ -1022,6 +1042,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_ProposalCommission" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalCommission" />
           <EntitySet Name="tbl_ProposalDetail" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalDetail" />
           <EntitySet Name="tbl_ProposalDocument" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalDocument" />
+          <EntitySet Name="tbl_ProposalFavorite" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalFavorite" />
           <EntitySet Name="tbl_ProposalLikeDislike" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalLikeDislike" />
           <EntitySet Name="tbl_ProposalUserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserGroup" />
           <EntitySet Name="tbl_ProposalUserSave" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserSave" />
@@ -1050,7 +1071,6 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_UserServiceRating" EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" />
           <EntitySet Name="log_DataChange" EntityType="DB_A62358_ScoreMeModel.log_DataChange" />
           <EntitySet Name="log_Login" EntityType="DB_A62358_ScoreMeModel.log_Login" />
-          <EntitySet Name="tbl_ProposalFavorite" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalFavorite" />
         </EntityContainer>
         <EntityType Name="ProviderType">
           <Key>
@@ -1117,7 +1137,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
-        <EntityType Name="tbl_AppInformation">
+        <EntityType Name="tbl_AppGroupInformation">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -1129,6 +1149,24 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="PointUsage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PriceCount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PointCount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_ApplicationInformation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Platform" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="GroupName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AppName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Point" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NetUsage" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1478,6 +1516,20 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
+        <EntityType Name="tbl_ProposalFavorite">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ProposalID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="IsFavorite" Type="Int32" Nullable="false" />
+          <Property Name="InsertDate" Type="DateTime" Precision="7" />
+          <Property Name="InsertUser" Type="Int64" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
+          <Property Name="UpdateUser" Type="Int64" />
+        </EntityType>
         <EntityType Name="tbl_ProposalLikeDislike">
           <Key>
             <PropertyRef Name="ID" />
@@ -1551,6 +1603,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Type" Type="Int64" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RegionId" Type="Int64" />
+          <Property Name="Longitudes" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Latitudes" Type="Decimal" Precision="9" Scale="6" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RelatedPersonName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="RelatedPersonProfession" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1563,8 +1617,6 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
-          <Property Name="Longitudes" Type="Decimal" Precision="9" Scale="6" />
-          <Property Name="Latitudes" Type="Decimal" Precision="9" Scale="6" />
         </EntityType>
         <EntityType Name="tbl_ProviderRole">
           <Key>
@@ -1943,20 +1995,6 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="PasswordChangeDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Int32" />
         </EntityType>
-        <EntityType Name="tbl_ProposalFavorite">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="ProposalID" Type="Int64" Nullable="false" />
-          <Property Name="UserID" Type="Int64" Nullable="false" />
-          <Property Name="IsFavorite" Type="Int32" Nullable="false" />
-          <Property Name="InsertDate" Type="DateTime" Precision="7" />
-          <Property Name="InsertUser" Type="Int64" />
-          <Property Name="UpdateDate" Type="DateTime" Precision="7" />
-          <Property Name="UpdateUser" Type="Int64" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2032,9 +2070,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_AppInformation">
-            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AppInformation">
-              <MappingFragment StoreEntitySet="tbl_AppInformation">
+          <EntitySetMapping Name="tbl_AppGroupInformation">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AppGroupInformation">
+              <MappingFragment StoreEntitySet="tbl_AppGroupInformation">
                 <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
@@ -2045,6 +2083,25 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="PriceUsage" ColumnName="PriceUsage" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ApplicationInformation">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ApplicationInformation">
+              <MappingFragment StoreEntitySet="tbl_ApplicationInformation">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="NetUsage" ColumnName="NetUsage" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="AppName" ColumnName="AppName" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="Platform" ColumnName="Platform" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
@@ -2413,6 +2470,21 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ProposalFavorite">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalFavorite">
+              <MappingFragment StoreEntitySet="tbl_ProposalFavorite">
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="IsFavorite" ColumnName="IsFavorite" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalLikeDislike">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalLikeDislike">
               <MappingFragment StoreEntitySet="tbl_ProposalLikeDislike">
@@ -2481,8 +2553,6 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySetMapping Name="tbl_Provider">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Provider">
               <MappingFragment StoreEntitySet="tbl_Provider">
-                <ScalarProperty Name="Latitudes" ColumnName="Latitudes" />
-                <ScalarProperty Name="Longitudes" ColumnName="Longitudes" />
                 <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
                 <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
                 <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
@@ -2495,6 +2565,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="RelatedPersonProfession" ColumnName="RelatedPersonProfession" />
                 <ScalarProperty Name="RelatedPersonName" ColumnName="RelatedPersonName" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Latitudes" ColumnName="Latitudes" />
+                <ScalarProperty Name="Longitudes" ColumnName="Longitudes" />
                 <ScalarProperty Name="RegionId" ColumnName="RegionId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
@@ -2901,21 +2973,6 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="UserIPAddress" ColumnName="UserIPAddress" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_ProposalFavorite">
-            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalFavorite">
-              <MappingFragment StoreEntitySet="tbl_ProposalFavorite">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="IsFavorite" ColumnName="IsFavorite" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

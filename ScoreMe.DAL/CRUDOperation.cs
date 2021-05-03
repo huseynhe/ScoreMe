@@ -37,7 +37,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_Provider DeleteProvider(Int64 id, int userId)
+        public tbl_Provider DeleteProvider(Int64 id, Int64 userId)
         {
 
             try
@@ -1379,6 +1379,8 @@ namespace ScoreMe.DAL
                         oldItem.Note = item.Note;
                         oldItem.ProviderID = item.ProviderID;
                         oldItem.IsPublic = item.IsPublic;
+                        oldItem.StartDate = item.StartDate;
+                        oldItem.EndDate = item.EndDate;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -7269,6 +7271,30 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_ProposalLikeDislike> GetProposalLikeDislikeByPropsalId(Int64 proposalId)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var items = (from p in context.tbl_ProposalLikeDislike
+                                where p.ProposalID == proposalId  && p.Status == 1
+                                select p).ToList();
+                    return items;
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_ProposalLikeDislike GetProposalLikeDislikeByPropsalIdAndUserIDNotNull(Int64 proposalId, Int64 userId)
         {
             tbl_ProposalLikeDislike dbItem = new tbl_ProposalLikeDislike();
@@ -8856,8 +8882,8 @@ namespace ScoreMe.DAL
         }
         #endregion
 
-        #region tbl_AppInformation
-        public tbl_AppInformation ControlAppInformation(tbl_AppInformation oi)
+        #region tbl_AppGroupInformation
+        public tbl_AppGroupInformation ControlAppGroupInformation(tbl_AppGroupInformation oi)
         {
 
             try
@@ -8866,7 +8892,7 @@ namespace ScoreMe.DAL
                 {
 
 
-                    var item = (from p in context.tbl_AppInformation
+                    var item = (from p in context.tbl_AppGroupInformation
                                 where p.CategoryType == oi.CategoryType
                                    && p.CategoryName == oi.CategoryName
                                    && p.Status == 1
@@ -8883,7 +8909,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_AppInformation AddAppInformation(tbl_AppInformation item)
+        public tbl_AppGroupInformation AddAppGroupInformation(tbl_AppGroupInformation item)
         {
 
             try
@@ -8893,7 +8919,7 @@ namespace ScoreMe.DAL
                     item.Status = 1;
                     item.InsertDate = DateTime.Now;
                     item.UpdateDate = DateTime.Now;
-                    context.tbl_AppInformation.Add(item);
+                    context.tbl_AppGroupInformation.Add(item);
                     context.SaveChanges();
                     return item;
 
@@ -8905,16 +8931,16 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_AppInformation DeleteAppInformation(Int64 id, Int64 userId)
+        public tbl_AppGroupInformation DeleteAppGroupInformation(Int64 id, Int64 userId)
         {
 
             try
             {
-                tbl_AppInformation oldItem;
+                tbl_AppGroupInformation oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
 
-                    oldItem = (from p in context.tbl_AppInformation
+                    oldItem = (from p in context.tbl_AppGroupInformation
                                where p.ID == id && p.Status == 1
                                select p).FirstOrDefault();
 
@@ -8927,7 +8953,7 @@ namespace ScoreMe.DAL
                         oldItem.Status = 0;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = userId;
-                        context.tbl_AppInformation.Attach(oldItem);
+                        context.tbl_AppGroupInformation.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
 
@@ -8948,14 +8974,14 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_AppInformation> GetAppInformations()
+        public List<tbl_AppGroupInformation> GetAppGroupInformations()
         {
 
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    var items = (from p in context.tbl_AppInformation
+                    var items = (from p in context.tbl_AppGroupInformation
                                  where p.Status == 1
                                  select p);
 
@@ -8969,7 +8995,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_AppInformation GetAppInformationById(Int64 Id)
+        public tbl_AppGroupInformation GetAppGroupInformationById(Int64 Id)
         {
 
             try
@@ -8978,7 +9004,7 @@ namespace ScoreMe.DAL
                 {
 
 
-                    var item = (from p in context.tbl_AppInformation
+                    var item = (from p in context.tbl_AppGroupInformation
                                 where p.ID == Id && p.Status == 1
                                 select p).FirstOrDefault();
 
@@ -8993,14 +9019,14 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_AppInformation UpdateAppInformation(tbl_AppInformation item)
+        public tbl_AppGroupInformation UpdateAppGroupInformation(tbl_AppGroupInformation item)
         {
             try
             {
-                tbl_AppInformation oldItem;
+                tbl_AppGroupInformation oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    oldItem = (from p in context.tbl_AppInformation
+                    oldItem = (from p in context.tbl_AppGroupInformation
                                where p.ID == item.ID && p.Status == 1
                                select p).FirstOrDefault();
 
@@ -9018,7 +9044,7 @@ namespace ScoreMe.DAL
                         oldItem.PriceUsage = item.PriceUsage;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
-                        context.tbl_AppInformation.Attach(oldItem);
+                        context.tbl_AppGroupInformation.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
                         return oldItem;
@@ -9042,7 +9068,7 @@ namespace ScoreMe.DAL
         }
         #endregion
 
-        #region tbl_AppInformation
+        #region tbl_UserPhoneInforamtion
         public bool ControlUserPhoneInformation(tbl_UserPhoneInforamtion oi)
         {
 
@@ -9427,6 +9453,30 @@ namespace ScoreMe.DAL
             }
 
         }
+        public List<tbl_ProposalFavorite> GetProposalFavoriteByPropsalId(Int64 proposalId)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var items = (from p in context.tbl_ProposalFavorite
+                                where p.ProposalID == proposalId  && p.Status == 1
+                                select p).ToList();
+
+                    return items;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_ProposalFavorite UpdateProposalFavorite(tbl_ProposalFavorite item)
         {
             try
@@ -9552,5 +9602,190 @@ namespace ScoreMe.DAL
 
         #endregion
 
+        #region tbl_ApplicationInformation
+        public tbl_ApplicationInformation ControlApplicationInformation(tbl_ApplicationInformation oi)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ApplicationInformation
+                                where p.AppName == oi.AppName
+                                   && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_ApplicationInformation AddApplicationInformation(tbl_ApplicationInformation item)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    item.UpdateDate = DateTime.Now;
+                    context.tbl_ApplicationInformation.Add(item);
+                    context.SaveChanges();
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_ApplicationInformation DeleteApplicationInformation(Int64 id, Int64 userId)
+        {
+
+            try
+            {
+                tbl_ApplicationInformation oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_ApplicationInformation
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_ApplicationInformation.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_ApplicationInformation> GetApplicationInformations()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_ApplicationInformation
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_ApplicationInformation GetApplicationInformationById(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ApplicationInformation
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_ApplicationInformation UpdateApplicationInformation(tbl_ApplicationInformation item)
+        {
+            try
+            {
+                tbl_ApplicationInformation oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_ApplicationInformation
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+                        oldItem.Platform = item.Platform;
+                        oldItem.GroupName = item.GroupName;
+                        oldItem.AppName = item.AppName;
+                        oldItem.Author = item.Author;
+                        oldItem.Price = item.Price;
+                        oldItem.Point = item.Point;
+                        oldItem.NetUsage = item.NetUsage;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+                        context.tbl_ApplicationInformation.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
     }
 }

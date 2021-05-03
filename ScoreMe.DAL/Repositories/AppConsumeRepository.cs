@@ -14,17 +14,17 @@ namespace ScoreMe.DAL.Repositories
 {
     public class AppConsumeRepository
     {
-        private List<tbl_AppInformation> AppInformationList = null;
+        private List<tbl_AppGroupInformation> AppInformationList = null;
         
         public AppConsumeRepository()
         {
-            AppInformationList = GetAppInformations();
+            AppInformationList = GetAppGroupInformations();
         }
-        private List<tbl_AppInformation> GetAppInformations()
+        private List<tbl_AppGroupInformation> GetAppGroupInformations()
         {
 
             CRUDOperation cRUDOperation = new CRUDOperation();
-            List<tbl_AppInformation> appInformations = cRUDOperation.GetAppInformations();
+            List<tbl_AppGroupInformation> appInformations = cRUDOperation.GetAppGroupInformations();
             return appInformations;
 
 

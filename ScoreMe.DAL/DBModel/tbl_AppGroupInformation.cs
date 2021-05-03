@@ -12,7 +12,7 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_AppInformation
+    public partial class tbl_AppGroupInformation
     {
         public long ID { get; set; }
         public int Status { get; set; }

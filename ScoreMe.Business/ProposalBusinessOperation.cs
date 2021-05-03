@@ -1,0 +1,1032 @@
+﻿using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
+using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.DTO;
+using ScoreMe.DAL.Enum;
+using ScoreMe.DAL.ErrorManagment;
+using ScoreMe.DAL.Model;
+using ScoreMe.DAL.Objects;
+using ScoreMe.DAL.Repositories;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ScoreMe.Business
+{
+    public class ProposalBusinessOperation
+    {
+        #region Proposal
+        public BaseOutput AddProposalWithDetail(Proposal item, out Proposal itemOut)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+                tbl_Proposal proposal = new tbl_Proposal()
+                {
+                    Name = item.Name,
+                    Description = item.Description,
+                    Note = item.Note,
+                    ProviderID = item.ProviderID,
+                    IsPublic = item.IsPublic,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate
+
+                };
+
+                tbl_Proposal _Proposal = cRUDOperation.AddProposal(proposal);
+
+                if (_Proposal != null)
+                {
+                    itemOut = new Proposal()
+                    {
+                        ID = _Proposal.ID,
+                        Name = _Proposal.Name,
+                        Description = _Proposal.Description,
+                        Note = _Proposal.Note,
+                        ProviderID = _Proposal.ProviderID,
+                        IsPublic = _Proposal.IsPublic,
+                        StartDate = _Proposal.StartDate,
+                        EndDate = _Proposal.EndDate
+                    };
+                    foreach (var pDetail in item.ProposalDetails)
+                    {
+                        tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
+                        {
+                            ProposalID = _Proposal.ID,
+                            ProposolKey = pDetail.ProposolKey,
+                            ProposolValue = pDetail.ProposolValue,
+                        };
+
+                        tbl_ProposalDetail _ProposalDetail = cRUDOperation.AddProposalDetail(proposalDetail);
+
+                    }
+
+                    if (!_Proposal.IsPublic)
+                    {
+                        foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
+                        {
+                            tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
+                            {
+                                ProposalID = _Proposal.ID,
+                                GroupID = userGroup.GroupID,
+
+
+                            };
+
+                            tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroup(proposalUserGroup);
+
+                        }
+                    }
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddProposalWithDetailNew(Proposal item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_Proposal proposal = new tbl_Proposal()
+                {
+                    Name = item.Name,
+                    Description = item.Description,
+                    Note = item.Note,
+                    ProviderID = item.ProviderID,
+                    IsPublic = item.IsPublic,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate
+
+                };
+
+                List<tbl_ProposalDetail> tbl_ProposalDetails = new List<tbl_ProposalDetail>();
+                List<tbl_ProposalUserGroup> tbl_ProposalUserGroups = new List<tbl_ProposalUserGroup>();
+                foreach (var pDetail in item.ProposalDetails)
+                {
+                    tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
+                    {
+                        ProposolKey = pDetail.ProposolKey,
+                        ProposolValue = pDetail.ProposolValue,
+                    };
+                    tbl_ProposalDetails.Add(proposalDetail);
+                }
+
+                if (!item.IsPublic)
+                {
+                    foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
+                    {
+                        tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
+                        {
+                            GroupID = userGroup.GroupID,
+                        };
+                        tbl_ProposalUserGroups.Add(proposalUserGroup);
+
+                    }
+                }
+                tbl_Proposal _Proposal = cRUDOperation.AddProposalNew(proposal, tbl_ProposalDetails, tbl_ProposalUserGroups);
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalByID(Int64 id, out Proposal proposal)
+        {
+            ProposalRepository repository = new ProposalRepository();
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            proposal = null;
+            try
+            {
+
+                Search search = new Search()
+                {
+                    ProposalID = id,
+                };
+
+                ProposalDTO proposalItem = repository.SW_GePropsals(search).FirstOrDefault();
+
+                if (proposalItem != null)
+                {
+                    proposal = new Proposal()
+                    {
+                        ID = proposalItem.ProposalID,
+                        Name = proposalItem.ProposalName,
+                        Description = proposalItem.Description,
+                        Note = proposalItem.Note,
+                        ProviderID = proposalItem.ProviderID,
+                        UserID = proposalItem.OwnerUserID,
+                        ProviderName = proposalItem.ProposalName,
+                        IsPublic = proposalItem.IsPublic,
+                        StartDate = proposalItem.StartDate,
+                        EndDate = proposalItem.EndDate,
+                        ProviderType = proposalItem.ProviderType,
+                        ProviderTypeCode = proposalItem.ProviderTypeCode
+
+                    };
+
+                    List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                    List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposal.ID);
+
+                    foreach (var item in tbl_ProposalDetails)
+                    {
+                        ProposalDetail proposalDetail = new ProposalDetail()
+                        {
+                            ID = item.ID,
+                            ProposalID = item.ProposalID,
+                            ProposolKey = item.ProposolKey,
+                            ProposolValue = item.ProposolValue,
+                        };
+                        proposalDetails.Add(proposalDetail);
+
+                    }
+                    proposal.ProposalDetails = proposalDetails;
+
+                    if (!proposal.IsPublic)
+                    {
+                        List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                        List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                        foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                        {
+                            ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                            {
+                                ID = userGroup.ID,
+                                ProposalID = userGroup.ProposalID,
+                                GroupID = userGroup.GroupID,
+
+
+                            };
+
+                            proposalUserGroups.Add(proposalUserGroup);
+
+                        }
+                        proposal.ProposalUserGroups = proposalUserGroups;
+                    }
+                    proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposals(out List<Proposal> proposals)
+        {
+            ProposalRepository repository = new ProposalRepository();
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                Search search = new Search();
+
+                IList<ProposalDTO> proposalDTOs = repository.SW_GePropsals(search);
+                proposals = new List<Proposal>();
+
+                if (proposalDTOs.Count > 0)
+                {
+                    foreach (var proposalItem in proposalDTOs)
+                    {
+
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ProposalID,
+                            Name = proposalItem.ProposalName,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = proposalItem.OwnerUserID,
+                            ProviderName = proposalItem.ProposalName,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                            ProviderType = proposalItem.ProviderType,
+                            ProviderTypeCode = proposalItem.ProviderTypeCode
+
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposal.ID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                        proposals.Add(proposal);
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalsByProviderID(Int64 providerid, out List<Proposal> proposals)
+        {
+            ProposalRepository repository = new ProposalRepository();
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                Search search = new Search()
+                {
+                    ProviderID = providerid,
+                };
+
+                IList<ProposalDTO> proposalDTOs = repository.SW_GePropsals(search);
+
+                proposals = new List<Proposal>();
+
+                if (proposalDTOs.Count > 0)
+                {
+
+                    foreach (var proposalItem in proposalDTOs)
+                    {
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ProposalID,
+                            Name = proposalItem.ProposalName,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = proposalItem.OwnerUserID,
+                            ProviderName = proposalItem.ProposalName,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                            ProviderType = proposalItem.ProviderType,
+                            ProviderTypeCode = proposalItem.ProviderTypeCode
+
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ProposalID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                        proposals.Add(proposal);
+
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalsWithStateByProviderID(Int64 providerid, out List<Proposal> proposals)
+        {
+            ProposalRepository repository = new ProposalRepository();
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                Search search = new Search()
+                {
+                    ProviderID = providerid,
+                };
+
+                IList<ProposalDTO> proposalDTOs = repository.SW_GePropsals(search);
+
+                proposals = new List<Proposal>();
+
+                if (proposalDTOs.Count > 0)
+                {
+                    foreach (var proposalItem in proposalDTOs)
+                    {
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ProposalID,
+                            Name = proposalItem.ProposalName,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = proposalItem.OwnerUserID,
+                            ProviderName = proposalItem.ProposalName,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                            ProviderType = proposalItem.ProviderType,
+                            ProviderTypeCode = proposalItem.ProviderTypeCode
+
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposal.ID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                        List<ProposalUserState> ProposalUserStates = repository.GetProposalUserStateByProposalID(proposal.ID);
+                        proposal.ProposalUserStateList = ProposalUserStates;
+                        proposals.Add(proposal);
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalsByUserName(string username, out List<Proposal> proposals)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            ProposalRepository repository = new ProposalRepository();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                Search search = new Search()
+                {
+                    UserName = username,
+                };
+
+                IList<ProposalDTO> proposalDTOs = repository.SW_GePropsalsByUserName(search);
+                proposals = new List<Proposal>();
+
+                if (proposalDTOs.Count > 0)
+                {
+                    foreach (var proposalItem in proposalDTOs)
+                    {
+                        tbl_ProposalLikeDislike proposalLikeDislikeDB = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserIDNotNull(proposalItem.ProposalID, proposalItem.UserID);
+                        tbl_ProposalFavorite proposalFavoriteDB = cRUDOperation.GetProposalFavoriteByPropsalIdAndUserIDNotNull(proposalItem.ProposalID, proposalItem.UserID);
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ProposalID,
+                            Name = proposalItem.ProposalName,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = proposalItem.OwnerUserID,
+                            ProviderName = proposalItem.ProposalName,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                            ProviderType = proposalItem.ProviderType,
+                            ProviderTypeCode = proposalItem.ProviderTypeCode,
+                            IsLike = proposalLikeDislikeDB.IsLike == 1 ? true : false,
+                            IsDislike = proposalLikeDislikeDB.IsDislike == 1 ? true : false,
+                            IsFavorite = proposalFavoriteDB.IsFavorite == 1 ? true : false,
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ProposalID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+
+                        ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(proposalItem.UserID, proposalItem.ProposalID);
+                        proposal.ProposalUserState = proposalUserState;
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                        proposals.Add(proposal);
+
+
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetFavoriteProposalsByUserName(string username, out List<Proposal> proposals)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            ProposalRepository repository = new ProposalRepository();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                Search search = new Search()
+                {
+                    UserName = username,
+                };
+
+                IList<ProposalDTO> proposalDTOs = repository.SW_GetFavoriteProposalsByUserName(search);
+                proposals = new List<Proposal>();
+
+                if (proposalDTOs.Count > 0)
+                {
+                    foreach (var proposalItem in proposalDTOs)
+                    {
+                        tbl_ProposalLikeDislike proposalLikeDislikeDB = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserIDNotNull(proposalItem.ProposalID, proposalItem.UserID);
+
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ProposalID,
+                            Name = proposalItem.ProposalName,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = proposalItem.OwnerUserID,
+                            ProviderName = proposalItem.ProposalName,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                            ProviderType = proposalItem.ProviderType,
+                            ProviderTypeCode = proposalItem.ProviderTypeCode,
+                            IsLike = proposalLikeDislikeDB.IsLike == 1 ? true : false,
+                            IsDislike = proposalLikeDislikeDB.IsDislike == 1 ? true : false,
+                            IsFavorite = true,
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ProposalID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            {
+                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                {
+                                    ID = userGroup.ID,
+                                    ProposalID = userGroup.ProposalID,
+                                    GroupID = userGroup.GroupID,
+
+
+                                };
+
+                                proposalUserGroups.Add(proposalUserGroup);
+
+                            }
+                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+
+                        ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(proposalItem.UserID, proposalItem.ProposalID);
+                        proposal.ProposalUserState = proposalUserState;
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                        proposals.Add(proposal);
+
+
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalWithDetailsByIsPublic(string username, out List<Proposal> proposals)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            ProposalRepository repository = new ProposalRepository();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                tbl_User userDB = cRUDOperation.GetUserByUserName(username);
+                Search search = new Search();
+
+
+                IList<ProposalDTO> proposalDTOs = repository.SW_GetProposalsByIsPublic(search);
+                proposals = new List<Proposal>();
+
+                if (proposalDTOs.Count > 0)
+                {
+                    foreach (var proposalItem in proposalDTOs)
+                    {
+
+                        tbl_ProposalLikeDislike proposalLikeDislikeDB = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserIDNotNull(proposalItem.ProposalID, userDB.ID);
+                        tbl_ProposalFavorite proposalFavoriteDB = cRUDOperation.GetProposalFavoriteByPropsalIdAndUserIDNotNull(proposalItem.ProposalID, userDB.ID);
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ProposalID,
+                            Name = proposalItem.ProposalName,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = proposalItem.OwnerUserID,
+                            ProviderName = proposalItem.ProposalName,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                            ProviderType = proposalItem.ProviderType,
+                            ProviderTypeCode = proposalItem.ProviderTypeCode,
+                            IsLike = proposalLikeDislikeDB.IsLike == 1 ? true : false,
+                            IsDislike = proposalLikeDislikeDB.IsDislike == 1 ? true : false,
+                            IsFavorite = proposalFavoriteDB.IsFavorite == 1 ? true : false,
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposalItem.ProposalID);
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(userDB.ID, proposal.ID);
+                        proposal.ProposalUserState = proposalUserState;
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                        proposals.Add(proposal);
+
+
+
+                    }
+
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateProposalWithDetail(Proposal item)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            ProposalRepository proposalRepository = new ProposalRepository();
+            BaseOutput baseOutput;
+            try
+            {
+                tbl_Proposal proposal = new tbl_Proposal()
+                {
+                    ID = item.ID,
+                    Name = item.Name,
+                    Description = item.Description,
+                    Note = item.Note,
+                    ProviderID = item.ProviderID,
+                    IsPublic = item.IsPublic,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate
+
+                };
+
+                tbl_Proposal _Proposal = cRUDOperation.UpdateProposal(proposal);
+
+                if (_Proposal != null)
+                {
+                    //butun deteail list silinir
+                    int nrCount = proposalRepository.SW_DeleteProposalDetail(_Proposal.ID);
+
+                    foreach (var pDetail in item.ProposalDetails)
+                    {
+                        tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
+                        {
+                            ID = pDetail.ID,
+                            ProposalID = _Proposal.ID,
+                            ProposolKey = pDetail.ProposolKey,
+                            ProposolValue = pDetail.ProposolValue,
+
+                        };
+                        if (proposalDetail.ID != 0)
+                        {
+                            tbl_ProposalDetail _ProposalDetail = cRUDOperation.UpdateProposalDetail(proposalDetail);
+                        }
+                        else
+                        {
+                            tbl_ProposalDetail _ProposalDetail = cRUDOperation.AddProposalDetail(proposalDetail);
+                        }
+
+                    }
+
+                    if (_Proposal.IsPublic)
+                    {
+                        int nrUSCount = proposalRepository.SW_DeleteProposalUserGroup(_Proposal.ID);
+                    }
+                    else
+                    {
+                        int nrUSCount = proposalRepository.SW_DeleteProposalUserGroup(_Proposal.ID);
+
+                        foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
+                        {
+                            tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
+                            {
+                                ID = userGroup.ID,
+                                ProposalID = _Proposal.ID,
+                                GroupID = userGroup.GroupID,
+
+
+                            };
+                            if (proposalUserGroup.ID != 0)
+                            {
+                                tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.UpdateProposalUserGroup(proposalUserGroup);
+                            }
+                            else
+                            {
+                                tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroup(proposalUserGroup);
+                            }
+
+
+                        }
+                    }
+
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteProposalWithDetail(Int64 id)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            try
+            {
+
+                tbl_Proposal _Proposal = cRUDOperation.GetProposalById(id);
+
+                if (_Proposal != null)
+                {
+                    List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(_Proposal.ID);
+
+                    foreach (var item in tbl_ProposalDetails)
+                    {
+
+                        tbl_ProposalDetail dbitem = cRUDOperation.DeleteProposalDetail(item.ID, 0);
+
+                    }
+
+                    List<tbl_ProposalDocument> tbl_ProposalDocuments = cRUDOperation.GetProposalDocumentsByProposalID(_Proposal.ID);
+
+                    foreach (var item in tbl_ProposalDocuments)
+                    {
+
+                        tbl_ProposalDocument dbitem = cRUDOperation.DeleteProposalDocument(item.ID, 0);
+
+                    }
+
+                    List<tbl_ProposalLikeDislike> tbl_ProposalLikeDislikes = cRUDOperation.GetProposalLikeDislikeByPropsalId(_Proposal.ID);
+
+                    foreach (var item in tbl_ProposalLikeDislikes)
+                    {
+
+                        tbl_ProposalLikeDislike dbitem = cRUDOperation.DeleteProposalLikeDislike(item.ID, 0);
+
+                    }
+
+                    List<tbl_ProposalFavorite> tbl_ProposalFavorites = cRUDOperation.GetProposalFavoriteByPropsalId(_Proposal.ID);
+
+                    foreach (var item in tbl_ProposalFavorites)
+                    {
+
+                        tbl_ProposalFavorite dbitem = cRUDOperation.DeleteProposalFavorite(item.ID, 0);
+
+                    }
+
+                    List<tbl_ProposalUserState> tbl_ProposalUserStates = cRUDOperation.GetProposalUserStatesByProposalID(_Proposal.ID);
+
+                    foreach (var item in tbl_ProposalUserStates)
+                    {
+
+                        tbl_ProposalUserState dbitem = cRUDOperation.DeleteProposalUserState(item.ID, 0);
+
+                    }
+                    List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(_Proposal.ID);
+
+                    foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                    {
+
+
+                        tbl_ProposalUserGroup dbitem = cRUDOperation.DeleteProposalUserGroup(userGroup.ID, 0);
+
+                    }
+
+                    tbl_Proposal tbl_Proposal = cRUDOperation.DeleteProposal(id, 0);
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        private List<Int64> GetProposalDocuments(Int64 proposalID)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            List<tbl_ProposalDocument> ProposalDocumentList = cRUDOperation.GetProposalDocumentsByProposalID(proposalID);
+            List<Int64> proposalDocumentIds = new List<long>();
+            foreach (var item in ProposalDocumentList)
+            {
+                proposalDocumentIds.Add(item.ID);
+            }
+            return proposalDocumentIds;
+        }
+        #endregion
+    }
+}

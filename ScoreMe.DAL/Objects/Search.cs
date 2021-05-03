@@ -14,6 +14,7 @@ namespace ScoreMe.DAL.Objects
 
         public Int64 Id { get; set; }
         public Int64 ProviderID{ get; set; }
+        public Int64 ProposalID { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
         public bool isCount { get; set; }
@@ -30,5 +31,8 @@ namespace ScoreMe.DAL.Objects
         public DateTime? ToDate { get; set; }
         public int Year { get; set; }
         public string Months { get; set; }
+
+   
+
     }
 }

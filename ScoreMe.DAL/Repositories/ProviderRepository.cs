@@ -93,110 +93,11 @@ namespace ScoreMe.DAL.Repositories
         }
 
         #region GetProviderReportsByDatePeriod
-        internal List<ProviderReportDTO> GetProviderReport(Search search, out int _count)
+        public ProviderReportDTO SW_GetProviderReportsByDatePeriod(Search search)
         {
-            var result = new List<ProviderReportDTO>();
-            _count = 0;
-            string head = "";
-
-            if (search.isCount == false)
-            {
-                head = @" pr.ID,pr.Name,
-                       (select Count(*)from tbl_Proposal prop where pr.ID=prop.ProviderID and prop.Status=1) as YerlesdirilmisXidmetSay,
-                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
-                       where prop.Status=1 and pus.Status=1 and
-                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.UserStateType=19 ) as MuracietEdilmisXidmetSay,
-                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
-                       where prop.Status=1 and pus.Status=1 and
-                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.UserStateType=20 and pus.ProviderStateType=15 ) as QebulEdilmisXidmetSay,
-                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
-                       where prop.Status=1 and pus.Status=1 and
-                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.ProviderStateType=16 ) as RedEdilmisXidmetSay,
-                       (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
-                       where prop.Status=1 and pus.Status=1 and
-                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.ProviderStateType=17 ) as GozlemedekiXidmetSay";
-
-            }
-            else
-            {
-                head = @" count(pr.ID) ";
-            }
-
-
-            StringBuilder allQuery = new StringBuilder();
-
-            var query = @"SELECT " + head + @"  from tbl_Provider pr, tbl_proposal p 
-                                     where pr.Status=1  and p.Status=1 and pr.ID=p.ProviderID
-                                     and pr.ID=@P_ProviderID and  p.InsertDate between @P_FromDate and @P_ToDate
-                                     group by pr.ID,pr.Name order by pr.Name";
-            allQuery.Append(query);
-
-            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
-            {
-                connection.Open();
-
-                using (var command = new SqlCommand(allQuery.ToString(), connection))
-                {
-                    //command.Parameters.AddWithValue("@PageNo", search.pageNumber);
-                    //command.Parameters.AddWithValue("@RecordsPerPage", search.pageSize);
-                    //command.Parameters.AddWithValue("@P_FirstName", search.Name.GetStringOrEmptyData());
-                    command.Parameters.AddWithValue("@P_ProviderID", search.ProviderID);
-                    command.Parameters.AddWithValue("@P_FromDate", search.FromtDate.HasValue ? search.FromtDate.Value : DateTime.Now);
-                    command.Parameters.AddWithValue("@P_ToDate", search.ToDate.HasValue ? search.ToDate.Value : DateTime.Now);
-
-                    var reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        if (search.isCount == false)
-                        {
-                            result.Add(new ProviderReportDTO()
-                            {
-                                ProviderID = reader.GetInt64OrDefaultValue(0),
-                                ProviderName = reader.GetStringOrEmpty(1),
-                                DeclaredProposalCount = reader.GetInt32OrDefaultValue(2),
-                                AppliedProposalCount = reader.GetInt32OrDefaultValue(3),
-                                AccteptedProposalCount = reader.GetInt32OrDefaultValue(4),
-                                RejectedProposalCount = reader.GetInt32OrDefaultValue(5),
-                                WaitingProposalCount = reader.GetInt32OrDefaultValue(6),
-                            });
-                        }
-                        else
-                        {
-
-                            _count = reader.GetInt32OrDefaultValue(0);
-
-                        }
-                    }
-                }
-                connection.Close();
-            }
-
-            return result;
-        }
-
-        public IList<ProviderReportDTO> SW_GetProviderReports(Search search)
-        {
-            int _count = 0;
-            if (search.pageNumber <= 0 || search.pageSize <= 0)
-            {
-                search.pageNumber = pageNumber;
-                search.pageSize = pageSize;
-            }
-            search.isCount = false;
-
-            IList<ProviderReportDTO> slist = GetProviderReport(search, out _count);
-            return slist;
-        }
-        #endregion
-
-        public List<ProviderReportDTO> SW_GetProviderReportsByYearAndMonths(Search search)
-        {
-            var result = new List<ProviderReportDTO>();
+            ProviderReportDTO providerReportDTO = null ;
 
             string head = "";
-
-
             head = @" pr.ID,pr.Name,
                        (select Count(*)from tbl_Proposal prop where pr.ID=prop.ProviderID and prop.Status=1) as YerlesdirilmisXidmetSay,
                       (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
@@ -212,18 +113,12 @@ namespace ScoreMe.DAL.Repositories
                        where prop.Status=1 and pus.Status=1 and
                         pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.ProviderStateType=17 ) as GozlemedekiXidmetSay";
 
-
-
-
-
             StringBuilder allQuery = new StringBuilder();
 
             var query = @"SELECT " + head + @"  from tbl_Provider pr, tbl_proposal p 
                                      where pr.Status=1  and p.Status=1 and pr.ID=p.ProviderID
-                                     and pr.ID="+search.ProviderID
-                                     +" and YEAR(p.InsertDate)="+search.Year 
-                                     +" and  MONTH(p.InsertDate) in ("+ search.Months+")"
-                                     +" group by pr.ID,pr.Name order by pr.Name";
+                                     and pr.ID=@P_ProviderID and  p.InsertDate between @P_FromDate and @P_ToDate
+                                     group by pr.ID,pr.Name order by pr.Name";
             allQuery.Append(query);
 
             using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
@@ -232,19 +127,80 @@ namespace ScoreMe.DAL.Repositories
 
                 using (var command = new SqlCommand(allQuery.ToString(), connection))
                 {
-                    //command.Parameters.AddWithValue("@PageNo", search.pageNumber);
-                    //command.Parameters.AddWithValue("@RecordsPerPage", search.pageSize);
-                    //command.Parameters.AddWithValue("@P_FirstName", search.Name.GetStringOrEmptyData());
-                    //command.Parameters.AddWithValue("@P_ProviderID", search.ProviderID);
-                    //command.Parameters.AddWithValue("@P_Year", search.Year);
-                    //command.Parameters.AddWithValue("@P_Months", search.Months.GetStringOrEmptyData());
+                    command.Parameters.AddWithValue("@P_ProviderID", search.ProviderID);
+                    command.Parameters.AddWithValue("@P_FromDate", search.FromtDate.HasValue ? search.FromtDate.Value : DateTime.Now);
+                    command.Parameters.AddWithValue("@P_ToDate", search.ToDate.HasValue ? search.ToDate.Value : DateTime.Now);
+
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        if (search.isCount == false)
+                        {
+                            providerReportDTO=new ProviderReportDTO()
+                            {
+                                ProviderID = reader.GetInt64OrDefaultValue(0),
+                                ProviderName = reader.GetStringOrEmpty(1),
+                                DeclaredProposalCount = reader.GetInt32OrDefaultValue(2),
+                                AppliedProposalCount = reader.GetInt32OrDefaultValue(3),
+                                AccteptedProposalCount = reader.GetInt32OrDefaultValue(4),
+                                RejectedProposalCount = reader.GetInt32OrDefaultValue(5),
+                                WaitingProposalCount = reader.GetInt32OrDefaultValue(6),
+                            };
+                        }
+
+                    }
+                }
+                connection.Close();
+            }
+
+            return providerReportDTO;
+        }
+
+        #endregion
+
+        public ProviderReportDTO SW_GetProviderReportsByYearAndMonths(Search search)
+        {
+            ProviderReportDTO providerReportDTO = null; ;
+
+            string head = "";
+            head = @" pr.ID,pr.Name,
+                       (select Count(*)from tbl_Proposal prop where pr.ID=prop.ProviderID and prop.Status=1) as YerlesdirilmisXidmetSay,
+                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
+                       where prop.Status=1 and pus.Status=1 and
+                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.UserStateType=19 ) as MuracietEdilmisXidmetSay,
+                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
+                       where prop.Status=1 and pus.Status=1 and
+                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.UserStateType=20 and pus.ProviderStateType=15 ) as QebulEdilmisXidmetSay,
+                      (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
+                       where prop.Status=1 and pus.Status=1 and
+                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.ProviderStateType=16 ) as RedEdilmisXidmetSay,
+                       (select Count(*)  from tbl_Proposal prop,  tbl_ProposalUserState pus
+                       where prop.Status=1 and pus.Status=1 and
+                        pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.ProviderStateType=17 ) as GozlemedekiXidmetSay";
+
+            StringBuilder allQuery = new StringBuilder();
+            var query = @"SELECT " + head + @"  from tbl_Provider pr, tbl_proposal p 
+                                     where pr.Status=1  and p.Status=1 and pr.ID=p.ProviderID
+                                     and pr.ID=" + search.ProviderID
+                                     + " and YEAR(p.InsertDate)=" + search.Year
+                                     + " and  MONTH(p.InsertDate) in (" + search.Months + ")"
+                                     + " group by pr.ID,pr.Name order by pr.Name";
+            allQuery.Append(query);
+
+            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(allQuery.ToString(), connection))
+                {
 
                     var reader = command.ExecuteReader();
 
                     while (reader.Read())
                     {
 
-                        result.Add(new ProviderReportDTO()
+                        providerReportDTO = new ProviderReportDTO()
                         {
                             ProviderID = reader.GetInt64OrDefaultValue(0),
                             ProviderName = reader.GetStringOrEmpty(1),
@@ -253,15 +209,14 @@ namespace ScoreMe.DAL.Repositories
                             AccteptedProposalCount = reader.GetInt32OrDefaultValue(4),
                             RejectedProposalCount = reader.GetInt32OrDefaultValue(5),
                             WaitingProposalCount = reader.GetInt32OrDefaultValue(6),
-                        });
+                        };
 
 
                     }
                 }
                 connection.Close();
             }
-
-            return result;
+            return providerReportDTO;
         }
 
     }
