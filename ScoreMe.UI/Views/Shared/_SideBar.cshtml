@@ -31,7 +31,7 @@
                     @Html.ActionLink("İşçilər", "Index", "Employee")
 
                 </li>
-                
+
 
 
             </ul>
@@ -75,14 +75,35 @@
 
                 </li>
                 <li>
-                    @Html.ActionLink("App məlumatları", "Index", "AppInformation")
+                    @Html.ActionLink("Tətbiq qurup məlumatları", "Index", "AppInformation")
 
                 </li>
-       
+                <li>
+                    @Html.ActionLink("Tətbiq məlumatları", "Index", "ApplicationInformation")
+
+                </li>
             </ul>
         </li>
 
+        <!--CRM-->
+        <li>
+            <a href="#" class="menu-dropdown">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text"> CRM </span>
 
+                <i class="menu-expand"></i>
+            </a>
+
+            <ul class="submenu">
+
+
+                <li>
+                    @Html.ActionLink("Providerlər", "Index", "Provider")
+
+                </li>
+              
+            </ul>
+        </li>
 
         <!-- Hesabatlar-->
         <li>
@@ -94,8 +115,8 @@
             </a>
 
             <ul class="submenu">
-           
-                  <li>
+
+                <li>
                     @Html.ActionLink("Telefon məlumatları", "Index", "UserPhone")
 
                 </li>

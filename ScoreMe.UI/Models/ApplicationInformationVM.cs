@@ -28,6 +28,9 @@ namespace ScoreMe.UI.Models
         [Display(Name = "Tətbiqin adı")]
         public string AppName { get; set; }
 
+        [Display(Name = "Tətbiqin qısa adı")]
+        public string ShortName { get; set; }
+
         [Display(Name = "Yazar")]
         public string Author { get; set; }
 

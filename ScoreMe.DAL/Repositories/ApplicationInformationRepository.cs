@@ -26,7 +26,7 @@ namespace ScoreMe.DAL.Repositories
             if (search.isCount == false)
             {
                 head = @" api.ID,api.Platform,api.GroupName,api.AppName,
-                          api.Author,api.Price,api.Point,api.NetUsage  from tbl_ApplicationInformation api";
+                          api.Author,api.Price,api.Point,api.NetUsage,api.ShortName";
             }
             else
             {
@@ -36,7 +36,7 @@ namespace ScoreMe.DAL.Repositories
 
             StringBuilder allQuery = new StringBuilder();
 
-            var query = @"SELECT " + head + @"   from tbl_ApplicationInformation api where api.Status=1 a  ";
+            var query = @"SELECT " + head + @"   from tbl_ApplicationInformation api where api.Status=1  ";
             allQuery.Append(query);
 
             string queryName = @" and  api.AppName like N'%'+@P_Name+'%'";
@@ -47,18 +47,24 @@ namespace ScoreMe.DAL.Repositories
                 allQuery.Append(queryName);
             }
 
-            string queryCode = @" and  api.Author like N'%'+@P_Author+'%'";
+            string queryAuthor = @" and  api.Author like N'%'+@P_Author+'%'";
 
             if (!string.IsNullOrEmpty(search.UserName))
+            {
+                allQuery.Append(queryAuthor);
+            }
+
+            string queryCode = @" and  api.ShortName like N'%'+@P_ShortName+'%'";
+
+            if (!string.IsNullOrEmpty(search.Code))
             {
                 allQuery.Append(queryCode);
             }
 
 
-
             if (search.isCount == false)
             {
-                queryEnd = @" order by   api.ID asc OFFSET ( @PageNo - 1 ) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY";
+                queryEnd = @" order by api.UpdateDate desc, api.ID asc OFFSET ( @PageNo - 1 ) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY";
             }
 
 
@@ -75,7 +81,7 @@ namespace ScoreMe.DAL.Repositories
                     command.Parameters.AddWithValue("@RecordsPerPage", search.pageSize);
                     command.Parameters.AddWithValue("@P_Name", search.Name.GetStringOrEmptyData());
                     command.Parameters.AddWithValue("@P_Author", search.UserName.GetStringOrEmptyData());
-
+                    command.Parameters.AddWithValue("@P_ShortName", search.Code.GetStringOrEmptyData());
                     var reader = command.ExecuteReader();
 
                     while (reader.Read())
@@ -93,6 +99,7 @@ namespace ScoreMe.DAL.Repositories
                                 Price = reader.GetDecimalOrDefaultValue(5),
                                 Point = reader.GetDecimalOrDefaultValue(6),
                                 NetUsage= reader.GetStringOrEmpty(7),
+                                ShortName = reader.GetStringOrEmpty(8),
                             });
                         }
                         else

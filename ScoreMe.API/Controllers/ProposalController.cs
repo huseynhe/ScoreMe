@@ -108,12 +108,14 @@ namespace ScoreMe.API.Controllers
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             Proposal itemOut = null;
             BaseOutput dbitem = businessOperation.AddProposalWithDetail(item,out itemOut);
+
             if (dbitem.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
+                return Content(HttpStatusCode.BadRequest, dbitem);
                 return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
             }
 
@@ -162,98 +164,100 @@ namespace ScoreMe.API.Controllers
 
         [HttpGet]
         [Route("GetProposalWithDetails")]
-        public List<Proposal> GetProposalWithDetails()
+        public IHttpActionResult GetProposalWithDetails()
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposals(out itemsOut);
             if (dbitem.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
         }
         [HttpGet]
         [Route("GetProposalWithDetailsByProviderID/{providerid}")]
-        public List<Proposal> GetProposalWithDetailsByProviderID(Int64 providerid)
+        public IHttpActionResult GetProposalWithDetailsByProviderID(Int64 providerid)
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalsByProviderID(providerid, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
-                return itemsOut;
+          
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, dbitem);
+              
             }
         }
         [HttpGet]
         [Route("GetProposalWithDetailAndStatesByProviderID/{providerid}")]
-        public List<Proposal> GetProposalWithDetailAndStatesByProviderID(Int64 providerid)
+        public IHttpActionResult GetProposalWithDetailAndStatesByProviderID(Int64 providerid)
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalsWithStateByProviderID(providerid, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
         }
         [HttpGet]
         [Route("GetProposalWithDetailsByUserName/{username}")]
-        public List<Proposal> GetProposalWithDetailsByUserName(string username)
+        public IHttpActionResult GetProposalWithDetailsByUserName(string username)
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalsByUserName(username, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
         }
         [HttpGet]
         [Route("GetFavoriteProposalWithDetailsByUserName/{username}")]
-        public List<Proposal> GetFavoriteProposalWithDetailsByUserName(string username)
+        public IHttpActionResult GetFavoriteProposalWithDetailsByUserName(string username)
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetFavoriteProposalsByUserName(username, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
         }
         [HttpGet]
         [Route("GetProposalWithDetailsByIsPublic/{username}")]
-        public List<Proposal> GetProposalWithDetailsByIsPublic(string username)
+        public IHttpActionResult GetProposalWithDetailsByIsPublic(string username)
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
             BaseOutput dbitem = businessOperation.GetProposalWithDetailsByIsPublic(username, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
         }
         [HttpPost]
@@ -274,7 +278,7 @@ namespace ScoreMe.API.Controllers
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
 
 
@@ -298,7 +302,7 @@ namespace ScoreMe.API.Controllers
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
 
 

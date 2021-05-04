@@ -104,7 +104,7 @@ function Search2(elem, controller, action, param, datVal) {
         }
 
         $.ajax({
-            url: '/' + controller + '/' + action + '?' + 'userId' + '=' + datVal + '&prm=' + param + '&vl=' + $(elem).val() + v,
+            url: '/' + controller + '/' + action + '?' + 'providerId' + '=' + datVal + '&prm=' + param + '&vl=' + $(elem).val() + v,
             type: 'GET',
             success: function (result) {
 

@@ -1,0 +1,121 @@
+﻿@model ScoreMe.UI.Models.ProposalVM
+@{
+    ViewBag.Title = "Təkliflərin siyahisi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .circle {
+        background: red;
+        border-radius: 20px;
+        color: white;
+        height: 20px;
+        font-weight: bold;
+        width: 20px;
+        display: table;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix"></div><br />
+
+        <div class="well bs-component">
+            <h4>
+                @*<a href="@Url.Action("Index", "RoadSheet", null)"> Geri dön</a>*@
+                <span class="circle"> @Model.ProviderID</span>
+                <span class="label label-primary label-ribbon-left">
+
+                    idli Providerin xidmətlərinin listi
+
+                </span>
+
+
+
+            </h4>
+            <a class="btn btn-warning active pull-left btn-icon" href="@Url.Action("Index","Provider")"><span class="fa fa-link"></span> Geri dön</a>
+            @*<a class="btn btn-warning active pull-right btn-icon" href="@Url.Action("AddDetail","LimitSheet")"><span class="fa fa-plus"></span> Əlavə et</a>*@
+
+            <div class="clearfix"></div>
+            <div class="table-responsive">
+                <table class="table table-bordered" style="margin:0;">
+                    <tbody>
+                        <tr>
+                            <th class="col-md-1">
+                                @Html.DisplayNameFor(model => model.ID)
+                            </th>
+                            <th class="col-md-2">
+
+                                @Html.DisplayNameFor(model => model.Name)
+                                <input onkeyup="Search2(this, 'Provider', 'ProposalIndex', 'Name', ' @Model.ProviderID')" class="form-control" placeholder="axtar" />
+                            </th>
+                            <th class="col-md-2">
+                                @Html.DisplayNameFor(model => model.Description)
+
+                            </th>
+                            <th class="col-md-1">
+                                @Html.DisplayNameFor(model => model.IsPublic)
+
+                            </th>
+                            <th class="col-md-2">
+                                @Html.DisplayNameFor(model => model.StartDate)
+                            </th>
+                            <th class="col-md-2">
+                                @Html.DisplayNameFor(model => model.EndDate)
+                            </th>
+
+
+
+                            <th class="col-md-1" style="font-size:16px;">redaktə et | sil </th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="AjaxPaginationList">
+                    @Html.Partial("ProposalPartialIndex")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+                var deyer = '@TempData["success"]';
+                if (deyer== 'Ok')
+                {
+                    toastr.success('@TempData["message"]');
+                }
+                else if (deyer == 'notOk')
+                {
+                    toastr.warning('@TempData["message"]');
+
+                }
+
+    });
+</script>
+
+@{
+    TempData["success"] = null;
+    TempData["message"] = "";
+}
+
+

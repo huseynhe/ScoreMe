@@ -105,10 +105,11 @@ namespace ScoreMe.UI.Controllers
 
                     tbl_ApplicationInformation item = new tbl_ApplicationInformation()
                     {
-                        Platform = viewModel.Platform,
-                        GroupName = viewModel.GroupName,
-                        AppName = viewModel.AppName,
-                        Author = viewModel.Author,
+                        Platform = viewModel.Platform.Trim(),
+                        GroupName = viewModel.GroupName.Trim(),
+                        AppName = viewModel.AppName.Trim(),
+                        ShortName=viewModel.ShortName.Trim(),
+                        Author = viewModel.Author.Trim(),
                         Price=viewModel.Price,
                         Point=viewModel.Price,
                         NetUsage=viewModel.NetUsage,
@@ -159,6 +160,7 @@ namespace ScoreMe.UI.Controllers
             viewModel.Platform = tblItem.Platform;
             viewModel.GroupName = tblItem.GroupName;
             viewModel.AppName = tblItem.AppName;
+            viewModel.ShortName = tblItem.ShortName;
             viewModel.Author = tblItem.Author;
             viewModel.Price = tblItem.Price;
             viewModel.Point = tblItem.Point;
@@ -183,9 +185,10 @@ namespace ScoreMe.UI.Controllers
                             Platform = viewModel.Platform,
                             GroupName = viewModel.GroupName,
                             AppName = viewModel.AppName,
+                            ShortName=viewModel.ShortName,
                             Author = viewModel.Author,
                             Price = viewModel.Price,
-                            Point = viewModel.Price,
+                            Point = viewModel.Point,
                             NetUsage = viewModel.NetUsage,
                             UpdateDate = DateTime.Now,
                             UpdateUser = UserProfile.UserId

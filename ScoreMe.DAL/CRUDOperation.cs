@@ -9762,6 +9762,7 @@ namespace ScoreMe.DAL
                         oldItem.Price = item.Price;
                         oldItem.Point = item.Point;
                         oldItem.NetUsage = item.NetUsage;
+                        oldItem.ShortName = item.ShortName;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
                         context.tbl_ApplicationInformation.Attach(oldItem);

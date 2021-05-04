@@ -15,7 +15,9 @@ namespace ScoreMe.DAL.Model
         public long ID { get; set; }
         public string Name { get; set; }
         public long ParentID { get; set; }
+        public string ParentName { get; set; }
         public long Type { get; set; }
+        public string TypeDesc { get; set; }
         public string Description { get; set; }
         public long RegionId { get; set; }
         public string Address { get; set; }

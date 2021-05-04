@@ -67,7 +67,11 @@ namespace ScoreMe.DAL.Repositories
             {
                 allQuery.Append(queryProviderID);
             }
-      
+            string queryName = @" and  p.Name like N'%'+@P_Name+'%'";
+            if (!string.IsNullOrEmpty(search.Name))
+            {
+                allQuery.Append(queryName);
+            }
 
 
             if (search.isCount == false)
@@ -89,7 +93,7 @@ namespace ScoreMe.DAL.Repositories
                     command.Parameters.AddWithValue("@RecordsPerPage", search.pageSize);
                     command.Parameters.AddWithValue("@P_ProposalID", search.ProposalID);
                     command.Parameters.AddWithValue("@P_ProviderID", search.ProviderID);
-
+                    command.Parameters.AddWithValue("@P_Name", search.Name.GetStringOrEmptyData());
                     var reader = command.ExecuteReader();
 
                     while (reader.Read())

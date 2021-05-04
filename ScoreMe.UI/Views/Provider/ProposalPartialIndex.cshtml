@@ -1,0 +1,87 @@
+﻿@model ScoreMe.UI.Models.ProposalVM
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "";
+}
+@{
+    Int64 ProviderId = 0;
+    <div class="col-sm-1 col-sm-offset-11" style="position: absolute;">
+        <span class="label label-danger pull-right badgemargin">@Model.ListCount</span>
+    </div>
+
+    <table class="table table-bordered">
+        <tbody>
+            @foreach (var item in Model.RProposalList)
+            {
+                ProviderId = item.ProviderID;
+                <tr>
+
+
+                    <td class="col-md-1">
+                        @Html.DisplayFor(modelItem => item.ProposalID)
+                    </td>
+                    <td class="col-md-2">
+                        @Html.DisplayFor(modelItem => item.ProposalName)
+                    </td>
+                    <td class="col-md-2">
+                        
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="col-md-1">
+                        @if (item.IsPublic == true)
+                        {
+                            Write("Hə");
+                        }
+                        else
+                        {
+                            Write("Yox");
+                        }
+                    </td>
+
+                    <td class="col-md-2">
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+
+                    <td class="col-md-2">
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+
+               
+
+                    <td class="col-md-1 shsingle text-center" style="font-size:16px;">
+                        @*<a class="btn btn-primary active btn-xs" data-toggle="tooltip" title="Məlumatlara bax" onclick="createModal('@Url.Action("UpdateDetail","LimitSheet", new { id = item.LimitSheetDetailID})')"><span class="fa fa-pencil"></span></a>*@
+                        <a class="btn btn-primary active btn-xs" data-toggle="tooltip" title="Redaktə et" href="@Url.Action("UpdateProposal", "Provider", new { id = item.ProposalID })"><span class="fa fa-pencil"></span></a>
+                        <span title="sil"> @Html.ActionLink(" ", "DeleteProposal", "Provider", new { id = item.ProposalID, providerId = item.ProviderID }, new { @onclick = "return confirm('Silmək istədiyinizə əminsinizmi');", @class = "glyphicon glyphicon-trash" })</span>
+
+
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="modal fade bs-example-modal-lg" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="modelContent">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="box-footer clearfix">
+        Səhifə @(Model.Paging.PageCount < Model.Paging.PageNumber ? 0 : Model.Paging.PageNumber) (cəmi @Model.Paging.PageCount)
+        @Html.PagedListPager(Model.Paging, page => Url.Action("ProposalIndex", new { page, providerId = ProviderId }))
+    </div>
+}
+<script>
+    function createModal(url) {
+        $('#modelContent').load(url);
+        $('#myModal').modal('show');
+    }
+</script>
+
+

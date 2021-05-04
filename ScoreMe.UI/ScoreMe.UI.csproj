@@ -164,6 +164,7 @@
     <Compile Include="Controllers\NetConsumeReportController.cs" />
     <Compile Include="Controllers\OperatorInformationController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
+    <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\SMSReportController.cs" />
     <Compile Include="Controllers\SMSSenderInfoController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -183,6 +184,8 @@
     <Compile Include="Models\OperatorInformationVM.cs" />
     <Compile Include="Models\PackageVM.cs" />
     <Compile Include="Models\PersonVM.cs" />
+    <Compile Include="Models\ProposalVM.cs" />
+    <Compile Include="Models\ProviderVM.cs" />
     <Compile Include="Models\SMSReportVM.cs" />
     <Compile Include="Models\SMSSenderInfoVM.cs" />
     <Compile Include="Models\TypeVM.cs" />
@@ -2096,12 +2099,19 @@
     <Content Include="Views\AppConsumeReport\_PartialReportUnit.cshtml" />
     <Content Include="Views\UserPhone\Index.cshtml" />
     <Content Include="Views\UserPhone\PartialIndex.cshtml" />
+    <Content Include="Views\ApplicationInformation\Index.cshtml" />
+    <Content Include="Views\ApplicationInformation\Create.cshtml" />
+    <Content Include="Views\ApplicationInformation\Edit.cshtml" />
+    <Content Include="Views\ApplicationInformation\PartialIndex.cshtml" />
+    <Content Include="Views\Provider\Index.cshtml" />
+    <Content Include="Views\Provider\PartialIndex.cshtml" />
+    <Content Include="Views\Provider\ProposalIndex.cshtml" />
+    <Content Include="Views\Provider\ProposalPartialIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\tempOfficialFile\" />
     <Folder Include="Content\tempOutFile\" />
-    <Folder Include="Views\ApplicationInformation\" />
     <Folder Include="Views\UserPhoneInformation\" />
   </ItemGroup>
   <ItemGroup>

@@ -130,6 +130,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Platform" Type="nvarchar" MaxLength="500" />
           <Property Name="GroupName" Type="nvarchar" MaxLength="100" />
           <Property Name="AppName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="500" />
           <Property Name="Author" Type="nvarchar" MaxLength="500" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Point" Type="decimal" Precision="18" Scale="2" />
@@ -1163,6 +1164,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Platform" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="GroupName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="AppName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ShortName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Author" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Point" Type="Decimal" Precision="18" Scale="2" />
@@ -2099,6 +2101,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
                 <ScalarProperty Name="Point" ColumnName="Point" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
                 <ScalarProperty Name="AppName" ColumnName="AppName" />
                 <ScalarProperty Name="GroupName" ColumnName="GroupName" />
                 <ScalarProperty Name="Platform" ColumnName="Platform" />

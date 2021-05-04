@@ -17,6 +17,145 @@ namespace ScoreMe.DAL.Repositories
     {
         private int pageNumber = 1;
         private int pageSize = 1000000;
+
+
+        #region Proposal
+        private List<Provider> GetProviders(Search search, out int _count)
+        {
+            _count = 0;
+            var result = new List<Provider>();
+            string queryEnd = "";
+            string head = "";
+
+            if (search.isCount == false)
+            {
+                head = @"  p.ID as ProviderID
+                        ,p.Name as ProviderName
+                        ,p.Description
+                        ,P.ParentID 
+                        ,(select pr.NAme from tbl_Provider pr where pr.ID=p.ParentID) as ParentName
+                        ,p.UserID
+                        ,u.UserName
+                        ,p.Type as ProviderType
+                        ,ev.Name as ProvuderTypeDesc
+                        ,p.RelatedPersonName
+                        ,p.RelatedPersonProfession
+                        ,p.VOEN
+                        ,p.RelatedPersonPhone ";
+            }
+            else
+            {
+                head = @"  count(*) as totalcount ";
+            }
+
+
+            StringBuilder allQuery = new StringBuilder();
+
+            var query = @"SELECT " + head + @" from tbl_Provider p
+                            join tbl_User u on p.UserId=u.ID and u.Status=1
+                            left join [dbo].[tbl_EnumValue] ev on p.[Type]=ev.ID and ev.Status=1
+                            where p.Status=1  ";
+            allQuery.Append(query);
+
+      
+
+            string queryName = @" and  p.Name like N'%'+@P_Name+'%'";
+            if (!string.IsNullOrEmpty(search.Name))
+            {
+                allQuery.Append(queryName);
+            }
+            string queryVOEN = @" and  p.VOEN like N'%'+@P_VOEN+'%'";
+            if (!string.IsNullOrEmpty(search.Code))
+            {
+                allQuery.Append(queryVOEN);
+            }
+            string queryuserName = @" and  u.UserName like N'%'+@P_UserName+'%'";
+            if (!string.IsNullOrEmpty(search.UserName))
+            {
+                allQuery.Append(queryuserName);
+            }
+
+
+            if (search.isCount == false)
+            {
+                queryEnd = @" order by   p.ID desc OFFSET ( @PageNo - 1 ) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY";
+            }
+
+
+            allQuery.Append(queryEnd);
+
+
+            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(allQuery.ToString(), connection))
+                {
+                    command.Parameters.AddWithValue("@PageNo", search.pageNumber);
+                    command.Parameters.AddWithValue("@RecordsPerPage", search.pageSize);
+                    command.Parameters.AddWithValue("@P_Name", search.Name.GetStringOrEmptyData());
+                    command.Parameters.AddWithValue("@P_VOEN", search.Code.GetStringOrEmptyData());
+                    command.Parameters.AddWithValue("@P_UserName", search.UserName.GetStringOrEmptyData());
+            
+
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        if (search.isCount == false)
+                        {
+                            result.Add(new Provider()
+                            {
+
+                                ID = reader.GetInt64OrDefaultValue(0),
+                                Name = reader.GetStringOrEmpty(1),
+                                Description = reader.GetStringOrEmpty(2),
+                                ParentID = reader.GetInt64OrDefaultValue(3),
+                                ParentName = reader.GetStringOrEmpty(4),
+                                UserID = reader.GetInt64OrDefaultValue(5),
+                                UserName = reader.GetStringOrEmpty(6),
+                                Type = reader.GetInt64OrDefaultValue(7),
+                                TypeDesc = reader.GetStringOrEmpty(8),
+                                RelatedPersonName = reader.GetStringOrEmpty(9),
+                                RelatedPersonProfession = reader.GetStringOrEmpty(10),
+                                VOEN = reader.GetStringOrEmpty(11),
+                                RelatedPersonPhone = reader.GetStringOrEmpty(12),
+                            });
+                        }
+                        else
+                        {
+
+                            _count = reader.GetInt32OrDefaultValue(0);
+
+                        }
+                    }
+                }
+                connection.Close();
+            }
+
+            return result;
+        }
+        public IList<Provider> SW_GetProviders(Search search)
+        {
+            int _count = 0;
+            if (search.pageNumber <= 0 || search.pageSize <= 0)
+            {
+                search.pageNumber = pageNumber;
+                search.pageSize = pageSize;
+            }
+            search.isCount = false;
+
+            IList<Provider> slist = GetProviders(search, out _count);
+            return slist;
+        }
+        public int SW_GetProvidersCount(Search search)
+        {
+            search.isCount = true;
+            int _count = 0;
+            GetProviders(search, out _count);
+            return _count;
+        }
+        #endregion
         public Provider GetProviderByID(Int64 providerID)
         {
             Provider provider = null;

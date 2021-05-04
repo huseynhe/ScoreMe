@@ -40,8 +40,6 @@ namespace ScoreMe.DAL.Repositories
             allQuery.Append(query);
 
             string queryName = @" and  ec.Name like N'%'+@P_Name+'%'";
-
-
             if (!string.IsNullOrEmpty(search.Name))
             {
                 allQuery.Append(queryName);

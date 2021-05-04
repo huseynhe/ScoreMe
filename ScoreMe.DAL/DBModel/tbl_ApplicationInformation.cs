@@ -19,6 +19,7 @@ namespace ScoreMe.DAL.DBModel
         public string Platform { get; set; }
         public string GroupName { get; set; }
         public string AppName { get; set; }
+        public string ShortName { get; set; }
         public string Author { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<decimal> Point { get; set; }
