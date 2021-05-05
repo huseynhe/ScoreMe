@@ -15,36 +15,59 @@ namespace ScoreMe.API.Controllers
     [RoutePrefix("api/proposal")]
     public class ProposalLikeDislikeController : ApiController
     {
-        
+        ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
         [HttpGet]
         [Route("GetProposalLikeCountByProposalID/{proposalID}")]
-        public Int64 GetProposalLikeCountByProposalID(Int64 proposalID)
+        public IHttpActionResult GetProposalLikeCountByProposalID(Int64 proposalID)
         {
-            CRUDOperation operation = new CRUDOperation();
-            int dislikecount = 0;
-            var items = operation.GetProposalLikeDislikeCountByProposalId(proposalID,out dislikecount); ;
-            return items;
+            int valueOut = 0;
+            BaseOutput baseOutput = businessOperation.GetProposalLikeCountByProposalID(proposalID, out valueOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(valueOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
         [Route("GetProposalDislikeCountByProposalID/{proposalID}")]
-        public Int64 GetProposalDislikeCountByProposalID(Int64 proposalID)
+        public IHttpActionResult GetProposalDislikeCountByProposalID(Int64 proposalID)
         {
-            CRUDOperation operation = new CRUDOperation();
-            int dislikecount = 0;
-            var items = operation.GetProposalLikeDislikeCountByProposalId(proposalID,out dislikecount); ;
-            return dislikecount;
+            int valueOut = 0;
+            BaseOutput baseOutput = businessOperation.GetProposalDislikeCountByProposalID(proposalID, out valueOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(valueOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpGet]
         [Route("GetProposalLikeDislikeByPropsalIdAndUserID/{proposalID}/{userID}")]
-        public tbl_ProposalLikeDislike GetProposalLikeDislikeByPropsalIdAndUserID(Int64 proposalID, Int64 userID)
+        public IHttpActionResult GetProposalLikeDislikeByPropsalIdAndUserID(Int64 proposalID, Int64 userID)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetProposalLikeDislikeByPropsalIdAndUserID(proposalID,userID); ;
-            return items;
+            
+            tbl_ProposalLikeDislike itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalLikeDislikeByPropsalIdAndUserID(proposalID, userID, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
        
-
         [HttpPost]
         [ResponseType(typeof(tbl_ProposalLikeDislike))]
         [Route("AddProposalLikeDislike")]
@@ -54,30 +77,36 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
-
-            BaseOutput dbitem = businessOperation.AddProposalLikeDislike(item);
-            if (dbitem.ResultCode == 1)
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalLikeDislike itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddProposalLikeDislike(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
         }
-
         [HttpPost]
         [ResponseType(typeof(tbl_ProposalLikeDislike))]
         [Route("DeleteProposalLikeDislike/{id}")]
         public IHttpActionResult DeleteProposalLikeDislike(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.DeleteProposalLikeDislike(id, 0);
-            return Ok(dbitem);
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalLikeDislike itemOut = null;
+            BaseOutput baseOutput = businessOperation.DeleteProposalLikeDislike(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
     }

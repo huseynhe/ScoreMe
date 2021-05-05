@@ -22,22 +22,25 @@ namespace ScoreMe.DAL.ErrorManagment
         public static int EmptyUserNameErrorCode = 16;
         public static string EmptyUserNameErrorDesc = "Username is empty. ";
 
-        public static int EmptyOTPCodeErrorCode = 17;
+        public static int EmptyUserPasswordErrorCode = 17;
+        public static string EmptyUserPasswordErrorDesc = "Password is empty. ";
+
+        public static int EmptyOTPCodeErrorCode = 18;
         public static string EmptyOTPCodeErrorDesc = "OTP code is empty. ";
 
-        public static int OTPCodeNotSendSMSServiceCode = 18;
+        public static int OTPCodeNotSendSMSServiceCode = 19;
         public static string OTPCodeNotSendSMSServiceDesc = "OTP code can not send use service. ";
 
-        public static int PhoneNumberErrorCode = 19;
+        public static int PhoneNumberErrorCode = 20;
         public static string PhoneNumberErrorDesc = "PhoneNumber is empty. ";
 
-        public static int ExistRecordErrorCode = 20;
+        public static int ExistRecordErrorCode = 21;
         public static string ExistRecordErrorDesc = "Same record is exist. ";
 
-        public static int NotExistRecordErrorCode = 21;
+        public static int NotExistRecordErrorCode = 22;
         public static string NotExistRecordErrorDesc = "This record is not exist. ";
 
-        public static int ProposalRecordExistErrorCode = 22;
+        public static int ProposalRecordExistErrorCode = 23;
         public static string ProposalRecordExistErrorDesc = "This provider has proposals";
     }
 }

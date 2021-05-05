@@ -2,9 +2,11 @@
 using ScoreMe.DAL;
 using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.DTO;
 using ScoreMe.DAL.Enum;
 using ScoreMe.DAL.ErrorManagment;
 using ScoreMe.DAL.Model;
+using ScoreMe.DAL.Objects;
 using ScoreMe.DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,67 @@ namespace ScoreMe.Business
     public class ProviderBusinessOperation
     {
         #region Provider
+
+        public BaseOutput GetProviders(out List<tbl_Provider> itemsOut)
+        {
+            CRUDOperation operation = new CRUDOperation();
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var providers = operation.GetProviders();
+
+                if (providers != null)
+                {
+                    itemsOut = providers;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProviderByID(Int64 id, out tbl_Provider itemOut)
+        {
+            BaseOutput baseOutput;
+            CRUDOperation operation = new CRUDOperation();
+            itemOut = null;
+            try
+            {
+                var provider = operation.GetProviderById(id); ;
+
+                if (provider != null)
+                {
+                    itemOut = provider;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                itemOut = null;
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
         public BaseOutput AddProviderWithUser(Provider item, out Provider itemOut)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
@@ -230,6 +293,68 @@ namespace ScoreMe.Business
                 if (provider != null)
                 {
                     itemOut = provider;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                itemOut = null;
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProviderReportsByDatePeriod(Search search, out ProviderReportDTO itemOut)
+        {
+            ProviderRepository providerRepository = new ProviderRepository();
+            BaseOutput baseOutput;
+            try
+            {
+                ProviderRepository repository = new ProviderRepository();
+                var providerReportDTO = repository.SW_GetProviderReportsByDatePeriod(search);
+                if (providerReportDTO != null)
+                {
+                    itemOut = providerReportDTO;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                itemOut = null;
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProviderReportsByYearAndMonths(Search search, out ProviderReportDTO itemOut)
+        {
+            ProviderRepository providerRepository = new ProviderRepository();
+            BaseOutput baseOutput;
+            try
+            {
+                ProviderRepository repository = new ProviderRepository();
+                var providerReportDTO = repository.SW_GetProviderReportsByYearAndMonths(search);
+                if (providerReportDTO != null)
+                {
+                    itemOut = providerReportDTO;
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }

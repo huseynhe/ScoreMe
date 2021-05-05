@@ -17,6 +17,7 @@ namespace ScoreMe.Business
 {
     public class ProposalBusinessOperation
     {
+        CRUDOperation operation = new CRUDOperation();
         #region Proposal
         public BaseOutput AddProposalWithDetail(Proposal item, out Proposal itemOut)
         {
@@ -232,7 +233,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -329,7 +330,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -530,7 +531,7 @@ namespace ScoreMe.Business
                 {
                     return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
-                  
+
                 }
 
             }
@@ -920,7 +921,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(false, CustomError.NotExistRecordErrorCode, CustomError.NotExistRecordErrorDesc, "");
+                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -1004,7 +1005,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(false, CustomError.NotExistRecordErrorCode, CustomError.NotExistRecordErrorDesc, "");
+                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -1027,6 +1028,648 @@ namespace ScoreMe.Business
                 proposalDocumentIds.Add(item.ID);
             }
             return proposalDocumentIds;
+        }
+        #endregion
+
+        #region ProposalUserState
+        public BaseOutput GetProposalUserStates(out List<tbl_ProposalUserState> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var listItem = operation.GetProposalUserStates();
+
+                if (listItem != null)
+                {
+                    itemsOut = listItem;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalUserStateByID(Int64 id, out tbl_ProposalUserState itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+                var item = operation.GetProposalUserStateByID(id); ;
+
+                if (item != null)
+                {
+                    itemOut = item;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                itemOut = null;
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddProposalUserState(tbl_ProposalUserState item, out tbl_ProposalUserState itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                if (item != null)
+                {
+                    tbl_ProposalUserState itemDB = operation.AddProposalUserState(item);
+                    itemOut = itemDB;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateProposalUserState(tbl_ProposalUserState item, out tbl_ProposalUserState itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                if (item != null)
+                {
+                    tbl_ProposalUserState itemDB = operation.UpdateProposalUserState(item);
+                    itemOut = itemDB;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteProposalUserState(Int64 id, out tbl_ProposalUserState itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                tbl_ProposalUserState itemDB = operation.DeleteProposalUserState(id, 0);
+                itemOut = itemDB;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalUserStatesByProposalID(Int64 proposalID, out List<tbl_ProposalUserState> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var proposaluserstates = operation.GetProposalUserStatesByProposalID(proposalID);
+                if (proposaluserstates != null)
+                {
+                    itemsOut = proposaluserstates;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalUserStatesByUserID(Int64 userID, out List<tbl_ProposalUserState> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var proposaluserstates = operation.GetProposalUserStatesByUserID(userID);
+                if (proposaluserstates != null)
+                {
+                    itemsOut = proposaluserstates;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalUserStatesByProviderStateType(Int64 providerStateType, out List<tbl_ProposalUserState> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var proposaluserstates = operation.GetProposalUserStatesByProviderStateType(providerStateType);
+                if (proposaluserstates != null)
+                {
+                    itemsOut = proposaluserstates;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalUserStatesByUserStateType(Int64 userStateType, out List<tbl_ProposalUserState> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var proposaluserstates = operation.GetProposalUserStatesByUserStateType(userStateType);
+                if (proposaluserstates != null)
+                {
+                    itemsOut = proposaluserstates;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
+
+        #region tbl_ProposalUserGroup
+        public BaseOutput GetProposalUserGroups(out List<tbl_ProposalUserGroup> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var listItem = operation.GetProposalUserGroups();
+
+                if (listItem != null)
+                {
+                    itemsOut = listItem;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalsByGroupID(Int64 groupid, out List<tbl_Proposal> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var listitem = operation.GetProposalsByGroupID(groupid); ;
+
+                if (listitem != null)
+                {
+                    itemsOut = listitem;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetGroupsByPropsalID(Int64 propsalid, out List<tbl_Group> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var listitem = operation.GetGroupsByPropsalID(propsalid); ;
+
+                if (listitem != null)
+                {
+                    itemsOut = listitem;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddProposalUserGroup(tbl_ProposalUserGroup item, out tbl_ProposalUserGroup itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                if (item != null)
+                {
+                    tbl_ProposalUserGroup itemDB = operation.AddProposalUserGroup(item);
+                    itemOut = itemDB;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateProposalUserGroup(tbl_ProposalUserGroup item, out tbl_ProposalUserGroup itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                if (item != null)
+                {
+                    tbl_ProposalUserGroup itemDB = operation.UpdateProposalUserGroup(item);
+                    itemOut = itemDB;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteProposalUserGroup(Int64 id, out tbl_ProposalUserGroup itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                tbl_ProposalUserGroup itemDB = operation.DeleteProposalUserGroup(id, 0);
+                itemOut = itemDB;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
+
+        #region tbl_ProposalFavorite
+        public BaseOutput GetProposalFavoriteCountByPropsalId(Int64 proposalID, out Int64 value)
+        {
+            BaseOutput baseOutput;
+            value = 0;
+            try
+            {
+                value = operation.GetProposalFavoriteCountByPropsalId(proposalID);
+
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalFavoriteCountByUserId(Int64 userID, out Int64 value)
+        {
+            BaseOutput baseOutput;
+            value = 0;
+            try
+            {
+                value = operation.GetProposalFavoriteCountByUserID(userID);
+
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalFavoriteByPropsalIdAndUserID(Int64 proposalID, Int64 userID, out tbl_ProposalFavorite itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+                var item = operation.GetProposalFavoriteByPropsalIdAndUserID(proposalID, userID);
+
+                if (item != null)
+                {
+                    itemOut = item;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                itemOut = null;
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddProposalFavorite(tbl_ProposalFavorite item, out tbl_ProposalFavorite itemOut)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+                tbl_ProposalFavorite dbItem = cRUDOperation.GetProposalFavoriteByPropsalIdAndUserID(item.ProposalID, item.UserID);
+
+                if (dbItem == null)
+                {
+                    tbl_ProposalFavorite additem = cRUDOperation.AddProposalFavorite(item);
+                    itemOut = additem;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla əlavə edilmişdir.");
+                }
+                else
+                {
+                    dbItem.IsFavorite = item.IsFavorite;
+                    tbl_ProposalFavorite additem = cRUDOperation.UpdateProposalFavorite(dbItem);
+                    itemOut = additem;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla dəyişiklik edilmişdir.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteProposalFavorite(Int64 id, out tbl_ProposalFavorite itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                tbl_ProposalFavorite itemDB = operation.DeleteProposalFavorite(id, 0);
+                itemOut = itemDB;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
+        #region tbl_ProposalLikeDislike
+        public BaseOutput GetProposalLikeCountByProposalID(Int64 proposalID, out int value)
+        {
+            BaseOutput baseOutput;
+            value = 0;
+            try
+            {
+                int diclikeCount = 0;
+                value = operation.GetProposalLikeDislikeCountByProposalId(proposalID, out diclikeCount);
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalDislikeCountByProposalID(Int64 proposalID, out int value)
+        {
+            BaseOutput baseOutput;
+            value = 0;
+            try
+            {
+                var items = operation.GetProposalLikeDislikeCountByProposalId(proposalID, out value);      
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalLikeDislikeByPropsalIdAndUserID(Int64 proposalID, Int64 userID, out tbl_ProposalLikeDislike itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+                var item = operation.GetProposalLikeDislikeByPropsalIdAndUserID(proposalID, userID);
+
+                if (item != null)
+                {
+                    itemOut = item;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    itemOut = null;
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                itemOut = null;
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+
+        public BaseOutput AddProposalLikeDislike(tbl_ProposalLikeDislike item, out tbl_ProposalLikeDislike itemOut)
+        {
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+                tbl_ProposalLikeDislike dbItem = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserID(item.ProposalID, item.UserID);
+
+                if (dbItem == null)
+                {
+                    tbl_ProposalLikeDislike additem = cRUDOperation.AddProposalLikeDislike(item);
+                    itemOut = additem;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla əlavə edilmişdir.");
+                }
+                else
+                {
+                    if (item.IsLike.HasValue)
+                    {
+                        dbItem.IsLike = item.IsLike;
+                    }
+                    if (item.IsDislike.HasValue)
+                    {
+                        dbItem.IsDislike = item.IsDislike;
+                    }
+
+                    tbl_ProposalLikeDislike additem = cRUDOperation.UpdateProposalLikeDislike(dbItem);
+                    itemOut = additem;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla dəyişiklik edilmişdir.");
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput DeleteProposalLikeDislike(Int64 id, out tbl_ProposalLikeDislike itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                tbl_ProposalLikeDislike itemDB = operation.DeleteProposalLikeDislike(id, 0);
+                itemOut = itemDB;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
         }
         #endregion
     }

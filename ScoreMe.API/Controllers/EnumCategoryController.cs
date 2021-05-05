@@ -31,11 +31,11 @@ namespace ScoreMe.API.Controllers
             var item = operation.GetEnumCategoryById(id); ;
             return item;
         }
- 
+
         [HttpPost]
         [ResponseType(typeof(tbl_EnumCategory))]
         [Route("AddEnumCategory")]
-        public async Task<IHttpActionResult> AddEnumCategory(tbl_EnumCategory item)
+        public IHttpActionResult AddEnumCategory(tbl_EnumCategory item)
         {
             if (!ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_EnumCategory))]
         [Route("UpdateEnumCategory")]
-        public async Task<IHttpActionResult> UpdateEnumCategory(tbl_EnumCategory item)
+        public IHttpActionResult UpdateEnumCategory(tbl_EnumCategory item)
         {
             CRUDOperation operation = new CRUDOperation();
             if (item == null)
@@ -67,7 +67,7 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [ResponseType(typeof(tbl_EnumCategory))]
         [Route("DeleteEnumCategory/{id}")]
-        public async Task<IHttpActionResult> DeleteEnumCategory(Int64 id)
+        public IHttpActionResult DeleteEnumCategory(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
 

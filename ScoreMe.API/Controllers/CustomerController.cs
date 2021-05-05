@@ -18,53 +18,102 @@ namespace ScoreMe.API.Controllers
     [RoutePrefix("api/customer")]
     public class CustomerController : ApiController
     {
+        CustomerBusinessOperation businessOperation = new CustomerBusinessOperation();
         [HttpGet]
         [Route("GetCustomers")]
-        public List<tbl_Customer> GetCustomers()
+        public IHttpActionResult GetCustomers()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var customers = operation.GetCustomers(); ;
-            return customers;
+            List<tbl_Customer> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetCustomers(out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpGet]
         [Route("GetCustomerByID/{id}")]
-        public tbl_Customer GetCustomerByID(Int64 id)
+        public IHttpActionResult GetCustomerByID(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var customer = operation.GetCustomerById(id); ;
-            return customer;
+
+            tbl_Customer itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetCustomerByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
+
         }
+
         [HttpGet]
         [Route("GetCustomerByUserID/{userid}")]
-        public tbl_Customer GetCustomerByUserID(Int64 userid)
+        public IHttpActionResult GetCustomerByUserID(Int64 userid)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var customer = operation.GetCustomerByUserId(userid); ;
-            return customer;
+            tbl_Customer itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetCustomerByUserID(userid, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpGet]
         [Route("GetCustomerByUserName/{username}")]
-        public tbl_Customer GetCustomerByUserName(string username)
+        public IHttpActionResult GetCustomerByUserName(string username)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var customer = operation.GetCustomerByUserName(username);
-            return customer;
+            tbl_Customer itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetCustomerByUserName(username, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpPost]
-        [ResponseType(typeof(tbl_Customer))]
         [Route("AddCustomer")]
-        public async Task<IHttpActionResult> AddCustomer(tbl_Customer item)
+        public IHttpActionResult AddCustomer(tbl_Customer item)
         {
-            if (!ModelState.IsValid)
+            tbl_Customer itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddCustomer(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return BadRequest(ModelState);
+                return Ok(itemOut);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_Customer dbitem = operation.AddCustomer(item);
-
-            return Ok(dbitem);
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpPost]
@@ -76,16 +125,15 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
             Customer itemOut = null;
-            BaseOutput dbitem = businessOperation.AddCustomerWithUser(item, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.AddCustomerWithUser(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -97,14 +145,15 @@ namespace ScoreMe.API.Controllers
         public IHttpActionResult UpdateCustomer(tbl_Customer item)
         {
             CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            tbl_Customer itemOut = null;
+            BaseOutput baseOutput = businessOperation.UpdateCustomer(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(itemOut);
             }
             else
             {
-                var dbitem = operation.UpdateCustomer(item);
-                return Ok(dbitem);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
 
@@ -114,9 +163,16 @@ namespace ScoreMe.API.Controllers
         public IHttpActionResult DeleteCustomer(Int64 id)
         {
             CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.DeleteCustomer(id, 0);
-            return Ok(dbitem);
+            tbl_Customer itemOut = null;
+            BaseOutput baseOutput = businessOperation.DeleteCustomer(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
     }

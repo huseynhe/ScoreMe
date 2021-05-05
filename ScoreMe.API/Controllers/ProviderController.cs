@@ -25,75 +25,152 @@ namespace ScoreMe.API.Controllers
 
         [HttpGet]
         [Route("GetProviders")]
-        public List<tbl_Provider> GetProviders()
+        public IHttpActionResult GetProviders()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var providers = operation.GetProviders(); ;
-            return providers;
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
+            List<tbl_Provider> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetProviders(out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpGet]
         [Route("GetProviderByID/{id}")]
-        public tbl_Provider GetProviderByID(Int64 id)
+        public IHttpActionResult GetProviderByID(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var providers = operation.GetProviderById(id); ;
-            return providers;
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
+            tbl_Provider itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProviderByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(Provider))]
+        [Route("GetProviderWithUser/{providerID}")]
+        public IHttpActionResult GetProviderWithUser(Int64 providerID)
+        {
+
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
+            Provider itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProviderByID(providerID, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
+
+
+        }
+
+        [HttpGet]
+        [ResponseType(typeof(Provider))]
+        [Route("GetProviderByUserName/{username}")]
+        public IHttpActionResult GetProviderByUserName(string username)
+        {
+
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
+            Provider itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProviderByUserName(username, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
+
         }
 
         [HttpGet]
         [Route("GetProviderReportsByDatePeriod/{providerID}/{fromDate}/{toDate}")]
-        public ProviderReportDTO GetProviderReportsByDatePeriod(Int64 providerID, DateTime fromDate, DateTime toDate)
+        public IHttpActionResult GetProviderReportsByDatePeriod(Int64 providerID, DateTime fromDate, DateTime toDate)
         {
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
             Search search = new Search
             {
                 ProviderID = providerID,
                 FromtDate = fromDate,
                 ToDate = toDate,
             };
-            ProviderRepository repository = new ProviderRepository();
-            var providerReportDTO = repository.SW_GetProviderReportsByDatePeriod(search);
-            return providerReportDTO;
+            ProviderReportDTO itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProviderReportsByDatePeriod(search, out itemOut);
+         
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
+         
         }
 
         [HttpGet]
         [Route("GetProviderReportsByYearAndMonths{providerID}/{year}/{months}")]
-        public ProviderReportDTO GetProviderReportsByYearAndMonths(Int64 providerID, int year, string months)
+        public IHttpActionResult GetProviderReportsByYearAndMonths(Int64 providerID, int year, string months)
         {
-           
+            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
             Search search = new Search
             {
                 ProviderID = providerID,
                 Year=year,
                 Months = months,
             };
-            ProviderRepository repository = new ProviderRepository();
-            var providerReportDTO = repository.SW_GetProviderReportsByYearAndMonths(search);
-            return providerReportDTO;
-        }
+            ProviderReportDTO itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProviderReportsByYearAndMonths(search, out itemOut);
 
-        [HttpPost]
-        [ResponseType(typeof(tbl_Provider))]
-        [Route("AddProvider")]
-        public IHttpActionResult AddProvider(tbl_Provider item)
-        {
-            if (!ModelState.IsValid)
+            if (baseOutput.ResultCode == 1)
             {
-                return BadRequest(ModelState);
+                return Ok(itemOut);
             }
-            CRUDOperation cRUDOperation = new CRUDOperation();
-            tbl_Provider provider = cRUDOperation.AddProvider(item);
-            if (provider != null)
+            else if (baseOutput.ResultCode == 5)
             {
-                return Ok(provider);
+                return Content(HttpStatusCode.NotFound, baseOutput);
             }
             else
             {
-
-                return BadRequest();
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
-
         }
+
         [HttpPost]
         [ResponseType(typeof(Provider))]
         [Route("AddProviderWithUser")]
@@ -105,38 +182,18 @@ namespace ScoreMe.API.Controllers
             }
             ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
             Provider itemOut = null;
-            BaseOutput dbitem = businessOperation.AddProviderWithUser(item, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.AddProviderWithUser(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
-            }
+            }           
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
-        }
-        [HttpGet]
-        [ResponseType(typeof(Provider))]
-        [Route("GetProviderWithUser/{providerID}")]
-        public IHttpActionResult GetProviderWithUser(Int64 providerID)
-        {
-
-            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
-            Provider itemOut = null;
-            BaseOutput dbitem = businessOperation.GetProviderByID(providerID, out itemOut);
-            if (dbitem.ResultCode == 1)
-            {
-                return Ok(itemOut);
-            }
-            else
-            {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
-            }
-
-
-        }
+        }      
 
         [HttpPost]
         [ResponseType(typeof(tbl_Provider))]
@@ -163,37 +220,19 @@ namespace ScoreMe.API.Controllers
 
             ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
             tbl_Provider itemOut = null;
-            BaseOutput dbitem = businessOperation.DeleteProvider(id, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.DeleteProvider(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
-         
+
 
         }
 
-        [HttpGet]
-        [ResponseType(typeof(Provider))]
-        [Route("GetProviderByUserName/{username}")]
-        public IHttpActionResult GetProviderByUserName(string username)
-        {
-
-            ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
-            Provider itemOut = null;
-            BaseOutput dbitem = businessOperation.GetProviderByUserName(username, out itemOut);
-            if (dbitem.ResultCode == 1)
-            {
-                return Ok(itemOut);
-            }
-            else
-            {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
-            }
-
-        }
+     
     }
 }

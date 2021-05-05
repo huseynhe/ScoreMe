@@ -17,18 +17,22 @@ namespace ScoreMe.API.Controllers
 
         [HttpGet]
         [Route("GetCALLModelWithDetails")]
-        public List<CALLModel> GetCALLModelWithDetails()
+        public IHttpActionResult GetCALLModelWithDetails()
         {
             BusinessOperation businessOperation = new BusinessOperation();
             List<CALLModel> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetCALLModels(out itemsOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetCALLModels(out itemsOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
@@ -38,14 +42,18 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             CALLModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetCALLModelsByID(id, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetCALLModelsByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
@@ -55,18 +63,21 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             CALLModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetLastCALLModelByUserName(userName, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetLastCALLModelByUserName(userName, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpPost]
-        [ResponseType(typeof(CALLModel))]
         [Route("AddCALLModelWithDetail")]
         public IHttpActionResult AddCALLModelWithDetail(CALLModel item)
         {
@@ -76,20 +87,19 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.AddCALLModel(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.AddCALLModel(item);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
         }
         [HttpPost]
-        [ResponseType(typeof(CALLModel))]
         [Route("UpdateCALLModelWithDetail")]
         public IHttpActionResult UpdateCALLModelWithDetail(CALLModel item)
         {
@@ -99,21 +109,20 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.UpdateCALLModel(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.UpdateCALLModel(item);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
         }
 
         [HttpPost]
-        [ResponseType(typeof(CALLModel))]
         [Route("DeleteCALLModelWithDetail")]
         public IHttpActionResult DeleteCALLModelWithDetail(Int64 id)
         {
@@ -123,14 +132,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.DeleteCALLModel(id);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.DeleteCALLModel(id);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 

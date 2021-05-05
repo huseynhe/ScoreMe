@@ -23,74 +23,119 @@ namespace ScoreMe.API.Controllers
         static string ServerPath = @"h:\root\home\huseyn89-003\www\site1\document";
         //static string ServerPath = @"D:\GitProject\ScoreMe\images";
       
-
-
         #region ProposalGroup
 
         [HttpGet]
         [Route("GetProposalUserGroups")]
-        public List<tbl_ProposalUserGroup> GetProposalUserGroups()
+        public IHttpActionResult GetProposalUserGroups()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var proposalusergroups = operation.GetProposalUserGroups(); ;
-            return proposalusergroups;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<tbl_ProposalUserGroup> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalUserGroups(out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
         [Route("GetProposalsByGroupID/{groupid}")]
-        public List<tbl_Proposal> GetProposalsByGroupID(Int64 groupid)
+        public IHttpActionResult GetProposalsByGroupID(Int64 groupid)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var proposals = operation.GetProposalsByGroupID(groupid); ;
-            return proposals;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<tbl_Proposal> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalsByGroupID(groupid,out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
         [Route("GetGroupsByPropsalID/{propsalid}")]
-        public List<tbl_Group> GetGroupsByPropsalID(Int64 propsalid)
+        public IHttpActionResult GetGroupsByPropsalID(Int64 propsalid)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var groups = operation.GetGroupsByPropsalID(propsalid); ;
-            return groups;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<tbl_Group> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetGroupsByPropsalID(propsalid, out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpPost]
         [ResponseType(typeof(tbl_ProposalUserGroup))]
         [Route("AddProposalUserGroup")]
         public IHttpActionResult AddProposalUserGroup(tbl_ProposalUserGroup item)
         {
-            if (!ModelState.IsValid)
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalUserGroup itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddProposalUserGroup(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return BadRequest(ModelState);
+                return Ok(itemOut);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_ProposalUserGroup dbitem = operation.AddProposalUserGroup(item);
-
-            return Ok(dbitem);
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpPost]
         [ResponseType(typeof(tbl_ProposalUserGroup))]
         [Route("UpdateProposalUserGroup")]
-        public IHttpActionResult UpdateUserGroup(tbl_ProposalUserGroup item)
+        public IHttpActionResult UpdateProposalUserGroup(tbl_ProposalUserGroup item)
         {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalUserGroup itemOut = null;
+            BaseOutput baseOutput = businessOperation.UpdateProposalUserGroup(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(itemOut);
             }
             else
             {
-                var dbitem = operation.UpdateProposalUserGroup(item);
-                return Ok(dbitem);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
 
         [HttpPost]
         [ResponseType(typeof(tbl_ProposalUserGroup))]
         [Route("DeleteProposalUserGroup/{id}")]
-        public IHttpActionResult DeleteUserGroup(Int64 id)
+        public IHttpActionResult DeleteProposalUserGroup(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.DeleteProposalUserGroup(id, 0);
-            return Ok(dbitem);
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalUserGroup itemOut = null;
+            BaseOutput baseOutput = businessOperation.DeleteProposalUserGroup(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
         #endregion
@@ -116,7 +161,6 @@ namespace ScoreMe.API.Controllers
             else
             {
                 return Content(HttpStatusCode.BadRequest, dbitem);
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
             }
 
 
@@ -139,7 +183,7 @@ namespace ScoreMe.API.Controllers
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
 
 
@@ -158,7 +202,7 @@ namespace ScoreMe.API.Controllers
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, dbitem);
             }
         }
 
@@ -311,19 +355,43 @@ namespace ScoreMe.API.Controllers
         #region ProposalUserState
         [HttpGet]
         [Route("GetProposalUserStates")]
-        public List<tbl_ProposalUserState> GetProposalUserStates()
+        public IHttpActionResult GetProposalUserStates()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var proposaluserstates = operation.GetProposalUserStates(); ;
-            return proposaluserstates;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<tbl_ProposalUserState> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalUserStates(out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
         [Route("GetProposalUserStateByID/{id}")]
-        public tbl_ProposalUserState GetProposalUserStateByID(Int64 id)
+        public IHttpActionResult GetProposalUserStateByID(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var item = operation.GetProposalUserStateByID(id); ;
-            return item;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalUserState itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalUserStateByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpPost]
@@ -331,14 +399,17 @@ namespace ScoreMe.API.Controllers
         [Route("AddProposalUserState")]
         public IHttpActionResult AddProposalUserState(tbl_ProposalUserState item)
         {
-            if (!ModelState.IsValid)
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalUserState itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddProposalUserState(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return BadRequest(ModelState);
+                return Ok(itemOut);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_ProposalUserState dbitem = operation.AddProposalUserState(item);
-
-            return Ok(dbitem);
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpPost]
@@ -346,15 +417,16 @@ namespace ScoreMe.API.Controllers
         [Route("UpdateProposalUserState")]
         public IHttpActionResult UpdateProposalUserState(tbl_ProposalUserState item)
         {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalUserState itemOut = null;
+            BaseOutput baseOutput = businessOperation.UpdateProposalUserState(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(itemOut);
             }
             else
             {
-                var dbitem = operation.UpdateProposalUserState(item);
-                return Ok(dbitem);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
 
@@ -363,44 +435,83 @@ namespace ScoreMe.API.Controllers
         [Route("DeleteProposalUserState/{id}")]
         public IHttpActionResult DeleteProposalUserState(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.DeleteProposalUserState(id, 0);
-            return Ok(dbitem);
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            tbl_ProposalUserState itemOut = null;
+            BaseOutput baseOutput = businessOperation.DeleteProposalUserState(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
 
         [HttpGet]
         [Route("GetProposalUserStatesByProposalID/{proposalID}")]
-        public List<tbl_ProposalUserState> GetProposalUserStatesByProposalID(Int64 proposalID)
+        public IHttpActionResult GetProposalUserStatesByProposalID(Int64 proposalID)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var proposaluserstates = operation.GetProposalUserStatesByProposalID(proposalID);
-            return proposaluserstates;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<tbl_ProposalUserState> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalUserStatesByProposalID(proposalID,out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, dbitem);
+            }
         }
         [HttpGet]
         [Route("GetProposalUserStatesByUserID/{userID}")]
-        public List<tbl_ProposalUserState> GetProposalUserStatesByUserID(Int64 userID)
+        public IHttpActionResult GetProposalUserStatesByUserID(Int64 userID)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var proposaluserstates = operation.GetProposalUserStatesByUserID(userID);
-            return proposaluserstates;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<tbl_ProposalUserState> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalUserStatesByUserID(userID, out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, dbitem);
+            }
         }
         [HttpGet]
         [Route("GetProposalUserStatesByProviderStateType/{providerStateType}")]
-        public List<tbl_ProposalUserState> GetProposalUserStatesByProviderStateType(Int64 providerStateType)
+        public IHttpActionResult GetProposalUserStatesByProviderStateType(Int64 providerStateType)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var proposaluserstates = operation.GetProposalUserStatesByProviderStateType(providerStateType);
-            return proposaluserstates;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<tbl_ProposalUserState> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalUserStatesByProviderStateType(providerStateType, out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, dbitem);
+            }
         }
         [HttpGet]
         [Route("GetProposalUserStatesByUserStateType/{userStateType}")]
-        public List<tbl_ProposalUserState> GetProposalUserStatesByUserStateType(Int64 userStateType)
+        public IHttpActionResult GetProposalUserStatesByUserStateType(Int64 userStateType)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var proposaluserstates = operation.GetProposalUserStatesByUserStateType(userStateType);
-            return proposaluserstates;
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<tbl_ProposalUserState> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalUserStatesByUserStateType(userStateType, out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, dbitem);
+            }
         }
 
         #endregion

@@ -162,96 +162,8 @@ namespace ScoreMe.Business
             }
         }
         #endregion
- 
-        #region Customer
-        public BaseOutput AddCustomerWithUser(Customer item, out Customer itemOut)
-        {
-            CRUDOperation cRUDOperation = new CRUDOperation();
-            BaseOutput baseOutput;
-            try
-            {
-                tbl_EnumValue enumValue = cRUDOperation.GetEnumValueByName("Customer");
 
-                tbl_User user = new tbl_User()
-                {
-                    UserName = item.UserName,
-                    Password = UserUtil.MD5HashedPassword(item.Password),
-                    UserType_EVID = enumValue.ID,
-
-
-                };
-                tbl_User _User = cRUDOperation.GetUserByUserName(user.UserName);
-                if (_User == null)
-                {
-                    tbl_User userDB = cRUDOperation.AddUser(user);
-                    if (userDB != null)
-                    {
-                        tbl_Customer customer = new tbl_Customer()
-                        {
-                            UserId = userDB.ID,
-                            Name = item.Name,
-                            Surname = item.Surname,
-                            FatherName = item.FatherName,
-                            IdentityCode = item.IdentityCode,
-                            PhoneNumber = item.PhoneNumber,
-                            Email = item.Email,
-                            RegionId = item.RegionId,
-                            Address = item.Address
-
-                        };
-                        tbl_Customer customerDB = cRUDOperation.AddCustomer(customer);
-
-                        if (customerDB != null)
-                        {
-                            itemOut = new Customer()
-                            {
-                                UserID = customerDB.UserId,
-                                UserName = userDB.UserName,
-                                CustomerID = customerDB.ID,
-                                Name = customerDB.Name,
-                                Surname = customerDB.Surname,
-                                FatherName = customerDB.FatherName,
-                                IdentityCode = customerDB.IdentityCode,
-                                PhoneNumber = customerDB.PhoneNumber,
-                                Email = customerDB.Email,
-                                RegionId = customerDB.RegionId == null ? 0 : (Int64)customerDB.RegionId,
-                                Address = customerDB.Address
-
-                            };
-                            return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-                        }
-                        else
-                        {
-                            itemOut = null;
-                            return baseOutput = new BaseOutput(true, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, "");
-                        }
-
-
-                    }
-                    else
-                    {
-                        itemOut = null;
-                        return baseOutput = new BaseOutput(true, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, "");
-                    }
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
-
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-
-                itemOut = null;
-                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
-            }
-        }
-        #endregion
+       
 
 
 
@@ -594,7 +506,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -645,8 +557,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
-
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
                 }
 
             }
@@ -694,7 +605,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -845,45 +756,7 @@ namespace ScoreMe.Business
         }
         #endregion
 
-        #region ProposalLikeDislike
-        public BaseOutput AddProposalLikeDislike(tbl_ProposalLikeDislike item)
-        {
-            CRUDOperation cRUDOperation = new CRUDOperation();
-            BaseOutput baseOutput;
-            try
-            {
-                tbl_ProposalLikeDislike dbItem = cRUDOperation.GetProposalLikeDislikeByPropsalIdAndUserID(item.ProposalID, item.UserID);
-
-                if (dbItem == null)
-                {
-                    tbl_ProposalLikeDislike additem = cRUDOperation.AddProposalLikeDislike(item);
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla əlavə edilmişdir.");
-                }
-                else
-                {
-                    if (item.IsLike.HasValue)
-                    {
-                        dbItem.IsLike = item.IsLike;
-                    }
-                    if (item.IsDislike.HasValue)
-                    {
-                        dbItem.IsDislike = item.IsDislike;
-                    }
-
-                    tbl_ProposalLikeDislike additem = cRUDOperation.UpdateProposalLikeDislike(dbItem);
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla dəyişiklik edilmişdir.");
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
-            }
-        }
-        #endregion
-
-
+       
         #region NetConsumeModel
         public BaseOutput GetNetConsumeModels(out List<NetConsumeModel> netConsumeModels)
         {
@@ -1128,9 +1001,9 @@ namespace ScoreMe.Business
                 List<tbl_AppConsumeModel> tblAppConsumeModels = cRUDOperation.GetAppConsumeModels();
                 appConsumeModels = new List<AppConsumeModel>();
 
-                if (appConsumeModels.Count > 0)
+                if (tblAppConsumeModels.Count > 0)
                 {
-                    foreach (var item in appConsumeModels)
+                    foreach (var item in tblAppConsumeModels)
                     {
                         AppConsumeModel consumeModel = new AppConsumeModel()
                         {
@@ -1153,7 +1026,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -1190,7 +1063,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -1225,7 +1098,7 @@ namespace ScoreMe.Business
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -1236,12 +1109,11 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
-        public BaseOutput AddAppConsumeModel(AppConsumeModel item)
+        public BaseOutput AddAppConsumeModel(AppConsumeModel item, out AppConsumeModel itemOut)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
-
-
+            itemOut = null;
             try
             {
                 tbl_AppConsumeModel appConsumeModel = new tbl_AppConsumeModel()
@@ -1255,12 +1127,15 @@ namespace ScoreMe.Business
 
                 tblAppConsumeDetails = item.AppConsumeDetails;
                 tbl_AppConsumeModel _appConsumeModel = cRUDOperation.AddAppConsumeModel(appConsumeModel, tblAppConsumeDetails);
+                item.ID = _appConsumeModel.ID;
+                itemOut = item;
+                itemOut.AppConsumeDetails = null;
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
             {
-
+                itemOut = null;
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
@@ -1268,6 +1143,7 @@ namespace ScoreMe.Business
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
+    
             try
             {
                 tbl_AppConsumeModel tblAppConsumeModel = new tbl_AppConsumeModel()
@@ -1287,12 +1163,13 @@ namespace ScoreMe.Business
                         tbl_AppConsumeDetail tblAppConsumeDetail = cRUDOperation.UpdateAppConsumeDetail(consumeDetail);
                     }
 
+                    
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -1301,7 +1178,7 @@ namespace ScoreMe.Business
             }
             catch (Exception ex)
             {
-
+            
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
@@ -1325,15 +1202,13 @@ namespace ScoreMe.Business
 
                     }
 
-
-
                     tbl_AppConsumeModel appConsumeModel = cRUDOperation.DeleteAppConsumeModel(id, 0);
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
                 else
                 {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
                 }
 
@@ -1513,35 +1388,6 @@ namespace ScoreMe.Business
         }
         #endregion
 
-        #region ProposalFavorite
-        public BaseOutput AddProposalFavorite(tbl_ProposalFavorite item)
-        {
-            CRUDOperation cRUDOperation = new CRUDOperation();
-            BaseOutput baseOutput;
-            try
-            {
-                tbl_ProposalFavorite dbItem = cRUDOperation.GetProposalFavoriteByPropsalIdAndUserID(item.ProposalID, item.UserID);
-
-                if (dbItem == null)
-                {
-                    tbl_ProposalFavorite additem = cRUDOperation.AddProposalFavorite(item);
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla əlavə edilmişdir.");
-                }
-                else
-                {
-                    dbItem.IsFavorite = item.IsFavorite;
-                    tbl_ProposalFavorite additem = cRUDOperation.UpdateProposalFavorite(dbItem);
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "Uğurla dəyişiklik edilmişdir.");
-                }
-
-            }
-            catch (Exception ex)
-            {
-
-                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
-            }
-        }
-        #endregion
     }
 }
 

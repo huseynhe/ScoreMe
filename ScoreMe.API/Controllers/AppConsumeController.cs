@@ -19,18 +19,22 @@ namespace ScoreMe.API.Controllers
     {
         [HttpGet]
         [Route("GetAppConsumeModelWithDetails")]
-        public List<AppConsumeModel> GetAppConsumeModelWithDetails()
+        public IHttpActionResult GetAppConsumeModelWithDetails()
         {
             BusinessOperation businessOperation = new BusinessOperation();
             List<AppConsumeModel> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetAppConsumeModels(out itemsOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetAppConsumeModels(out itemsOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
+            }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
@@ -40,14 +44,18 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             AppConsumeModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetAppConsumeModelByID(id, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetAppConsumeModelByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
@@ -57,18 +65,21 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             AppConsumeModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetLastAppConsumeModelByUserName(userName, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetLastAppConsumeModelByUserName(userName, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
+            else if (baseOutput.ResultCode == 5)
+            {
+                return Content(HttpStatusCode.NotFound, baseOutput);
+            }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpPost]
-        [ResponseType(typeof(AppConsumeModel))]
         [Route("AddAppConsumeModelWithDetail")]
         public IHttpActionResult AddAppConsumeModelWithDetail(AppConsumeModel item)
         {
@@ -77,21 +88,20 @@ namespace ScoreMe.API.Controllers
                 return BadRequest(ModelState);
             }
             BusinessOperation businessOperation = new BusinessOperation();
-
-            BaseOutput dbitem = businessOperation.AddAppConsumeModel(item);
-            if (dbitem.ResultCode == 1)
+            AppConsumeModel itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddAppConsumeModel(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
         }
         [HttpPost]
-        [ResponseType(typeof(AppConsumeModel))]
         [Route("UpdateAppConsumeModelWithDetail")]
         public IHttpActionResult UpdateAppConsumeModelWithDetail(AppConsumeModel item)
         {
@@ -101,20 +111,20 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.UpdateAppConsumeModel(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.UpdateAppConsumeModel(item);
+
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
         }
         [HttpPost]
-        [ResponseType(typeof(AppConsumeModel))]
         [Route("DeleteAppConsumeModelWithDetail")]
         public IHttpActionResult DeleteAppConsumeModelWithDetail(Int64 id)
         {
@@ -124,19 +134,19 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.DeleteAppConsumeModel(id);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.DeleteAppConsumeModel(id);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
         }
- 
+
 
     }
 }
