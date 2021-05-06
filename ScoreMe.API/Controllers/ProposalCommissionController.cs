@@ -1,4 +1,6 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.Business;
+using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -12,38 +14,67 @@ namespace ScoreMe.API.Controllers
 {
     public class ProposalCommissionController : ApiController
     {
+        ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
         [HttpGet]
         [Route("GetProposalCommissions")]
-        public List<tbl_ProposalCommission> GetProposalCommissions()
-        {
-            CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetProposalCommissions(); ;
-            return items;
+        public IHttpActionResult GetProposalCommissions()
+        { 
+            List<tbl_ProposalCommission> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalCommissions(out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpGet]
         [Route("GetProposalCommissionByID/{id}")]
-        public tbl_ProposalCommission GetProposalCommissionByID(Int64 id)
+        public IHttpActionResult GetProposalCommissionByID(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var item = operation.GetProposalCommissionById(id); 
-            return item;
+            tbl_ProposalCommission itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalCommissionByID(id,out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
-        [Route("GetProposalUserSaveByProposalID/{proposalID}")]
-        public tbl_ProposalCommission GetProposalCommissionByProposalID(Int64 proposalID)
+        [Route("GetProposalCommissionByProposalID/{proposalID}")]
+        public IHttpActionResult GetProposalCommissionByProposalID(Int64 proposalID)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetProposalCommissionByProposalId(proposalID); ;
-            return items;
+            tbl_ProposalCommission itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalCommissionByProposalID(proposalID, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
-        [Route("GetProposalUserSaveByUserID/{userID}")]
-        public List<tbl_ProposalCommission> GetProposalCommissionsByProviderID(Int64 providerID)
+        [Route("GetProposalCommissionsByProviderID/{userID}")]
+        public IHttpActionResult GetProposalCommissionsByProviderID(Int64 providerID)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var items = operation.GetProposalCommissionByProviderId(providerID); ;
-            return items;
+            List<tbl_ProposalCommission> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetProposalCommissionsByProviderID(providerID, out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpPost]
@@ -51,14 +82,16 @@ namespace ScoreMe.API.Controllers
         [Route("AddProposalCommission")]
         public IHttpActionResult AddProposalCommission(tbl_ProposalCommission item)
         {
-            if (!ModelState.IsValid)
+            tbl_ProposalCommission itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddProposalCommission(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return BadRequest(ModelState);
+                return Ok(itemOut);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_ProposalCommission dbitem = operation.AddProposalCommission(item);
-
-            return Ok(dbitem);
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpPost]
@@ -66,15 +99,15 @@ namespace ScoreMe.API.Controllers
         [Route("UpdateProposalCommission")]
         public IHttpActionResult UpdateProposalCommission(tbl_ProposalCommission item)
         {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            tbl_ProposalCommission itemOut = null;
+            BaseOutput baseOutput = businessOperation.UpdateProposalCommission(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(itemOut);
             }
             else
             {
-                var dbitem = operation.UpdateProposalCommission(item);
-                return Ok(dbitem);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
 
@@ -83,10 +116,16 @@ namespace ScoreMe.API.Controllers
         [Route("DeleteProposalCommission/{id}")]
         public IHttpActionResult DeleteProposalCommission(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.DeleteProposalCommission(id, 0);
-            return Ok(dbitem);
+            tbl_ProposalCommission itemOut = null;
+            BaseOutput baseOutput = businessOperation.DeleteProposalCommission(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
 

@@ -228,15 +228,9 @@ namespace ScoreMe.Business
                     }
                     proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
             }
@@ -324,15 +318,9 @@ namespace ScoreMe.Business
 
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -424,15 +412,9 @@ namespace ScoreMe.Business
 
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
 
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -523,16 +505,9 @@ namespace ScoreMe.Business
                         proposals.Add(proposal);
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-
-                }
 
             }
             catch (Exception ex)
@@ -631,14 +606,9 @@ namespace ScoreMe.Business
                     }
 
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
 
             }
             catch (Exception ex)
@@ -736,15 +706,9 @@ namespace ScoreMe.Business
 
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
 
             }
             catch (Exception ex)
@@ -820,15 +784,9 @@ namespace ScoreMe.Business
 
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
 
             }
             catch (Exception ex)
@@ -916,15 +874,9 @@ namespace ScoreMe.Business
                         }
                     }
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
             }
@@ -1040,17 +992,8 @@ namespace ScoreMe.Business
             {
                 var listItem = operation.GetProposalUserStates();
 
-                if (listItem != null)
-                {
-                    itemsOut = listItem;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
+                itemsOut = listItem;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -1067,20 +1010,8 @@ namespace ScoreMe.Business
             {
                 var item = operation.GetProposalUserStateByID(id); ;
 
-                if (item != null)
-                {
-                    itemOut = item;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                itemOut = item;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -1169,18 +1100,8 @@ namespace ScoreMe.Business
             try
             {
                 var proposaluserstates = operation.GetProposalUserStatesByProposalID(proposalID);
-                if (proposaluserstates != null)
-                {
-                    itemsOut = proposaluserstates;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
+                itemsOut = proposaluserstates;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -1196,18 +1117,8 @@ namespace ScoreMe.Business
             try
             {
                 var proposaluserstates = operation.GetProposalUserStatesByUserID(userID);
-                if (proposaluserstates != null)
-                {
-                    itemsOut = proposaluserstates;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
+                itemsOut = proposaluserstates;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -1223,17 +1134,9 @@ namespace ScoreMe.Business
             try
             {
                 var proposaluserstates = operation.GetProposalUserStatesByProviderStateType(providerStateType);
-                if (proposaluserstates != null)
-                {
-                    itemsOut = proposaluserstates;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+                itemsOut = proposaluserstates;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
 
 
             }
@@ -1250,18 +1153,8 @@ namespace ScoreMe.Business
             try
             {
                 var proposaluserstates = operation.GetProposalUserStatesByUserStateType(userStateType);
-                if (proposaluserstates != null)
-                {
-                    itemsOut = proposaluserstates;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
+                itemsOut = proposaluserstates;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -1281,17 +1174,9 @@ namespace ScoreMe.Business
             {
                 var listItem = operation.GetProposalUserGroups();
 
-                if (listItem != null)
-                {
-                    itemsOut = listItem;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+                itemsOut = listItem;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
 
             }
             catch (Exception ex)
@@ -1308,19 +1193,8 @@ namespace ScoreMe.Business
             {
                 var listitem = operation.GetProposalsByGroupID(groupid); ;
 
-                if (listitem != null)
-                {
-                    itemsOut = listitem;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                itemsOut = listitem;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -1336,18 +1210,8 @@ namespace ScoreMe.Business
             {
                 var listitem = operation.GetGroupsByPropsalID(propsalid); ;
 
-                if (listitem != null)
-                {
-                    itemsOut = listitem;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
+                itemsOut = listitem;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
             }
@@ -1438,7 +1302,6 @@ namespace ScoreMe.Business
             try
             {
                 value = operation.GetProposalFavoriteCountByPropsalId(proposalID);
-
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
@@ -1456,7 +1319,6 @@ namespace ScoreMe.Business
             try
             {
                 value = operation.GetProposalFavoriteCountByUserID(userID);
-
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
@@ -1572,7 +1434,7 @@ namespace ScoreMe.Business
             value = 0;
             try
             {
-                var items = operation.GetProposalLikeDislikeCountByProposalId(proposalID, out value);      
+                var items = operation.GetProposalLikeDislikeCountByProposalId(proposalID, out value);
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
@@ -1614,7 +1476,6 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
-
         public BaseOutput AddProposalLikeDislike(tbl_ProposalLikeDislike item, out tbl_ProposalLikeDislike itemOut)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
@@ -1661,6 +1522,151 @@ namespace ScoreMe.Business
             {
 
                 tbl_ProposalLikeDislike itemDB = operation.DeleteProposalLikeDislike(id, 0);
+                itemOut = itemDB;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        #endregion
+
+        #region tbl_ProposalCommission
+        public BaseOutput GetProposalCommissions(out List<tbl_ProposalCommission> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var listItem = operation.GetProposalCommissions();
+                itemsOut = listItem;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalCommissionByID(Int64 id,  out tbl_ProposalCommission itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+                var listitem = operation.GetProposalCommissionById(id);
+
+                itemOut = listitem;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalCommissionByProposalID(Int64 proposalID, out tbl_ProposalCommission itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+                var listitem = operation.GetProposalCommissionByProposalId(proposalID);
+
+                itemOut = listitem;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalCommissionsByProviderID(Int64 providerID, out List<tbl_ProposalCommission> itemsOut)
+        {
+            BaseOutput baseOutput;
+            itemsOut = null;
+            try
+            {
+                var listitem = operation.GetProposalCommissionByProviderId(providerID);
+
+                itemsOut = listitem;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput AddProposalCommission(tbl_ProposalCommission item, out tbl_ProposalCommission itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                if (item != null)
+                {
+                    tbl_ProposalCommission itemDB = operation.AddProposalCommission(item);
+                    itemOut = itemDB;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput UpdateProposalCommission(tbl_ProposalCommission item, out tbl_ProposalCommission itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                if (item != null)
+                {
+                    tbl_ProposalCommission itemDB = operation.UpdateProposalCommission(item);
+                    itemOut = itemDB;
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+                }
+                else
+                {
+                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+
+        public BaseOutput DeleteProposalCommission(Int64 id, out tbl_ProposalCommission itemOut)
+        {
+            BaseOutput baseOutput;
+            itemOut = null;
+            try
+            {
+
+                tbl_ProposalCommission itemDB = operation.DeleteProposalCommission(id, 0);
                 itemOut = itemDB;
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 

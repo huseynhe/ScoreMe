@@ -24,18 +24,9 @@ namespace ScoreMe.Business
             try
             {
                 var customers = operation.GetCustomers();
+                itemsOut = customers;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                if (customers != null)
-                {
-                    itemsOut = customers;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
 
             }
             catch (Exception ex)
@@ -52,20 +43,8 @@ namespace ScoreMe.Business
             {
                 var customer = operation.GetCustomerById(id); ;
 
-                if (customer != null)
-                {
-                    itemOut = customer;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                itemOut = customer;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -83,18 +62,8 @@ namespace ScoreMe.Business
             {
                 var customer = operation.GetCustomerByUserId(userid); ;
 
-                if (customer != null)
-                {
-                    itemOut = customer;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
+                itemOut = customer;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
             }
@@ -111,19 +80,8 @@ namespace ScoreMe.Business
             {
                 var customer = operation.GetCustomerByUserName(username); ;
 
-                if (customer != null)
-                {
-                    itemOut = customer;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                itemOut = customer;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -138,18 +96,10 @@ namespace ScoreMe.Business
             try
             {
 
-                if (item != null)
-                {
-                    tbl_Customer customer = operation.AddCustomer(item);
-                    itemOut = customer;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+                tbl_Customer customer = operation.AddCustomer(item);
+                itemOut = customer;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
 
             }
             catch (Exception ex)
@@ -162,6 +112,7 @@ namespace ScoreMe.Business
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             BaseOutput baseOutput;
+            itemOut = null;
             try
             {
                 tbl_EnumValue enumValue = cRUDOperation.GetEnumValueByName("Customer");
@@ -212,36 +163,20 @@ namespace ScoreMe.Business
                                 Address = customerDB.Address
 
                             };
-                            return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+                           
                         }
-                        else
-                        {
-                            itemOut = null;
-                            return baseOutput = new BaseOutput(true, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, "");
-                        }
-
-
+                     
                     }
-                    else
-                    {
-                        itemOut = null;
-                        return baseOutput = new BaseOutput(true, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, "");
-                    }
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
-
+                 
                 }
 
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
             }
             catch (Exception ex)
             {
 
-                itemOut = null;
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
@@ -252,18 +187,10 @@ namespace ScoreMe.Business
             try
             {
 
-                if (item != null)
-                {
-                    tbl_Customer customer = operation.UpdateCustomer(item);
-                    itemOut = customer;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+                tbl_Customer customer = operation.UpdateCustomer(item);
+                itemOut = customer;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
 
             }
             catch (Exception ex)

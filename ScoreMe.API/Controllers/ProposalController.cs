@@ -22,7 +22,7 @@ namespace ScoreMe.API.Controllers
     {
         static string ServerPath = @"h:\root\home\huseyn89-003\www\site1\document";
         //static string ServerPath = @"D:\GitProject\ScoreMe\images";
-      
+
         #region ProposalGroup
 
         [HttpGet]
@@ -51,7 +51,7 @@ namespace ScoreMe.API.Controllers
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<tbl_Proposal> itemsOut = null;
-            BaseOutput baseOutput = businessOperation.GetProposalsByGroupID(groupid,out itemsOut);
+            BaseOutput baseOutput = businessOperation.GetProposalsByGroupID(groupid, out itemsOut);
             if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemsOut);
@@ -152,7 +152,7 @@ namespace ScoreMe.API.Controllers
             }
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             Proposal itemOut = null;
-            BaseOutput dbitem = businessOperation.AddProposalWithDetail(item,out itemOut);
+            BaseOutput dbitem = businessOperation.AddProposalWithDetail(item, out itemOut);
 
             if (dbitem.ResultCode == 1)
             {
@@ -231,13 +231,13 @@ namespace ScoreMe.API.Controllers
             BaseOutput dbitem = businessOperation.GetProposalsByProviderID(providerid, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
-          
+
                 return Ok(itemsOut);
             }
             else
             {
                 return Content(HttpStatusCode.BadRequest, dbitem);
-              
+
             }
         }
         [HttpGet]
@@ -364,10 +364,6 @@ namespace ScoreMe.API.Controllers
             {
                 return Ok(itemsOut);
             }
-            else if (baseOutput.ResultCode == 5)
-            {
-                return Content(HttpStatusCode.NotFound, baseOutput);
-            }
             else
             {
                 return Content(HttpStatusCode.BadRequest, baseOutput);
@@ -383,10 +379,6 @@ namespace ScoreMe.API.Controllers
             if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
-            }
-            else if (baseOutput.ResultCode == 5)
-            {
-                return Content(HttpStatusCode.NotFound, baseOutput);
             }
             else
             {
@@ -455,7 +447,7 @@ namespace ScoreMe.API.Controllers
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<tbl_ProposalUserState> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetProposalUserStatesByProposalID(proposalID,out itemsOut);
+            BaseOutput dbitem = businessOperation.GetProposalUserStatesByProposalID(proposalID, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
                 return Ok(itemsOut);

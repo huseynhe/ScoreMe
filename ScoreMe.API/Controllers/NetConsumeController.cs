@@ -19,18 +19,18 @@ namespace ScoreMe.API.Controllers
     {
         [HttpGet]
         [Route("GetNetConsumeModelWithDetails")]
-        public List<NetConsumeModel> GetNetConsumeModelWithDetails()
+        public IHttpActionResult GetNetConsumeModelWithDetails()
         {
             BusinessOperation businessOperation = new BusinessOperation();
             List<NetConsumeModel> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetNetConsumeModels(out itemsOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetNetConsumeModels(out itemsOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
@@ -40,14 +40,14 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             NetConsumeModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetNetConsumeModelByID(id, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetNetConsumeModelByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
@@ -57,14 +57,14 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             NetConsumeModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetLastNetConsumeModelByUserName(userName, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetLastNetConsumeModelByUserName(userName, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpPost]
@@ -78,14 +78,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.AddNetConsumeModel(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.AddNetConsumeModel(item);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -101,14 +101,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.UpdateNetConsumeModel(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.UpdateNetConsumeModel(item);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -124,14 +124,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.DeleteNetConsumeModel(id);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.DeleteNetConsumeModel(id);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 

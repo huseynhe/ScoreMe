@@ -25,31 +25,53 @@ namespace ScoreMe.API.Controllers
     public class UserController : ApiController
     {
         static string ServerPath = @"h:\root\home\huseyn89-003\www\site1\document";
+        UserBusinessOperation businessOperation = new UserBusinessOperation();
         [HttpGet]
         [Route("GetUsers")]
-        public List<tbl_User> GetUsers()
+        public IHttpActionResult GetUsers()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var users = operation.GetUsers(); ;
-            return users;
+            List<tbl_User> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetUsers(out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpGet]
         [Route("GetUserByID/{id}")]
-        public tbl_User GetUserByID(Int64 id)
+        public IHttpActionResult GetUserByID(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var user = operation.GetUserById(id); ;
-            return user;
+            tbl_User itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetUserByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpGet]
         [Route("GetUserByUserName/{username}")]
-        public tbl_User GetUserByUserName(string username)
+        public IHttpActionResult GetUserByUserName(string username)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var user = operation.GetUserByUserName(username); ;
-            return user;
+            tbl_User itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetUserByUserName(username, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
@@ -60,10 +82,16 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_User dbitem = operation.AddUser(item);
-
-            return Ok(dbitem);
+            tbl_User itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddUser(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
 
         [HttpPost]
@@ -71,15 +99,19 @@ namespace ScoreMe.API.Controllers
         [Route("UpdateUser")]
         public IHttpActionResult UpdateUser(tbl_User item)
         {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
+            }
+            tbl_User itemOut = null;
+            BaseOutput baseOutput = businessOperation.UpdateUser(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
             }
             else
             {
-                var dbitem = operation.UpdateUser(item);
-                return Ok(dbitem);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
 
@@ -88,22 +120,34 @@ namespace ScoreMe.API.Controllers
         [Route("DeleteUser/{id}")]
         public IHttpActionResult DeleteUser(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.DeleteUser(id, 0);
-            return Ok(dbitem);
+            tbl_User itemOut = null;
+            BaseOutput baseOutput = businessOperation.DeleteUser(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
 
         [HttpPost]
         [ResponseType(typeof(tbl_User))]
         [Route("ChangeUserActivateStatus/{id}/{activateStatus}")]
-        public IHttpActionResult ChangeUserActivateStatus(Int64 id,int activateStatus)
+        public IHttpActionResult ChangeUserActivateStatus(Int64 id, int activateStatus)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.ActivateUser(id, 0, activateStatus);
-            return Ok(dbitem);
+            tbl_User itemOut = null;
+            BaseOutput baseOutput = businessOperation.ChangeUserActivateStatus(id, activateStatus, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
 
@@ -112,10 +156,16 @@ namespace ScoreMe.API.Controllers
         [Route("ChangePassword/{id}/{newpassword}")]
         public IHttpActionResult ChangePassword(Int64 id, string newpassword)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.ChangePassword(id, 0, newpassword);
-            return Ok(dbitem);
+            tbl_User itemOut = null;
+            BaseOutput baseOutput = businessOperation.ChangePassword(id, newpassword, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
         [HttpPost]
@@ -127,16 +177,15 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
             tbl_User itemOut = null;
-            BaseOutput dbitem = businessOperation.ChangePasswordByUserName(item, 0, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.ChangePasswordByUserName(item, 0, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
         }
@@ -150,16 +199,15 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            BusinessOperation businessOperation = new BusinessOperation();
             tbl_User itemOut = null;
-            BaseOutput dbitem = businessOperation.ResetPasswordByUserName(item, 0, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.ResetPasswordByUserName(item, 0, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
         }
@@ -195,7 +243,7 @@ namespace ScoreMe.API.Controllers
                             ImageLinkName = fileName,
                             ImageLinkPath = fullPath,
                             UserID = userID,
-                            ImageType_EVID=imageType_EVID,
+                            ImageType_EVID = imageType_EVID,
                         };
                         CRUDOperation cRUDOperation = new CRUDOperation();
                         tbl_UserDocument userDocumentDB = cRUDOperation.AddUserDocument(userDocument);
@@ -230,7 +278,7 @@ namespace ScoreMe.API.Controllers
         public HttpResponseMessage UpdateUserDocument()
         {
             Int64 documentID = HttpContext.Current.Request.Form["documentID"] == null ? 0 : Int64.Parse(HttpContext.Current.Request.Form["documentID"]);
-          
+
             var httpRequest = HttpContext.Current.Request;
 
             foreach (string fileItem in httpRequest.Files)
@@ -332,7 +380,7 @@ namespace ScoreMe.API.Controllers
             var result =
                 new HttpResponseMessage(HttpStatusCode.OK);
             CRUDOperation cRUDOperation = new CRUDOperation();
-            tbl_UserDocument document = cRUDOperation.GetUserDocumentsByUserIDAndImageTypeEVID(userID,22).FirstOrDefault();
+            tbl_UserDocument document = cRUDOperation.GetUserDocumentsByUserIDAndImageTypeEVID(userID, 22).FirstOrDefault();
             // 1) Get file bytes
             var fileBytes = File.ReadAllBytes(document.ImageLinkPath);
 
@@ -367,11 +415,11 @@ namespace ScoreMe.API.Controllers
             return documents;
         }
         [Route("GetUserDocumentsByUserIDAndImageTypeEVID/{userID}/{imageType_EVID}")]
-        public List<tbl_UserDocument> GetUserDocumentsByUserIDAndImageTypeEVID(Int64 userID,int imageType_EVID)
+        public List<tbl_UserDocument> GetUserDocumentsByUserIDAndImageTypeEVID(Int64 userID, int imageType_EVID)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             List<tbl_UserDocument> documents = new List<tbl_UserDocument>();
-            documents = cRUDOperation.GetUserDocumentsByUserIDAndImageTypeEVID(userID,imageType_EVID);
+            documents = cRUDOperation.GetUserDocumentsByUserIDAndImageTypeEVID(userID, imageType_EVID);
             return documents;
         }
         #endregion

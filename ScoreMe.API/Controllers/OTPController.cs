@@ -20,19 +20,17 @@ namespace ScoreMe.API.Controllers
         [HttpPost]
         [Route("GenarateOTP/{username}")]
         public IHttpActionResult GenarateOTP(string username)
-        {
-
-            
+        {            
             OTPOperation businessOperation = new OTPOperation();
             string itemOut = string.Empty;
-            BaseOutput dbitem = businessOperation.GenarateOTP(username, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GenarateOTP(username, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -45,14 +43,14 @@ namespace ScoreMe.API.Controllers
 
             OTPOperation businessOperation = new OTPOperation();
             bool itemOut = false;
-            BaseOutput dbitem = businessOperation.VerifyOTP(username, otptext, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.VerifyOTP(username, otptext, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -67,14 +65,14 @@ namespace ScoreMe.API.Controllers
 
             OTPOperation businessOperation = new OTPOperation();
             string itemOut = string.Empty;
-            BaseOutput dbitem = businessOperation.GenarateOTPByNumber(phoneNumber, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GenarateOTPByNumber(phoneNumber, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -87,14 +85,14 @@ namespace ScoreMe.API.Controllers
 
             OTPOperation businessOperation = new OTPOperation();
             bool itemOut = false;
-            BaseOutput dbitem = businessOperation.VerifyOTPByNumber(phoneNumber, otptext, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.VerifyOTPByNumber(phoneNumber, otptext, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
     }

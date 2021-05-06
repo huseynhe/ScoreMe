@@ -34,10 +34,6 @@ namespace ScoreMe.API.Controllers
             {
                 return Ok(itemsOut);
             }
-            else if (baseOutput.ResultCode == 5)
-            {
-                return Content(HttpStatusCode.NotFound, baseOutput);
-            }
             else
             {
                 return Content(HttpStatusCode.BadRequest, baseOutput);
@@ -54,10 +50,6 @@ namespace ScoreMe.API.Controllers
             if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
-            }
-            else if (baseOutput.ResultCode == 5)
-            {
-                return Content(HttpStatusCode.NotFound, baseOutput);
             }
             else
             {
@@ -77,10 +69,6 @@ namespace ScoreMe.API.Controllers
             if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
-            }
-            else if (baseOutput.ResultCode == 5)
-            {
-                return Content(HttpStatusCode.NotFound, baseOutput);
             }
             else
             {
@@ -103,10 +91,6 @@ namespace ScoreMe.API.Controllers
             {
                 return Ok(itemOut);
             }
-            else if (baseOutput.ResultCode == 5)
-            {
-                return Content(HttpStatusCode.NotFound, baseOutput);
-            }
             else
             {
                 return Content(HttpStatusCode.BadRequest, baseOutput);
@@ -127,20 +111,16 @@ namespace ScoreMe.API.Controllers
             };
             ProviderReportDTO itemOut = null;
             BaseOutput baseOutput = businessOperation.GetProviderReportsByDatePeriod(search, out itemOut);
-         
+
             if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
-            }
-            else if (baseOutput.ResultCode == 5)
-            {
-                return Content(HttpStatusCode.NotFound, baseOutput);
             }
             else
             {
                 return Content(HttpStatusCode.BadRequest, baseOutput);
             }
-         
+
         }
 
         [HttpGet]
@@ -151,7 +131,7 @@ namespace ScoreMe.API.Controllers
             Search search = new Search
             {
                 ProviderID = providerID,
-                Year=year,
+                Year = year,
                 Months = months,
             };
             ProviderReportDTO itemOut = null;
@@ -160,10 +140,6 @@ namespace ScoreMe.API.Controllers
             if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
-            }
-            else if (baseOutput.ResultCode == 5)
-            {
-                return Content(HttpStatusCode.NotFound, baseOutput);
             }
             else
             {
@@ -186,14 +162,14 @@ namespace ScoreMe.API.Controllers
             if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
-            }           
+            }
             else
             {
                 return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
-        }      
+        }
 
         [HttpPost]
         [ResponseType(typeof(tbl_Provider))]
@@ -233,6 +209,6 @@ namespace ScoreMe.API.Controllers
 
         }
 
-     
+
     }
 }

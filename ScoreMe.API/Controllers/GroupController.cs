@@ -1,4 +1,6 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.Business;
+using ScoreMe.DAL;
+using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -14,29 +16,53 @@ namespace ScoreMe.API.Controllers
     [RoutePrefix("api/group")]
     public class GroupController : ApiController
     {
+        GroupBusinessOperation businessOperation = new GroupBusinessOperation();
+
+        #region tbl_Group   
         [HttpGet]
         [Route("GetGroups")]
-        public List<tbl_Group> GetGroups()
+        public IHttpActionResult GetGroups()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var groups = operation.GetGroups(); ;
-            return groups;
+            List<tbl_Group> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetGroups(out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
         [Route("GetGroupByID/{id}")]
-        public tbl_Group GetGroupByID(Int64 id)
+        public IHttpActionResult GetGroupByID(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var group = operation.GetGroupByID(id); ;
-            return group;
+            tbl_Group itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetGroupByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
         [Route("GetGroupByName/{name}")]
-        public tbl_Group GetGroupByName(string name)
+        public IHttpActionResult GetGroupByName(string name)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var group = operation.GetGroupByName(name); ;
-            return group;
+            tbl_Group itemOut = null;
+            BaseOutput baseOutput = businessOperation.GetGroupByName(name, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpPost]
         [ResponseType(typeof(tbl_Group))]
@@ -47,25 +73,31 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_Group dbitem = operation.AddGroup(item);
-
-            return Ok(dbitem);
+            tbl_Group itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddGroup(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpPost]
         [ResponseType(typeof(tbl_Group))]
         [Route("UpdateGroup")]
         public IHttpActionResult UpdateGroup(tbl_Group item)
         {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            tbl_Group itemOut = null;
+            BaseOutput baseOutput = businessOperation.UpdateGroup(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(itemOut);
             }
             else
             {
-                var dbitem = operation.UpdateGroup(item);
-                return Ok(dbitem);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpPost]
@@ -73,37 +105,64 @@ namespace ScoreMe.API.Controllers
         [Route("DeleteGroup/{id}")]
         public IHttpActionResult DeleteGroup(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.DeleteGroup(id, 0);
-            return Ok(dbitem);
+            tbl_Group itemOut = null;
+            BaseOutput baseOutput = businessOperation.DeleteGroup(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
-
-   
         [HttpGet]
         [Route("GetUsersByGroupID/{groupid}")]
-        public List<tbl_User> GetUsersByGroupID(Int64 groupid)
+        public IHttpActionResult GetUsersByGroupID(Int64 groupid)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var users = operation.GetUsersByGroupID(groupid); ;
-            return users;
+            List<tbl_User> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetUsersByGroupID(groupid, out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpGet]
         [Route("GetGroupsByUserID/{userid}")]
-        public List<tbl_Group> GetGroupsByUserID(Int64 userid)
+        public IHttpActionResult GetGroupsByUserID(Int64 userid)
         {
-            CRUDOperation operation = new CRUDOperation();
-            var groups = operation.GetGroupsByUserID(userid); ;
-            return groups;
+            List<tbl_Group> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetGroupsByUserID(userid, out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
+        #endregion
+
         [HttpGet]
         [Route("GetUserGroups")]
-        public List<tbl_UserGroup> GetUserGroups()
+        public IHttpActionResult GetUserGroups()
         {
-            CRUDOperation operation = new CRUDOperation();
-            var usergroups = operation.GetUserGroups(); ;
-            return usergroups;
+            List<tbl_UserGroup> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetUserGroups(out itemsOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpPost]
         [ResponseType(typeof(tbl_UserGroup))]
@@ -114,25 +173,31 @@ namespace ScoreMe.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            CRUDOperation operation = new CRUDOperation();
-            tbl_UserGroup dbitem = operation.AddUserGroup(item);
-
-            return Ok(dbitem);
+            tbl_UserGroup itemOut = null;
+            BaseOutput baseOutput = businessOperation.AddUserGroup(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
         }
         [HttpPost]
         [ResponseType(typeof(tbl_UserGroup))]
         [Route("UpdateUserGroup")]
         public IHttpActionResult UpdateUserGroup(tbl_UserGroup item)
         {
-            CRUDOperation operation = new CRUDOperation();
-            if (item == null)
+            tbl_UserGroup itemOut = null;
+            BaseOutput baseOutput = businessOperation.UpdateUserGroup(item, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return NotFound();
+                return Ok(itemOut);
             }
             else
             {
-                var dbitem = operation.UpdateUserGroup(item);
-                return Ok(dbitem);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpPost]
@@ -140,10 +205,16 @@ namespace ScoreMe.API.Controllers
         [Route("DeleteUserGroup/{id}")]
         public IHttpActionResult DeleteUserGroup(Int64 id)
         {
-            CRUDOperation operation = new CRUDOperation();
-
-            var dbitem = operation.DeleteUserGroup(id, 0);
-            return Ok(dbitem);
+            tbl_UserGroup itemOut = null;
+            BaseOutput baseOutput = businessOperation.DeleteUserGroup(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok(itemOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
 
         }
     }

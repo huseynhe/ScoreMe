@@ -17,22 +17,20 @@ namespace ScoreMe.API.Controllers
     [RoutePrefix("api/sms")]
     public class SMSController : ApiController
     {
-
-       
         [HttpGet]
         [Route("GetSMSModelWithDetails")]
-        public List<SMSModel> GetSMSModelWithDetails()
+        public IHttpActionResult GetSMSModelWithDetails()
         {
             BusinessOperation businessOperation = new BusinessOperation();
             List<SMSModel> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetSMSModels(out itemsOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetSMSModels(out itemsOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
@@ -42,14 +40,14 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             SMSModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetSMSModelsByID(id, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetSMSModelsByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
 
@@ -60,14 +58,14 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             SMSModel itemOut = null;
-            BaseOutput dbitem = businessOperation.GetLastSMSModelByUserName(userName, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetLastSMSModelByUserName(userName, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpPost]
@@ -81,14 +79,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.AddSMSModel(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.AddSMSModel(item);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -104,14 +102,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.UpdateSMSModel(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.UpdateSMSModel(item);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -128,14 +126,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.DeleteSMSModel(id);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.DeleteSMSModel(id);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 

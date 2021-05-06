@@ -20,110 +20,7 @@ namespace ScoreMe.Business
 {
     public class BusinessOperation
     {
-        #region User
-        public BaseOutput ChangePasswordByUserName(UserInfo item, Int64 LoginUserID, out tbl_User itemOut)
-        {
-            CRUDOperation cRUDOperation = new CRUDOperation();
-            BaseOutput baseOutput;
-            try
-            {
-                if (item.Newpassword != item.ConfirmPassword)
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, CustomError.PasswordAndConfirmPasswordCode, CustomError.PasswordAndConfirmPasswordDesc, "");
-
-                }
-
-
-                tbl_User user = cRUDOperation.GetUserByUserName(item.UserName);
-                if (user == null)
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, CustomError.UserNameNotFoundCode, CustomError.UserNameNotFoundDesc, "");
-
-                }
-                string encryptedPassword = UserUtil.MD5HashedPassword(item.Password);
-                tbl_User validUser = cRUDOperation.ValidLogin(item.UserName, encryptedPassword);
-                if (validUser != null)
-                {
-                    string encryptedNewPassword = UserUtil.MD5HashedPassword(item.Newpassword);
-                    tbl_User _User = cRUDOperation.ChangePassword(validUser.ID, LoginUserID, encryptedNewPassword);
-                    if (_User != null)
-                    {
-                        itemOut = _User;
-                        return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                    }
-                    else
-                    {
-                        itemOut = null;
-                        return baseOutput = new BaseOutput(true, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, "");
-
-                    }
-
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, CustomError.PasswordIncorrectCode, CustomError.PasswordIncorrectDesc, "");
-
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-        public BaseOutput ResetPasswordByUserName(UserInfo item, Int64 LoginUserID, out tbl_User itemOut)
-        {
-            CRUDOperation cRUDOperation = new CRUDOperation();
-            BaseOutput baseOutput;
-            try
-            {
-                if (item.Newpassword != item.ConfirmPassword)
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, CustomError.PasswordAndConfirmPasswordCode, CustomError.PasswordAndConfirmPasswordDesc, "");
-
-                }
-
-
-                tbl_User user = cRUDOperation.GetUserByUserName(item.UserName);
-                if (user == null)
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, CustomError.UserNameNotFoundCode, CustomError.UserNameNotFoundDesc, "");
-
-                }
-                else
-                {
-                    string encryptedNewPassword = UserUtil.MD5HashedPassword(item.Newpassword);
-                    tbl_User _User = cRUDOperation.ChangePassword(user.ID, LoginUserID, encryptedNewPassword);
-                    if (_User != null)
-                    {
-                        itemOut = _User;
-                        return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                    }
-                    else
-                    {
-                        itemOut = null;
-                        return baseOutput = new BaseOutput(true, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, "");
-
-                    }
-                }
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-        #endregion
+  
         #region Account
         public BaseOutput ValidLogin(string userName, string userPassword, out tbl_User itemOut)
         {
@@ -210,15 +107,9 @@ namespace ScoreMe.Business
 
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
 
             }
             catch (Exception ex)
@@ -259,14 +150,10 @@ namespace ScoreMe.Business
 
                     List<tbl_SMSDetail> tbl_SMSDetails = cRUDOperation.GetSMSDetailsByModelID(sMSModel.ID);
                     sMSModel.SMSDetails = tbl_SMSDetails;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
+              
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
 
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -304,14 +191,10 @@ namespace ScoreMe.Business
                         BeginDate = tbl_SMSModel.BeginDate,
                         EndDate = tbl_SMSModel.EndDate,
                     };
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
+                
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
 
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -393,14 +276,9 @@ namespace ScoreMe.Business
                         tbl_SMSDetail tbl_SMSDetail = cRUDOperation.UpdateSMSDetail(smsDetail);
                     }
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
 
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
 
@@ -434,16 +312,10 @@ namespace ScoreMe.Business
 
 
                     tbl_SMSModel tbl_SMSModel = cRUDOperation.DeleteSMSModel(id, 0);
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
-
+                 
                 }
 
-
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -500,15 +372,8 @@ namespace ScoreMe.Business
 
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -552,14 +417,11 @@ namespace ScoreMe.Business
 
                     List<tbl_CALLDetail> tblCALLDetails = cRUDOperation.GetCALLDetailsByModelID(callModel.ID);
                     callModel.CALLDetails = tblCALLDetails;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+                  
 
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-                }
 
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
             }
             catch (Exception ex)
             {
@@ -600,14 +462,8 @@ namespace ScoreMe.Business
                         EndDate = item.EndDate
                     };
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -695,15 +551,8 @@ namespace ScoreMe.Business
                         tbl_CALLDetail tblCALLDetail = cRUDOperation.UpdateCALLDetail(callDetail);
                     }
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
-
-                }
-
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
 
             }
@@ -733,19 +582,12 @@ namespace ScoreMe.Business
 
                     }
 
-
-
                     tbl_CALLModel tbl_CALLModel = cRUDOperation.DeleteCALLModel(id, 0);
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                  
 
                 }
 
-
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -788,15 +630,8 @@ namespace ScoreMe.Business
 
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
-
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -826,14 +661,10 @@ namespace ScoreMe.Business
 
                     List<tbl_NetConsumeDetail> tbl_NetConsumeDetails = cRUDOperation.GetNetConsumeDetailsByModelID(netConsumeModel.ID);
                     netConsumeModel.NetConsumeDetails = tbl_NetConsumeDetails;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
+                   
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
 
             }
             catch (Exception ex)
@@ -861,14 +692,10 @@ namespace ScoreMe.Business
                         EndDate = item.EndDate
                     };
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
+      
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                }
 
             }
             catch (Exception ex)
@@ -928,16 +755,9 @@ namespace ScoreMe.Business
                         tbl_NetConsumeDetail tblNetConsumeDetail = cRUDOperation.UpdateNetConsumeDetail(consumeDetail);
                     }
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
-
                 }
 
-
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -969,16 +789,10 @@ namespace ScoreMe.Business
 
 
                     tbl_NetConsumeModel netConsumeModel = cRUDOperation.DeleteNetConsumeModel(id, 0);
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
-
+           
                 }
 
-
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -1020,16 +834,9 @@ namespace ScoreMe.Business
 
                     }
 
-
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
                 }
 
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
             }
             catch (Exception ex)
             {
@@ -1058,15 +865,11 @@ namespace ScoreMe.Business
 
                     List<tbl_AppConsumeDetail> tbl_AppConsumeDetails = cRUDOperation.GetAppConsumeDetailsByModelID(appConsumeModel.ID);
                     appConsumeModel.AppConsumeDetails = tbl_AppConsumeDetails;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+                  
 
                 }
 
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
             }
             catch (Exception ex)
             {
@@ -1093,15 +896,11 @@ namespace ScoreMe.Business
                         EndDate = item.EndDate
                     };
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
+                  
 
                 }
 
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
             }
             catch (Exception ex)
             {
@@ -1224,7 +1023,7 @@ namespace ScoreMe.Business
         #endregion
 
 
-        #region AppConsumeModel
+        #region UserPhoneInforamtion
         public BaseOutput GetUserPhoneInformationsByUserName(string userName, out List<tbl_UserPhoneInforamtion> userPhoneInforamtions)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
@@ -1289,10 +1088,8 @@ namespace ScoreMe.Business
             userPhoneInforamtion = null;
             try
             {
-
                 userPhoneInforamtion = cRUDOperation.GetUserPhoneInformationById(id);
                 return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
 
             }
             catch (Exception ex)

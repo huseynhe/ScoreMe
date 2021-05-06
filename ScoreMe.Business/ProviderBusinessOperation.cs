@@ -28,18 +28,9 @@ namespace ScoreMe.Business
             try
             {
                 var providers = operation.GetProviders();
+                itemsOut = providers;
 
-                if (providers != null)
-                {
-                    itemsOut = providers;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -55,22 +46,9 @@ namespace ScoreMe.Business
             itemOut = null;
             try
             {
-                var provider = operation.GetProviderById(id); ;
-
-                if (provider != null)
-                {
-                    itemOut = provider;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(false, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                var provider = operation.GetProviderById(id); 
+                itemOut = provider;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -167,7 +145,7 @@ namespace ScoreMe.Business
                 else
                 {
                     itemOut = null;
-                    return baseOutput = new BaseOutput(true, CustomError.UniqueUserNameErrorCode, CustomError.UniqueUserNameErrorDesc, "");
+                    return baseOutput = new BaseOutput(true, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, "");
 
                 }
 
@@ -203,7 +181,7 @@ namespace ScoreMe.Business
                     else
                     {
                         tbl_User _user = cRUDOperation.DeleteUser(_propvider.UserId, _propvider.UserId);
-                        if (_user != null)
+                        if (_user == null)
                         {
                             return baseOutput = new BaseOutput(false, CustomError.NotExistRecordErrorCode, CustomError.NotExistRecordErrorDesc, "");
                         }
@@ -215,13 +193,7 @@ namespace ScoreMe.Business
 
 
                 }
-                else
-                {
-                    return baseOutput = new BaseOutput(false, CustomError.NotExistRecordErrorCode, CustomError.NotExistRecordErrorDesc, "");
-
-                }
-
-
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -237,21 +209,8 @@ namespace ScoreMe.Business
             try
             {
                 Provider provider = providerRepository.GetProviderByID(id);
-
-                if (provider != null)
-                {
-                    itemOut = provider;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                itemOut = provider;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -290,20 +249,8 @@ namespace ScoreMe.Business
 
                 };
 
-                if (provider != null)
-                {
-                    itemOut = provider;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                itemOut = provider;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -321,20 +268,8 @@ namespace ScoreMe.Business
             {
                 ProviderRepository repository = new ProviderRepository();
                 var providerReportDTO = repository.SW_GetProviderReportsByDatePeriod(search);
-                if (providerReportDTO != null)
-                {
-                    itemOut = providerReportDTO;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                itemOut = providerReportDTO;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)
@@ -352,20 +287,8 @@ namespace ScoreMe.Business
             {
                 ProviderRepository repository = new ProviderRepository();
                 var providerReportDTO = repository.SW_GetProviderReportsByYearAndMonths(search);
-                if (providerReportDTO != null)
-                {
-                    itemOut = providerReportDTO;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-                }
-                else
-                {
-                    itemOut = null;
-                    return baseOutput = new BaseOutput(true, BOResultTypes.NotFound.GetHashCode(), BOBaseOutputResponse.NotFoundResponse, "");
-
-                }
-
-
+                itemOut = providerReportDTO;
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
             }
             catch (Exception ex)

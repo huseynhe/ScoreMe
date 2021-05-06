@@ -50,6 +50,7 @@
     <Compile Include="CustomerBusinessOperation.cs" />
     <Compile Include="DocumentBusinessOperation.cs" />
     <Compile Include="Enum\EnumType.cs" />
+    <Compile Include="GroupBusinessOperation.cs" />
     <Compile Include="InternetConsume\NetConsume.cs" />
     <Compile Include="NetConsumeBOperation.cs" />
     <Compile Include="OTPOperation.cs" />
@@ -61,6 +62,7 @@
     </Compile>
     <Compile Include="ProposalBusinessOperation.cs" />
     <Compile Include="ProviderBusinessOperation.cs" />
+    <Compile Include="UserBusinessOperation.cs" />
     <Compile Include="Util\UserUtil.cs" />
     <Compile Include="Web References\poctgoyerciniSRV\Reference.cs">
       <AutoGen>True</AutoGen>

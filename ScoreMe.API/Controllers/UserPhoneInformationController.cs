@@ -22,30 +22,30 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             tbl_UserPhoneInforamtion itemOut = null;
-            BaseOutput dbitem = businessOperation.GetUserPhoneInformationByID(id, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetUserPhoneInformationByID(id, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
         [Route("GetUserPhoneInforamtionsByUserName/{userName}")]
-        public List<tbl_UserPhoneInforamtion> GetUserPhoneInforamtionsByUserName(string userName)
+        public IHttpActionResult GetUserPhoneInforamtionsByUserName(string userName)
         {
             BusinessOperation businessOperation = new BusinessOperation();
             List<tbl_UserPhoneInforamtion> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetUserPhoneInformationsByUserName(userName,out itemsOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetUserPhoneInformationsByUserName(userName,out itemsOut);
+            if (baseOutput.ResultCode == 1)
             {
-                return itemsOut;
+                return Ok(itemsOut);
             }
             else
             {
-                return null;
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpGet]
@@ -55,14 +55,14 @@ namespace ScoreMe.API.Controllers
         {
             BusinessOperation businessOperation = new BusinessOperation();
             tbl_UserPhoneInforamtion itemOut = null;
-            BaseOutput dbitem = businessOperation.GetLastUserPhoneInformationByUserName(userName, out itemOut);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.GetLastUserPhoneInformationByUserName(userName, out itemOut);
+            if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemOut);
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
         [HttpPost]
@@ -76,14 +76,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.AddUserPhoneInformation(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.AddUserPhoneInformation(item);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -99,14 +99,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.UpdateUserPhoneInformation(item);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.UpdateUserPhoneInformation(item);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
@@ -122,14 +122,14 @@ namespace ScoreMe.API.Controllers
             }
             BusinessOperation businessOperation = new BusinessOperation();
 
-            BaseOutput dbitem = businessOperation.DeleteUserPhoneInformation(id);
-            if (dbitem.ResultCode == 1)
+            BaseOutput baseOutput = businessOperation.DeleteUserPhoneInformation(id);
+            if (baseOutput.ResultCode == 1)
             {
-                return Ok(dbitem);
+                return Ok();
             }
             else
             {
-                return BadRequest(dbitem.ResultCode + " : " + dbitem.ResultMessage);
+                return Content(HttpStatusCode.BadRequest, baseOutput);
             }
 
 
