@@ -102,41 +102,43 @@ namespace ScoreMe.UI.Controllers
                 var UserProfile = (UserProfileSessionData)this.Session["UserProfile"];
                 if (UserProfile != null)
                 {
-
-                    tbl_ApplicationInformation item = new tbl_ApplicationInformation()
+                    if (ModelState.IsValid)
                     {
-                        Platform = viewModel.Platform.Trim(),
-                        GroupName = viewModel.GroupName.Trim(),
-                        AppName = viewModel.AppName.Trim(),
-                        ShortName=viewModel.ShortName.Trim(),
-                        Author = viewModel.Author.Trim(),
-                        Price=viewModel.Price,
-                        Point=viewModel.Price,
-                        NetUsage=viewModel.NetUsage,
-                        InsertDate = DateTime.Now,
-                        InsertUser = UserProfile.UserId
+                        tbl_ApplicationInformation item = new tbl_ApplicationInformation()
+                        {
+                            Platform = viewModel.Platform.Trim(),
+                            GroupName = viewModel.GroupName.Trim(),
+                            AppName = viewModel.AppName.Trim(),
+                            ShortName = viewModel.ShortName.Trim(),
+                            Author = viewModel.Author,
+                            Price = viewModel.Price,
+                            Point = viewModel.Price,
+                            NetUsage = viewModel.NetUsage,
+                            InsertDate = DateTime.Now,
+                            InsertUser = UserProfile.UserId
 
-                    };
+                        };
 
-                    CRUDOperation dataOperations = new CRUDOperation();
-                    tbl_ApplicationInformation dbItem = dataOperations.AddApplicationInformation(item);
-                    if (dbItem != null)
-                    {
-                        TempData["success"] = "Ok";
-                        TempData["message"] = "Məlumatlar uğurla əlavə olundu";
-                        return RedirectToAction("Index");
+                        CRUDOperation dataOperations = new CRUDOperation();
+                        tbl_ApplicationInformation dbItem = dataOperations.AddApplicationInformation(item);
+                        if (dbItem != null)
+                        {
+                            TempData["success"] = "Ok";
+                            TempData["message"] = "Məlumatlar uğurla əlavə olundu";
+                            return RedirectToAction("Index");
 
+                        }
+                        else
+                        {
+                            TempData["success"] = "notOk";
+                            TempData["message"] = "Məlumatlar əlavə olunarkən xəta baş verdi";
+                            return RedirectToAction("Index");
+
+                        }
                     }
-                    else
-                    {
-                        TempData["success"] = "notOk";
-                        TempData["message"] = "Məlumatlar əlavə olunarkən xəta baş verdi";
-                        return RedirectToAction("Index");
-
-                    }
-
 
                 }
+                throw new ApplicationException("Invalid model");
             }
             catch (ApplicationException ex)
             {
@@ -144,7 +146,7 @@ namespace ScoreMe.UI.Controllers
 
                 return View(viewModel);
             }
-            throw new ApplicationException("Invalid model");
+   
 
         }
         [Description("Tətbiqi redaktə etmək")]
@@ -182,10 +184,10 @@ namespace ScoreMe.UI.Controllers
                         tbl_ApplicationInformation item = new tbl_ApplicationInformation()
                         {
                             ID = viewModel.ID,
-                            Platform = viewModel.Platform,
-                            GroupName = viewModel.GroupName,
-                            AppName = viewModel.AppName,
-                            ShortName=viewModel.ShortName,
+                            Platform = viewModel.Platform.Trim(),
+                            GroupName = viewModel.GroupName.Trim(),
+                            AppName = viewModel.AppName.Trim(),
+                            ShortName = viewModel.ShortName.Trim(),
                             Author = viewModel.Author,
                             Price = viewModel.Price,
                             Point = viewModel.Point,
@@ -245,6 +247,44 @@ namespace ScoreMe.UI.Controllers
         {
             //viewModel.e = EnumService.GetEnumCategoryList();
             return viewModel;
+        }
+
+        [Description("Məlumat bazasındakı tətbiqlərin siyahısı")]
+        public ActionResult AppNameIndex(int? page, string vl, string prm = null)
+        {
+            ApplicationInformationRepository repository = new ApplicationInformationRepository();
+            try
+            {
+                Search search = new Search();
+
+                search = SetValue(page, vl, prm);
+
+                int pageSize = 15;
+                int pageNumber = (page ?? 1);
+
+                ApplicationInformationVM viewModel = new ApplicationInformationVM();
+                viewModel.Search = search;
+
+                viewModel.Search.pageSize = pageSize;
+                viewModel.Search.pageNumber = pageNumber;
+
+                viewModel.RApplicationInformationList = repository.SW_GetApplicationNames(viewModel.Search);
+
+                viewModel.ListCount = repository.SW_GetApplicationNamesCount(viewModel.Search);
+                int[] pc = new int[viewModel.ListCount];
+
+                viewModel.Paging = pc.ToPagedList(pageNumber, pageSize);
+
+
+
+                return Request.IsAjaxRequest()
+              ? (ActionResult)PartialView("AppNamePartialIndex", viewModel)
+              : View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new HandleErrorInfo(ex, "Error", "Error"));
+            }
         }
     }
 }

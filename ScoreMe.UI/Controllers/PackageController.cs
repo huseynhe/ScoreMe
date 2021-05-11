@@ -105,36 +105,38 @@ namespace ScoreMe.UI.Controllers
                 var UserProfile = (UserProfileSessionData)this.Session["UserProfile"];
                 if (UserProfile != null)
                 {
+                    if (ModelState.IsValid)
+                    {
+                        tbl_Package item = new tbl_Package()
+                        {
+                            Mobile_EVID = viewModel.Mobile_EVID,
+                            PackageName = viewModel.PackageName,
+                            PackageSize = viewModel.PackageSize,
+                            Validity = viewModel.Validity,
+                            ValidityDesc = viewModel.ValidityDesc,
+                            InsertDate = DateTime.Now,
+                            InsertUser = UserProfile.UserId
+                        };
+                        CRUDOperation dataOperations = new CRUDOperation();
+                        tbl_Package dbItem = dataOperations.AddPackage(item);
+                        if (dbItem != null)
+                        {
+                            TempData["success"] = "Ok";
+                            TempData["message"] = "Məlumatlar uğurla əlavə olundu";
+                            return RedirectToAction("Index");
 
-                    tbl_Package item = new tbl_Package()
-                    {
-                        Mobile_EVID = viewModel.Mobile_EVID,
-                        PackageName = viewModel.PackageName,
-                        PackageSize = viewModel.PackageSize,
-                        Validity = viewModel.Validity,
-                        ValidityDesc = viewModel.ValidityDesc,
-                        InsertDate = DateTime.Now,
-                        InsertUser = UserProfile.UserId
-                    };
-                    CRUDOperation dataOperations = new CRUDOperation();
-                    tbl_Package dbItem = dataOperations.AddPackage(item);
-                    if (dbItem != null)
-                    {
-                        TempData["success"] = "Ok";
-                        TempData["message"] = "Məlumatlar uğurla əlavə olundu";
-                        return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            TempData["success"] = "notOk";
+                            TempData["message"] = "Məlumatlar əlavə olunarkən xəta baş verdi";
+                            return RedirectToAction("Index");
+
+                        }
 
                     }
-                    else
-                    {
-                        TempData["success"] = "notOk";
-                        TempData["message"] = "Məlumatlar əlavə olunarkən xəta baş verdi";
-                        return RedirectToAction("Index");
-
-                    }
-
-
                 }
+                throw new ApplicationException("Invalid model");
             }
             catch (ApplicationException ex)
             {
@@ -142,7 +144,7 @@ namespace ScoreMe.UI.Controllers
 
                 return View(viewModel);
             }
-            throw new ApplicationException("Invalid model");
+           
 
         }
         [Description("Paket redaktə etmək")]

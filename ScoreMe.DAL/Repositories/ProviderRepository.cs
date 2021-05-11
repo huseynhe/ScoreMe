@@ -319,13 +319,26 @@ namespace ScoreMe.DAL.Repositories
                         pr.ID=prop.ProviderID and prop.ID=pus.ProposalID and pus.ProviderStateType=17 ) as GozlemedekiXidmetSay";
 
             StringBuilder allQuery = new StringBuilder();
-            var query = @"SELECT " + head + @"  from tbl_Provider pr, tbl_proposal p 
+            if (string.IsNullOrEmpty(search.Months))
+            {
+                var query = @"SELECT " + head + @"  from tbl_Provider pr, tbl_proposal p 
                                      where pr.Status=1  and p.Status=1 and pr.ID=p.ProviderID
                                      and pr.ID=" + search.ProviderID
-                                     + " and YEAR(p.InsertDate)=" + search.Year
-                                     + " and  MONTH(p.InsertDate) in (" + search.Months + ")"
-                                     + " group by pr.ID,pr.Name order by pr.Name";
-            allQuery.Append(query);
+                            + " and YEAR(p.InsertDate)=" + search.Year
+                            + " group by pr.ID,pr.Name order by pr.Name";
+                allQuery.Append(query);
+            }
+            else
+            {
+                var query = @"SELECT " + head + @"  from tbl_Provider pr, tbl_proposal p 
+                                     where pr.Status=1  and p.Status=1 and pr.ID=p.ProviderID
+                                     and pr.ID=" + search.ProviderID
+                            + " and YEAR(p.InsertDate)=" + search.Year
+                            + " and  MONTH(p.InsertDate) in (" + search.Months + ")"
+                            + " group by pr.ID,pr.Name order by pr.Name";
+                allQuery.Append(query);
+            }
+   
 
             using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
             {

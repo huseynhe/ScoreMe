@@ -8,8 +8,8 @@ namespace ScoreMe.DAL.CodeObjects
 {
     public class BOBaseOutputResponse
     {
-        public static string SuccessResponse = "Əməliyat uğurlu şəkildə həyatə keçirildi";
-        public static string DangerResponse = "Əməliyat həyatə  keçirildiyi zaman xəta baş verdi !";
+        public static string SuccessResponse = "The operation was completed successfully";
+        public static string DangerResponse = "An error occurred while performing the operation!";
         public static string NotFoundResponse = "No record found";
     }
 }

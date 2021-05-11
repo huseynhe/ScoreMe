@@ -15,7 +15,7 @@ namespace ScoreMe.DAL.Repositories
     {
         private int pageNumber = 1;
         private int pageSize = 1000000;
-        #region EnumValue
+        #region tbl_ApplicationInformation
         private List<tbl_ApplicationInformation> GetApplicationInformations(Search search, out int _count)
         {
             _count = 0;
@@ -90,7 +90,7 @@ namespace ScoreMe.DAL.Repositories
                         {
                             result.Add(new tbl_ApplicationInformation()
                             {
-                             
+
                                 ID = reader.GetInt64OrDefaultValue(0),
                                 Platform = reader.GetStringOrEmpty(1),
                                 GroupName = reader.GetStringOrEmpty(2),
@@ -98,7 +98,7 @@ namespace ScoreMe.DAL.Repositories
                                 Author = reader.GetStringOrEmpty(4),
                                 Price = reader.GetDecimalOrDefaultValue(5),
                                 Point = reader.GetDecimalOrDefaultValue(6),
-                                NetUsage= reader.GetStringOrEmpty(7),
+                                NetUsage = reader.GetStringOrEmpty(7),
                                 ShortName = reader.GetStringOrEmpty(8),
                             });
                         }
@@ -133,6 +133,105 @@ namespace ScoreMe.DAL.Repositories
             search.isCount = true;
             int _count = 0;
             GetApplicationInformations(search, out _count);
+            return _count;
+        }
+        #endregion
+        #region MyRegion
+        private List<tbl_ApplicationInformation> GetApplicationNames(Search search, out int _count)
+        {
+            _count = 0;
+            var result = new List<tbl_ApplicationInformation>();
+            string queryEnd = "";
+            string head = "";
+
+            if (search.isCount == false)
+            {
+                head = @" temp.AppName ";
+            }
+            else
+            {
+                head = @"  count(*) as totalcount ";
+            }
+
+
+            StringBuilder allQuery = new StringBuilder();
+
+            var query = @" SET ANSI_NULLS OFF SELECT " + head + @"  from (select distinct AppName from [dbo].[tbl_AppConsumeDetail]
+                            where Lower(appname)   not IN  (select distinct lower([ShortName]) from [dbo].[tbl_ApplicationInformation])) temp where 1=1 ";
+            allQuery.Append(query);
+
+            string queryName = @" and  temp.AppName like N'%'+@P_Name+'%'";
+
+
+            if (!string.IsNullOrEmpty(search.Name))
+            {
+                allQuery.Append(queryName);
+            }
+
+           
+
+            if (search.isCount == false)
+            {
+                queryEnd = @" order by temp.AppName asc OFFSET ( @PageNo - 1 ) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY";
+            }
+
+
+            allQuery.Append(queryEnd);
+
+
+            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(allQuery.ToString(), connection))
+                {
+                    command.Parameters.AddWithValue("@PageNo", search.pageNumber);
+                    command.Parameters.AddWithValue("@RecordsPerPage", search.pageSize);
+                    command.Parameters.AddWithValue("@P_Name", search.Name.GetStringOrEmptyData());
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        if (search.isCount == false)
+                        {
+                            result.Add(new tbl_ApplicationInformation()
+                            {
+
+                                AppName = reader.GetStringOrEmpty(0),
+                             
+                            });
+                        }
+                        else
+                        {
+
+                            _count = reader.GetInt32OrDefaultValue(0);
+
+                        }
+                    }
+                }
+                connection.Close();
+            }
+
+            return result;
+        }
+        public IList<tbl_ApplicationInformation> SW_GetApplicationNames(Search search)
+        {
+            int _count = 0;
+            if (search.pageNumber <= 0 || search.pageSize <= 0)
+            {
+                search.pageNumber = pageNumber;
+                search.pageSize = pageSize;
+            }
+            search.isCount = false;
+
+            IList<tbl_ApplicationInformation> slist = GetApplicationNames(search, out _count);
+            return slist;
+        }
+        public int SW_GetApplicationNamesCount(Search search)
+        {
+            search.isCount = true;
+            int _count = 0;
+            GetApplicationNames(search, out _count);
             return _count;
         }
         #endregion

@@ -1,0 +1,47 @@
+﻿@model ScoreMe.UI.Models.ApplicationInformationVM
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "";
+}
+
+
+
+
+<div class="col-sm-1 col-sm-offset-11" style="position: absolute;">
+    <span class="label label-danger pull-right badgemargin">@Model.ListCount</span>
+</div>
+
+<table class="table table-bordered">
+    <tbody>
+        @foreach (var item in Model.RApplicationInformationList)
+        {
+            <tr>
+         
+                <td class="col-md-4">
+                    @Html.DisplayFor(modelItem => item.AppName)
+                </td>
+                
+                
+                <td class="col-md-2 shsingle text-center" style="font-size:16px;">
+                 
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div class="box-footer clearfix">
+    Səhifə @(Model.Paging.PageCount < Model.Paging.PageNumber ? 0 : Model.Paging.PageNumber) (cəmi @Model.Paging.PageCount)
+    @Html.PagedListPager(Model.Paging, page => Url.Action("AppNameIndex", new { page }))
+</div>
+
+
+
+
+
+
+

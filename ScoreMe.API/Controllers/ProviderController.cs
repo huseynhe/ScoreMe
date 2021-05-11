@@ -124,8 +124,8 @@ namespace ScoreMe.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetProviderReportsByYearAndMonths{providerID}/{year}/{months}")]
-        public IHttpActionResult GetProviderReportsByYearAndMonths(Int64 providerID, int year, string months)
+        [Route("GetProviderReportsByYearAndMonths{providerID}/{year}")]
+        public IHttpActionResult GetProviderReportsByYearAndMonths( Int64 providerID, int year, string months="")
         {
             ProviderBusinessOperation businessOperation = new ProviderBusinessOperation();
             Search search = new Search

@@ -19,16 +19,20 @@ namespace ScoreMe.UI.Models
         public Int64 ID { get; set; }
 
         [Display(Name = "Platforma")]
+        [Required(ErrorMessage = "Zəhmət olmazsa platforma adını giriniz")]
         public string Platform { get; set; }
 
         [Display(Name = "Qurup adı")]
+        [Required(ErrorMessage = "Zəhmət olmazsa grup  adını giriniz")]
         public string GroupName { get; set; }
 
 
         [Display(Name = "Tətbiqin adı")]
+        [Required(ErrorMessage = "Zəhmət olmazsa tətbiq adını giriniz")]
         public string AppName { get; set; }
 
         [Display(Name = "Tətbiqin qısa adı")]
+        [Required(ErrorMessage = "Zəhmət olmazsa qısa adını giriniz")]
         public string ShortName { get; set; }
 
         [Display(Name = "Yazar")]
