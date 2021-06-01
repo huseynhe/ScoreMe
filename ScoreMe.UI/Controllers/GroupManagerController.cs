@@ -19,13 +19,13 @@ namespace ScoreMe.UI.Controllers
 {
     [LoginCheck]
     [AccessRightsCheck]
-    [Description("SMS gonderici")]
-    public class SMSSenderInfoController : Controller
+    public class GroupManagerController : Controller
     {
-        [Description("SMS gondericilerin siyahısı")]
+        // GET: GroupManager
+        [Description("Grouplarin siyahısı")]
         public ActionResult Index(int? page, string vl, string prm = null)
         {
-            SMSSenderInfoRepository repository = new SMSSenderInfoRepository();
+            GroupRepository repository = new GroupRepository();
             try
             {
                 Search search = new Search();
@@ -35,15 +35,15 @@ namespace ScoreMe.UI.Controllers
                 int pageSize = 15;
                 int pageNumber = (page ?? 1);
 
-                SMSSenderInfoVM viewModel = new SMSSenderInfoVM();
+                GroupVM viewModel = new GroupVM();
                 viewModel.Search = search;
 
                 viewModel.Search.pageSize = pageSize;
                 viewModel.Search.pageNumber = pageNumber;
 
-                viewModel.RSMSSenderInfoList = repository.SW_GetGetSMSSenderInfos(viewModel.Search);
+                viewModel.RGroupList = repository.SW_GetGroups(viewModel.Search);
 
-                viewModel.ListCount = repository.SW_GetSMSSenderInfosCount(viewModel.Search);
+                viewModel.ListCount = repository.SW_GetGroupsCount(viewModel.Search);
                 int[] pc = new int[viewModel.ListCount];
 
                 viewModel.Paging = pc.ToPagedList(pageNumber, pageSize);
@@ -87,17 +87,16 @@ namespace ScoreMe.UI.Controllers
             return search;
 
         }
-
-        [Description("Yeni SMS gonderici əlavə etmək")]
+        [Description("Yeni qrup əlavə etmək")]
         public ActionResult Create()
         {
-            SMSSenderInfoVM viewModel = new SMSSenderInfoVM();
+            GroupVM viewModel = new GroupVM();
             viewModel = poulateDropDownList(viewModel);
             return View(viewModel);
 
         }
         [HttpPost]
-        public ActionResult Create(SMSSenderInfoVM viewModel)
+        public ActionResult Create(GroupVM viewModel)
         {
 
             try
@@ -107,54 +106,37 @@ namespace ScoreMe.UI.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        tbl_SMSSenderInfo item = new tbl_SMSSenderInfo()
+                        tbl_Group item = new tbl_Group()
                         {
-                            ActivityType = viewModel.ActivityTypeEVID,
-                            SenderName = viewModel.SenderName,
-                            Description=viewModel.Description,
-                            Number = viewModel.Number,
-                            Price=viewModel.Price,
-                            Point=viewModel.Point,
-                            Cheque=viewModel.Cheque,
+                             GroupType= viewModel.GroupType,
+                            Name = viewModel.GroupName,
+                            Description = viewModel.Description,
+                            StartLimit = viewModel.StartLimit,
+                            EndLimit = viewModel.EndLimit,
                             InsertDate = DateTime.Now,
                             InsertUser = UserProfile.UserId
                         };
                         CRUDOperation dataOperations = new CRUDOperation();
-
-                        tbl_SMSSenderInfo sMSSenderInfoControl = dataOperations.GetSMSSenderInfoByName(item.SenderName);
-                        if (sMSSenderInfoControl != null)
+                        tbl_Group dbItem = dataOperations.AddGroup(item);
+                        if (dbItem != null)
                         {
-                            TempData["success"] = "notOk";
-                            TempData["message"] = "Eyni parametrelerə sahib məlumat sistemdə mövcudur";
+                            TempData["success"] = "Ok";
+                            TempData["message"] = "Məlumatlar uğurla əlavə olundu";
                             return RedirectToAction("Index");
+
                         }
                         else
                         {
-                            tbl_SMSSenderInfo dbItem = dataOperations.AddSMSSenderInfo(item);
-                            if (dbItem != null)
-                            {
-                                TempData["success"] = "Ok";
-                                TempData["message"] = "Məlumatlar uğurla əlavə olundu";
-                                return RedirectToAction("Index");
-
-                            }
-                            else
-                            {
-                                TempData["success"] = "notOk";
-                                TempData["message"] = "Məlumatlar əlavə olunarkən xəta baş verdi";
-                                return RedirectToAction("Index");
-
-                            }
+                            TempData["success"] = "notOk";
+                            TempData["message"] = "Məlumatlar əlavə olunarkən xəta baş verdi";
+                            return RedirectToAction("Index");
 
                         }
 
-
                     }
-
                 }
                 throw new ApplicationException("Invalid model");
             }
-
             catch (ApplicationException ex)
             {
                 viewModel = poulateDropDownList(viewModel);
@@ -164,36 +146,26 @@ namespace ScoreMe.UI.Controllers
 
 
         }
-        [Description("SMS gonderici məlumatını redaktə etmək")]
-        public ActionResult Edit(int id,string senderName)
+        [Description("Qrup redaktə etmək")]
+        public ActionResult Edit(int id)
         {
-            SMSSenderInfoVM viewModel = new SMSSenderInfoVM();
-            CRUDOperation dataOperations = new CRUDOperation();
+            GroupVM viewModel = new GroupVM();
             viewModel = poulateDropDownList(viewModel);
-            if (id>0)
-            {
-                tbl_SMSSenderInfo tblItem = dataOperations.GetSMSSenderInfoByID(id);              
-                viewModel.ID = id;
-                viewModel.ActivityTypeEVID = tblItem.ActivityType;
-                viewModel.SenderName = tblItem.SenderName;
-                viewModel.Description = tblItem.Description;
-                viewModel.Number = tblItem.Number;
-                viewModel.Price = tblItem.Price;
-                viewModel.Point = tblItem.Point;
-                viewModel.Cheque = tblItem.Cheque;
-            }
-            else
-            {
-                viewModel.SenderName = senderName;
-            }
-          
-          
-         
+            CRUDOperation dataOperations = new CRUDOperation();
+
+            tbl_Group tblItem = dataOperations.GetGroupByID(id);
+
+            viewModel.GroupID = id;
+            viewModel.GroupType = tblItem.GroupType==null?0:(int)tblItem.GroupType;
+            viewModel.GroupName = tblItem.Name;
+            viewModel.Description = tblItem.Description;
+            viewModel.StartLimit = tblItem.StartLimit==null?0:(decimal)tblItem.StartLimit;
+            viewModel.EndLimit = tblItem.EndLimit==null?0:(decimal)tblItem.EndLimit;
             return View(viewModel);
 
         }
         [HttpPost]
-        public ActionResult Edit(SMSSenderInfoVM viewModel)
+        public ActionResult Edit(GroupVM viewModel)
         {
             try
             {
@@ -203,31 +175,21 @@ namespace ScoreMe.UI.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        tbl_SMSSenderInfo item = new tbl_SMSSenderInfo()
+                        tbl_Group item = new tbl_Group()
                         {
-                            ID = viewModel.ID,
-                            ActivityType = viewModel.ActivityTypeEVID,
-                            SenderName = viewModel.SenderName,
+                            ID = viewModel.GroupID,
+                            GroupType = viewModel.GroupType,
+                            Name = viewModel.GroupName,
                             Description = viewModel.Description,
-                            Number = viewModel.Number,
-                            Price = viewModel.Price,
-                            Point = viewModel.Point,
-                            Cheque = viewModel.Cheque,
-                            IsParse = viewModel.IsParse,
+                            StartLimit = viewModel.StartLimit,
+                            EndLimit = viewModel.EndLimit,
                             UpdateDate = DateTime.Now,
                             UpdateUser = UserProfile.UserId
+
                         };
-                        tbl_SMSSenderInfo dbItem = null;
+
                         CRUDOperation dataOperations = new CRUDOperation();
-                        if (viewModel.ID>0)
-                        {
-                             dbItem = dataOperations.UpdateSMSSenderInfo(item);
-                        }
-                        else
-                        {
-                            dbItem = dataOperations.AddSMSSenderInfo(item);
-                        }
-               
+                        tbl_Group dbItem = dataOperations.UpdateGroup(item);
                         if (dbItem != null)
                         {
                             TempData["success"] = "Ok";
@@ -254,7 +216,8 @@ namespace ScoreMe.UI.Controllers
             }
 
         }
-        [Description("SMS gonderici məlumatını sil")]
+
+        [Description("Qrup sil")]
         public ActionResult Delete(int id)
         {
             try
@@ -263,7 +226,7 @@ namespace ScoreMe.UI.Controllers
                 var UserProfile = (UserProfileSessionData)this.Session["UserProfile"];
                 if (UserProfile != null)
                 {
-                    dataOperations.DeleteSMSSenderInfo(id, UserProfile.UserId);
+                    dataOperations.DeleteGroup(id, UserProfile.UserId);
                 }
                 return RedirectToAction("Index");
             }
@@ -272,26 +235,10 @@ namespace ScoreMe.UI.Controllers
                 return View("Error", new HandleErrorInfo(ex, "Error", "Error"));
             }
         }
-        private SMSSenderInfoVM poulateDropDownList(SMSSenderInfoVM viewModel)
+        private GroupVM poulateDropDownList(GroupVM viewModel)
         {
-            viewModel.ActivityTypeList = EnumService.GetEnumValueListByEcID((int)CategoryEnum.ActivityType);
-            viewModel.IsParseList = EnumService.GetBoleanEnumTypes();
+            viewModel.GroupTypeList = EnumService.GetEnumValueCodeListByEcID((int)CategoryEnum.GroupType);
             return viewModel;
-        }
-
-        public ActionResult FillInOutType(int chanelTypeEVID)
-        {
-            int categoryID = 0;
-            if (chanelTypeEVID == 48)
-            {
-                categoryID = (int)CategoryEnum.InOutTypeMessage;
-            }
-            else if (chanelTypeEVID == 49)
-            {
-                categoryID = (int)CategoryEnum.InOutTypeCall;
-            }
-            IEnumerable<SelectListItem> InOutTypeList = EnumService.GetEnumValueListByEcIDForINOUT(categoryID);
-            return Json(InOutTypeList, JsonRequestBehavior.AllowGet);
         }
     }
 }

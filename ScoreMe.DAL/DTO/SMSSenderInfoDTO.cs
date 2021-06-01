@@ -13,10 +13,10 @@ namespace ScoreMe.DAL.DTO
         public string ActivityTypeDesc { get; set; }
         public string SenderName { get; set; }
         public string Number { get; set; }
-        public decimal Price { get; set; }
-        public decimal Point { get; set; }
-        public decimal Cheque { get; set; }
-        public int IsParse { get; set; }
+        public decimal? Price { get; set; }
+        public decimal? Point { get; set; }
+        public decimal? Cheque { get; set; }
+        public int? IsParse { get; set; }
         public string IsParseDesc { get; set; }
         public string Description { get; set; }
     }

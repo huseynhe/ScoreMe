@@ -159,6 +159,7 @@
     <Compile Include="Controllers\EnumCategoryController.cs" />
     <Compile Include="Controllers\EnumValueController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
+    <Compile Include="Controllers\GroupManagerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\NetConsumeReportController.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\SMSReportController.cs" />
     <Compile Include="Controllers\SMSSenderInfoController.cs" />
+    <Compile Include="Controllers\TotatReporterController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPhoneController.cs" />
     <Compile Include="Enums\CategoryEnum.cs" />
@@ -180,6 +182,7 @@
     <Compile Include="Models\CALLReportVM.cs" />
     <Compile Include="Models\EmployeeVM.cs" />
     <Compile Include="Models\EnumVM.cs" />
+    <Compile Include="Models\GroupVM.cs" />
     <Compile Include="Models\NetConsumeReportVM.cs" />
     <Compile Include="Models\OperatorInformationVM.cs" />
     <Compile Include="Models\PackageVM.cs" />
@@ -188,6 +191,7 @@
     <Compile Include="Models\ProviderVM.cs" />
     <Compile Include="Models\SMSReportVM.cs" />
     <Compile Include="Models\SMSSenderInfoVM.cs" />
+    <Compile Include="Models\TotalPointAndPriceReportVM.cs" />
     <Compile Include="Models\TypeVM.cs" />
     <Compile Include="Models\UserPhoneVM.cs" />
     <Compile Include="Models\UserVM.cs" />
@@ -2109,6 +2113,12 @@
     <Content Include="Views\Provider\ProposalPartialIndex.cshtml" />
     <Content Include="Views\ApplicationInformation\AppNameIndex.cshtml" />
     <Content Include="Views\ApplicationInformation\AppNamePartialIndex.cshtml" />
+    <Content Include="Views\GroupManager\Index.cshtml" />
+    <Content Include="Views\GroupManager\PartialIndex.cshtml" />
+    <Content Include="Views\GroupManager\Create.cshtml" />
+    <Content Include="Views\GroupManager\Edit.cshtml" />
+    <Content Include="Views\TotatReporter\ReportIndex.cshtml" />
+    <Content Include="Views\TotatReporter\_PartialReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

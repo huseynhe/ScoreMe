@@ -8,6 +8,7 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ScoreMe.DAL
@@ -1291,9 +1292,9 @@ namespace ScoreMe.DAL
                 {
 
                     var items = (from p in context.tbl_Proposal
-                                 join f in context.tbl_ProposalFavorite on p.ID equals f.ProposalID 
-                                 where p.Status == 1 && f.Status == 1  
-                                 && f.IsFavorite==1 && f.UserID == userid
+                                 join f in context.tbl_ProposalFavorite on p.ID equals f.ProposalID
+                                 where p.Status == 1 && f.Status == 1
+                                 && f.IsFavorite == 1 && f.UserID == userid
                                  orderby p.ID descending
                                  select p);
 
@@ -3737,18 +3738,17 @@ namespace ScoreMe.DAL
                             netConsumeDetail.InsertDate = DateTime.Now;
                             tbl_NetConsumeDetail netConsumeDetailDBItem = context.tbl_NetConsumeDetail.Add(netConsumeDetail);
                             context.SaveChanges();
-                            /*
+
                             try
                             {
                                 DALOperation operation = new DALOperation();
-                                operation.AddCALLReportDetail(dbItem.UserID, userObj.UserName, callDetailDBItem);
+                                operation.AddNetConsumePoint(dbItem.UserID, userObj.UserName, netConsumeDetail);
                             }
                             catch (Exception ex)
                             {
 
-
                             }
-                            */
+
 
 
                         }
@@ -4251,7 +4251,7 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     oldItem = (from p in context.tbl_ProposalDetail
-                               where p.ID == item.ID 
+                               where p.ID == item.ID
                                select p).FirstOrDefault();
 
                 }
@@ -4312,7 +4312,7 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_Group DeleteGroup(Int64 id, int userId)
+        public tbl_Group DeleteGroup(Int64 id, Int64 userId)
         {
 
             try
@@ -4440,9 +4440,11 @@ namespace ScoreMe.DAL
                 {
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
-
+                        oldItem.GroupType = item.GroupType;
                         oldItem.Name = item.Name;
                         oldItem.Description = item.Description;
+                        oldItem.StartLimit = item.StartLimit;
+                        oldItem.EndLimit = item.EndLimit;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -5181,8 +5183,13 @@ namespace ScoreMe.DAL
                             smsDetail.Status = 1;
                             smsDetail.InsertDate = DateTime.Now;
                             smsDetail.UpdateDate = DateTime.Now;
-                            tbl_SMSSenderInfo senderInfo = GetSMSSenderInfoByName(smsDetail.SenderName);
+                            tbl_SMSSenderInfo senderInfo = null;
 
+
+                            if (smsDetail.IsShortMessage == 1)
+                            {
+                                senderInfo = GetSMSSenderInfoByName(smsDetail.SenderName);
+                            }
                             if (senderInfo != null)
                             {
                                 if (senderInfo.IsParse == 1)
@@ -5202,8 +5209,9 @@ namespace ScoreMe.DAL
                             context.SaveChanges();
                             try
                             {
+
                                 DALOperation operation = new DALOperation();
-                                operation.AddSMSReportDetail(dbItem.UserID, userObj.UserName, smsDetailDBItem);
+                                operation.AddSMSReportDetail(dbItem.UserID, userObj.UserName, smsDetailDBItem, senderInfo);
                             }
                             catch (Exception ex)
                             {
@@ -5643,7 +5651,7 @@ namespace ScoreMe.DAL
             catch (Exception ex)
             {
 
-                throw ex;
+                return null;
             }
 
         }
@@ -7260,7 +7268,7 @@ namespace ScoreMe.DAL
                                 where p.ProposalID == proposalId && p.UserID == userId && p.Status == 1
                                 select p).FirstOrDefault();
                     return item;
-                    
+
 
                 }
             }
@@ -7281,8 +7289,8 @@ namespace ScoreMe.DAL
 
 
                     var items = (from p in context.tbl_ProposalLikeDislike
-                                where p.ProposalID == proposalId  && p.Status == 1
-                                select p).ToList();
+                                 where p.ProposalID == proposalId && p.Status == 1
+                                 select p).ToList();
                     return items;
 
 
@@ -8088,6 +8096,7 @@ namespace ScoreMe.DAL
             }
 
         }
+
         public tbl_OperatorInformation GetOperatorInformationByPrefixAndType(string prefix, int type, int operatorChanelType)
         {
 
@@ -8511,18 +8520,18 @@ namespace ScoreMe.DAL
                             appConsumeDetail.InsertDate = DateTime.Now;
                             tbl_AppConsumeDetail appConsumeDetailDBItem = context.tbl_AppConsumeDetail.Add(appConsumeDetail);
                             context.SaveChanges();
-                            /*
+
                             try
                             {
                                 DALOperation operation = new DALOperation();
-                                operation.AddCALLReportDetail(dbItem.UserID, userObj.UserName, callDetailDBItem);
+                                operation.AddAppConsumePoint(dbItem.UserID, userObj.UserName, appConsumeDetailDBItem);
                             }
                             catch (Exception ex)
                             {
 
 
                             }
-                            */
+
 
 
                         }
@@ -9202,8 +9211,8 @@ namespace ScoreMe.DAL
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
                     var items = (from p in context.tbl_UserPhoneInforamtion
-                                 join u in context.tbl_User on p.UserID equals u.ID 
-                                 where p.Status == 1 && u.UserName == userName && u.Status==1
+                                 join u in context.tbl_User on p.UserID equals u.ID
+                                 where p.Status == 1 && u.UserName == userName && u.Status == 1
                                  select p);
 
                     return items.ToList();
@@ -9251,7 +9260,7 @@ namespace ScoreMe.DAL
 
                     var item = (from p in context.tbl_UserPhoneInforamtion
                                 join u in context.tbl_User on p.UserID equals u.ID
-                                where u.UserName == userName && p.Status == 1 && u.Status==1
+                                where u.UserName == userName && p.Status == 1 && u.Status == 1
                                 orderby p.ID descending
                                 select p).FirstOrDefault();
 
@@ -9463,8 +9472,8 @@ namespace ScoreMe.DAL
 
 
                     var items = (from p in context.tbl_ProposalFavorite
-                                where p.ProposalID == proposalId  && p.Status == 1
-                                select p).ToList();
+                                 where p.ProposalID == proposalId && p.Status == 1
+                                 select p).ToList();
 
                     return items;
 
@@ -9738,6 +9747,30 @@ namespace ScoreMe.DAL
             }
 
         }
+        public tbl_ApplicationInformation GetApplicationInformationByShortName(string shortName)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_ApplicationInformation
+                                where p.ShortName.ToLowerInvariant() == shortName.ToLowerInvariant() && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public tbl_ApplicationInformation UpdateApplicationInformation(tbl_ApplicationInformation item)
         {
             try
@@ -9766,6 +9799,266 @@ namespace ScoreMe.DAL
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
                         context.tbl_ApplicationInformation.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        #endregion
+
+        #region tbl_UserPoint
+
+        public tbl_UserPoint AddUserPoint(tbl_UserPoint item)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    item.Status = 1;
+                    item.InsertDate = DateTime.Now;
+                    context.tbl_UserPoint.Add(item);
+                    context.SaveChanges();
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public tbl_UserPoint DeleteUserPoint(Int64 id, Int64 userId)
+        {
+
+            try
+            {
+                tbl_UserPoint oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+                    oldItem = (from p in context.tbl_UserPoint
+                               where p.ID == id && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        oldItem.Status = 0;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = userId;
+                        context.tbl_UserPoint.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+
+                    }
+                }
+
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+                return oldItem;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public List<tbl_UserPoint> GetUserPoints()
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_UserPoint
+                                 where p.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<tbl_UserPoint> GetUserPointsByUserName(string userName)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    var items = (from p in context.tbl_UserPoint
+                                 join u in context.tbl_User on p.UserID equals u.ID
+                                 where p.Status == 1 && u.UserName == userName && u.Status == 1
+                                 select p);
+
+                    return items.ToList();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public tbl_UserPoint GetUserPointById(Int64 Id)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_UserPoint
+                                where p.ID == Id && p.Status == 1
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_UserPoint GetLastUserPointByUserName(string userName)
+        {
+
+            try
+            {
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+
+
+                    var item = (from p in context.tbl_UserPoint
+                                join u in context.tbl_User on p.UserID equals u.ID
+                                where u.UserName == userName && p.Status == 1 && u.Status == 1
+                                orderby p.ID descending
+                                select p).FirstOrDefault();
+
+                    return item;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_UserPoint UpdateUserPoint(tbl_UserPoint item)
+        {
+            try
+            {
+                tbl_UserPoint oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_UserPoint
+                               where p.ID == item.ID && p.Status == 1
+                               select p).FirstOrDefault();
+
+                }
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+
+
+                        oldItem.Type = item.Type;
+                        oldItem.Month = item.Month;
+                        oldItem.Year = item.Year;
+                        oldItem.Point = item.Point;
+
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+                        context.tbl_UserPoint.Attach(oldItem);
+                        context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        return oldItem;
+                    }
+                }
+                else
+                {
+                    Exception ex = new Exception("Bu nomrede setir recor yoxdur");
+                    throw ex;
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public tbl_UserPoint UpdateUserPointData(tbl_UserPoint item)
+        {
+            try
+            {
+                tbl_UserPoint oldItem;
+                using (var context = new DB_A62358_ScoreMeEntities())
+                {
+                    oldItem = (from p in context.tbl_UserPoint
+                               where p.UserID == item.UserID && p.Month == item.Month && p.Year == item.Year && p.Type == item.Type && p.Status == 1
+                               select p).FirstOrDefault();
+
+                    if (oldItem == null)
+                    {
+                        item.Status = 1;
+                        item.InsertDate = DateTime.Now;
+                        context.tbl_UserPoint.Add(item);
+                        context.SaveChanges();
+                        return item;
+                    }
+
+                }
+
+                if (oldItem != null)
+                {
+                    using (var context = new DB_A62358_ScoreMeEntities())
+                    {
+                        decimal point = oldItem.Point + item.Point;
+                        oldItem.Point = point;
+                        oldItem.UpdateDate = DateTime.Now;
+                        oldItem.UpdateUser = item.UpdateUser;
+                        context.tbl_UserPoint.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
                         return oldItem;

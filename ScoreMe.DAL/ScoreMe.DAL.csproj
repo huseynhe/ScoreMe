@@ -224,6 +224,9 @@
     <Compile Include="DBModel\tbl_UserPhoneInforamtion.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DBModel\tbl_UserPoint.cs">
+      <DependentUpon>ScoreMeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBModel\tbl_UserRole.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
@@ -237,6 +240,7 @@
     <Compile Include="DTO\AppConsumeReportDTO.cs" />
     <Compile Include="DTO\CALLReportDTO.cs" />
     <Compile Include="DTO\EnumDTO.cs" />
+    <Compile Include="DTO\GroupDTO.cs" />
     <Compile Include="DTO\NetConsumeReportDTO.cs" />
     <Compile Include="DTO\OperatorInformationDTO.cs" />
     <Compile Include="DTO\OTPResult.cs" />
@@ -249,11 +253,15 @@
     <Compile Include="DTO\SMSReportDTO.cs" />
     <Compile Include="DTO\SMSReportShortDTO.cs" />
     <Compile Include="DTO\SMSSenderInfoDTO.cs" />
+    <Compile Include="DTO\TotalPointAndPriceDTO.cs" />
     <Compile Include="DTO\TypeDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\UserPhoneDTO.cs" />
     <Compile Include="Enum\BOResultTypes.cs" />
+    <Compile Include="Enum\CALLOperatorInformation.cs" />
+    <Compile Include="Enum\ChanelType.cs" />
     <Compile Include="Enum\EnumValue.cs" />
+    <Compile Include="Enum\SMSOperatorInformation.cs" />
     <Compile Include="ErrorManagment\CustomError.cs" />
     <Compile Include="Model\AppConsumeModel.cs" />
     <Compile Include="Model\CALLModel.cs" />
@@ -276,6 +284,7 @@
     <Compile Include="Repositories\CALLRepository.cs" />
     <Compile Include="Repositories\EmployeeRepository.cs" />
     <Compile Include="Repositories\EnumRepository.cs" />
+    <Compile Include="Repositories\GroupRepository.cs" />
     <Compile Include="Repositories\LoginRepository.cs" />
     <Compile Include="Repositories\NetConsumeRepository.cs" />
     <Compile Include="Repositories\OperatorInformationRepository.cs" />
@@ -286,8 +295,10 @@
     <Compile Include="Repositories\ReportRepository.cs" />
     <Compile Include="Repositories\SMSRepository.cs" />
     <Compile Include="Repositories\SMSSenderInfoRepository.cs" />
+    <Compile Include="Repositories\TotalPointAndPriceRepository.cs" />
     <Compile Include="Repositories\UserPhoneRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
+    <Compile Include="Util\SMSUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />

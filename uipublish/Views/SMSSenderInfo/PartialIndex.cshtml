@@ -33,17 +33,43 @@
             <td class="col-md-1">
                 @Html.DisplayFor(modelItem => item.Number)
             </td>
+
+      
             <td class="col-md-1">
-                @Html.DisplayFor(modelItem => item.Price)
+                @if (item.Price == null)
+                {
+                    Write("-");
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Price)
+                }
+          
             </td>
             <td class="col-md-1">
-                @Html.DisplayFor(modelItem => item.Point)
+                @if (item.Point == null)
+                {
+                    Write("-");
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Point)
+                }
+            
             </td>
             <td class="col-md-1">
-                @Html.DisplayFor(modelItem => item.Cheque)
+                @if (item.Cheque == null)
+                {
+                    Write("-");
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Cheque)
+                }
+              
             </td>
             <td class="col-md-1 shsingle text-center" style="font-size:16px;">
-                <a class="btn  btn-primary active btn-xs" title="Redaktə et" href="@Url.Action("Edit","SMSSenderInfo", new { id = item.ID})"><span class="fa fa-pencil"></span></a>
+                <a class="btn  btn-primary active btn-xs" title="Redaktə et" href="@Url.Action("Edit","SMSSenderInfo", new { id = item.ID, senderName=item.SenderName})"><span class="fa fa-pencil"></span></a>
                 <span title="Sil"> @Html.ActionLink(" ", "Delete", "SMSSenderInfo", new { id = item.ID }, new { @onclick = "return confirm('Silmək istədiyinizə əminsinizmi?.');", @class = "glyphicon glyphicon-trash" })</span>
 
             </td>

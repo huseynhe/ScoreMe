@@ -13,7 +13,7 @@ namespace ScoreMe.UTILITY
         {
             return Regex.Replace(str, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
         }
-        private static string GetNumberPrefix(string userName)
+        public static string GetNumberPrefix(string userName)
         {
 
             string userFullName = RemoveSpecialCharacters(userName);

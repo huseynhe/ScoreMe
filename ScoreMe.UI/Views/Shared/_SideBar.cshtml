@@ -100,12 +100,16 @@
 
             <ul class="submenu">
 
+                
+                <li>
+                    @Html.ActionLink("Qruplar", "Index", "GroupManager")
 
+                </li>
                 <li>
                     @Html.ActionLink("Providerlər", "Index", "Provider")
 
                 </li>
-              
+
             </ul>
         </li>
 
@@ -138,6 +142,9 @@
                 </li>
                 <li>
                     @Html.ActionLink("AppUnitConsume Report", "ReportUnitIndex", "AppConsumeReport")
+                </li>
+                <li>
+                    @Html.ActionLink("Total Report", "ReportIndex", "TotatReporter")
                 </li>
             </ul>
         </li>

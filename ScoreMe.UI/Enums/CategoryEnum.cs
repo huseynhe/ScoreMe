@@ -16,6 +16,7 @@ namespace ScoreMe.UI.Enums
         OperatorChanelType =15,
         OperatorPrefixType=16,
         ActivityType=18,
+        GroupType=21,
 
 
     }

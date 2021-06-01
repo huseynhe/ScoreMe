@@ -26,29 +26,31 @@ namespace ScoreMe.DAL.Repositories
 
             if (search.isCount == false)
             {
-                head = @" ID
-	                     ,ActivityType
-	                     ,(select ev.Name +' ('+ev.Description+')' from [dbo].[tbl_EnumValue] ev where ev.ID=si.ActivityType) as ActivityTypeDesc
-	                     ,SenderName
-	                     ,Number
-                         ,Price
-                         ,Point
-                         ,Cheque
-                         ,IsParse
-                         ,si.Description";
+                head = @" distinct si.ID,
+                            si.ActivityType
+	                       ,(select ev.Name +' ('+ev.Description+')' from [dbo].[tbl_EnumValue] ev where ev.ID=si.ActivityType) as ActivityTypeDesc
+	                        ,sd.SenderName
+	                        ,si.Number
+                            ,si.Price
+                            ,si.Point
+                            ,si.Cheque
+                            ,si.IsParse
+                            ,si.Description";
             }
             else
             {
-                head = @"  count(*) as totalcount ";
+                head = @"  count (distinct sd.SenderName)  as totalcount ";
             }
 
 
             StringBuilder allQuery = new StringBuilder();
 
-            var query = @"SELECT " + head + @"  FROM [dbo].[tbl_SMSSenderInfo] si  where si.Status=1  ";
+            var query = @"SELECT " + head + @" from [dbo].[tbl_SMSDetail] sd 
+                        left join [dbo].[tbl_SMSSenderInfo] si on sd.SenderName=si.SenderName  and si.Status=1
+                        where sd.Status=1  ";
             allQuery.Append(query);
 
-            string queryName = @" and  si.SenderName like N'%'+@P_Name+'%'";
+            string queryName = @" and  sd.SenderName like N'%'+@P_Name+'%'";
 
 
             if (!string.IsNullOrEmpty(search.Name))
@@ -83,7 +85,7 @@ namespace ScoreMe.DAL.Repositories
                     {
                         if (search.isCount == false)
                         {
-                            SMSSenderInfoDTO senderInfoDTO= new SMSSenderInfoDTO()
+                            SMSSenderInfoDTO senderInfoDTO = new SMSSenderInfoDTO()
                             {
                                 //[ID],[Code],[Name],[N_Name],[Sort]
                                 ID = reader.GetInt64OrDefaultValue(0),
@@ -91,19 +93,23 @@ namespace ScoreMe.DAL.Repositories
                                 ActivityTypeDesc = reader.GetStringOrEmpty(2),
                                 SenderName = reader.GetStringOrEmpty(3),
                                 Number = reader.GetStringOrEmpty(4),
-                                Price = reader.GetDecimalOrDefaultValue(5),
-                                Point = reader.GetDecimalOrDefaultValue(6),
-                                Cheque = reader.GetDecimalOrDefaultValue(7),
-                                IsParse = reader.GetInt32OrDefaultValue(8),
+                                Price = reader.GetDecimalOrDefaultValue2(5),
+                                Point = reader.GetDecimalOrDefaultValue2(6),
+                                Cheque = reader.GetDecimalOrDefaultValue2(7),
+                                IsParse = reader.GetInt32OrNull(8),
                                 Description = reader.GetStringOrEmpty(9),
                             };
-                            if (senderInfoDTO.IsParse==1)
+                            if (senderInfoDTO.IsParse == 1)
                             {
                                 senderInfoDTO.IsParseDesc = "Bəli";
                             }
-                            else
+                            else if (senderInfoDTO.IsParse == 0)
                             {
                                 senderInfoDTO.IsParseDesc = "Xeyir";
+                            }
+                            else
+                            {
+                                senderInfoDTO.IsParseDesc = "";
                             }
                             result.Add(senderInfoDTO);
                         }

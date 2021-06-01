@@ -253,6 +253,32 @@ namespace ScoreMe.UI.Services
             items.Insert(2, itemtFemale);
             return new SelectList(items, "Value", "Text");
         }
+        public static IEnumerable<SelectListItem> GetGroupReportTypes()
+        {
+
+            List<SelectListItem> items = new List<SelectListItem>();
+            var itemtip = new SelectListItem()
+            {
+                Value = null,
+                Text = "---  Seçiniz ---"
+            };
+            items.Insert(0, itemtip);
+            var itemtipMale = new SelectListItem()
+            {
+                Value = "2",
+                Text = "Point",
+                Selected = true
+            };
+            items.Insert(1, itemtipMale);
+            var itemtFemale = new SelectListItem()
+            {
+                Value = "3",
+                Text = "Price"
+
+            };
+            items.Insert(2, itemtFemale);
+            return new SelectList(items, "Value", "Text");
+        }
         public static IEnumerable<SelectListItem> GetUserListByEvID(int evID)
         {
 
@@ -413,6 +439,27 @@ namespace ScoreMe.UI.Services
                     new SelectListItem
                     {
                         Value = n.ID.ToString(),
+                        Text = n.Name,
+                        //Selected = n.ID == parentID ? true : false
+                    }).ToList();
+            var itemtip = new SelectListItem()
+            {
+                Value = "0",
+                Text = "---  Seçiniz ---"
+            };
+            items.Insert(0, itemtip);
+            return new SelectList(items, "Value", "Text");
+        }
+        public static IEnumerable<SelectListItem> GetEnumValueCodeListByEcID(Int64 ecategoryId)
+        {
+
+            CRUDOperation dataOperations = new CRUDOperation();
+            List<SelectListItem> items = dataOperations.GetEnumValuesByEnumCategoryID(ecategoryId)
+                .OrderBy(n => n.Name)
+                    .Select(n =>
+                    new SelectListItem
+                    {
+                        Value = n.Code.ToString(),
                         Text = n.Name,
                         //Selected = n.ID == parentID ? true : false
                     }).ToList();

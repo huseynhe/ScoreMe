@@ -1,4 +1,6 @@
 ﻿using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.Enum;
+using ScoreMe.DAL.Repositories;
 using ScoreMe.UTILITY;
 using System;
 using System.Collections.Generic;
@@ -20,8 +22,10 @@ namespace ScoreMe.DAL
             decimal _outCallForeignSecond = 0, _outCallForeignMinute = 0;
             decimal _inCallSecond = 0, _inCallMinute = 0, _inCallForeignSecond = 0, _inCallForeignMinute = 0;
 
-
-
+            tbl_OperatorInformation _OperatorInformation = new tbl_OperatorInformation();
+            decimal pointValue = 0;
+            int month = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Month : 0;
+            int year = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Year : 0;
             try
             {
 
@@ -36,13 +40,25 @@ namespace ScoreMe.DAL
                             _outCallSecondSame = (decimal)detailItem.Duration;
                             _outCallMinuteSame = Math.Ceiling(((decimal)detailItem.Duration / 60));
 
+                            _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)CALLOperatorInformation.OutSameMinute, (int)OperatorChanelType.Call);
+                            if (_OperatorInformation != null)
+                            {
+                                pointValue = _outCallMinuteSame * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
+                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                            }
+
                         }
                         else
                         {
                             _outCallCountOther = 1;
                             _outCallSecondOther = (decimal)detailItem.Duration;
                             _outCallMinuteOther = Math.Ceiling(((decimal)detailItem.Duration / 60));
-
+                            _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)CALLOperatorInformation.OutOtherMinute, (int)OperatorChanelType.Call);
+                            if (_OperatorInformation != null)
+                            {
+                                pointValue = _outCallMinuteOther * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
+                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                            }
 
                         }
                     }
@@ -51,12 +67,24 @@ namespace ScoreMe.DAL
                         _outCallForeignCount = 1;
                         _outCallForeignSecond = (decimal)detailItem.Duration;
                         _outCallForeignMinute = Math.Ceiling(((decimal)detailItem.Duration / 60));
+                        _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)CALLOperatorInformation.OutForeignMinute, (int)OperatorChanelType.Call);
+                        if (_OperatorInformation != null)
+                        {
+                            pointValue = _outCallForeignMinute * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
+                            AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                        }
 
 
                     }
                     else if (detailItem.Duration == 0)
                     {
                         _outMissedCallCount = 1;
+                        _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)CALLOperatorInformation.OutMissedCount, (int)OperatorChanelType.Call);
+                        if (_OperatorInformation != null)
+                        {
+                            pointValue = _outMissedCallCount * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
+                            AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                        }
                     }
 
                 }
@@ -68,7 +96,13 @@ namespace ScoreMe.DAL
                         _inCallSecond = (decimal)detailItem.Duration;
                         _inCallMinute = Math.Ceiling(((decimal)detailItem.Duration / 60));
 
-
+                        _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)CALLOperatorInformation.INMinute, (int)OperatorChanelType.Call);
+                        if (_OperatorInformation != null)
+                        {
+                            pointValue = _inCallMinute * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
+                            AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                        }
+                  
 
                     }
                     else if (detailItem.IsForeign == 1 && detailItem.Duration > 0)
@@ -76,7 +110,13 @@ namespace ScoreMe.DAL
                         _inCallForeignCount = 1;
                         _inCallForeignSecond = (decimal)detailItem.Duration;
                         _inCallForeignMinute = Math.Ceiling(((decimal)detailItem.Duration / 60));
-
+                        _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)CALLOperatorInformation.INForeignMinute, (int)OperatorChanelType.Call);
+                        if (_OperatorInformation != null)
+                        {
+                            pointValue = _inCallForeignMinute * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
+                        
+                            AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                        }
 
                     }
                     else if (detailItem.Duration == 0)
@@ -114,6 +154,8 @@ namespace ScoreMe.DAL
                 };
 
                 cRUDOperation.AddCALLReport(callReport);
+             
+
             }
             catch (Exception ex)
             {
@@ -127,14 +169,17 @@ namespace ScoreMe.DAL
 
 
         }
-        public void AddSMSReportDetail(Int64 userID, string phoneNumer, tbl_SMSDetail detailItem)
+        public void AddSMSReportDetail(Int64 userID, string phoneNumer, tbl_SMSDetail detailItem, tbl_SMSSenderInfo smsSenderInfo)
         {
 
             CRUDOperation cRUDOperation = new CRUDOperation();
             int _outMsjCountSame = 0, _outMsjCountOther = 0, _outMsjForeignCount = 0, _outMsjRoamingCount = 0;
             int _inMsjCount = 0, _inMsjForeignCount = 0;
 
-
+            tbl_OperatorInformation _OperatorInformation = new tbl_OperatorInformation();
+            decimal pointValue = 0;
+            int month = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Month : 0;
+            int year = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Year : 0;
 
             try
             {
@@ -148,20 +193,34 @@ namespace ScoreMe.DAL
                             if (IsSame)
                             {
                                 _outMsjCountSame = 1;
-
+                                _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)SMSOperatorInformation.OutSameCount, (int)OperatorChanelType.Message);
+                                if (_OperatorInformation != null)
+                                {
+                                    pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
+                                    AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                                }
                             }
                             else
                             {
                                 _outMsjCountOther = 1;
-
+                                _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)SMSOperatorInformation.OutSameCount, (int)OperatorChanelType.Message);
+                                if (_OperatorInformation != null)
+                                {
+                                    pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
+                                    AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                                }
 
                             }
                         }
                         else if (detailItem.IsForeign == 1)
                         {
                             _outMsjForeignCount = 1;
-
-
+                            _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)SMSOperatorInformation.OutSameCount, (int)OperatorChanelType.Message);
+                            if (_OperatorInformation != null)
+                            {
+                                pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
+                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                            }
                         }
 
                     }
@@ -170,13 +229,23 @@ namespace ScoreMe.DAL
                         if (detailItem.IsForeign == 0 || detailItem.IsForeign == null)
                         {
                             _inMsjCount = 1;
-
-
+                            _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)SMSOperatorInformation.OutSameCount, (int)OperatorChanelType.Message);
+                            if (_OperatorInformation != null)
+                            {
+                                pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
+                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                            }
 
                         }
                         else if (detailItem.IsForeign == 1)
                         {
                             _inMsjForeignCount = 1;
+                            _OperatorInformation = cRUDOperation.GetOperatorInformationByPrefixAndType(NumberHelper.GetNumberPrefix(phoneNumer), (int)SMSOperatorInformation.OutSameCount, (int)OperatorChanelType.Message);
+                            if (_OperatorInformation != null)
+                            {
+                                pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
+                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                            }
 
 
                         }
@@ -194,7 +263,6 @@ namespace ScoreMe.DAL
                         OutMsjCountSame = _outMsjCountSame,
                         OutMsjCountOther = _outMsjCountOther,
                         OutMsjForeignCount = _outMsjForeignCount,
-
                         InMsjCount = _inMsjCount,
                         InMsjForeignCount = _inMsjForeignCount,
 
@@ -205,6 +273,12 @@ namespace ScoreMe.DAL
                 }
                 else if (detailItem.IsShortMessage == 1)
                 {
+                    if (smsSenderInfo != null)
+                    {
+                        pointValue = 1 * smsSenderInfo.Point == null ? 0 : (decimal)smsSenderInfo.Point;
+                        AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                    }
+
                     if (detailItem.IsParse == 1)
                     {
                         if (detailItem.SenderName == "Azericard")
@@ -267,6 +341,9 @@ namespace ScoreMe.DAL
                         }
                     }
                 }
+
+        
+                
             }
             catch (Exception ex)
             {
@@ -275,10 +352,77 @@ namespace ScoreMe.DAL
             }
 
 
+        }
+        public void AddAppConsumePoint(Int64 userID, string userName, tbl_AppConsumeDetail _appConsumeDetail)
+        {
+            try
+            {
+                CRUDOperation cRUDOperation = new CRUDOperation();
+                decimal pointValue = 0;
+                tbl_ApplicationInformation _applicationInformation = cRUDOperation.GetApplicationInformationByShortName(_appConsumeDetail.AppName);
+                if (_applicationInformation != null)
+                {
+                    pointValue = 1 * (_applicationInformation.Point == null ? 0 : (decimal)_applicationInformation.Point);
+                }
+                AddUserPoint(userID, _appConsumeDetail.Month, _appConsumeDetail.Year, pointValue, (int)ChanelType.AppConsume);
+            }
+            catch (Exception ex)
+            {
 
+               
+            }
+     
+        }
+        public void AddNetConsumePoint(Int64 userID, string userName, tbl_NetConsumeDetail _netConsumeDetail)
+        {
+            try
+            {
+                CRUDOperation cRUDOperation = new CRUDOperation();
+                decimal pointValue = 0;
+                int operatorEVID = NetConsumeHelper.GetOperatorValueByKey(_netConsumeDetail.OperatorName.Trim());
+                NetConsumeRepository netConsumeRepository = new NetConsumeRepository();
+                if (_netConsumeDetail.Source_EVID == 4)
+                {
+                    tbl_PackagePrice packagePrice = netConsumeRepository.GetPackagePrice(operatorEVID, _netConsumeDetail.Consumed);
+                    if (packagePrice != null)
+                    {
+                        pointValue = 1 * (packagePrice.Point == null ? 0 : (decimal)packagePrice.Point);
+                    }
 
+                }
 
+                AddUserPoint(userID, _netConsumeDetail.Month, _netConsumeDetail.Year, pointValue, (int)ChanelType.NetConsume);
+            }
+            catch (Exception)
+            {
 
+           
+            }
+      
+        }
+        public void AddUserPoint(Int64 userId, int month, int year, decimal point, int type)
+        {
+            try
+            {
+                CRUDOperation cRUDOperation = new CRUDOperation();
+                tbl_UserPoint userPoint = new tbl_UserPoint()
+                {
+                    UserID = userId,
+                    Month = month,
+                    Year = year,
+                    Point = point,
+                    Type = type
+
+                };
+
+                cRUDOperation.UpdateUserPointData(userPoint);
+            }
+            catch (Exception ex)
+            {
+
+             
+            }
+          
         }
     }
 }

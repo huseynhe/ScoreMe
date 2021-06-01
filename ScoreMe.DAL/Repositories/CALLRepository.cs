@@ -106,7 +106,8 @@ namespace ScoreMe.DAL.Repositories
 
                         cALLReportDTO.Average = GetAverage(cALLReportDTO);
 
-                        string prefix = GetNumberPrefix(userName);
+                        // string prefix = GetNumberPrefix(userName);
+                        string prefix = NumberHelper.GetNumberPrefix(userName);
                         tbl_OperatorInformation operatorInformation = GetOperatorInformation(prefix, cALLReportDTO.INOUT_EVType,(int)OperatorChanelType.Call);
                         if (operatorInformation != null)
                         {

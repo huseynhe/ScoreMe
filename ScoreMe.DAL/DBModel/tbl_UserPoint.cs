@@ -12,15 +12,15 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_Group
+    public partial class tbl_UserPoint
     {
         public long ID { get; set; }
         public int Status { get; set; }
-        public Nullable<int> GroupType { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Nullable<decimal> StartLimit { get; set; }
-        public Nullable<decimal> EndLimit { get; set; }
+        public long UserID { get; set; }
+        public int Type { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
+        public decimal Point { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }
