@@ -24,6 +24,7 @@ namespace ScoreMe.DAL
 
             tbl_OperatorInformation _OperatorInformation = new tbl_OperatorInformation();
             decimal pointValue = 0;
+            decimal priceValue = 0;
             int month = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Month : 0;
             int year = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Year : 0;
             try
@@ -44,7 +45,8 @@ namespace ScoreMe.DAL
                             if (_OperatorInformation != null)
                             {
                                 pointValue = _outCallMinuteSame * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
-                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                                priceValue = _outCallMinuteSame * (_OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price);
+                                AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.CALL);
                             }
 
                         }
@@ -57,7 +59,8 @@ namespace ScoreMe.DAL
                             if (_OperatorInformation != null)
                             {
                                 pointValue = _outCallMinuteOther * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
-                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                                priceValue = _outCallMinuteOther * (_OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price);
+                                AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.CALL);
                             }
 
                         }
@@ -71,7 +74,8 @@ namespace ScoreMe.DAL
                         if (_OperatorInformation != null)
                         {
                             pointValue = _outCallForeignMinute * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
-                            AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                            priceValue = _outCallForeignMinute * (_OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price);
+                            AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.CALL);
                         }
 
 
@@ -83,7 +87,8 @@ namespace ScoreMe.DAL
                         if (_OperatorInformation != null)
                         {
                             pointValue = _outMissedCallCount * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
-                            AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                            priceValue = _outMissedCallCount * (_OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price);
+                            AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.CALL);
                         }
                     }
 
@@ -100,9 +105,10 @@ namespace ScoreMe.DAL
                         if (_OperatorInformation != null)
                         {
                             pointValue = _inCallMinute * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
-                            AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                            priceValue = _inCallMinute * (_OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price);
+                            AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.CALL);
                         }
-                  
+
 
                     }
                     else if (detailItem.IsForeign == 1 && detailItem.Duration > 0)
@@ -114,8 +120,8 @@ namespace ScoreMe.DAL
                         if (_OperatorInformation != null)
                         {
                             pointValue = _inCallForeignMinute * (_OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point);
-                        
-                            AddUserPoint(userID, month, year, pointValue, (int)ChanelType.CALL);
+                            priceValue = _inCallForeignMinute * (_OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price);
+                            AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.CALL);
                         }
 
                     }
@@ -154,7 +160,7 @@ namespace ScoreMe.DAL
                 };
 
                 cRUDOperation.AddCALLReport(callReport);
-             
+
 
             }
             catch (Exception ex)
@@ -178,6 +184,7 @@ namespace ScoreMe.DAL
 
             tbl_OperatorInformation _OperatorInformation = new tbl_OperatorInformation();
             decimal pointValue = 0;
+            decimal priceValue = 0;
             int month = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Month : 0;
             int year = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Year : 0;
 
@@ -197,7 +204,8 @@ namespace ScoreMe.DAL
                                 if (_OperatorInformation != null)
                                 {
                                     pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
-                                    AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                                    priceValue = 1 * _OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price;
+                                    AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.SMS);
                                 }
                             }
                             else
@@ -207,7 +215,8 @@ namespace ScoreMe.DAL
                                 if (_OperatorInformation != null)
                                 {
                                     pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
-                                    AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                                    priceValue = 1 * _OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price;
+                                    AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.SMS);
                                 }
 
                             }
@@ -219,7 +228,8 @@ namespace ScoreMe.DAL
                             if (_OperatorInformation != null)
                             {
                                 pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
-                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                                priceValue = 1 * _OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price;
+                                AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.SMS);
                             }
                         }
 
@@ -233,7 +243,8 @@ namespace ScoreMe.DAL
                             if (_OperatorInformation != null)
                             {
                                 pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
-                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                                priceValue = 1 * _OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price;
+                                AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.SMS);
                             }
 
                         }
@@ -244,7 +255,8 @@ namespace ScoreMe.DAL
                             if (_OperatorInformation != null)
                             {
                                 pointValue = 1 * _OperatorInformation.Point == null ? 0 : (decimal)_OperatorInformation.Point;
-                                AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                                priceValue = 1 * _OperatorInformation.Price == null ? 0 : (decimal)_OperatorInformation.Price;
+                                AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.SMS);
                             }
 
 
@@ -275,75 +287,40 @@ namespace ScoreMe.DAL
                 {
                     if (smsSenderInfo != null)
                     {
-                        pointValue = 1 * smsSenderInfo.Point == null ? 0 : (decimal)smsSenderInfo.Point;
-                        AddUserPoint(userID, month, year, pointValue, (int)ChanelType.SMS);
+                        pointValue = 1 * (smsSenderInfo.Point == null ? 0 : (decimal)smsSenderInfo.Point);
+                        priceValue = 1 * (smsSenderInfo.Price == null ? 0 : (decimal)smsSenderInfo.Price);
+                        AddUserPointAndPrice(userID, month, year, pointValue, priceValue, (int)ChanelType.SMS);
                     }
 
                     if (detailItem.IsParse == 1)
                     {
                         if (detailItem.SenderName == "Azericard")
                         {
+                            tbl_SMSReportShort smsRepotShort = ParseAzeriCard(detailItem, userID);
                             //Mebleg:-30.00 AZN 
-                            try
+                            if (smsRepotShort != null)
                             {
-                                string[] arrayList = detailItem.Message.Split('\n');
-                                if (arrayList[0].Substring(0, 7) == "Mebleg:")
+                                cRUDOperation.AddSMSReportShort(smsRepotShort);
+                                if (smsRepotShort.IsExpense == 1)
                                 {
-                                    tbl_SMSReportShort smsRepotShort = new tbl_SMSReportShort();
-                                    smsRepotShort.UserID = userID;
-                                    smsRepotShort.SMSModelID = detailItem.SMSModelID;
-                                    smsRepotShort.SMSDetailID = detailItem.ID;
-                                    smsRepotShort.Month = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Month : 0;
-                                    smsRepotShort.Year = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Year : 0;
-                                    smsRepotShort.SenderName = detailItem.SenderName;
-                                    string[] amountList = arrayList[0].Trim().Split(' ');
-                                    if (amountList[0].Substring(7, 1) == "-")
+                                    decimal priceAzeriCardValue = 0;
+                                    if (smsRepotShort.Currency == "AZN")
                                     {
-                                        smsRepotShort.IsExpense = 1;
+                                        priceAzeriCardValue = smsRepotShort.Amount;
+                                        AddUserPointAndPrice(userID, month, year, 0, priceAzeriCardValue, (int)ChanelType.AzeriCard);
                                     }
-                                    else
-                                    {
-                                        smsRepotShort.IsExpense = 0;
-                                    }
-                                    string amount = string.Empty;
-                                    if (amountList.Length > 2)
-                                    {
-                                        amount = amountList[0] + amountList[1];
-                                        smsRepotShort.Currency = amountList[2];
-                                    }
-                                    else
-                                    {
-                                        amount = amountList[0];
-                                        smsRepotShort.Currency = amountList[1];
-                                    }
-
-                                    string newamount = amount.Substring(8);
-                                    smsRepotShort.Amount = decimal.Parse(newamount);
-
-
-                                    smsRepotShort.CardNumber = arrayList[1].Substring(5);
-                                    smsRepotShort.OperationDate = DateTime.Parse(arrayList[2].Substring(6));
-                                    smsRepotShort.MerchantName = arrayList[3].Substring(9);
-                                    string[] balance = arrayList[4].Split(' ');
-                                    smsRepotShort.Balance = decimal.Parse(balance[0].Substring(7));
-                                    smsRepotShort.BalanceCurrency = balance[1];
-                                    cRUDOperation.AddSMSReportShort(smsRepotShort);
+                                
+                                 
                                 }
                             }
-                            catch (Exception ex)
-                            {
-
-
-                            }
-
 
 
                         }
                     }
                 }
 
-        
-                
+
+
             }
             catch (Exception ex)
             {
@@ -352,6 +329,66 @@ namespace ScoreMe.DAL
             }
 
 
+        }
+
+        public tbl_SMSReportShort ParseAzeriCard(tbl_SMSDetail detailItem, Int64 userID)
+        {
+            tbl_SMSReportShort smsRepotShort = null;
+            decimal priceValue = 0;
+            try
+            {
+                string[] arrayList = detailItem.Message.Split('\n');
+                if (arrayList[0].Substring(0, 7) == "Mebleg:")
+                {
+                    smsRepotShort = new tbl_SMSReportShort();
+                    smsRepotShort.UserID = userID;
+                    smsRepotShort.SMSModelID = detailItem.SMSModelID;
+                    smsRepotShort.SMSDetailID = detailItem.ID;
+                    smsRepotShort.Month = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Month : 0;
+                    smsRepotShort.Year = detailItem.RecievedDate.HasValue == true ? detailItem.RecievedDate.Value.Year : 0;
+                    smsRepotShort.SenderName = detailItem.SenderName;
+                    string[] amountList = arrayList[0].Trim().Split(' ');
+                    if (amountList[0].Substring(7, 1) == "-")
+                    {
+                        smsRepotShort.IsExpense = 1;
+                    }
+                    else
+                    {
+                        smsRepotShort.IsExpense = 0;
+                    }
+                    string amount = string.Empty;
+                    if (amountList.Length > 2)
+                    {
+                        amount = amountList[0] + amountList[1];
+                        smsRepotShort.Currency = amountList[2];
+                    }
+                    else
+                    {
+                        amount = amountList[0];
+                        smsRepotShort.Currency = amountList[1];
+                    }
+
+                    string newamount = amount.Substring(8);
+                    smsRepotShort.Amount = decimal.Parse(newamount);
+
+
+                    smsRepotShort.CardNumber = arrayList[1].Substring(5);
+                    smsRepotShort.OperationDate = DateTime.Parse(arrayList[2].Substring(6));
+                    smsRepotShort.MerchantName = arrayList[3].Substring(9);
+                    string[] balance = arrayList[4].Split(' ');
+                    smsRepotShort.Balance = decimal.Parse(balance[0].Substring(7));
+                    smsRepotShort.BalanceCurrency = balance[1];
+
+                    return smsRepotShort;
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+
+            }
+            return null;
         }
         public void AddAppConsumePoint(Int64 userID, string userName, tbl_AppConsumeDetail _appConsumeDetail)
         {
@@ -359,19 +396,21 @@ namespace ScoreMe.DAL
             {
                 CRUDOperation cRUDOperation = new CRUDOperation();
                 decimal pointValue = 0;
+                decimal priceValue = 0;
                 tbl_ApplicationInformation _applicationInformation = cRUDOperation.GetApplicationInformationByShortName(_appConsumeDetail.AppName);
                 if (_applicationInformation != null)
                 {
                     pointValue = 1 * (_applicationInformation.Point == null ? 0 : (decimal)_applicationInformation.Point);
+                    priceValue = 1 * (_applicationInformation.Price == null ? 0 : (decimal)_applicationInformation.Price);
                 }
-                AddUserPoint(userID, _appConsumeDetail.Month, _appConsumeDetail.Year, pointValue, (int)ChanelType.AppConsume);
+                AddUserPointAndPrice(userID, _appConsumeDetail.Month, _appConsumeDetail.Year, pointValue, priceValue, (int)ChanelType.AppConsume);
             }
             catch (Exception ex)
             {
 
-               
+
             }
-     
+
         }
         public void AddNetConsumePoint(Int64 userID, string userName, tbl_NetConsumeDetail _netConsumeDetail)
         {
@@ -379,6 +418,7 @@ namespace ScoreMe.DAL
             {
                 CRUDOperation cRUDOperation = new CRUDOperation();
                 decimal pointValue = 0;
+                decimal priceValue = 0;
                 int operatorEVID = NetConsumeHelper.GetOperatorValueByKey(_netConsumeDetail.OperatorName.Trim());
                 NetConsumeRepository netConsumeRepository = new NetConsumeRepository();
                 if (_netConsumeDetail.Source_EVID == 4)
@@ -387,42 +427,44 @@ namespace ScoreMe.DAL
                     if (packagePrice != null)
                     {
                         pointValue = 1 * (packagePrice.Point == null ? 0 : (decimal)packagePrice.Point);
+                        priceValue = 1 * (packagePrice.Price == null ? 0 : (decimal)packagePrice.Price);
                     }
 
                 }
 
-                AddUserPoint(userID, _netConsumeDetail.Month, _netConsumeDetail.Year, pointValue, (int)ChanelType.NetConsume);
+                AddUserPointAndPrice(userID, _netConsumeDetail.Month, _netConsumeDetail.Year, pointValue, priceValue, (int)ChanelType.NetConsume);
             }
             catch (Exception)
             {
 
-           
+
             }
-      
+
         }
-        public void AddUserPoint(Int64 userId, int month, int year, decimal point, int type)
+        public void AddUserPointAndPrice(Int64 userId, int month, int year, decimal point, decimal price, int type)
         {
             try
             {
                 CRUDOperation cRUDOperation = new CRUDOperation();
-                tbl_UserPoint userPoint = new tbl_UserPoint()
+                tbl_UserPointAndPrice userPoint = new tbl_UserPointAndPrice()
                 {
                     UserID = userId,
                     Month = month,
                     Year = year,
                     Point = point,
+                    Price = price,
                     Type = type
 
                 };
 
-                cRUDOperation.UpdateUserPointData(userPoint);
+                cRUDOperation.UpdateUserPointAndPriceData(userPoint);
             }
             catch (Exception ex)
             {
 
-             
+
             }
-          
+
         }
     }
 }

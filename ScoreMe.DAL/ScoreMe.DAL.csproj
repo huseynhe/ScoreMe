@@ -224,7 +224,7 @@
     <Compile Include="DBModel\tbl_UserPhoneInforamtion.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DBModel\tbl_UserPoint.cs">
+    <Compile Include="DBModel\tbl_UserPointAndPrice.cs">
       <DependentUpon>ScoreMeModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBModel\tbl_UserRole.cs">
@@ -270,6 +270,7 @@
     <Compile Include="Model\Proposal.cs" />
     <Compile Include="Model\ProposalDetail.cs" />
     <Compile Include="Model\ProposalUserGroup.cs" />
+    <Compile Include="Model\ProposalUserGroupModel.cs" />
     <Compile Include="Model\ProposalUserState.cs" />
     <Compile Include="Model\Provider.cs" />
     <Compile Include="Model\SMSModel.cs" />
@@ -320,6 +321,7 @@
       <Name>ScoreMe.UTILITY</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="DBModel\ScoreMeModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

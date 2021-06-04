@@ -4805,6 +4805,7 @@ namespace ScoreMe.DAL
                         oldItem.Status = 1;
                         oldItem.ProposalID = item.ProposalID;
                         oldItem.GroupID = item.GroupID;
+                        oldItem.UserID = item.UserID;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
 
@@ -4837,13 +4838,13 @@ namespace ScoreMe.DAL
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    var items = (from g in context.tbl_Group
-                                 join pug in context.tbl_ProposalUserGroup on g.ID equals pug.GroupID
+                    var items = (from  pug in context.tbl_ProposalUserGroup
                                  join pr in context.tbl_Proposal on pug.ProposalID equals pr.ID
-                                 where g.Status == 1 && pug.Status == 1 && pr.Status == 1
-                                 && g.ID == groupid
+                                 where pug.Status == 1 && pr.Status == 1
+                                 && pug.GroupID == groupid
                                  select pr).ToList();
 
+                
                     return items.ToList();
 
                 }
@@ -9822,9 +9823,9 @@ namespace ScoreMe.DAL
         }
         #endregion
 
-        #region tbl_UserPoint
+        #region tbl_UserPointAndPrice
 
-        public tbl_UserPoint AddUserPoint(tbl_UserPoint item)
+        public tbl_UserPointAndPrice AddUserPoint(tbl_UserPointAndPrice item)
         {
 
             try
@@ -9833,7 +9834,7 @@ namespace ScoreMe.DAL
                 {
                     item.Status = 1;
                     item.InsertDate = DateTime.Now;
-                    context.tbl_UserPoint.Add(item);
+                    context.tbl_UserPointAndPrice.Add(item);
                     context.SaveChanges();
                     return item;
 
@@ -9845,16 +9846,16 @@ namespace ScoreMe.DAL
                 throw ex;
             }
         }
-        public tbl_UserPoint DeleteUserPoint(Int64 id, Int64 userId)
+        public tbl_UserPointAndPrice DeleteUserPoint(Int64 id, Int64 userId)
         {
 
             try
             {
-                tbl_UserPoint oldItem;
+                tbl_UserPointAndPrice oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
 
-                    oldItem = (from p in context.tbl_UserPoint
+                    oldItem = (from p in context.tbl_UserPointAndPrice
                                where p.ID == id && p.Status == 1
                                select p).FirstOrDefault();
 
@@ -9867,7 +9868,7 @@ namespace ScoreMe.DAL
                         oldItem.Status = 0;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = userId;
-                        context.tbl_UserPoint.Attach(oldItem);
+                        context.tbl_UserPointAndPrice.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
 
@@ -9888,14 +9889,14 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_UserPoint> GetUserPoints()
+        public List<tbl_UserPointAndPrice> GetUserPoints()
         {
 
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    var items = (from p in context.tbl_UserPoint
+                    var items = (from p in context.tbl_UserPointAndPrice
                                  where p.Status == 1
                                  select p);
 
@@ -9909,14 +9910,14 @@ namespace ScoreMe.DAL
             }
 
         }
-        public List<tbl_UserPoint> GetUserPointsByUserName(string userName)
+        public List<tbl_UserPointAndPrice> GetUserPointsByUserName(string userName)
         {
 
             try
             {
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    var items = (from p in context.tbl_UserPoint
+                    var items = (from p in context.tbl_UserPointAndPrice
                                  join u in context.tbl_User on p.UserID equals u.ID
                                  where p.Status == 1 && u.UserName == userName && u.Status == 1
                                  select p);
@@ -9931,7 +9932,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_UserPoint GetUserPointById(Int64 Id)
+        public tbl_UserPointAndPrice GetUserPointById(Int64 Id)
         {
 
             try
@@ -9940,7 +9941,7 @@ namespace ScoreMe.DAL
                 {
 
 
-                    var item = (from p in context.tbl_UserPoint
+                    var item = (from p in context.tbl_UserPointAndPrice
                                 where p.ID == Id && p.Status == 1
                                 select p).FirstOrDefault();
 
@@ -9955,7 +9956,7 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_UserPoint GetLastUserPointByUserName(string userName)
+        public tbl_UserPointAndPrice GetLastUserPointByUserName(string userName)
         {
 
             try
@@ -9964,7 +9965,7 @@ namespace ScoreMe.DAL
                 {
 
 
-                    var item = (from p in context.tbl_UserPoint
+                    var item = (from p in context.tbl_UserPointAndPrice
                                 join u in context.tbl_User on p.UserID equals u.ID
                                 where u.UserName == userName && p.Status == 1 && u.Status == 1
                                 orderby p.ID descending
@@ -9981,14 +9982,14 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_UserPoint UpdateUserPoint(tbl_UserPoint item)
+        public tbl_UserPointAndPrice UpdateUserPoint(tbl_UserPointAndPrice item)
         {
             try
             {
-                tbl_UserPoint oldItem;
+                tbl_UserPointAndPrice oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    oldItem = (from p in context.tbl_UserPoint
+                    oldItem = (from p in context.tbl_UserPointAndPrice
                                where p.ID == item.ID && p.Status == 1
                                select p).FirstOrDefault();
 
@@ -10006,7 +10007,7 @@ namespace ScoreMe.DAL
 
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
-                        context.tbl_UserPoint.Attach(oldItem);
+                        context.tbl_UserPointAndPrice.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
                         return oldItem;
@@ -10028,14 +10029,14 @@ namespace ScoreMe.DAL
             }
 
         }
-        public tbl_UserPoint UpdateUserPointData(tbl_UserPoint item)
+        public tbl_UserPointAndPrice UpdateUserPointAndPriceData(tbl_UserPointAndPrice item)
         {
             try
             {
-                tbl_UserPoint oldItem;
+                tbl_UserPointAndPrice oldItem;
                 using (var context = new DB_A62358_ScoreMeEntities())
                 {
-                    oldItem = (from p in context.tbl_UserPoint
+                    oldItem = (from p in context.tbl_UserPointAndPrice
                                where p.UserID == item.UserID && p.Month == item.Month && p.Year == item.Year && p.Type == item.Type && p.Status == 1
                                select p).FirstOrDefault();
 
@@ -10043,7 +10044,7 @@ namespace ScoreMe.DAL
                     {
                         item.Status = 1;
                         item.InsertDate = DateTime.Now;
-                        context.tbl_UserPoint.Add(item);
+                        context.tbl_UserPointAndPrice.Add(item);
                         context.SaveChanges();
                         return item;
                     }
@@ -10054,11 +10055,13 @@ namespace ScoreMe.DAL
                 {
                     using (var context = new DB_A62358_ScoreMeEntities())
                     {
-                        decimal point = oldItem.Point + item.Point;
+                        decimal point = (oldItem.Point==null?0:(decimal)oldItem.Point) + (item.Point==null?0:(decimal)item.Point);
                         oldItem.Point = point;
+                        decimal price = (oldItem.Price == null ? 0 : (decimal)oldItem.Price) + (item.Price == null ? 0 : (decimal)item.Price);
+                        oldItem.Price = price;
                         oldItem.UpdateDate = DateTime.Now;
                         oldItem.UpdateUser = item.UpdateUser;
-                        context.tbl_UserPoint.Attach(oldItem);
+                        context.tbl_UserPointAndPrice.Attach(oldItem);
                         context.Entry(oldItem).State = System.Data.Entity.EntityState.Modified;
                         context.SaveChanges();
                         return oldItem;

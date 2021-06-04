@@ -16,5 +16,8 @@ namespace ScoreMe.DAL.DTO
         public int AccountLocked { get; set; }
         public int IsActive { get; set; }
 
+        public decimal TotalPoint { get; set; }
+        public decimal TotalPrice { get; set; }
+
     }
 }

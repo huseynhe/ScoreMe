@@ -1,0 +1,103 @@
+﻿@model ScoreMe.UI.Models.TotalPointAndPriceReportVM
+@{
+    ViewBag.Title = "Müştərilərin toplam bal və xərc raporu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">*@
+
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.3.2/css/fixedColumns.bootstrap4.min.css">
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix"></div><br />
+
+        <div class="well bs-component">
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Axtarış parametrələri</div>
+                <div class="panel-body">
+                    <div class="row">
+                        @using (Ajax.BeginForm("AjaxSearch", "TotatReporter", new AjaxOptions
+                        {
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "GET",
+                            OnFailure = "searchFailed",
+                            LoadingElementId = "ajax-loader",
+                            UpdateTargetId = "searchResult",
+
+                        }))
+                        {
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.ReportType, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(x => Model.ReportType, new SelectList(Model.ReportTypeList, "Value", "Text"), htmlAttributes: new { @class = "select2 form-control", id = "ReportType", tabindex = 1 })
+                                @Html.ValidationMessageFor(model => model.ReportType, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-3">
+                                @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label" })
+                                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", tabindex = 2 } })
+                                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <br />
+                                <input type="submit" value="Axtar" class="btn btn-success" />
+                                <img id="ajax-loader"
+                                     src="@Url.Content("~/assets/img/ajax_loader_blue_32.gif")"
+                                     style="display:none" />
+                                <br />
+                                @*<div class="btn-group">
+                    <button id="BtnEOM" type="button" class="btn btn-primary">Ay sonu hesabla</button>
+                </div>
+                <div class="btn-group">
+                    <button id="BtnEOMDel" type="button" class="btn btn-danger">Ay sonu Sil</button>
+                </div>*@
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ajax-loader"></div>
+        <div class="clearfix"></div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Hesabat</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div id="searchResult">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/3.3.2/js/dataTables.fixedColumns.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function searchFailed() {
+                $("#searchResult").html("Sorry, there was a problem with the search.");
+            }
+        });
+    </script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}
+
+

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DB_A62358_ScoreMeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DB_A62358_ScoreMeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_DataChange' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="log_DataChange">
@@ -524,6 +524,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Status" Type="int" Nullable="false" />
           <Property Name="ProposalID" Type="bigint" Nullable="false" />
           <Property Name="GroupID" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="int" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -895,7 +896,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
           <Property Name="UpdateUser" Type="bigint" />
         </EntityType>
-        <EntityType Name="tbl_UserPoint">
+        <EntityType Name="tbl_UserPointAndPrice">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -905,7 +906,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="Month" Type="int" Nullable="false" />
           <Property Name="Year" Type="int" Nullable="false" />
-          <Property Name="Point" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Point" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
           <Property Name="InsertDate" Type="datetime2" Precision="7" />
           <Property Name="InsertUser" Type="bigint" />
           <Property Name="UpdateDate" Type="datetime2" Precision="7" />
@@ -1002,7 +1004,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <EntitySet Name="tbl_UserDocument" EntityType="Self.tbl_UserDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserGroup" EntityType="Self.tbl_UserGroup" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserPhoneInforamtion" EntityType="Self.tbl_UserPhoneInforamtion" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbl_UserPoint" EntityType="Self.tbl_UserPoint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UserPointAndPrice" EntityType="Self.tbl_UserPointAndPrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserRole" EntityType="Self.tbl_UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserService" EntityType="Self.tbl_UserService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_UserServiceRating" EntityType="Self.tbl_UserServiceRating" Schema="dbo" store:Type="Tables" />
@@ -1033,73 +1035,17 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
     FROM [dbo].[log_Login] AS [log_Login]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_A62358_ScoreMeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="DB_A62358_ScoreMeEntities" annotation:LazyLoadingEnabled="true" >
-          <EntitySet Name="ProviderTypes" EntityType="DB_A62358_ScoreMeModel.ProviderType" />
-          <EntitySet Name="tbl_AccessRight" EntityType="DB_A62358_ScoreMeModel.tbl_AccessRight" />
-          <EntitySet Name="tbl_AppConsumeDetail" EntityType="DB_A62358_ScoreMeModel.tbl_AppConsumeDetail" />
-          <EntitySet Name="tbl_AppConsumeModel" EntityType="DB_A62358_ScoreMeModel.tbl_AppConsumeModel" />
-          <EntitySet Name="tbl_AppGroupInformation" EntityType="DB_A62358_ScoreMeModel.tbl_AppGroupInformation" />
-          <EntitySet Name="tbl_ApplicationInformation" EntityType="DB_A62358_ScoreMeModel.tbl_ApplicationInformation" />
-          <EntitySet Name="tbl_CALLDetail" EntityType="DB_A62358_ScoreMeModel.tbl_CALLDetail" />
-          <EntitySet Name="tbl_CALLModel" EntityType="DB_A62358_ScoreMeModel.tbl_CALLModel" />
-          <EntitySet Name="tbl_CALLReport" EntityType="DB_A62358_ScoreMeModel.tbl_CALLReport" />
-          <EntitySet Name="tbl_Customer" EntityType="DB_A62358_ScoreMeModel.tbl_Customer" />
-          <EntitySet Name="tbl_Employee" EntityType="DB_A62358_ScoreMeModel.tbl_Employee" />
-          <EntitySet Name="tbl_EnumCategory" EntityType="DB_A62358_ScoreMeModel.tbl_EnumCategory" />
-          <EntitySet Name="tbl_EnumValue" EntityType="DB_A62358_ScoreMeModel.tbl_EnumValue" />
-          <EntitySet Name="tbl_Group" EntityType="DB_A62358_ScoreMeModel.tbl_Group" />
-          <EntitySet Name="tbl_NetConsumeDetail" EntityType="DB_A62358_ScoreMeModel.tbl_NetConsumeDetail" />
-          <EntitySet Name="tbl_NetConsumeModel" EntityType="DB_A62358_ScoreMeModel.tbl_NetConsumeModel" />
-          <EntitySet Name="tbl_OperatorInformation" EntityType="DB_A62358_ScoreMeModel.tbl_OperatorInformation" />
-          <EntitySet Name="tbl_OTP" EntityType="DB_A62358_ScoreMeModel.tbl_OTP" />
-          <EntitySet Name="tbl_Package" EntityType="DB_A62358_ScoreMeModel.tbl_Package" />
-          <EntitySet Name="tbl_PackagePrice" EntityType="DB_A62358_ScoreMeModel.tbl_PackagePrice" />
-          <EntitySet Name="tbl_Permission" EntityType="DB_A62358_ScoreMeModel.tbl_Permission" />
-          <EntitySet Name="tbl_Proposal" EntityType="DB_A62358_ScoreMeModel.tbl_Proposal" />
-          <EntitySet Name="tbl_ProposalCommission" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalCommission" />
-          <EntitySet Name="tbl_ProposalDetail" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalDetail" />
-          <EntitySet Name="tbl_ProposalDocument" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalDocument" />
-          <EntitySet Name="tbl_ProposalFavorite" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalFavorite" />
-          <EntitySet Name="tbl_ProposalLikeDislike" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalLikeDislike" />
-          <EntitySet Name="tbl_ProposalUserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserGroup" />
-          <EntitySet Name="tbl_ProposalUserSave" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserSave" />
-          <EntitySet Name="tbl_ProposalUserState" EntityType="DB_A62358_ScoreMeModel.tbl_ProposalUserState" />
-          <EntitySet Name="tbl_Provider" EntityType="DB_A62358_ScoreMeModel.tbl_Provider" />
-          <EntitySet Name="tbl_ProviderRole" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderRole" />
-          <EntitySet Name="tbl_ProviderService" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderService" />
-          <EntitySet Name="tbl_ProviderUserProposal" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderUserProposal" />
-          <EntitySet Name="tbl_ProviderUserRating" EntityType="DB_A62358_ScoreMeModel.tbl_ProviderUserRating" />
-          <EntitySet Name="tbl_RatingType" EntityType="DB_A62358_ScoreMeModel.tbl_RatingType" />
-          <EntitySet Name="tbl_RatingValue" EntityType="DB_A62358_ScoreMeModel.tbl_RatingValue" />
-          <EntitySet Name="tbl_Region" EntityType="DB_A62358_ScoreMeModel.tbl_Region" />
-          <EntitySet Name="tbl_Role" EntityType="DB_A62358_ScoreMeModel.tbl_Role" />
-          <EntitySet Name="tbl_Score_x" EntityType="DB_A62358_ScoreMeModel.tbl_Score_x" />
-          <EntitySet Name="tbl_SMSDetail" EntityType="DB_A62358_ScoreMeModel.tbl_SMSDetail" />
-          <EntitySet Name="tbl_SMSModel" EntityType="DB_A62358_ScoreMeModel.tbl_SMSModel" />
-          <EntitySet Name="tbl_SMSReport" EntityType="DB_A62358_ScoreMeModel.tbl_SMSReport" />
-          <EntitySet Name="tbl_SMSReportShort" EntityType="DB_A62358_ScoreMeModel.tbl_SMSReportShort" />
-          <EntitySet Name="tbl_SMSSenderInfo" EntityType="DB_A62358_ScoreMeModel.tbl_SMSSenderInfo" />
-          <EntitySet Name="tbl_User" EntityType="DB_A62358_ScoreMeModel.tbl_User" />
-          <EntitySet Name="tbl_UserDocument" EntityType="DB_A62358_ScoreMeModel.tbl_UserDocument" />
-          <EntitySet Name="tbl_UserGroup" EntityType="DB_A62358_ScoreMeModel.tbl_UserGroup" />
-          <EntitySet Name="tbl_UserPhoneInforamtion" EntityType="DB_A62358_ScoreMeModel.tbl_UserPhoneInforamtion" />
-          <EntitySet Name="tbl_UserPoint" EntityType="DB_A62358_ScoreMeModel.tbl_UserPoint" />
-          <EntitySet Name="tbl_UserRole" EntityType="DB_A62358_ScoreMeModel.tbl_UserRole" />
-          <EntitySet Name="tbl_UserService" EntityType="DB_A62358_ScoreMeModel.tbl_UserService" />
-          <EntitySet Name="tbl_UserServiceRating" EntityType="DB_A62358_ScoreMeModel.tbl_UserServiceRating" />
-          <EntitySet Name="log_DataChange" EntityType="DB_A62358_ScoreMeModel.log_DataChange" />
-          <EntitySet Name="log_Login" EntityType="DB_A62358_ScoreMeModel.log_Login" />
-        </EntityContainer>
         <EntityType Name="ProviderType">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ProviderIcon" Type="Binary" MaxLength="Max" FixedLength="false" />
@@ -1115,9 +1061,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Controller" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Controller" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ControllerDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Action" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ActionDesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="HasAccess" Type="Int32" Nullable="false" />
           <Property Name="InsertDate" Type="DateTime" Precision="0" />
@@ -1134,12 +1080,12 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="AppConsumeModelID" Type="Int64" Nullable="false" />
           <Property Name="UserID" Type="Int64" Nullable="false" />
           <Property Name="AppType_EVID" Type="Int64" Nullable="false" />
-          <Property Name="AppName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AppName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="AppDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Year" Type="Int32" Nullable="false" />
           <Property Name="Month" Type="Int32" Nullable="false" />
           <Property Name="Day" Type="Int32" Nullable="false" />
-          <Property Name="Consumed" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Consumed" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1166,7 +1112,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="CategoryType" Type="Int32" Nullable="false" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PriceUsage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PointUsage" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PriceCount" Type="Decimal" Precision="18" Scale="2" />
@@ -1310,8 +1256,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="UserId" Type="Int64" Nullable="false" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FatherName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="GenderType" Type="Int32" />
           <Property Name="PositionID" Type="Int32" />
@@ -1326,7 +1272,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
@@ -1341,7 +1287,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="EnumCategoryID" Type="Int64" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
@@ -1410,7 +1356,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="OperatorType_EVID" Type="Int32" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="OperatorChanelType_EVID" Type="Int32" />
           <Property Name="InOutType_EVID" Type="Int32" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
@@ -1428,7 +1374,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="UserID" Type="Int64" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="OTPCode" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="OTPCode" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CreateTime" Type="DateTime" Precision="7" />
           <Property Name="ISsuccess" Type="Int32" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
@@ -1443,10 +1389,10 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="Mobile_EVID" Type="Int64" Nullable="false" />
-          <Property Name="PackageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PackageSize" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PackageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PackageSize" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Validity" Type="Int32" Nullable="false" />
-          <Property Name="ValidityDesc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ValidityDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1489,7 +1435,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ProviderID" Type="Int64" Nullable="false" />
@@ -1508,7 +1454,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="ProposalID" Type="Int64" Nullable="false" />
-          <Property Name="Commission" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Commission" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1522,7 +1468,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="ProposalID" Type="Int64" Nullable="false" />
           <Property Name="ProposolKey" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ProposolValue" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProposolValue" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1579,6 +1525,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="ProposalID" Type="Int64" Nullable="false" />
           <Property Name="GroupID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int32" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -1623,7 +1570,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ParentID" Type="Int64" Nullable="false" />
           <Property Name="UserId" Type="Int64" Nullable="false" />
           <Property Name="Type" Type="Int64" />
@@ -1849,9 +1796,9 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="SMSDetailID" Type="Int64" Nullable="false" />
           <Property Name="Month" Type="Int32" Nullable="false" />
           <Property Name="Year" Type="Int32" Nullable="false" />
-          <Property Name="SenderName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SenderName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="IsExpense" Type="Int32" />
-          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Currency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CardNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="OperationDate" Type="DateTime" Precision="7" />
@@ -1871,7 +1818,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Status" Type="Int32" Nullable="false" />
           <Property Name="ActivityType" Type="Int32" Nullable="false" />
           <Property Name="IsParse" Type="Int32" />
-          <Property Name="SenderName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SenderName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
@@ -1888,8 +1835,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserType_EVID" Type="Int64" Nullable="false" />
           <Property Name="LoginFailedCount" Type="Int32" />
           <Property Name="LastLoginDate" Type="DateTime" Precision="7" />
@@ -1950,7 +1897,7 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
           <Property Name="UpdateUser" Type="Int64" />
         </EntityType>
-        <EntityType Name="tbl_UserPoint">
+        <EntityType Name="tbl_UserPointAndPrice">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -1960,7 +1907,8 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="Month" Type="Int32" Nullable="false" />
           <Property Name="Year" Type="Int32" Nullable="false" />
-          <Property Name="Point" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Point" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="InsertDate" Type="DateTime" Precision="7" />
           <Property Name="InsertUser" Type="Int64" />
           <Property Name="UpdateDate" Type="DateTime" Precision="7" />
@@ -2037,1005 +1985,1064 @@ warning 6002: The table/view 'DB_A62358_ScoreMe.dbo.log_Login' does not have a p
           <Property Name="PasswordChangeDateTime" Type="DateTime" Precision="3" />
           <Property Name="IsActive" Type="Int32" />
         </EntityType>
-        </Schema>
+        <EntityContainer Name="DB_A62358_ScoreMeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ProviderTypes" EntityType="Self.ProviderType" />
+          <EntitySet Name="tbl_AccessRight" EntityType="Self.tbl_AccessRight" />
+          <EntitySet Name="tbl_AppConsumeDetail" EntityType="Self.tbl_AppConsumeDetail" />
+          <EntitySet Name="tbl_AppConsumeModel" EntityType="Self.tbl_AppConsumeModel" />
+          <EntitySet Name="tbl_AppGroupInformation" EntityType="Self.tbl_AppGroupInformation" />
+          <EntitySet Name="tbl_ApplicationInformation" EntityType="Self.tbl_ApplicationInformation" />
+          <EntitySet Name="tbl_CALLDetail" EntityType="Self.tbl_CALLDetail" />
+          <EntitySet Name="tbl_CALLModel" EntityType="Self.tbl_CALLModel" />
+          <EntitySet Name="tbl_CALLReport" EntityType="Self.tbl_CALLReport" />
+          <EntitySet Name="tbl_Customer" EntityType="Self.tbl_Customer" />
+          <EntitySet Name="tbl_Employee" EntityType="Self.tbl_Employee" />
+          <EntitySet Name="tbl_EnumCategory" EntityType="Self.tbl_EnumCategory" />
+          <EntitySet Name="tbl_EnumValue" EntityType="Self.tbl_EnumValue" />
+          <EntitySet Name="tbl_Group" EntityType="Self.tbl_Group" />
+          <EntitySet Name="tbl_NetConsumeDetail" EntityType="Self.tbl_NetConsumeDetail" />
+          <EntitySet Name="tbl_NetConsumeModel" EntityType="Self.tbl_NetConsumeModel" />
+          <EntitySet Name="tbl_OperatorInformation" EntityType="Self.tbl_OperatorInformation" />
+          <EntitySet Name="tbl_OTP" EntityType="Self.tbl_OTP" />
+          <EntitySet Name="tbl_Package" EntityType="Self.tbl_Package" />
+          <EntitySet Name="tbl_PackagePrice" EntityType="Self.tbl_PackagePrice" />
+          <EntitySet Name="tbl_Permission" EntityType="Self.tbl_Permission" />
+          <EntitySet Name="tbl_Proposal" EntityType="Self.tbl_Proposal" />
+          <EntitySet Name="tbl_ProposalCommission" EntityType="Self.tbl_ProposalCommission" />
+          <EntitySet Name="tbl_ProposalDetail" EntityType="Self.tbl_ProposalDetail" />
+          <EntitySet Name="tbl_ProposalDocument" EntityType="Self.tbl_ProposalDocument" />
+          <EntitySet Name="tbl_ProposalFavorite" EntityType="Self.tbl_ProposalFavorite" />
+          <EntitySet Name="tbl_ProposalLikeDislike" EntityType="Self.tbl_ProposalLikeDislike" />
+          <EntitySet Name="tbl_ProposalUserGroup" EntityType="Self.tbl_ProposalUserGroup" />
+          <EntitySet Name="tbl_ProposalUserSave" EntityType="Self.tbl_ProposalUserSave" />
+          <EntitySet Name="tbl_ProposalUserState" EntityType="Self.tbl_ProposalUserState" />
+          <EntitySet Name="tbl_Provider" EntityType="Self.tbl_Provider" />
+          <EntitySet Name="tbl_ProviderRole" EntityType="Self.tbl_ProviderRole" />
+          <EntitySet Name="tbl_ProviderService" EntityType="Self.tbl_ProviderService" />
+          <EntitySet Name="tbl_ProviderUserProposal" EntityType="Self.tbl_ProviderUserProposal" />
+          <EntitySet Name="tbl_ProviderUserRating" EntityType="Self.tbl_ProviderUserRating" />
+          <EntitySet Name="tbl_RatingType" EntityType="Self.tbl_RatingType" />
+          <EntitySet Name="tbl_RatingValue" EntityType="Self.tbl_RatingValue" />
+          <EntitySet Name="tbl_Region" EntityType="Self.tbl_Region" />
+          <EntitySet Name="tbl_Role" EntityType="Self.tbl_Role" />
+          <EntitySet Name="tbl_Score_x" EntityType="Self.tbl_Score_x" />
+          <EntitySet Name="tbl_SMSDetail" EntityType="Self.tbl_SMSDetail" />
+          <EntitySet Name="tbl_SMSModel" EntityType="Self.tbl_SMSModel" />
+          <EntitySet Name="tbl_SMSReport" EntityType="Self.tbl_SMSReport" />
+          <EntitySet Name="tbl_SMSReportShort" EntityType="Self.tbl_SMSReportShort" />
+          <EntitySet Name="tbl_SMSSenderInfo" EntityType="Self.tbl_SMSSenderInfo" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" />
+          <EntitySet Name="tbl_UserDocument" EntityType="Self.tbl_UserDocument" />
+          <EntitySet Name="tbl_UserGroup" EntityType="Self.tbl_UserGroup" />
+          <EntitySet Name="tbl_UserPhoneInforamtion" EntityType="Self.tbl_UserPhoneInforamtion" />
+          <EntitySet Name="tbl_UserPointAndPrice" EntityType="Self.tbl_UserPointAndPrice" />
+          <EntitySet Name="tbl_UserRole" EntityType="Self.tbl_UserRole" />
+          <EntitySet Name="tbl_UserService" EntityType="Self.tbl_UserService" />
+          <EntitySet Name="tbl_UserServiceRating" EntityType="Self.tbl_UserServiceRating" />
+          <EntitySet Name="log_DataChange" EntityType="Self.log_DataChange" />
+          <EntitySet Name="log_Login" EntityType="Self.log_Login" />
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_A62358_ScoreMeModelStoreContainer" CdmEntityContainer="DB_A62358_ScoreMeEntities" >
+        <EntityContainerMapping StorageEntityContainer="DB_A62358_ScoreMeModelStoreContainer" CdmEntityContainer="DB_A62358_ScoreMeEntities">
           <EntitySetMapping Name="ProviderTypes">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.ProviderType">
               <MappingFragment StoreEntitySet="ProviderType">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ProviderIcon" ColumnName="ProviderIcon" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProviderIcon" ColumnName="ProviderIcon" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_AccessRight">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AccessRight">
               <MappingFragment StoreEntitySet="tbl_AccessRight">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="HasAccess" ColumnName="HasAccess" />
-                <ScalarProperty Name="ActionDesc" ColumnName="ActionDesc" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="ControllerDesc" ColumnName="ControllerDesc" />
-                <ScalarProperty Name="Controller" ColumnName="Controller" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Controller" ColumnName="Controller" />
+                <ScalarProperty Name="ControllerDesc" ColumnName="ControllerDesc" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="ActionDesc" ColumnName="ActionDesc" />
+                <ScalarProperty Name="HasAccess" ColumnName="HasAccess" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_AppConsumeDetail">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AppConsumeDetail">
               <MappingFragment StoreEntitySet="tbl_AppConsumeDetail">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Consumed" ColumnName="Consumed" />
-                <ScalarProperty Name="Day" ColumnName="Day" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="AppDescription" ColumnName="AppDescription" />
-                <ScalarProperty Name="AppName" ColumnName="AppName" />
-                <ScalarProperty Name="AppType_EVID" ColumnName="AppType_EVID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="AppConsumeModelID" ColumnName="AppConsumeModelID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AppConsumeModelID" ColumnName="AppConsumeModelID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="AppType_EVID" ColumnName="AppType_EVID" />
+                <ScalarProperty Name="AppName" ColumnName="AppName" />
+                <ScalarProperty Name="AppDescription" ColumnName="AppDescription" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Consumed" ColumnName="Consumed" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_AppConsumeModel">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AppConsumeModel">
               <MappingFragment StoreEntitySet="tbl_AppConsumeModel">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_AppGroupInformation">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_AppGroupInformation">
               <MappingFragment StoreEntitySet="tbl_AppGroupInformation">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="PointCount" ColumnName="PointCount" />
-                <ScalarProperty Name="PriceCount" ColumnName="PriceCount" />
-                <ScalarProperty Name="PointUsage" ColumnName="PointUsage" />
-                <ScalarProperty Name="PriceUsage" ColumnName="PriceUsage" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CategoryType" ColumnName="CategoryType" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="PriceUsage" ColumnName="PriceUsage" />
+                <ScalarProperty Name="PointUsage" ColumnName="PointUsage" />
+                <ScalarProperty Name="PriceCount" ColumnName="PriceCount" />
+                <ScalarProperty Name="PointCount" ColumnName="PointCount" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ApplicationInformation">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ApplicationInformation">
               <MappingFragment StoreEntitySet="tbl_ApplicationInformation">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="NetUsage" ColumnName="NetUsage" />
-                <ScalarProperty Name="Point" ColumnName="Point" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Author" ColumnName="Author" />
-                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
-                <ScalarProperty Name="AppName" ColumnName="AppName" />
-                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
-                <ScalarProperty Name="Platform" ColumnName="Platform" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Platform" ColumnName="Platform" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="AppName" ColumnName="AppName" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="NetUsage" ColumnName="NetUsage" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_CALLDetail">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_CALLDetail">
               <MappingFragment StoreEntitySet="tbl_CALLDetail">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
-                <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="PhonePrefix" ColumnName="PhonePrefix" />
-                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
-                <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
-                <ScalarProperty Name="InOutType" ColumnName="InOutType" />
-                <ScalarProperty Name="CALLModelID" ColumnName="CALLModelID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CALLModelID" ColumnName="CALLModelID" />
+                <ScalarProperty Name="InOutType" ColumnName="InOutType" />
+                <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
+                <ScalarProperty Name="PhonePrefix" ColumnName="PhonePrefix" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
+                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_CALLModel">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_CALLModel">
               <MappingFragment StoreEntitySet="tbl_CALLModel">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="InCallRoamingSecond" ColumnName="InCallRoamingSecond" />
-                <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
-                <ScalarProperty Name="OutCallRoamingSecond" ColumnName="OutCallRoamingSecond" />
-                <ScalarProperty Name="OutCallRoamingCount" ColumnName="OutCallRoamingCount" />
-                <ScalarProperty Name="InCallForeignSecond" ColumnName="InCallForeignSecond" />
-                <ScalarProperty Name="InCallForeignCount" ColumnName="InCallForeignCount" />
-                <ScalarProperty Name="OutCallForeignSecond" ColumnName="OutCallForeignSecond" />
-                <ScalarProperty Name="OutCallForeignCount" ColumnName="OutCallForeignCount" />
-                <ScalarProperty Name="MissedCallCount" ColumnName="MissedCallCount" />
-                <ScalarProperty Name="InCallSecond" ColumnName="InCallSecond" />
-                <ScalarProperty Name="InCallCount" ColumnName="InCallCount" />
-                <ScalarProperty Name="OutCallSecond" ColumnName="OutCallSecond" />
-                <ScalarProperty Name="OutCallCount" ColumnName="OutCallCount" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
-                <ScalarProperty Name="TotalCallCount" ColumnName="TotalCallCount" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TotalCallCount" ColumnName="TotalCallCount" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="OutCallCount" ColumnName="OutCallCount" />
+                <ScalarProperty Name="OutCallSecond" ColumnName="OutCallSecond" />
+                <ScalarProperty Name="InCallCount" ColumnName="InCallCount" />
+                <ScalarProperty Name="InCallSecond" ColumnName="InCallSecond" />
+                <ScalarProperty Name="MissedCallCount" ColumnName="MissedCallCount" />
+                <ScalarProperty Name="OutCallForeignCount" ColumnName="OutCallForeignCount" />
+                <ScalarProperty Name="OutCallForeignSecond" ColumnName="OutCallForeignSecond" />
+                <ScalarProperty Name="InCallForeignCount" ColumnName="InCallForeignCount" />
+                <ScalarProperty Name="InCallForeignSecond" ColumnName="InCallForeignSecond" />
+                <ScalarProperty Name="OutCallRoamingCount" ColumnName="OutCallRoamingCount" />
+                <ScalarProperty Name="OutCallRoamingSecond" ColumnName="OutCallRoamingSecond" />
+                <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
+                <ScalarProperty Name="InCallRoamingSecond" ColumnName="InCallRoamingSecond" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_CALLReport">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_CALLReport">
               <MappingFragment StoreEntitySet="tbl_CALLReport">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="InCallRoamingMinute" ColumnName="InCallRoamingMinute" />
-                <ScalarProperty Name="InCallRoamingSecond" ColumnName="InCallRoamingSecond" />
-                <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
-                <ScalarProperty Name="OutCallRoamingMinute" ColumnName="OutCallRoamingMinute" />
-                <ScalarProperty Name="OutCallRoamingSecond" ColumnName="OutCallRoamingSecond" />
-                <ScalarProperty Name="OutCallRoamingCount" ColumnName="OutCallRoamingCount" />
-                <ScalarProperty Name="InCallForeignMinute" ColumnName="InCallForeignMinute" />
-                <ScalarProperty Name="InCallForeignSecond" ColumnName="InCallForeignSecond" />
-                <ScalarProperty Name="InCallForeignCount" ColumnName="InCallForeignCount" />
-                <ScalarProperty Name="OutCallForeignMinute" ColumnName="OutCallForeignMinute" />
-                <ScalarProperty Name="OutCallForeignSecond" ColumnName="OutCallForeignSecond" />
-                <ScalarProperty Name="OutCallForeignCount" ColumnName="OutCallForeignCount" />
-                <ScalarProperty Name="InMissedCallCount" ColumnName="InMissedCallCount" />
-                <ScalarProperty Name="OutMissedCallCount" ColumnName="OutMissedCallCount" />
-                <ScalarProperty Name="InCallMinute" ColumnName="InCallMinute" />
-                <ScalarProperty Name="InCallSecond" ColumnName="InCallSecond" />
-                <ScalarProperty Name="InCallCount" ColumnName="InCallCount" />
-                <ScalarProperty Name="OutCallMinuteOther" ColumnName="OutCallMinuteOther" />
-                <ScalarProperty Name="OutCallSecondOther" ColumnName="OutCallSecondOther" />
-                <ScalarProperty Name="OutCallCountOther" ColumnName="OutCallCountOther" />
-                <ScalarProperty Name="OutCallMinuteSame" ColumnName="OutCallMinuteSame" />
-                <ScalarProperty Name="OutCallSecondSame" ColumnName="OutCallSecondSame" />
-                <ScalarProperty Name="OutCallCountSame" ColumnName="OutCallCountSame" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="CALLDetailID" ColumnName="CALLDetailID" />
-                <ScalarProperty Name="CALLModelID" ColumnName="CALLModelID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CALLModelID" ColumnName="CALLModelID" />
+                <ScalarProperty Name="CALLDetailID" ColumnName="CALLDetailID" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="OutCallCountSame" ColumnName="OutCallCountSame" />
+                <ScalarProperty Name="OutCallSecondSame" ColumnName="OutCallSecondSame" />
+                <ScalarProperty Name="OutCallMinuteSame" ColumnName="OutCallMinuteSame" />
+                <ScalarProperty Name="OutCallCountOther" ColumnName="OutCallCountOther" />
+                <ScalarProperty Name="OutCallSecondOther" ColumnName="OutCallSecondOther" />
+                <ScalarProperty Name="OutCallMinuteOther" ColumnName="OutCallMinuteOther" />
+                <ScalarProperty Name="InCallCount" ColumnName="InCallCount" />
+                <ScalarProperty Name="InCallSecond" ColumnName="InCallSecond" />
+                <ScalarProperty Name="InCallMinute" ColumnName="InCallMinute" />
+                <ScalarProperty Name="OutMissedCallCount" ColumnName="OutMissedCallCount" />
+                <ScalarProperty Name="InMissedCallCount" ColumnName="InMissedCallCount" />
+                <ScalarProperty Name="OutCallForeignCount" ColumnName="OutCallForeignCount" />
+                <ScalarProperty Name="OutCallForeignSecond" ColumnName="OutCallForeignSecond" />
+                <ScalarProperty Name="OutCallForeignMinute" ColumnName="OutCallForeignMinute" />
+                <ScalarProperty Name="InCallForeignCount" ColumnName="InCallForeignCount" />
+                <ScalarProperty Name="InCallForeignSecond" ColumnName="InCallForeignSecond" />
+                <ScalarProperty Name="InCallForeignMinute" ColumnName="InCallForeignMinute" />
+                <ScalarProperty Name="OutCallRoamingCount" ColumnName="OutCallRoamingCount" />
+                <ScalarProperty Name="OutCallRoamingSecond" ColumnName="OutCallRoamingSecond" />
+                <ScalarProperty Name="OutCallRoamingMinute" ColumnName="OutCallRoamingMinute" />
+                <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
+                <ScalarProperty Name="InCallRoamingSecond" ColumnName="InCallRoamingSecond" />
+                <ScalarProperty Name="InCallRoamingMinute" ColumnName="InCallRoamingMinute" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Customer">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Customer">
               <MappingFragment StoreEntitySet="tbl_Customer">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Latitudes" ColumnName="Latitudes" />
-                <ScalarProperty Name="Longitudes" ColumnName="Longitudes" />
-                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="IdentityCode" ColumnName="IdentityCode" />
-                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="IdentityCode" ColumnName="IdentityCode" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="Longitudes" ColumnName="Longitudes" />
+                <ScalarProperty Name="Latitudes" ColumnName="Latitudes" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Employee">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Employee">
               <MappingFragment StoreEntitySet="tbl_Employee">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
-                <ScalarProperty Name="GenderType" ColumnName="GenderType" />
-                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+                <ScalarProperty Name="GenderType" ColumnName="GenderType" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_EnumCategory">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_EnumCategory">
               <MappingFragment StoreEntitySet="tbl_EnumCategory">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_EnumValue">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_EnumValue">
               <MappingFragment StoreEntitySet="tbl_EnumValue">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="EnumCategoryID" ColumnName="EnumCategoryID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EnumCategoryID" ColumnName="EnumCategoryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Group">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Group">
               <MappingFragment StoreEntitySet="tbl_Group">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="EndLimit" ColumnName="EndLimit" />
-                <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="GroupType" ColumnName="GroupType" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="GroupType" ColumnName="GroupType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
+                <ScalarProperty Name="EndLimit" ColumnName="EndLimit" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_NetConsumeDetail">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_NetConsumeDetail">
               <MappingFragment StoreEntitySet="tbl_NetConsumeDetail">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="UploadSpeed" ColumnName="UploadSpeed" />
-                <ScalarProperty Name="DownloadSpeed" ColumnName="DownloadSpeed" />
-                <ScalarProperty Name="Consumed" ColumnName="Consumed" />
-                <ScalarProperty Name="Minute" ColumnName="Minute" />
-                <ScalarProperty Name="Hour" ColumnName="Hour" />
-                <ScalarProperty Name="Day" ColumnName="Day" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="OperatorName" ColumnName="OperatorName" />
-                <ScalarProperty Name="Operator_EVID" ColumnName="Operator_EVID" />
-                <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="NetModelID" ColumnName="NetModelID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="NetModelID" ColumnName="NetModelID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
+                <ScalarProperty Name="Operator_EVID" ColumnName="Operator_EVID" />
+                <ScalarProperty Name="OperatorName" ColumnName="OperatorName" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Hour" ColumnName="Hour" />
+                <ScalarProperty Name="Minute" ColumnName="Minute" />
+                <ScalarProperty Name="Consumed" ColumnName="Consumed" />
+                <ScalarProperty Name="DownloadSpeed" ColumnName="DownloadSpeed" />
+                <ScalarProperty Name="UploadSpeed" ColumnName="UploadSpeed" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_NetConsumeModel">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_NetConsumeModel">
               <MappingFragment StoreEntitySet="tbl_NetConsumeModel">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_OperatorInformation">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_OperatorInformation">
               <MappingFragment StoreEntitySet="tbl_OperatorInformation">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Point" ColumnName="Point" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="InOutType_EVID" ColumnName="InOutType_EVID" />
-                <ScalarProperty Name="OperatorChanelType_EVID" ColumnName="OperatorChanelType_EVID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="OperatorType_EVID" ColumnName="OperatorType_EVID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="OperatorType_EVID" ColumnName="OperatorType_EVID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OperatorChanelType_EVID" ColumnName="OperatorChanelType_EVID" />
+                <ScalarProperty Name="InOutType_EVID" ColumnName="InOutType_EVID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_OTP">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_OTP">
               <MappingFragment StoreEntitySet="tbl_OTP">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ISsuccess" ColumnName="ISsuccess" />
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="OTPCode" ColumnName="OTPCode" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="OTPCode" ColumnName="OTPCode" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="ISsuccess" ColumnName="ISsuccess" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Package">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Package">
               <MappingFragment StoreEntitySet="tbl_Package">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ValidityDesc" ColumnName="ValidityDesc" />
-                <ScalarProperty Name="Validity" ColumnName="Validity" />
-                <ScalarProperty Name="PackageSize" ColumnName="PackageSize" />
-                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
-                <ScalarProperty Name="Mobile_EVID" ColumnName="Mobile_EVID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Mobile_EVID" ColumnName="Mobile_EVID" />
+                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+                <ScalarProperty Name="PackageSize" ColumnName="PackageSize" />
+                <ScalarProperty Name="Validity" ColumnName="Validity" />
+                <ScalarProperty Name="ValidityDesc" ColumnName="ValidityDesc" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_PackagePrice">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_PackagePrice">
               <MappingFragment StoreEntitySet="tbl_PackagePrice">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Point" ColumnName="Point" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
-                <ScalarProperty Name="PackageID" ColumnName="PackageID" />
-                <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Source_EVID" ColumnName="Source_EVID" />
+                <ScalarProperty Name="PackageID" ColumnName="PackageID" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Permission">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Permission">
               <MappingFragment StoreEntitySet="tbl_Permission">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="PermissionModule" ColumnName="PermissionModule" />
-                <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
+                <ScalarProperty Name="PermissionModule" ColumnName="PermissionModule" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Proposal">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Proposal">
               <MappingFragment StoreEntitySet="tbl_Proposal">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
-                <ScalarProperty Name="ProviderID" ColumnName="ProviderID" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="ProviderID" ColumnName="ProviderID" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalCommission">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalCommission">
               <MappingFragment StoreEntitySet="tbl_ProposalCommission">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Commission" ColumnName="Commission" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="Commission" ColumnName="Commission" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalDetail">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalDetail">
               <MappingFragment StoreEntitySet="tbl_ProposalDetail">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ProposolValue" ColumnName="ProposolValue" />
-                <ScalarProperty Name="ProposolKey" ColumnName="ProposolKey" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="ProposolKey" ColumnName="ProposolKey" />
+                <ScalarProperty Name="ProposolValue" ColumnName="ProposolValue" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalDocument">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalDocument">
               <MappingFragment StoreEntitySet="tbl_ProposalDocument">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ImageLinkName" ColumnName="ImageLinkName" />
-                <ScalarProperty Name="ImageLinkPath" ColumnName="ImageLinkPath" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="ImageLinkPath" ColumnName="ImageLinkPath" />
+                <ScalarProperty Name="ImageLinkName" ColumnName="ImageLinkName" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalFavorite">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalFavorite">
               <MappingFragment StoreEntitySet="tbl_ProposalFavorite">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="IsFavorite" ColumnName="IsFavorite" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IsFavorite" ColumnName="IsFavorite" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalLikeDislike">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalLikeDislike">
               <MappingFragment StoreEntitySet="tbl_ProposalLikeDislike">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="IsDislike" ColumnName="IsDislike" />
-                <ScalarProperty Name="IsLike" ColumnName="IsLike" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IsLike" ColumnName="IsLike" />
+                <ScalarProperty Name="IsDislike" ColumnName="IsDislike" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalUserGroup">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalUserGroup">
               <MappingFragment StoreEntitySet="tbl_ProposalUserGroup">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalUserSave">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalUserSave">
               <MappingFragment StoreEntitySet="tbl_ProposalUserSave">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProposalUserState">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProposalUserState">
               <MappingFragment StoreEntitySet="tbl_ProposalUserState">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="InitialPayment" ColumnName="InitialPayment" />
-                <ScalarProperty Name="UserStateType" ColumnName="UserStateType" />
-                <ScalarProperty Name="ProviderStateType" ColumnName="ProviderStateType" />
-                <ScalarProperty Name="UserDemandMonth" ColumnName="UserDemandMonth" />
-                <ScalarProperty Name="UserDemandAmount" ColumnName="UserDemandAmount" />
-                <ScalarProperty Name="ProviderOfferMonth" ColumnName="ProviderOfferMonth" />
-                <ScalarProperty Name="ProviderOfferAmount" ColumnName="ProviderOfferAmount" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProposalID" ColumnName="ProposalID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ProviderOfferAmount" ColumnName="ProviderOfferAmount" />
+                <ScalarProperty Name="ProviderOfferMonth" ColumnName="ProviderOfferMonth" />
+                <ScalarProperty Name="UserDemandAmount" ColumnName="UserDemandAmount" />
+                <ScalarProperty Name="UserDemandMonth" ColumnName="UserDemandMonth" />
+                <ScalarProperty Name="ProviderStateType" ColumnName="ProviderStateType" />
+                <ScalarProperty Name="UserStateType" ColumnName="UserStateType" />
+                <ScalarProperty Name="InitialPayment" ColumnName="InitialPayment" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Provider">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Provider">
               <MappingFragment StoreEntitySet="tbl_Provider">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="LogoLinkName" ColumnName="LogoLinkName" />
-                <ScalarProperty Name="LogoLinkPath" ColumnName="LogoLinkPath" />
-                <ScalarProperty Name="VOEN" ColumnName="VOEN" />
-                <ScalarProperty Name="RP_HomePhone" ColumnName="RP_HomePhone" />
-                <ScalarProperty Name="RelatedPersonPhone" ColumnName="RelatedPersonPhone" />
-                <ScalarProperty Name="RelatedPersonProfession" ColumnName="RelatedPersonProfession" />
-                <ScalarProperty Name="RelatedPersonName" ColumnName="RelatedPersonName" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Latitudes" ColumnName="Latitudes" />
-                <ScalarProperty Name="Longitudes" ColumnName="Longitudes" />
-                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="Longitudes" ColumnName="Longitudes" />
+                <ScalarProperty Name="Latitudes" ColumnName="Latitudes" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="RelatedPersonName" ColumnName="RelatedPersonName" />
+                <ScalarProperty Name="RelatedPersonProfession" ColumnName="RelatedPersonProfession" />
+                <ScalarProperty Name="RelatedPersonPhone" ColumnName="RelatedPersonPhone" />
+                <ScalarProperty Name="RP_HomePhone" ColumnName="RP_HomePhone" />
+                <ScalarProperty Name="VOEN" ColumnName="VOEN" />
+                <ScalarProperty Name="LogoLinkPath" ColumnName="LogoLinkPath" />
+                <ScalarProperty Name="LogoLinkName" ColumnName="LogoLinkName" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProviderRole">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProviderRole">
               <MappingFragment StoreEntitySet="tbl_ProviderRole">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProviderService">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProviderService">
               <MappingFragment StoreEntitySet="tbl_ProviderService">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProviderUserProposal">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProviderUserProposal">
               <MappingFragment StoreEntitySet="tbl_ProviderUserProposal">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="AcceptStatus" ColumnName="AcceptStatus" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="AcceptStatus" ColumnName="AcceptStatus" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_ProviderUserRating">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_ProviderUserRating">
               <MappingFragment StoreEntitySet="tbl_ProviderUserRating">
-                <ScalarProperty Name="RatingTimestamp" ColumnName="RatingTimestamp" />
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InserUser" ColumnName="InserUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="RatingValueId" ColumnName="RatingValueId" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="RatingValueId" ColumnName="RatingValueId" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InserUser" ColumnName="InserUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="RatingTimestamp" ColumnName="RatingTimestamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_RatingType">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_RatingType">
               <MappingFragment StoreEntitySet="tbl_RatingType">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="RatingType" ColumnName="RatingType" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RatingType" ColumnName="RatingType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_RatingValue">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_RatingValue">
               <MappingFragment StoreEntitySet="tbl_RatingValue">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="RatingTypeId" ColumnName="RatingTypeId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RatingTypeId" ColumnName="RatingTypeId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Region">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Region">
               <MappingFragment StoreEntitySet="tbl_Region">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Role">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Role">
               <MappingFragment StoreEntitySet="tbl_Role">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
-                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleDescription" ColumnName="RoleDescription" />
+                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_Score_x">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_Score_x">
               <MappingFragment StoreEntitySet="tbl_Score_x">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ScoreNumber" ColumnName="ScoreNumber" />
-                <ScalarProperty Name="ScoreType" ColumnName="ScoreType" />
-                <ScalarProperty Name="ScoreDescription" ColumnName="ScoreDescription" />
-                <ScalarProperty Name="ScoreName" ColumnName="ScoreName" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="İD" ColumnName="İD" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="ScoreName" ColumnName="ScoreName" />
+                <ScalarProperty Name="ScoreDescription" ColumnName="ScoreDescription" />
+                <ScalarProperty Name="ScoreType" ColumnName="ScoreType" />
+                <ScalarProperty Name="ScoreNumber" ColumnName="ScoreNumber" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_SMSDetail">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSDetail">
               <MappingFragment StoreEntitySet="tbl_SMSDetail">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
-                <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
-                <ScalarProperty Name="SenderPhoneNumber" ColumnName="SenderPhoneNumber" />
-                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
-                <ScalarProperty Name="PhonePrefix" ColumnName="PhonePrefix" />
-                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
-                <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
-                <ScalarProperty Name="IsParse" ColumnName="IsParse" />
-                <ScalarProperty Name="IsShortMessage" ColumnName="IsShortMessage" />
-                <ScalarProperty Name="InOutType" ColumnName="InOutType" />
-                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
+                <ScalarProperty Name="InOutType" ColumnName="InOutType" />
+                <ScalarProperty Name="IsShortMessage" ColumnName="IsShortMessage" />
+                <ScalarProperty Name="IsParse" ColumnName="IsParse" />
+                <ScalarProperty Name="IsRoaming" ColumnName="IsRoaming" />
+                <ScalarProperty Name="IsForeign" ColumnName="IsForeign" />
+                <ScalarProperty Name="PhonePrefix" ColumnName="PhonePrefix" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="SenderPhoneNumber" ColumnName="SenderPhoneNumber" />
+                <ScalarProperty Name="RecievedDate" ColumnName="RecievedDate" />
+                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_SMSModel">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSModel">
               <MappingFragment StoreEntitySet="tbl_SMSModel">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
-                <ScalarProperty Name="InMessageRoamingCount" ColumnName="InMessageRoamingCount" />
-                <ScalarProperty Name="OutMessageRoamingCount" ColumnName="OutMessageRoamingCount" />
-                <ScalarProperty Name="InMessageForeigCount" ColumnName="InMessageForeigCount" />
-                <ScalarProperty Name="OutMessageForeignCount" ColumnName="OutMessageForeignCount" />
-                <ScalarProperty Name="InMessageCount" ColumnName="InMessageCount" />
-                <ScalarProperty Name="OutMessageCount" ColumnName="OutMessageCount" />
-                <ScalarProperty Name="ShortMessageCount" ColumnName="ShortMessageCount" />
-                <ScalarProperty Name="TotalMessageCount" ColumnName="TotalMessageCount" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="TotalMessageCount" ColumnName="TotalMessageCount" />
+                <ScalarProperty Name="ShortMessageCount" ColumnName="ShortMessageCount" />
+                <ScalarProperty Name="OutMessageCount" ColumnName="OutMessageCount" />
+                <ScalarProperty Name="InMessageCount" ColumnName="InMessageCount" />
+                <ScalarProperty Name="OutMessageForeignCount" ColumnName="OutMessageForeignCount" />
+                <ScalarProperty Name="InMessageForeigCount" ColumnName="InMessageForeigCount" />
+                <ScalarProperty Name="OutMessageRoamingCount" ColumnName="OutMessageRoamingCount" />
+                <ScalarProperty Name="InMessageRoamingCount" ColumnName="InMessageRoamingCount" />
+                <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_SMSReport">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSReport">
               <MappingFragment StoreEntitySet="tbl_SMSReport">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
-                <ScalarProperty Name="InMsjForeignCount" ColumnName="InMsjForeignCount" />
-                <ScalarProperty Name="InMsjCount" ColumnName="InMsjCount" />
-                <ScalarProperty Name="OutMsjRoamingCount" ColumnName="OutMsjRoamingCount" />
-                <ScalarProperty Name="OutMsjForeignCount" ColumnName="OutMsjForeignCount" />
-                <ScalarProperty Name="OutMsjCountOther" ColumnName="OutMsjCountOther" />
-                <ScalarProperty Name="OutMsjCountSame" ColumnName="OutMsjCountSame" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="SMSDetailID" ColumnName="SMSDetailID" />
-                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
+                <ScalarProperty Name="SMSDetailID" ColumnName="SMSDetailID" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="OutMsjCountSame" ColumnName="OutMsjCountSame" />
+                <ScalarProperty Name="OutMsjCountOther" ColumnName="OutMsjCountOther" />
+                <ScalarProperty Name="OutMsjForeignCount" ColumnName="OutMsjForeignCount" />
+                <ScalarProperty Name="OutMsjRoamingCount" ColumnName="OutMsjRoamingCount" />
+                <ScalarProperty Name="InMsjCount" ColumnName="InMsjCount" />
+                <ScalarProperty Name="InMsjForeignCount" ColumnName="InMsjForeignCount" />
+                <ScalarProperty Name="InCallRoamingCount" ColumnName="InCallRoamingCount" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_SMSReportShort">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSReportShort">
               <MappingFragment StoreEntitySet="tbl_SMSReportShort">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="BalanceCurrency" ColumnName="BalanceCurrency" />
-                <ScalarProperty Name="Balance" ColumnName="Balance" />
-                <ScalarProperty Name="MerchantName" ColumnName="MerchantName" />
-                <ScalarProperty Name="OperationDate" ColumnName="OperationDate" />
-                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
-                <ScalarProperty Name="Currency" ColumnName="Currency" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="IsExpense" ColumnName="IsExpense" />
-                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="SMSDetailID" ColumnName="SMSDetailID" />
-                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SMSModelID" ColumnName="SMSModelID" />
+                <ScalarProperty Name="SMSDetailID" ColumnName="SMSDetailID" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="IsExpense" ColumnName="IsExpense" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="CardNumber" ColumnName="CardNumber" />
+                <ScalarProperty Name="OperationDate" ColumnName="OperationDate" />
+                <ScalarProperty Name="MerchantName" ColumnName="MerchantName" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="BalanceCurrency" ColumnName="BalanceCurrency" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_SMSSenderInfo">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_SMSSenderInfo">
               <MappingFragment StoreEntitySet="tbl_SMSSenderInfo">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Cheque" ColumnName="Cheque" />
-                <ScalarProperty Name="Point" ColumnName="Point" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
-                <ScalarProperty Name="IsParse" ColumnName="IsParse" />
-                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ActivityType" ColumnName="ActivityType" />
+                <ScalarProperty Name="IsParse" ColumnName="IsParse" />
+                <ScalarProperty Name="SenderName" ColumnName="SenderName" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="Cheque" ColumnName="Cheque" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_User">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_User">
               <MappingFragment StoreEntitySet="tbl_User">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="AccountLocked" ColumnName="AccountLocked" />
-                <ScalarProperty Name="LastAccessedDate" ColumnName="LastAccessedDate" />
-                <ScalarProperty Name="LoginIPAddress" ColumnName="LoginIPAddress" />
-                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-                <ScalarProperty Name="LoginFailedCount" ColumnName="LoginFailedCount" />
-                <ScalarProperty Name="UserType_EVID" ColumnName="UserType_EVID" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserType_EVID" ColumnName="UserType_EVID" />
+                <ScalarProperty Name="LoginFailedCount" ColumnName="LoginFailedCount" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="LoginIPAddress" ColumnName="LoginIPAddress" />
+                <ScalarProperty Name="LastAccessedDate" ColumnName="LastAccessedDate" />
+                <ScalarProperty Name="AccountLocked" ColumnName="AccountLocked" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_UserDocument">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserDocument">
               <MappingFragment StoreEntitySet="tbl_UserDocument">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ImageLinkName" ColumnName="ImageLinkName" />
-                <ScalarProperty Name="ImageLinkPath" ColumnName="ImageLinkPath" />
-                <ScalarProperty Name="ImageType_EVID" ColumnName="ImageType_EVID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ImageType_EVID" ColumnName="ImageType_EVID" />
+                <ScalarProperty Name="ImageLinkPath" ColumnName="ImageLinkPath" />
+                <ScalarProperty Name="ImageLinkName" ColumnName="ImageLinkName" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_UserGroup">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserGroup">
               <MappingFragment StoreEntitySet="tbl_UserGroup">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_UserPhoneInforamtion">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserPhoneInforamtion">
               <MappingFragment StoreEntitySet="tbl_UserPhoneInforamtion">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="OSVersion" ColumnName="OSVersion" />
-                <ScalarProperty Name="OSName" ColumnName="OSName" />
-                <ScalarProperty Name="IMEI2" ColumnName="IMEI2" />
-                <ScalarProperty Name="IMEI1" ColumnName="IMEI1" />
-                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
-                <ScalarProperty Name="ModelNumber" ColumnName="ModelNumber" />
-                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="ModelNumber" ColumnName="ModelNumber" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="IMEI1" ColumnName="IMEI1" />
+                <ScalarProperty Name="IMEI2" ColumnName="IMEI2" />
+                <ScalarProperty Name="OSName" ColumnName="OSName" />
+                <ScalarProperty Name="OSVersion" ColumnName="OSVersion" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbl_UserPoint">
-            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserPoint">
-              <MappingFragment StoreEntitySet="tbl_UserPoint">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="Point" ColumnName="Point" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
+          <EntitySetMapping Name="tbl_UserPointAndPrice">
+            <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserPointAndPrice">
+              <MappingFragment StoreEntitySet="tbl_UserPointAndPrice">
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_UserRole">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserRole">
               <MappingFragment StoreEntitySet="tbl_UserRole">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InsertUser" ColumnName="InsertUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_UserService">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserService">
               <MappingFragment StoreEntitySet="tbl_UserService">
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InserUser" ColumnName="InserUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InserUser" ColumnName="InserUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbl_UserServiceRating">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.tbl_UserServiceRating">
               <MappingFragment StoreEntitySet="tbl_UserServiceRating">
-                <ScalarProperty Name="RatingTimestamp" ColumnName="RatingTimestamp" />
-                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
-                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
-                <ScalarProperty Name="InserUser" ColumnName="InserUser" />
-                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
-                <ScalarProperty Name="RatingValueId" ColumnName="RatingValueId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="RatingValueId" ColumnName="RatingValueId" />
+                <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+                <ScalarProperty Name="InserUser" ColumnName="InserUser" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="UpdateUser" ColumnName="UpdateUser" />
+                <ScalarProperty Name="RatingTimestamp" ColumnName="RatingTimestamp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="log_DataChange">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.log_DataChange">
               <MappingFragment StoreEntitySet="log_DataChange">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
-                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
-                <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
-                <ScalarProperty Name="ColumnName" ColumnName="ColumnName" />
-                <ScalarProperty Name="TableName" ColumnName="TableName" />
-                <ScalarProperty Name="OperationDateTime" ColumnName="OperationDateTime" />
-                <ScalarProperty Name="OperationType" ColumnName="OperationType" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="OperationType" ColumnName="OperationType" />
+                <ScalarProperty Name="OperationDateTime" ColumnName="OperationDateTime" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="ColumnName" ColumnName="ColumnName" />
+                <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
+                <ScalarProperty Name="OldValue" ColumnName="OldValue" />
+                <ScalarProperty Name="NewValue" ColumnName="NewValue" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="log_Login">
             <EntityTypeMapping TypeName="DB_A62358_ScoreMeModel.log_Login">
               <MappingFragment StoreEntitySet="log_Login">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="PasswordChangeDateTime" ColumnName="PasswordChangeDateTime" />
-                <ScalarProperty Name="LockDateTime" ColumnName="LockDateTime" />
-                <ScalarProperty Name="AccessDateTime" ColumnName="AccessDateTime" />
-                <ScalarProperty Name="LoginDateTime" ColumnName="LoginDateTime" />
-                <ScalarProperty Name="UserIPAddress" ColumnName="UserIPAddress" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserIPAddress" ColumnName="UserIPAddress" />
+                <ScalarProperty Name="LoginDateTime" ColumnName="LoginDateTime" />
+                <ScalarProperty Name="AccessDateTime" ColumnName="AccessDateTime" />
+                <ScalarProperty Name="LockDateTime" ColumnName="LockDateTime" />
+                <ScalarProperty Name="PasswordChangeDateTime" ColumnName="PasswordChangeDateTime" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

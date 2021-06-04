@@ -16,7 +16,7 @@ namespace ScoreMe.DAL.Repositories
         private int pageNumber = 1;
         private int pageSize = 1000000;
 
-        #region Package
+        #region Group
         private List<GroupDTO> GetGroups(Search search, out int _count)
         {
             _count = 0;
@@ -119,6 +119,74 @@ namespace ScoreMe.DAL.Repositories
             int _count = 0;
             GetGroups(search, out _count);
             return _count;
+        }
+        #endregion
+
+        #region DynamicGroup
+        public List<UserDTO> GetDynamicGroupUsersByGroupID(Int64 pointGroupID,decimal pointStartLimit,decimal pointEndLimit, Int64 priceGroupID,decimal priceStartLimit, decimal priceEndLimit)
+        {
+            var result = new List<UserDTO>();
+              
+            StringBuilder allQuery = new StringBuilder();
+
+            var query = @"select temp.UserID,u.UserName,TotalPoint,TotalPrice from (select UserID,Avg(Point) as TotalPoint, Avg(price) as TotalPrice from [dbo].[tbl_UserPointAndPrice]
+                          where Status=1 group by UserID) temp
+                          join tbl_User u on temp.UserID=u.ID
+                          where u.Status=1 ";
+            allQuery.Append(query);
+
+            string queryPoint = @" and TotalPoint > @P_PointStartLimit and TotalPoint < @P_PointEndLimit  ";
+
+
+            if (pointGroupID>0)
+            {
+                allQuery.Append(queryPoint);
+            }
+            string queryPrice = @" and TotalPrice > @P_PriceStartLimit and  TotalPrice < @P_PriceEndLimit ";
+            if (priceGroupID>0)
+            {
+                allQuery.Append(queryPrice);
+            }
+
+
+
+            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(allQuery.ToString(), connection))
+                {
+                    if (pointGroupID > 0)
+                    {
+                        command.Parameters.AddWithValue("@P_PointStartLimit", pointStartLimit);
+                        command.Parameters.AddWithValue("@P_PointEndLimit", pointEndLimit);
+                    }
+                    if (priceGroupID>0)
+                    {
+                        command.Parameters.AddWithValue("@P_PriceStartLimit", priceStartLimit);
+                        command.Parameters.AddWithValue("@P_PriceEndLimit", priceEndLimit);
+                    }
+                  
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                            result.Add(new UserDTO()
+                            {
+                                //[ID],[Code],[Name],[N_Name],[Sort]
+                                UserID = reader.GetInt64OrDefaultValue(0),
+                                UserName = reader.GetStringOrEmpty(1),
+                                TotalPoint = reader.GetDecimalOrDefaultValue(2),
+                                TotalPrice = reader.GetDecimalOrDefaultValue(3)
+                            });
+                     
+                     
+                    }
+                }
+                connection.Close();
+            }
+
+            return result;
         }
         #endregion
     }

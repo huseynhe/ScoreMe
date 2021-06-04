@@ -18,6 +18,7 @@ namespace ScoreMe.DAL.DBModel
         public int Status { get; set; }
         public long ProposalID { get; set; }
         public long GroupID { get; set; }
+        public long UserID { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<int> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

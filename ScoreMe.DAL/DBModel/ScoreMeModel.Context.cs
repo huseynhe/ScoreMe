@@ -74,7 +74,7 @@ namespace ScoreMe.DAL.DBModel
         public virtual DbSet<tbl_UserDocument> tbl_UserDocument { get; set; }
         public virtual DbSet<tbl_UserGroup> tbl_UserGroup { get; set; }
         public virtual DbSet<tbl_UserPhoneInforamtion> tbl_UserPhoneInforamtion { get; set; }
-        public virtual DbSet<tbl_UserPoint> tbl_UserPoint { get; set; }
+        public virtual DbSet<tbl_UserPointAndPrice> tbl_UserPointAndPrice { get; set; }
         public virtual DbSet<tbl_UserRole> tbl_UserRole { get; set; }
         public virtual DbSet<tbl_UserService> tbl_UserService { get; set; }
         public virtual DbSet<tbl_UserServiceRating> tbl_UserServiceRating { get; set; }

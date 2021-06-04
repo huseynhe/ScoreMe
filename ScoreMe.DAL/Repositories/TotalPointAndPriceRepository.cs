@@ -70,6 +70,63 @@ namespace ScoreMe.DAL.Repositories
 
             return result;
         }
+        public List<TotalPointAndPriceDTO> SW_GetTotalPriceReports(int year)
+        {
+            var result = new List<TotalPointAndPriceDTO>();
+            StringBuilder allQuery = new StringBuilder();
+            var query = @"select * from  [GetTotalPrice](@P_year) ";
+
+            allQuery.Append(query);
+
+            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(allQuery.ToString(), connection))
+                {
+
+                    SqlParameter pyear = new SqlParameter("@P_year", SqlDbType.Int);
+                    pyear.Value = year;
+                    command.Parameters.Add(pyear);
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+
+                        TotalPointAndPriceDTO totalPointAndPriceDTO = new TotalPointAndPriceDTO()
+                        {
+                            INOUT_EVType = reader.GetInt32OrDefaultValue(0),
+                            UserName = reader.GetStringOrEmpty(1),
+                            CustomerFullName = reader.GetStringOrEmpty(2),
+                            Year = reader.GetInt32OrDefaultValue(3),
+                            January = reader.GetDecimalOrDefaultValue2(4),
+                            February = reader.GetDecimalOrDefaultValue2(5),
+                            March = reader.GetDecimalOrDefaultValue2(6),
+                            April = reader.GetDecimalOrDefaultValue2(7),
+                            May = reader.GetDecimalOrDefaultValue2(8),
+                            June = reader.GetDecimalOrDefaultValue2(9),
+                            July = reader.GetDecimalOrDefaultValue2(10),
+                            August = reader.GetDecimalOrDefaultValue2(11),
+                            September = reader.GetDecimalOrDefaultValue2(12),
+                            October = reader.GetDecimalOrDefaultValue2(13),
+                            November = reader.GetDecimalOrDefaultValue2(14),
+                            December = reader.GetDecimalOrDefaultValue2(15),
+
+
+                        };
+
+
+                        totalPointAndPriceDTO.Average = GetAverage(totalPointAndPriceDTO);
+
+                        result.Add(totalPointAndPriceDTO);
+
+                    }
+                }
+                connection.Close();
+            }
+
+            return result;
+        }
         public decimal GetAverage(TotalPointAndPriceDTO item)
         {
 

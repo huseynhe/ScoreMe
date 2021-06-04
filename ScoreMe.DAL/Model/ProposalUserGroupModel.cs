@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace ScoreMe.DAL.Model
 {
-    public class ProposalUserGroup
+   public class ProposalUserGroupModel
     {
-        public Int64 ID { get; set; }
         public Int64 ProposalID { get; set; }
-        public Int64 GroupID { get; set; }
-        public Int64 UserID { get; set; }
+        public List<Int64> GroupIDs { get; set; }
     }
 }

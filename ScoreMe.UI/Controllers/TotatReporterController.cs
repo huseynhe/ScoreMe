@@ -57,9 +57,10 @@ namespace ScoreMe.UI.Controllers
         }
         public List<TotalPointAndPriceDTO> GetTotalPriceReportDTOs( int year)
         {
-            AppConsumeRepository repository = new AppConsumeRepository();
-            //List<AppConsumeReportDTO> RAppCountReports = repository.SW_GetAppCountReports(userID, userName, year).OrderBy(x => x.AppType).ToList();
-            return null;
+            TotalPointAndPriceRepository repository = new TotalPointAndPriceRepository();
+            List<TotalPointAndPriceDTO> RTotalPriceReports = repository.SW_GetTotalPriceReports(year).ToList();
+
+            return RTotalPriceReports;
         }
         private TotalPointAndPriceReportVM populateDropDownList(TotalPointAndPriceReportVM viewModel)
         {

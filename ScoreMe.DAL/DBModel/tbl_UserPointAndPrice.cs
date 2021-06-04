@@ -12,7 +12,7 @@ namespace ScoreMe.DAL.DBModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_UserPoint
+    public partial class tbl_UserPointAndPrice
     {
         public long ID { get; set; }
         public int Status { get; set; }
@@ -20,7 +20,8 @@ namespace ScoreMe.DAL.DBModel
         public int Type { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
-        public decimal Point { get; set; }
+        public Nullable<decimal> Point { get; set; }
+        public Nullable<decimal> Price { get; set; }
         public Nullable<System.DateTime> InsertDate { get; set; }
         public Nullable<long> InsertUser { get; set; }
         public Nullable<System.DateTime> UpdateDate { get; set; }

@@ -11,6 +11,7 @@ namespace ScoreMe.DAL.Enum
         SMS=1,
         CALL=2,
         NetConsume=3,
-        AppConsume=4
+        AppConsume=4,
+        AzeriCard=5,
     }
 }

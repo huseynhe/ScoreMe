@@ -2,6 +2,7 @@
 using ScoreMe.DAL;
 using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
+using ScoreMe.DAL.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -117,44 +118,14 @@ namespace ScoreMe.API.Controllers
             }
 
         }
-        [HttpGet]
-        [Route("GetUsersByGroupID/{groupid}")]
-        public IHttpActionResult GetUsersByGroupID(Int64 groupid)
-        {
-            List<tbl_User> itemsOut = null;
-            BaseOutput baseOutput = businessOperation.GetUsersByGroupID(groupid, out itemsOut);
-            if (baseOutput.ResultCode == 1)
-            {
-                return Ok(itemsOut);
-            }
-            else
-            {
-                return Content(HttpStatusCode.BadRequest, baseOutput);
-            }
-        }
-        [HttpGet]
-        [Route("GetGroupsByUserID/{userid}")]
-        public IHttpActionResult GetGroupsByUserID(Int64 userid)
-        {
-            List<tbl_Group> itemsOut = null;
-            BaseOutput baseOutput = businessOperation.GetGroupsByUserID(userid, out itemsOut);
-            if (baseOutput.ResultCode == 1)
-            {
-                return Ok(itemsOut);
-            }
-            else
-            {
-                return Content(HttpStatusCode.BadRequest, baseOutput);
-            }
-        }
         #endregion
 
         [HttpGet]
-        [Route("GetUserGroups")]
-        public IHttpActionResult GetUserGroups()
+        [Route("GetDynamicGroupUsersByGroupID/{pointGroupID}/{priceGroupID}")]
+        public IHttpActionResult GetDynamicGroupUsersByGroupID(Int64 pointGroupID,Int64 priceGroupID)
         {
-            List<tbl_UserGroup> itemsOut = null;
-            BaseOutput baseOutput = businessOperation.GetUserGroups(out itemsOut);
+            List<UserDTO> itemsOut = null;
+            BaseOutput baseOutput = businessOperation.GetDynamicGroupUsersByGroupID(pointGroupID, priceGroupID, out itemsOut);
             if (baseOutput.ResultCode == 1)
             {
                 return Ok(itemsOut);
@@ -164,58 +135,106 @@ namespace ScoreMe.API.Controllers
                 return Content(HttpStatusCode.BadRequest, baseOutput);
             }
         }
-        [HttpPost]
-        [ResponseType(typeof(tbl_UserGroup))]
-        [Route("AddUserGroup")]
-        public IHttpActionResult AddUserGroup(tbl_UserGroup item)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            tbl_UserGroup itemOut = null;
-            BaseOutput baseOutput = businessOperation.AddUserGroup(item, out itemOut);
-            if (baseOutput.ResultCode == 1)
-            {
-                return Ok(itemOut);
-            }
-            else
-            {
-                return Content(HttpStatusCode.BadRequest, baseOutput);
-            }
-        }
-        [HttpPost]
-        [ResponseType(typeof(tbl_UserGroup))]
-        [Route("UpdateUserGroup")]
-        public IHttpActionResult UpdateUserGroup(tbl_UserGroup item)
-        {
-            tbl_UserGroup itemOut = null;
-            BaseOutput baseOutput = businessOperation.UpdateUserGroup(item, out itemOut);
-            if (baseOutput.ResultCode == 1)
-            {
-                return Ok(itemOut);
-            }
-            else
-            {
-                return Content(HttpStatusCode.BadRequest, baseOutput);
-            }
-        }
-        [HttpPost]
-        [ResponseType(typeof(tbl_UserGroup))]
-        [Route("DeleteUserGroup/{id}")]
-        public IHttpActionResult DeleteUserGroup(Int64 id)
-        {
-            tbl_UserGroup itemOut = null;
-            BaseOutput baseOutput = businessOperation.DeleteUserGroup(id, out itemOut);
-            if (baseOutput.ResultCode == 1)
-            {
-                return Ok(itemOut);
-            }
-            else
-            {
-                return Content(HttpStatusCode.BadRequest, baseOutput);
-            }
 
-        }
+        //[HttpGet]
+        //[Route("GetUsersByGroupID/{groupid}")]
+        //public IHttpActionResult GetUsersByGroupID(Int64 groupid)
+        //{
+        //    List<tbl_User> itemsOut = null;
+        //    BaseOutput baseOutput = businessOperation.GetUsersByGroupID(groupid, out itemsOut);
+        //    if (baseOutput.ResultCode == 1)
+        //    {
+        //        return Ok(itemsOut);
+        //    }
+        //    else
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, baseOutput);
+        //    }
+        //}
+        //[HttpGet]
+        //[Route("GetGroupsByUserID/{userid}")]
+        //public IHttpActionResult GetGroupsByUserID(Int64 userid)
+        //{
+        //    List<tbl_Group> itemsOut = null;
+        //    BaseOutput baseOutput = businessOperation.GetGroupsByUserID(userid, out itemsOut);
+        //    if (baseOutput.ResultCode == 1)
+        //    {
+        //        return Ok(itemsOut);
+        //    }
+        //    else
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, baseOutput);
+        //    }
+        //}
+        //
+
+        //[HttpGet]
+        //[Route("GetUserGroups")]
+        //public IHttpActionResult GetUserGroups()
+        //{
+        //    List<tbl_UserGroup> itemsOut = null;
+        //    BaseOutput baseOutput = businessOperation.GetUserGroups(out itemsOut);
+        //    if (baseOutput.ResultCode == 1)
+        //    {
+        //        return Ok(itemsOut);
+        //    }
+        //    else
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, baseOutput);
+        //    }
+        //}
+        //[HttpPost]
+        //[ResponseType(typeof(tbl_UserGroup))]
+        //[Route("AddUserGroup")]
+        //public IHttpActionResult AddUserGroup(tbl_UserGroup item)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    tbl_UserGroup itemOut = null;
+        //    BaseOutput baseOutput = businessOperation.AddUserGroup(item, out itemOut);
+        //    if (baseOutput.ResultCode == 1)
+        //    {
+        //        return Ok(itemOut);
+        //    }
+        //    else
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, baseOutput);
+        //    }
+        //}
+        //[HttpPost]
+        //[ResponseType(typeof(tbl_UserGroup))]
+        //[Route("UpdateUserGroup")]
+        //public IHttpActionResult UpdateUserGroup(tbl_UserGroup item)
+        //{
+        //    tbl_UserGroup itemOut = null;
+        //    BaseOutput baseOutput = businessOperation.UpdateUserGroup(item, out itemOut);
+        //    if (baseOutput.ResultCode == 1)
+        //    {
+        //        return Ok(itemOut);
+        //    }
+        //    else
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, baseOutput);
+        //    }
+        //}
+        //[HttpPost]
+        //[ResponseType(typeof(tbl_UserGroup))]
+        //[Route("DeleteUserGroup/{id}")]
+        //public IHttpActionResult DeleteUserGroup(Int64 id)
+        //{
+        //    tbl_UserGroup itemOut = null;
+        //    BaseOutput baseOutput = businessOperation.DeleteUserGroup(id, out itemOut);
+        //    if (baseOutput.ResultCode == 1)
+        //    {
+        //        return Ok(itemOut);
+        //    }
+        //    else
+        //    {
+        //        return Content(HttpStatusCode.BadRequest, baseOutput);
+        //    }
+
+        //}
     }
 }

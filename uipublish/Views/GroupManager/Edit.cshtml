@@ -1,0 +1,62 @@
+﻿@model ScoreMe.UI.Models.GroupVM
+@{
+    ViewBag.Title = "Qrup redaktə ekranı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <div class="row">
+            <div class="col-md-4">
+                @Html.HiddenFor(model => model.GroupID)
+                @Html.LabelFor(model => model.GroupType, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(x => Model.GroupType, new SelectList(Model.GroupTypeList, "Value", "Text"), htmlAttributes: new { @class = "select2 form-control", tabindex = 1 })
+                @Html.ValidationMessageFor(model => model.GroupType, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.GroupName, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.GroupName, new { htmlAttributes = new { @class = "form-control", tabindex = 2 } })
+                @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", tabindex = 3 } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.StartLimit, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.StartLimit, new { htmlAttributes = new { @class = "form-control", tabindex = 4 } })
+                @Html.ValidationMessageFor(model => model.StartLimit, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.EndLimit, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EndLimit, new { htmlAttributes = new { @class = "form-control", tabindex = 5 } })
+                @Html.ValidationMessageFor(model => model.EndLimit, "", new { @class = "text-danger" })
+
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-6 control-label">
+                @Html.ActionLink("Listə Geri Dön", "Index", "GroupManager", null, new { @class = "btn btn-primary btn-lg btn-block" })
+            </div>
+            <div class="col-md-6 control-label">
+                <input id="frmGroupManager" type="submit" value="Dəyiş" class="btn btn-primary btn-lg btn-block" tabindex="16" />
+
+            </div>
+        </div>
+    </div>
+}
+
+
+

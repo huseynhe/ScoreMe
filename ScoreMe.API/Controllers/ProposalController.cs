@@ -120,6 +120,27 @@ namespace ScoreMe.API.Controllers
             }
         }
 
+        /// <summary>
+        ///  Proposalların quruplarını toplu şəkildə update edir.
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("UpdateProposalUserGroupList")]        
+        public IHttpActionResult UpdateProposalUserGroupList(ProposalUserGroupModel item)
+        {
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();     
+            BaseOutput baseOutput = businessOperation.UpdateProposalUserGroupList(item);
+            if (baseOutput.ResultCode == 1)
+            {
+                return Ok();
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, baseOutput);
+            }
+        }
+
         [HttpPost]
         [ResponseType(typeof(tbl_ProposalUserGroup))]
         [Route("DeleteProposalUserGroup/{id}")]
