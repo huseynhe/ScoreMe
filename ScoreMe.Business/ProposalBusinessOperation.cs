@@ -1316,9 +1316,11 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
-        public BaseOutput UpdateProposalUserGroupList(ProposalUserGroupModel item)
+        public BaseOutput UpdateProposalUserGroupList(ProposalUserGroupModel item, out ProposalUserGroupModel itemOut)
         {
             BaseOutput baseOutput;
+            itemOut = null;
+            List<Int64> groupIDs = new List<long>();
             try
             {
 
@@ -1367,6 +1369,14 @@ namespace ScoreMe.Business
                                         };
 
                                         tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroup(proposalUserGroup);
+                                        if (_ProposalUserGroup!=null)
+                                        {
+                                            if (!groupIDs.Contains(_ProposalUserGroup.GroupID))
+                                            {
+                                                groupIDs.Add(_ProposalUserGroup.GroupID);
+                                            }
+                                          
+                                        }
                                     }
                                 }
                        
@@ -1382,9 +1392,22 @@ namespace ScoreMe.Business
 
                     }
 
+                    if (groupIDs.Count==0)
+                    {
+                        return baseOutput = new BaseOutput(true, CustomError.GroupLimitErrorCode, CustomError.GroupLimitErrorDesc, "");
+                    }
+                    else
+                    {
+                        itemOut = new ProposalUserGroupModel()
+                        {
+                            ProposalID = item.ProposalID,
+                            GroupIDs = groupIDs
+                        };
+                        return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
-                    return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
+                    }
+          
+                   
                 }
                 else
                 {
@@ -1395,7 +1418,6 @@ namespace ScoreMe.Business
             }
             catch (Exception ex)
             {
-
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }

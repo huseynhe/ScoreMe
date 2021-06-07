@@ -42,5 +42,8 @@ namespace ScoreMe.DAL.ErrorManagment
 
         public static int ProposalRecordExistErrorCode = 23;
         public static string ProposalRecordExistErrorDesc = "This provider has proposals";
+
+        public static int GroupLimitErrorCode = 24;
+        public static string GroupLimitErrorDesc = "These groups limit does not contain user";
     }
 }

@@ -126,14 +126,16 @@ namespace ScoreMe.API.Controllers
         /// <param name="item"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("UpdateProposalUserGroupList")]        
+        [Route("UpdateProposalUserGroupList")]
+        [ResponseType(typeof(ProposalUserGroupModel))]
         public IHttpActionResult UpdateProposalUserGroupList(ProposalUserGroupModel item)
         {
-            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();     
-            BaseOutput baseOutput = businessOperation.UpdateProposalUserGroupList(item);
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            ProposalUserGroupModel itemOut = null;
+            BaseOutput baseOutput = businessOperation.UpdateProposalUserGroupList(item, out itemOut);
             if (baseOutput.ResultCode == 1)
             {
-                return Ok();
+                return Ok(itemOut);
             }
             else
             {
