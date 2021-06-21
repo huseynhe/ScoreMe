@@ -151,9 +151,124 @@ namespace ScoreMe.DAL.Repositories
             return _count;
         }
         #endregion
+        #region Proposal
+        private List<ProposalDTO> GetProposalWithDetailsByUserName(Search search, out int _count)
+        {
+            _count = 0;
+            var result = new List<ProposalDTO>();
+            string queryEnd = "";
+            string head = "";
+
+            if (search.isCount == false)
+            {
+                head = @" p.ID as ProposalID
+                        ,p.Name as ProposalName
+                        ,p.Description
+                        ,p.Note
+                        ,p.ProviderID
+                        ,pr.Name as ProviderName
+                        ,pr.UserId
+                        ,p.IsPublic
+                        ,p.StartDate
+                        ,p.EndDate
+                        ,pr.Type as ProviderType
+                        ,ev.Code as ProvuderTypeCode";
+            }
+            else
+            {
+                head = @"  count(*) as totalcount ";
+            }
+
+
+            StringBuilder allQuery = new StringBuilder();
+
+            var query = @"SELECT " + head + @" From [dbo].[tbl_ProposalUserGroup] pug
+                                join tbl_User u on pug.UserID=u.ID and u.Status=1
+                                join [dbo].[tbl_Proposal] p on pug.ProposalID=p.ID and pug.Status=1
+                                join [dbo].[tbl_Provider] pr on p.ProviderID=pr.ID and pr.Status=1
+                                left join [dbo].[tbl_EnumValue] ev on pr.[Type]=ev.ID and ev.Status=1
+                                where  p.Status=1 and pr.Status=1 and  u.UserName=@P_UserName ";
+            allQuery.Append(query);
+
+        
+            if (search.isCount == false)
+            {
+                queryEnd = @" order by   p.ID desc OFFSET ( @PageNo - 1 ) * @RecordsPerPage ROWS FETCH NEXT @RecordsPerPage ROWS ONLY";
+            }
+
+
+            allQuery.Append(queryEnd);
+
+
+            using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+            {
+                connection.Open();
+
+                using (var command = new SqlCommand(allQuery.ToString(), connection))
+                {
+                    command.Parameters.AddWithValue("@PageNo", search.pageNumber);
+                    command.Parameters.AddWithValue("@RecordsPerPage", search.pageSize);
+                    command.Parameters.AddWithValue("@P_UserName", search.UserName.GetStringOrEmptyData());
+                    var reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        if (search.isCount == false)
+                        {
+                            result.Add(new ProposalDTO()
+                            {
+
+                                ProposalID = reader.GetInt64OrDefaultValue(0),
+                                ProposalName = reader.GetStringOrEmpty(1),
+                                Description = reader.GetStringOrEmpty(2),
+                                Note = reader.GetStringOrEmpty(3),
+                                ProviderID = reader.GetInt64OrDefaultValue(4),
+                                ProviderName = reader.GetStringOrEmpty(5),
+                                OwnerUserID = reader.GetInt64OrDefaultValue(6),
+                                IsPublic = reader.GetBoolean(7),
+                                StartDate = reader.GetDateTimeOrEmpty(8),
+                                EndDate = reader.GetDateTimeOrEmpty(9),
+                                ProviderType = reader.GetInt64OrDefaultValue(10),
+                                ProviderTypeCode = reader.GetStringOrEmpty(11)
+                            });
+                        }
+                        else
+                        {
+
+                            _count = reader.GetInt32OrDefaultValue(0);
+
+                        }
+                    }
+                }
+                connection.Close();
+            }
+
+            return result;
+        }
+        public IList<ProposalDTO> SW_GetProposalWithDetailsByUserName(Search search)
+        {
+            int _count = 0;
+            if (search.pageNumber <= 0 || search.pageSize <= 0)
+            {
+                search.pageNumber = pageNumber;
+                search.pageSize = pageSize;
+            }
+            search.isCount = false;
+
+            IList<ProposalDTO> slist = GetProposalWithDetailsByUserName(search, out _count);
+            return slist;
+        }
+        public int SW_GetProposalCountWithDetailsByUserName(Search search)
+        {
+            search.isCount = true;
+            int _count = 0;
+            GetProposalWithDetailsByUserName(search, out _count);
+            return _count;
+        }
+        #endregion
 
         #region GePropsalsByUserName
-        internal List<ProposalDTO> GePropsalsByUserName(Search search, out int _count)
+        internal List<ProposalDTO> GetProposalWithDetailsByProviderUserName(Search search, out int _count)
         {
             _count = 0;
             var result = new List<ProposalDTO>();
@@ -252,7 +367,7 @@ namespace ScoreMe.DAL.Repositories
 
             return result;
         }
-        public IList<ProposalDTO> SW_GePropsalsByUserName(Search search)
+        public IList<ProposalDTO> SW_GetProposalWithDetailsByProviderUserName(Search search)
         {
             int _count = 0;
             if (search.pageNumber <= 0 || search.pageSize <= 0)
@@ -262,14 +377,14 @@ namespace ScoreMe.DAL.Repositories
             }
             search.isCount = false;
 
-            IList<ProposalDTO> slist = GePropsalsByUserName(search, out _count);
+            IList<ProposalDTO> slist = GetProposalWithDetailsByProviderUserName(search, out _count);
             return slist;
         }
-        public int SW_GePropsalsCountByUserName(Search search)
+        public int SW_GePropsalsCountByProviderUserName(Search search)
         {
             search.isCount = true;
             int _count = 0;
-            GePropsalsByUserName(search, out _count);
+            GetProposalWithDetailsByProviderUserName(search, out _count);
             return _count;
         }
         #endregion
@@ -694,6 +809,46 @@ namespace ScoreMe.DAL.Repositories
 
                 return -1;
             }
+
+        }
+
+        public List<Int64> GetProposalUserGroupIDsByProposalID(Int64 proposalId)
+        {
+            List<Int64> GroupIDS = new List<Int64>();
+            try
+            {
+                var query = @"select distinct GroupID from [dbo].[tbl_ProposalUserGroup] pug where pug.status=1 and pug.ProposalID=@P_ProposalID";
+
+                using (var connection = new SqlConnection(ConnectionStrings.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@P_ProposalID", proposalId);
+                        var reader = command.ExecuteReader();
+
+                        while (reader.Read())
+                        {
+
+                            Int64 groupID = reader.GetInt64OrDefaultValue(0);
+
+                            GroupIDS.Add(groupID);
+
+
+                        }
+
+                    }
+                    connection.Close();
+                    return GroupIDS;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
 
         }
     }

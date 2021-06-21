@@ -4677,6 +4677,35 @@ namespace ScoreMe.DAL
         #endregion
 
         #region tbl_ProposalUserGroup
+        public tbl_ProposalUserGroup AddProposalUserGroupControl(tbl_ProposalUserGroup item)
+        {
+            tbl_ProposalUserGroup dbItem = null;
+            try
+            {
+                using (DB_A62358_ScoreMeEntities context = new DB_A62358_ScoreMeEntities())
+                {
+                     dbItem = (from p in context.tbl_ProposalUserGroup
+                                 where p.Status == 1 && p.ProposalID==item.ProposalID && p.GroupID==item.GroupID && p.UserID==item.UserID
+                                 select p).FirstOrDefault();
+                    if (dbItem == null)
+                    {
+                        item.Status = 1;
+                        item.InsertDate = DateTime.Now;
+                        item.UpdateDate = DateTime.Now;
+                        context.tbl_ProposalUserGroup.Add(item);
+                        context.SaveChanges();
+                        return item;
+                    }
+                    
+                    return dbItem;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public tbl_ProposalUserGroup AddProposalUserGroup(tbl_ProposalUserGroup item)
         {
 

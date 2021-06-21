@@ -20,58 +20,7 @@ namespace ScoreMe.Business
         CRUDOperation operation = new CRUDOperation();
         #region Proposal
 
-        public BaseOutput AddProposalWithDetailNew(Proposal item)
-        {
-            CRUDOperation cRUDOperation = new CRUDOperation();
-            BaseOutput baseOutput;
-            try
-            {
-                tbl_Proposal proposal = new tbl_Proposal()
-                {
-                    Name = item.Name,
-                    Description = item.Description,
-                    Note = item.Note,
-                    ProviderID = item.ProviderID,
-                    IsPublic = item.IsPublic,
-                    StartDate = item.StartDate,
-                    EndDate = item.EndDate
 
-                };
-
-                List<tbl_ProposalDetail> tbl_ProposalDetails = new List<tbl_ProposalDetail>();
-                List<tbl_ProposalUserGroup> tbl_ProposalUserGroups = new List<tbl_ProposalUserGroup>();
-                foreach (var pDetail in item.ProposalDetails)
-                {
-                    tbl_ProposalDetail proposalDetail = new tbl_ProposalDetail()
-                    {
-                        ProposolKey = pDetail.ProposolKey,
-                        ProposolValue = pDetail.ProposolValue,
-                    };
-                    tbl_ProposalDetails.Add(proposalDetail);
-                }
-
-                if (!item.IsPublic)
-                {
-                    foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
-                    {
-                        tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
-                        {
-                            GroupID = userGroup.GroupID,
-                        };
-                        tbl_ProposalUserGroups.Add(proposalUserGroup);
-
-                    }
-                }
-                tbl_Proposal _Proposal = cRUDOperation.AddProposalNew(proposal, tbl_ProposalDetails, tbl_ProposalUserGroups);
-                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
-
-            }
-            catch (Exception ex)
-            {
-
-                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
-            }
-        }
         public BaseOutput GetProposalByID(Int64 id, out Proposal proposal)
         {
             ProposalRepository repository = new ProposalRepository();
@@ -126,25 +75,12 @@ namespace ScoreMe.Business
 
                     if (!proposal.IsPublic)
                     {
-                        List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
-                        List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
-
-                        foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                        List<Int64> groupIDS = repository.GetProposalUserGroupIDsByProposalID(proposal.ID);
+                        if (groupIDS.Count > 0)
                         {
-                            ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
-                            {
-                                ID = userGroup.ID,
-                                ProposalID = userGroup.ProposalID,
-                                GroupID = userGroup.GroupID,
-                                UserID = userGroup.UserID,
-
-
-                            };
-
-                            proposalUserGroups.Add(proposalUserGroup);
-
+                           
+                            proposal.ProposalUserGroupIds = groupIDS;
                         }
-                        proposal.ProposalUserGroups = proposalUserGroups;
                     }
                     proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
 
@@ -197,6 +133,7 @@ namespace ScoreMe.Business
 
                         List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
                         List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposal.ID);
+                    
 
                         foreach (var detailItem in tbl_ProposalDetails)
                         {
@@ -214,24 +151,138 @@ namespace ScoreMe.Business
 
                         if (!proposal.IsPublic)
                         {
-                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
-                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+                            //List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            //List<Int64> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
 
-                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            //foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            //{
+                            //    ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                            //    {
+                            //        ID = userGroup.ID,
+                            //        ProposalID = userGroup.ProposalID,
+                            //        GroupID = userGroup.GroupID,
+                            //        UserID = userGroup.UserID,
+
+                            //    };
+
+                            //    proposalUserGroups.Add(proposalUserGroup);
+
+                            //}
+                            //proposal.ProposalUserGroups = proposalUserGroups;
+
+                            List<Int64> groupIDS = repository.GetProposalUserGroupIDsByProposalID(proposal.ID);
+                            if (groupIDS.Count > 0)
                             {
-                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                                ProposalUserGroupModel proposalUserGroupModel = new ProposalUserGroupModel
                                 {
-                                    ID = userGroup.ID,
-                                    ProposalID = userGroup.ProposalID,
-                                    GroupID = userGroup.GroupID,
-                                    UserID = userGroup.UserID,
-
+                                    ProposalID = proposal.ID,
+                                    GroupIDs = groupIDS
                                 };
-
-                                proposalUserGroups.Add(proposalUserGroup);
-
+                                proposal.ProposalUserGroupIds = groupIDS;
                             }
-                            proposal.ProposalUserGroups = proposalUserGroups;
+                        }
+                        proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
+                        proposals.Add(proposal);
+
+                    }
+
+                }
+
+                return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
+
+            }
+            catch (Exception ex)
+            {
+
+                return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
+            }
+        }
+        public BaseOutput GetProposalWithDetailsByUserName(string username,out List<Proposal> proposals)
+        {
+            ProposalRepository repository = new ProposalRepository();
+            CRUDOperation cRUDOperation = new CRUDOperation();
+            BaseOutput baseOutput;
+            proposals = null;
+            try
+            {
+                //tbl_User userObj = cRUDOperation.GetUserByUserName(username);
+                Search search = new Search();
+                search.UserName = username;
+
+                IList<ProposalDTO> proposalDTOs = repository.SW_GetProposalWithDetailsByUserName(search);
+                proposals = new List<Proposal>();
+
+                if (proposalDTOs.Count > 0)
+                {
+                    foreach (var proposalItem in proposalDTOs)
+                    {
+
+                        Proposal proposal = new Proposal()
+                        {
+                            ID = proposalItem.ProposalID,
+                            Name = proposalItem.ProposalName,
+                            Description = proposalItem.Description,
+                            Note = proposalItem.Note,
+                            ProviderID = proposalItem.ProviderID,
+                            UserID = proposalItem.OwnerUserID,
+                            ProviderName = proposalItem.ProviderName,
+                            IsPublic = proposalItem.IsPublic,
+                            StartDate = proposalItem.StartDate,
+                            EndDate = proposalItem.EndDate,
+                            ProviderType = proposalItem.ProviderType,
+                            ProviderTypeCode = proposalItem.ProviderTypeCode
+
+                        };
+
+                        List<ProposalDetail> proposalDetails = new List<ProposalDetail>();
+                        List<tbl_ProposalDetail> tbl_ProposalDetails = cRUDOperation.GetProposalDetailsByProposalID(proposal.ID);
+
+
+                        foreach (var detailItem in tbl_ProposalDetails)
+                        {
+                            ProposalDetail proposalDetail = new ProposalDetail()
+                            {
+                                ID = detailItem.ID,
+                                ProposalID = detailItem.ProposalID,
+                                ProposolKey = detailItem.ProposolKey,
+                                ProposolValue = detailItem.ProposolValue,
+                            };
+                            proposalDetails.Add(proposalDetail);
+
+                        }
+                        proposal.ProposalDetails = proposalDetails;
+
+                        if (!proposal.IsPublic)
+                        {
+                            //List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
+                            //List<Int64> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
+
+                            //foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            //{
+                            //    ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
+                            //    {
+                            //        ID = userGroup.ID,
+                            //        ProposalID = userGroup.ProposalID,
+                            //        GroupID = userGroup.GroupID,
+                            //        UserID = userGroup.UserID,
+
+                            //    };
+
+                            //    proposalUserGroups.Add(proposalUserGroup);
+
+                            //}
+                            //proposal.ProposalUserGroups = proposalUserGroups;
+
+                            List<Int64> groupIDS = repository.GetProposalUserGroupIDsByProposalID(proposal.ID);
+                            if (groupIDS.Count > 0)
+                            {
+                                ProposalUserGroupModel proposalUserGroupModel = new ProposalUserGroupModel
+                                {
+                                    ProposalID = proposal.ID,
+                                    GroupIDs = groupIDS
+                                };
+                                proposal.ProposalUserGroupIds = groupIDS;
+                            }
                         }
                         proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
                         proposals.Add(proposal);
@@ -307,24 +358,11 @@ namespace ScoreMe.Business
 
                         if (!proposal.IsPublic)
                         {
-                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
-                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
-
-                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            List<Int64> groupIDS = repository.GetProposalUserGroupIDsByProposalID(proposal.ID);
+                            if (groupIDS.Count > 0)
                             {
-                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
-                                {
-                                    ID = userGroup.ID,
-                                    ProposalID = userGroup.ProposalID,
-                                    GroupID = userGroup.GroupID,
-                                    UserID = userGroup.UserID,
-
-                                };
-
-                                proposalUserGroups.Add(proposalUserGroup);
-
+                                proposal.ProposalUserGroupIds = groupIDS;
                             }
-                            proposal.ProposalUserGroups = proposalUserGroups;
                         }
                         proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
                         proposals.Add(proposal);
@@ -400,24 +438,12 @@ namespace ScoreMe.Business
 
                         if (!proposal.IsPublic)
                         {
-                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
-                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
-
-                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            List<Int64> groupIDS = repository.GetProposalUserGroupIDsByProposalID(proposal.ID);
+                            if (groupIDS.Count > 0)
                             {
-                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
-                                {
-                                    ID = userGroup.ID,
-                                    ProposalID = userGroup.ProposalID,
-                                    GroupID = userGroup.GroupID,
-                                    UserID = userGroup.UserID,
-
-                                };
-
-                                proposalUserGroups.Add(proposalUserGroup);
-
+                                
+                                proposal.ProposalUserGroupIds = groupIDS;
                             }
-                            proposal.ProposalUserGroups = proposalUserGroups;
                         }
                         proposal.ProposalDocumentIds = GetProposalDocuments(proposal.ID);
                         List<ProposalUserState> ProposalUserStates = repository.GetProposalUserStateByProposalID(proposal.ID);
@@ -436,7 +462,7 @@ namespace ScoreMe.Business
                 return baseOutput = new BaseOutput(false, BOResultTypes.Danger.GetHashCode(), BOBaseOutputResponse.DangerResponse, ex.Message);
             }
         }
-        public BaseOutput GetProposalsByUserName(string username, out List<Proposal> proposals)
+        public BaseOutput GetProposalWithDetailsByProviderUserName(string username, out List<Proposal> proposals)
         {
             CRUDOperation cRUDOperation = new CRUDOperation();
             ProposalRepository repository = new ProposalRepository();
@@ -449,7 +475,7 @@ namespace ScoreMe.Business
                     UserName = username,
                 };
 
-                IList<ProposalDTO> proposalDTOs = repository.SW_GePropsalsByUserName(search);
+                IList<ProposalDTO> proposalDTOs = repository.SW_GetProposalWithDetailsByProviderUserName(search);
                 proposals = new List<Proposal>();
 
                 if (proposalDTOs.Count > 0)
@@ -496,24 +522,11 @@ namespace ScoreMe.Business
 
                         if (!proposal.IsPublic)
                         {
-                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
-                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
-
-                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            List<Int64> groupIDS = repository.GetProposalUserGroupIDsByProposalID(proposal.ID);
+                            if (groupIDS.Count > 0)
                             {
-                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
-                                {
-                                    ID = userGroup.ID,
-                                    ProposalID = userGroup.ProposalID,
-                                    GroupID = userGroup.GroupID,
-                                    UserID = userGroup.UserID,
-
-                                };
-
-                                proposalUserGroups.Add(proposalUserGroup);
-
+                                proposal.ProposalUserGroupIds = groupIDS;
                             }
-                            proposal.ProposalUserGroups = proposalUserGroups;
                         }
 
                         ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(proposalItem.UserID, proposalItem.ProposalID);
@@ -597,24 +610,11 @@ namespace ScoreMe.Business
 
                         if (!proposal.IsPublic)
                         {
-                            List<ProposalUserGroup> proposalUserGroups = new List<ProposalUserGroup>();
-                            List<tbl_ProposalUserGroup> tblproposalUserGroups = cRUDOperation.GetProposalUserGroupsByProposalID(proposal.ID);
-
-                            foreach (tbl_ProposalUserGroup userGroup in tblproposalUserGroups)
+                            List<Int64> groupIDS = repository.GetProposalUserGroupIDsByProposalID(proposal.ID);
+                            if (groupIDS.Count > 0)
                             {
-                                ProposalUserGroup proposalUserGroup = new ProposalUserGroup()
-                                {
-                                    ID = userGroup.ID,
-                                    ProposalID = userGroup.ProposalID,
-                                    GroupID = userGroup.GroupID,
-                                    UserID = userGroup.UserID,
-
-                                };
-
-                                proposalUserGroups.Add(proposalUserGroup);
-
+                                proposal.ProposalUserGroupIds = groupIDS;
                             }
-                            proposal.ProposalUserGroups = proposalUserGroups;
                         }
 
                         ProposalUserState proposalUserState = repository.GetProposalUserStateByUserID(proposalItem.UserID, proposalItem.ProposalID);
@@ -764,55 +764,59 @@ namespace ScoreMe.Business
 
                     if (!_Proposal.IsPublic)
                     {
-                        foreach (ProposalUserGroup userGroup in item.ProposalUserGroups)
+                        if (item.ProposalUserGroupIds!=null)
                         {
-                            tbl_Group group = cRUDOperation.GetGroupByID(userGroup.GroupID);
-                            GroupBusinessOperation groupBusinessOperation = new GroupBusinessOperation();
-                            List<UserDTO> userList = new List<UserDTO>();
-                            Int64 pointGroupID = 0;
-                            Int64 priceGroupID = 0;
-                            if (group != null)
+                            foreach (Int64 userGroup in item.ProposalUserGroupIds)
                             {
-                                try
+                                tbl_Group group = cRUDOperation.GetGroupByID(userGroup);
+                                GroupBusinessOperation groupBusinessOperation = new GroupBusinessOperation();
+                                List<UserDTO> userList = new List<UserDTO>();
+                                Int64 pointGroupID = 0;
+                                Int64 priceGroupID = 0;
+                                if (group != null)
                                 {
-                                    if (group.GroupType == 2)
+                                    try
                                     {
-                                        pointGroupID = group.ID;
-                                    }
-                                    else if (group.GroupType == 3)
-                                    {
-                                        priceGroupID = group.ID;
-                                    }
-                                    if (pointGroupID>0||priceGroupID>0)
-                                    {
-                                        groupBusinessOperation.GetDynamicGroupUsersByGroupID(pointGroupID, priceGroupID, out userList);
-                                        foreach (var userItem in userList)
+                                        if (group.GroupType == 2)
                                         {
-                                            tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
-                                            {
-                                                ProposalID = _Proposal.ID,
-                                                GroupID = group.ID,
-                                                UserID = userItem.UserID,
-
-
-                                            };
-
-                                            tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroup(proposalUserGroup);
+                                            pointGroupID = group.ID;
                                         }
+                                        else if (group.GroupType == 3)
+                                        {
+                                            priceGroupID = group.ID;
+                                        }
+                                        if (pointGroupID > 0 || priceGroupID > 0)
+                                        {
+                                            groupBusinessOperation.GetDynamicGroupUsersByGroupID(pointGroupID, priceGroupID, out userList);
+                                            foreach (var userItem in userList)
+                                            {
+                                                tbl_ProposalUserGroup proposalUserGroup = new tbl_ProposalUserGroup()
+                                                {
+                                                    ProposalID = _Proposal.ID,
+                                                    GroupID = group.ID,
+                                                    UserID = userItem.UserID,
+
+
+                                                };
+
+                                                tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroupControl(proposalUserGroup);
+                                            }
+                                        }
+
                                     }
-                                 
-                                }
-                                catch (Exception)
-                                {
+                                    catch (Exception)
+                                    {
+
+                                    }
+
 
                                 }
+
 
 
                             }
-
-
-
                         }
+                      
                     }
 
                     return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
@@ -1331,7 +1335,7 @@ namespace ScoreMe.Business
                     CRUDOperation cRUDOperation = new CRUDOperation();
                     int nrUSCount = proposalRepository.SW_DeleteProposalUserGroup(item.ProposalID);
 
-                    foreach (Int64 groupID  in item.GroupIDs)
+                    foreach (Int64 groupID in item.GroupIDs)
                     {
 
                         tbl_Group group = cRUDOperation.GetGroupByID(groupID);
@@ -1354,7 +1358,7 @@ namespace ScoreMe.Business
                                     priceGroupID = group.ID;
                                 }
 
-                                if (pointGroupID>0||priceGroupID>0)
+                                if (pointGroupID > 0 || priceGroupID > 0)
                                 {
                                     groupBusinessOperation.GetDynamicGroupUsersByGroupID(pointGroupID, priceGroupID, out userList);
                                     foreach (var userItem in userList)
@@ -1369,17 +1373,17 @@ namespace ScoreMe.Business
                                         };
 
                                         tbl_ProposalUserGroup _ProposalUserGroup = cRUDOperation.AddProposalUserGroup(proposalUserGroup);
-                                        if (_ProposalUserGroup!=null)
+                                        if (_ProposalUserGroup != null)
                                         {
                                             if (!groupIDs.Contains(_ProposalUserGroup.GroupID))
                                             {
                                                 groupIDs.Add(_ProposalUserGroup.GroupID);
                                             }
-                                          
+
                                         }
                                     }
                                 }
-                       
+
                             }
                             catch (Exception)
                             {
@@ -1392,7 +1396,7 @@ namespace ScoreMe.Business
 
                     }
 
-                    if (groupIDs.Count==0)
+                    if (groupIDs.Count == 0)
                     {
                         return baseOutput = new BaseOutput(true, CustomError.GroupLimitErrorCode, CustomError.GroupLimitErrorDesc, "");
                     }
@@ -1406,8 +1410,8 @@ namespace ScoreMe.Business
                         return baseOutput = new BaseOutput(true, BOResultTypes.Success.GetHashCode(), BOBaseOutputResponse.SuccessResponse, "");
 
                     }
-          
-                   
+
+
                 }
                 else
                 {

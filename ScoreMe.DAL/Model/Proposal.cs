@@ -23,7 +23,9 @@ namespace ScoreMe.DAL.Model
         public Int64 ProviderType { get; set; }
         public string ProviderTypeCode { get; set; }
         public List<ProposalDetail> ProposalDetails  { get; set; }
-        public List<ProposalUserGroup> ProposalUserGroups { get; set; }
+        //public List<ProposalUserGroup> ProposalUserGroups { get; set; }
+        //public ProposalUserGroupModel ProposalUserGroupModel { get; set; }
+        public List<Int64> ProposalUserGroupIds { get; set; }
         public ProposalUserState ProposalUserState { get; set; }
         public List<ProposalUserState> ProposalUserStateList { get; set; }
         public List<Int64> ProposalDocumentIds { get; set; }

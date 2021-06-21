@@ -188,29 +188,7 @@ namespace ScoreMe.API.Controllers
 
 
         }
-        [HttpPost]
-        [ResponseType(typeof(Proposal))]
-        [Route("AddProposalWithDetailNew")]
-        public IHttpActionResult AddProposalWithDetailNew(Proposal item)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
-
-            BaseOutput dbitem = businessOperation.AddProposalWithDetailNew(item);
-            if (dbitem.ResultCode == 1)
-            {
-                return Ok(dbitem);
-            }
-            else
-            {
-                return Content(HttpStatusCode.BadRequest, dbitem);
-            }
-
-
-        }
+    
         [HttpGet]
         [ResponseType(typeof(Proposal))]
         [Route("GetProposalWithDetailsByID/{id}")]
@@ -246,7 +224,25 @@ namespace ScoreMe.API.Controllers
             }
         }
         [HttpGet]
+        [Route("GetProposalWithDetailsByUserName/{username}")]
+        public IHttpActionResult GetProposalWithDetailsByUserName(string username)
+        {
+            ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
+            List<Proposal> itemsOut = null;
+            BaseOutput dbitem = businessOperation.GetProposalWithDetailsByUserName(username,out itemsOut);
+            if (dbitem.ResultCode == 1)
+            {
+                return Ok(itemsOut);
+            }
+            else
+            {
+                return Content(HttpStatusCode.BadRequest, dbitem);
+            }
+        }
+  
+        [HttpGet]
         [Route("GetProposalWithDetailsByProviderID/{providerid}")]
+
         public IHttpActionResult GetProposalWithDetailsByProviderID(Int64 providerid)
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
@@ -280,12 +276,12 @@ namespace ScoreMe.API.Controllers
             }
         }
         [HttpGet]
-        [Route("GetProposalWithDetailsByUserName/{username}")]
-        public IHttpActionResult GetProposalWithDetailsByUserName(string username)
+        [Route("GetProposalWithDetailsByProviderUserName/{username}")]
+        public IHttpActionResult GetProposalWithDetailsByProviderUserName(string username)
         {
             ProposalBusinessOperation businessOperation = new ProposalBusinessOperation();
             List<Proposal> itemsOut = null;
-            BaseOutput dbitem = businessOperation.GetProposalsByUserName(username, out itemsOut);
+            BaseOutput dbitem = businessOperation.GetProposalWithDetailsByProviderUserName(username, out itemsOut);
             if (dbitem.ResultCode == 1)
             {
                 return Ok(itemsOut);
