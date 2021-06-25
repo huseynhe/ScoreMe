@@ -1,4 +1,5 @@
-﻿using ScoreMe.Business;
+﻿using ScoreMe.API.Attribute;
+using ScoreMe.Business;
 using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.Model;
 using System;
@@ -7,10 +8,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace ScoreMe.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
+    [CustomAuthenticationFilter]
     [RoutePrefix("api/call")]
     public class CALLModelController : ApiController
     {

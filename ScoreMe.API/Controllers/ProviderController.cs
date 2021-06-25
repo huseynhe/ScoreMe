@@ -16,9 +16,12 @@ using System.Web.Http.Description;
 using ScoreMe.DAL.DTO;
 using ScoreMe.DAL.Objects;
 using ScoreMe.DAL.Repositories;
+using System.Web.Http.Cors;
 
 namespace ScoreMe.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
+    [CustomAuthenticationFilter]
     [RoutePrefix("api/provider")]
     public class ProviderController : ApiController
     {

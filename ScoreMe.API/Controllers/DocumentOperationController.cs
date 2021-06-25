@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ScoreMe.API.Attribute;
 using ScoreMe.API.Utility;
 using ScoreMe.DAL;
 using ScoreMe.DAL.DBModel;
@@ -13,9 +14,12 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace ScoreMe.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
+    [CustomAuthenticationFilter]
     [RoutePrefix("api/DocumentOperation")]
     public class DocumentOperationController : ApiController
     {

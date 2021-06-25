@@ -1,4 +1,5 @@
-﻿using ScoreMe.Business;
+﻿using ScoreMe.API.Attribute;
+using ScoreMe.Business;
 using ScoreMe.DAL;
 using ScoreMe.DAL.CodeObjects;
 using ScoreMe.DAL.DBModel;
@@ -13,10 +14,13 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace ScoreMe.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
+    [CustomAuthenticationFilter]
     [RoutePrefix("api/proposal")]
     public class ProposalController : ApiController
     {

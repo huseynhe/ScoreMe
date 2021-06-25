@@ -19,8 +19,8 @@ using System.Web.Http.Cors;
 
 namespace ScoreMe.API.Controllers
 {
-    //[EnableCorsAttribute("*","*","*")]
-    //[CustomAuthenticationFilter]
+    [EnableCorsAttribute("*", "*", "*")]
+    [CustomAuthenticationFilter]
     [RoutePrefix("api/user")]
     public class UserController : ApiController
     {

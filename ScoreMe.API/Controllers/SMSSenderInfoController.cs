@@ -1,4 +1,5 @@
-﻿using ScoreMe.DAL;
+﻿using ScoreMe.API.Attribute;
+using ScoreMe.DAL;
 using ScoreMe.DAL.DBModel;
 using System;
 using System.Collections.Generic;
@@ -6,10 +7,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace ScoreMe.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
+    [CustomAuthenticationFilter]
     [RoutePrefix("api/smssenderinfo")]
     public class SMSSenderInfoController : ApiController
     {

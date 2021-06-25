@@ -12,9 +12,13 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using ScoreMe.API.Attribute;
+using System.Web.Http.Cors;
 
 namespace ScoreMe.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
+    [CustomAuthenticationFilter]
     [RoutePrefix("api/customer")]
     public class CustomerController : ApiController
     {
